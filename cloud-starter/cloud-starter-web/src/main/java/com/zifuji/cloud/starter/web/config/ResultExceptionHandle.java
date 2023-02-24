@@ -25,54 +25,60 @@ public class ResultExceptionHandle {
     public ResultExceptionHandle() {
     }
 
-    @ExceptionHandler(Exception200.class)
-    @ResponseStatus(value = HttpStatus.OK)
-    public Result<Object> handleException(Exception200 e) {
-        log.error("业务异常：" + e.getMessage(), e);
-        return new Result<Object>().set200Mes(e.getMessage());
-    }
-
-    @ExceptionHandler(Exception300.class)
-    @ResponseStatus(value = HttpStatus.OK)
-    public Result<Object> handleException(Exception300 e) {
-        log.error("业务异常：" + e.getMessage(), e);
-        return new Result<Object>().set200Mes(e.getMessage());
-    }
-
-    @ExceptionHandler(Exception400.class)
-    @ResponseStatus(value = HttpStatus.OK)
-    public Result<Object> handleException(Exception400 e) {
-        log.error("业务异常：" + e.getMessage(), e);
-        return new Result<Object>().set400Mes(e.getMessage());
-    }
-
-    @ExceptionHandler(AuthenticationException.class)
-    @ResponseStatus(value = HttpStatus.OK)
-    public Result<Object> handleException(AuthenticationException e) {
-        log.error("业务异常：" + e.getMessage(), e);
-        return new Result<>().set400Mes("权限不足，请联系管理员");
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    @ResponseStatus(value = HttpStatus.OK)
-    public Result<Object> handleException(AccessDeniedException e) {
-        log.error("业务异常：" + e.getMessage(), e);
-        return new Result<>().set300Mes("权限不足，请联系管理员");
-    }
-
+    // 入参框架报错
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(MethodArgumentNotValidException e) {
-        log.error("业务异常：" + e.getMessage(), e);
+        log.error("MethodArgumentNotValidException业务异常：" + e.getMessage(), e);
         String err = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
         return new Result<>().set200Mes(err);
-
     }
+
+    // 业务中自主抛出的异常
+    @ExceptionHandler(Exception200.class)
+    @ResponseStatus(value = HttpStatus.OK)
+    public Result<Object> handleException(Exception200 e) {
+        log.error("Exception200业务异常：" + e.getMessage(), e);
+        return new Result<Object>().set200Mes(e.getMessage());
+    }
+
+    // 业务中自主抛出的300异常
+    @ExceptionHandler(Exception300.class)
+    @ResponseStatus(value = HttpStatus.OK)
+    public Result<Object> handleException(Exception300 e) {
+        log.error("Exception300业务异常：" + e.getMessage(), e);
+        return new Result<Object>().set300Mes("权限不足，请联系管理员" + e.getMessage());
+    }
+
+    // spring security 抛出的权限不足异常
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(value = HttpStatus.OK)
+    public Result<Object> handleException(AccessDeniedException e) {
+        log.error("AccessDeniedException业务异常：" + e.getMessage(), e);
+        return new Result<>().set300Mes("权限不足，请联系管理员" + e.getMessage());
+    }
+
+    // 业务中自主抛出的400异常
+    @ExceptionHandler(Exception400.class)
+    @ResponseStatus(value = HttpStatus.OK)
+    public Result<Object> handleException(Exception400 e) {
+        log.error("Exception400业务异常：" + e.getMessage(), e);
+        return new Result<Object>().set400Mes("身份凭证异常，请联系管理员" + e.getMessage());
+    }
+
+    // 业务中自主抛出的400异常
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(value = HttpStatus.OK)
+    public Result<Object> handleException(AuthenticationException e) {
+        log.error("AuthenticationException业务异常：" + e.getMessage(), e);
+        return new Result<>().set400Mes("身份凭证异常，请联系管理员" + e.getMessage());
+    }
+
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(Exception e) {
-        log.error("业务异常：" + e.getMessage(), e);
-        return new Result<>().set500Mes("逻辑错误，请向管理员求助");
+        log.error("Exception业务异常：" + e.getMessage(), e);
+        return new Result<>().set500Mes("服务器网络错误，请向管理员求助" + e.getMessage());
     }
 }

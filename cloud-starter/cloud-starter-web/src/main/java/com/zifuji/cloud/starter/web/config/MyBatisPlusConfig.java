@@ -1,5 +1,6 @@
 package com.zifuji.cloud.starter.web.config;
 
+import com.baomidou.mybatisplus.annotation.DbType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,7 +24,7 @@ public class MyBatisPlusConfig {
 	@Bean
 	public PaginationInterceptor paginationInterceptor() {
 		PaginationInterceptor page = new PaginationInterceptor();
-		page.setDialectType("mysql");
+		page.setDbType(DbType.MYSQL);
 		return page;
 	}
 }

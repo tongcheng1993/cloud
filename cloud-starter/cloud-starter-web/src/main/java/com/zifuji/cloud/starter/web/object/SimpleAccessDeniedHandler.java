@@ -18,7 +18,7 @@ public class SimpleAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        this.outJson(response, JSONObject.toJSONString(new Result<String>().set200Mes(accessDeniedException.toString())));
+        this.outJson(response, JSONObject.toJSONString(new Result<String>().set300Mes(accessDeniedException.toString())));
     }
 
     public void outJson(HttpServletResponse response, String json) {

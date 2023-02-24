@@ -16,6 +16,7 @@ import com.zifuji.cloud.starter.web.object.TokenFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     public WebSecurityConfig() {
         System.out.println("WebSecurityConfig");
     }
@@ -27,7 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .addFilter(new TokenFilter(authenticationManager()))
-                .exceptionHandling().accessDeniedHandler(new SimpleAccessDeniedHandler()).authenticationEntryPoint(new SimpleAuthenticationEntryPoint());
+                .exceptionHandling()
+                .accessDeniedHandler(new SimpleAccessDeniedHandler())
+                .authenticationEntryPoint(new SimpleAuthenticationEntryPoint());
     }
 
     @Override
