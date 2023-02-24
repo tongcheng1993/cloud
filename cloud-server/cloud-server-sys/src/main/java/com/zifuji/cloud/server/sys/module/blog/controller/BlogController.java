@@ -34,19 +34,6 @@ public class BlogController {
         return new Result<BlogVo>().setObj(result);
     }
 
-    public Result<IPage<BlogVo>> queryPageBlog(@RequestBody @Valid BlogPageQo blogPageQo) {
-        log.info(JSONObject.toJSONString(blogPageQo));
-        IPage<BlogVo> result = blogService.queryPageBlog(blogPageQo);
-        log.info(JSONObject.toJSONString(result));
-        return new Result<IPage<BlogVo>>().setObj(result);
-    }
-
-    public Result<IPage<BlogVo>> webQueryPageBlog(@RequestBody @Valid BlogPageQo blogPageQo) {
-        log.info(JSONObject.toJSONString(blogPageQo));
-        IPage<BlogVo> result = blogService.webQueryPageBlog(blogPageQo);
-        log.info(JSONObject.toJSONString(result));
-        return new Result<IPage<BlogVo>>().setObj(result);
-    }
 
 
 }

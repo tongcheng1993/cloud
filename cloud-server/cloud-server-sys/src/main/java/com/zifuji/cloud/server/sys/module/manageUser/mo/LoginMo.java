@@ -21,11 +21,7 @@ public class LoginMo extends BaseMo{
 	@NotBlank(message = "")
 	private String passWord;
 	@NotBlank(message = "")
-<<<<<<< HEAD
 	private String redisUuid;
-=======
-	private String code;
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
 	@NotBlank(message = "")
 	private String value;
 	

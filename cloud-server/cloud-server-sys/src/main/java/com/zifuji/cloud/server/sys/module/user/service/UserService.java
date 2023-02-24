@@ -70,19 +70,18 @@ public interface UserService {
 
 
 
-<<<<<<< HEAD
+
     IPage<WebUserVo> queryPageUser(WebUserPageQo webUserPageQo);
     String saveUserAndRole(Long userId, String roleCode);
 
 
 
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
 
 
     List<String> getListMenuIdByRoleId(Long roleId);
 
-<<<<<<< HEAD
+
 
     String saveRole(SaveWebRoleMo saveWebRoleMo);
     IPage<WebRoleVo> queryPageRole(WebRolePageQo webRolePageQo);
@@ -109,26 +108,7 @@ public interface UserService {
 
     String saveMenu(SaveWebMenuMo saveWebMenuMo);
     String saveRoleAndMenu(SaveRoleAndMenuMo saveRoleAndMenuMo);
-=======
-    String saveUserAndRole(Long userId, String roleCode);
 
-    String saveUserAndRole(Long userId, Long roleId);
-
-    String saveRoleAndMenu(SaveRoleAndMenuMo saveRoleAndMenuMo);
-
-    String saveRoleAndPermission(SaveRoleAndPermissionMo saveRoleAndPermissionMo);
-
-    IPage<WebUserVo> queryPageUser(WebUserPageQo webUserPageQo);
-
-    List<WebUserVo> queryListUser(WebUserPageQo webUserPageQo);
-
-    String saveRole(SaveWebRoleMo saveWebRoleMo);
-
-    IPage<WebRoleVo> queryPageRole(WebRolePageQo webRolePageQo);
-
-    String saveMenu(SaveWebMenuMo saveWebMenuMo);
-
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
     Boolean delMenu(Long menuId);
 
     WebMenuVo getMenuInfoById(Long menuId);
@@ -137,19 +117,12 @@ public interface UserService {
 
     IPage<WebMenuVo> queryPageMenu(WebMenuPageQo webMenuPageQo);
 
-<<<<<<< HEAD
+
 
 
     List<WebRoleBo> selectListRole(WebRolePageQo webRolePageQo);
     IPage<WebPermissionBo> selectPagePermission(WebPermissionPageQo webPermissionPageQo);
-=======
-    String savePermission(SaveWebPermissionMo saveWebPermissionMo);
 
-    List<WebRoleBo> selectListRole(WebRolePageQo webRolePageQo);
-
-    IPage<WebPermissionVo> queryPagePermission(WebPermissionPageQo webPermissionPageQo);
-
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
     List<WebPermissionBo> selectListPermission(WebPermissionPageQo webPermissionPageQo);
 
 

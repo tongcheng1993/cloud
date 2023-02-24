@@ -51,73 +51,71 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
         // 获取当前请求路径
         String path = request.getURI().getPath();
+        log.debug("path:{}" + path);
+
         Map<String, Object> map = new HashMap<String, Object>();
-        String bo = "";
-<<<<<<< HEAD
+        String tc_token = "";
         UserInfo userInfo = null;
-        log.info(path);
+        // 如果是websocket的请求
         if (path.startsWith("/websocket/ws")) {
+            // url 地址中的参数 token 每个都必须有
             MultiValueMap<String, String> multiValueMap = request.getQueryParams();
-            String tc_token = multiValueMap.get("token").get(0);
+            tc_token = multiValueMap.get("token").get(0);
+            // 所有的websocket 都有token 没有token 就是身份验证有问题
             if (StrUtil.isBlank(tc_token)) {
-                tc_token = request.getHeaders().getFirst("Tc-Token");
-                if (StrUtil.isBlank(tc_token)) {
-                    Result<String> result = new Result<String>();
-                    result.set400Mes("权限验证错误");
-                    return setResponseInfo(response, result);
-                }
-            }
-            bo = stringRedisTemplate.opsForValue().get(tc_token);
-            userInfo = JSONObject.parseObject(bo, UserInfo.class);
-            if(ObjectUtil.isNull(userInfo)||StrUtil.isBlank(userInfo.getUserName())){
+                // gateway 没有异常捕捉器 所以直接 return 400
                 Result<String> result = new Result<String>();
-                result.set400Mes("权限验证错误");
+                result.set400Mes("验证token失败");
                 return setResponseInfo(response, result);
             }
-
-=======
-        if (path.startsWith("/websocket/ws")) {
-            MultiValueMap<String, String> multiValueMap = request.getQueryParams();
-            String tc_token = multiValueMap.get("token").get(0);
-            bo = stringRedisTemplate.opsForValue().get(tc_token);
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+            // token在redis中有对应的身份信息
+            String bo = stringRedisTemplate.opsForValue().get(tc_token);
+            if (StrUtil.isBlank(bo)) {
+                // gateway 没有异常捕捉器 所以直接 return 400
+                Result<String> result = new Result<String>();
+                result.set400Mes("验证对应身份信息失败");
+                return setResponseInfo(response, result);
+            }
+            // 如果有token和 str 需要 重置token存续时间
+            stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
+            userInfo = JSONObject.parseObject(bo, UserInfo.class);
+            // 如果是其他的请求
         } else {
             // 获取当前请求中的token
-            String tc_token = request.getHeaders().getFirst("Tc-Token");
-            if(StrUtil.isBlank(tc_token)){
-<<<<<<< HEAD
-                bo = "";
-=======
-
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
-            }else{
-                bo = stringRedisTemplate.opsForValue().get(tc_token);
-                if (StrUtil.isBlank(bo)) {
-                    Result<String> result = new Result<String>();
-                    result.set400Mes("权限验证错误");
-                    return setResponseInfo(response, result);
-                } else {
-                    stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
-                }
-<<<<<<< HEAD
-            }
-            userInfo = JSONObject.parseObject(bo, UserInfo.class);
-            if(ObjectUtil.isNull(userInfo)){
+            tc_token = request.getHeaders().getFirst("Tc-Token");
+            // 如果没有token  就是游客
+            if (StrUtil.isBlank(tc_token)) {
+                // 设置游客身份信息
                 userInfo = new UserInfo();
+            } else {
+                // 每个token在redis中有对应的str
+                String bo = stringRedisTemplate.opsForValue().get(tc_token);
+                if (StrUtil.isBlank(bo)) {
+                    // gateway 没有异常捕捉器 所以直接 return 400
+                    Result<String> result = new Result<String>();
+                    result.set400Mes("验证对应身份信息失败");
+                    return setResponseInfo(response, result);
+                }
+                // 如果有token和 str 需要 重置token存续时间
+                stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
+                userInfo = JSONObject.parseObject(bo, UserInfo.class);
             }
         }
-        log.info("userInfo:{}",userInfo);
-=======
+        if (ObjectUtil.isNull(userInfo) || StrUtil.isBlank(userInfo.getUserName())) {
+            // gateway 没有异常捕捉器 所以直接 return 400
+            Result<String> result = new Result<String>();
+            result.set400Mes("验证身份信息格式化失败");
+            return setResponseInfo(response, result);
+        }
 
-            }
-        }
-        UserInfo userInfo = JSONObject.parseObject(bo, UserInfo.class);
-        if(ObjectUtil.isNull(userInfo)){
-            userInfo = new UserInfo();
-        }
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+        // 获取对应的身份信息
+        log.debug("tc_token:{}", tc_token);
+        log.debug("userInfo:{}", userInfo);
+
         map.put("userInfo", userInfo);
+        // 网关通过后 在请求中增加 内部token
         String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
+        log.debug("token:{}", token);
         ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
             httpHeaders.add("X-Access-Token", token);
         }).build();

@@ -12,30 +12,22 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
 public class SaveWebPermissionMo extends BaseMo {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	@NotBlank(message = "")
-	private String name;
-<<<<<<< HEAD
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private String codeSys;
+    @NotBlank(message = "")
+    private String name;
 
-	private String codeModule;
+    private String codeSys;
+
+    private String codeModule;
+
+    @NotBlank(message = "")
+    private String code;
+
+    private String description;
 
 
-	@NotBlank(message = "")
-	private String code;
-
-
-	private String description;
-
-=======
-	
-	@NotBlank(message = "")
-	private String code;
-
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
 }

@@ -35,18 +35,11 @@ public class WebsocketController {
         return new Result<Boolean>().setObj(true);
     }
 
-<<<<<<< HEAD
+
     @ApiOperation(value = "获取服务器信息")
     @GetMapping(value = "/info")
     public Result<Integer> info() {
         log.info(JSONObject.toJSONString("空参数"));
-=======
-    @PreAuthorize("hasAnyRole('admin')")
-    @ApiOperation(value = "获取服务器信息")
-    @GetMapping(value = "/info")
-    public Result<Integer> info() {
-        log.info(JSONObject.toJSONString(""));
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
         Integer result = websocketService.info();
         log.info(JSONObject.toJSONString(result));
         return new Result<Integer>().setObj(result);

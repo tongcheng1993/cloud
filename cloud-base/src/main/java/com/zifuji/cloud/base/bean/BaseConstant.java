@@ -22,13 +22,12 @@ public class BaseConstant {
 	
 	public static final String ROLE_REGISTER="register";
 
-<<<<<<< HEAD
+
 	public static final String ROLE_BIND_PEOPLE="bind_people";
 
 	public static final String ROLE_BIND_DEPT="bind_dept";
 
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
 	public static final String ROLE_BASE="base";
 
 	

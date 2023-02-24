@@ -22,11 +22,9 @@ public class WebUserBo extends BaseBo {
     private static final long serialVersionUID = 1L;
 
 
-<<<<<<< HEAD
+
     private String userName;
 
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
     private String passWord;
 
     private String name;
@@ -35,7 +33,7 @@ public class WebUserBo extends BaseBo {
 
     private String phone;
 
-<<<<<<< HEAD
+
     private String type;
 
     private Long peopleId;
@@ -43,7 +41,4 @@ public class WebUserBo extends BaseBo {
     private Long companyId;
 
 
-
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
 }

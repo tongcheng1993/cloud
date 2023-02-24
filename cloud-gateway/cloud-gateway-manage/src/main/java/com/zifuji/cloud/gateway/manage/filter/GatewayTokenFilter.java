@@ -53,73 +53,95 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
         // 获取当前请求路径
         String path = request.getURI().getPath();
+        log.debug("path:{}" + path);
+
+
+        String tc_token = "";
         UserInfo userInfo = null;
-        Map<String, Object> map = null;
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        // 如果是websocket的请求
         if (path.startsWith("/websocket/ws")) {
+            // url 地址中的参数 token 每个都必须有
             MultiValueMap<String, String> multiValueMap = request.getQueryParams();
-            String tc_token = multiValueMap.get("token").get(0);
+            tc_token = multiValueMap.get("token").get(0);
             if (StrUtil.isBlank(tc_token)) {
+                // gateway 没有异常捕捉器 所以直接 return 400
                 Result<String> result = new Result<String>();
-                result.set400Mes("权限验证错误");
+                result.set400Mes("验证token失败");
                 return setResponseInfo(response, result);
             }
+            // token在redis中有对应的身份信息
             String bo = stringRedisTemplate.opsForValue().get(tc_token);
             if (StrUtil.isBlank(bo)) {
+                // gateway 没有异常捕捉器 所以直接 return 400
                 Result<String> result = new Result<String>();
-                result.set400Mes("权限验证错误");
+                result.set400Mes("验证对应身份信息失败");
                 return setResponseInfo(response, result);
             }
+            // 如果有token和 str 需要 重置token存续时间
             stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
-            map = new HashMap<String, Object>();
             userInfo = JSONObject.parseObject(bo, UserInfo.class);
-            map.put("userInfo", userInfo);
-            String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
-            ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
-                httpHeaders.add("X-Access-Token", token);
-            }).build();
-            ServerWebExchange build = exchange.mutate().request(host).build();
-            return chain.filter(build);
+            // 如果是其他的请求
         } else {
             // 获取当前请求中的token
-            String tc_token = request.getHeaders().getFirst("Tc-Token");
+            tc_token = request.getHeaders().getFirst("Tc-Token");
+            // 如果没有token  就是登录
             if (StrUtil.isBlank(tc_token)) {
-                // 跳过不需要验证的路径
+                // 检查路径是不是放行的路径
+                boolean pathFlag = false;
                 List<String> ignoreUrl = webIgnoreProperties.getUri();
                 for (String ignore : ignoreUrl) {
                     if (ignore.equals(path)
-                            || (ignore.endsWith("**") && path.startsWith(ignore.substring(0, ignore.length() - 2)))) {
-                        map = new HashMap<String, Object>();
-                        userInfo = new UserInfo();
-                        map.put("userInfo", userInfo);
-                        String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
-                        ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
-                            httpHeaders.add("X-Access-Token", token);
-                        }).build();
-                        ServerWebExchange build = exchange.mutate().request(host).build();
-                        return chain.filter(build);
+                            || ((ignore.endsWith("**") && path.startsWith(ignore.substring(0, ignore.length() - 2))))) {
+                        pathFlag = true;
                     }
                 }
-                Result<String> result = new Result<String>();
-                result.set400Mes("权限验证错误");
-                return setResponseInfo(response, result);
+                // 如果是登录按钮 给与游客身份
+                if (pathFlag) {
+                    userInfo = new UserInfo();
+                    //  如果不是直接
+                } else {
+                    // gateway 没有异常捕捉器 所以直接 return 400
+                    Result<String> result = new Result<String>();
+                    result.set400Mes("验证对应身份信息失败");
+                    return setResponseInfo(response, result);
+                }
+                // 如果有token
+            }else{
+                // token在redis中有对应的身份信息
+                String bo = stringRedisTemplate.opsForValue().get(tc_token);
+                if (StrUtil.isBlank(bo)) {
+                    // gateway 没有异常捕捉器 所以直接 return 400
+                    Result<String> result = new Result<String>();
+                    result.set400Mes("验证对应身份信息失败");
+                    return setResponseInfo(response, result);
+                }
+                stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
+                userInfo = JSONObject.parseObject(bo, UserInfo.class);
             }
-            String bo = stringRedisTemplate.opsForValue().get(tc_token);
-            if (StrUtil.isBlank(bo)) {
-                Result<String> result = new Result<String>();
-                result.set400Mes("权限验证错误");
-                return setResponseInfo(response, result);
-            }
-            stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
-            map = new HashMap<String, Object>();
-            userInfo = JSONObject.parseObject(bo, UserInfo.class);
-            map.put("userInfo", userInfo);
-            String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
-            ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
-                httpHeaders.add("X-Access-Token", token);
-            }).build();
-            ServerWebExchange build = exchange.mutate().request(host).build();
-            return chain.filter(build);
         }
+        if (ObjectUtil.isNull(userInfo) || StrUtil.isBlank(userInfo.getUserName())) {
+            // gateway 没有异常捕捉器 所以直接 return 400
+            Result<String> result = new Result<String>();
+            result.set400Mes("验证身份信息格式化失败");
+            return setResponseInfo(response, result);
+        }
+
+        log.debug("tc_token:{}", tc_token);
+        log.debug("userInfo:{}", userInfo);
+
+
+        map.put("userInfo", userInfo);
+        // 网关通过后 在请求中增加 内部token
+        String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
+        log.debug("token:{}", token);
+        ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
+            httpHeaders.add("X-Access-Token", token);
+        }).build();
+        ServerWebExchange build = exchange.mutate().request(host).build();
+        return chain.filter(build);
     }
 
 

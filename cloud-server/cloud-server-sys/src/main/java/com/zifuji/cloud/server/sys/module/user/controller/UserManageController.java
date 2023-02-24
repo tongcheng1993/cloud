@@ -3,14 +3,9 @@ package com.zifuji.cloud.server.sys.module.user.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
-<<<<<<< HEAD
+
 import com.zifuji.cloud.server.sys.module.user.mo.*;
-=======
-import com.zifuji.cloud.server.sys.module.user.mo.SaveRoleAndMenuMo;
-import com.zifuji.cloud.server.sys.module.user.mo.SaveWebMenuMo;
-import com.zifuji.cloud.server.sys.module.user.mo.SaveWebPermissionMo;
-import com.zifuji.cloud.server.sys.module.user.mo.SaveWebRoleMo;
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
 import com.zifuji.cloud.server.sys.module.user.qo.WebMenuPageQo;
 import com.zifuji.cloud.server.sys.module.user.qo.WebPermissionPageQo;
 import com.zifuji.cloud.server.sys.module.user.qo.WebRolePageQo;
@@ -73,19 +68,7 @@ public class UserManageController {
         return new Result<String>().setObj(result);
     }
 
-<<<<<<< HEAD
 
-=======
-    @ApiOperation(value = "查询外网路由")
-    @PostMapping(value = "/queryListMenu")
-    @PreAuthorize(value = "hasAuthority('sys:user:queryListMenu')")
-    public Result<List<WebMenuVo>> queryListMenu(@RequestBody @Valid WebMenuPageQo webMenuPageQo) {
-        log.info(JSONObject.toJSONString(webMenuPageQo));
-        List<WebMenuVo> result = userService.queryListMenu(webMenuPageQo);
-        log.info(JSONObject.toJSONString(result));
-        return new Result<List<WebMenuVo>>().setObj(result);
-    }
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
 
 
     @ApiOperation(value = "保存外网路由")
@@ -98,7 +81,7 @@ public class UserManageController {
         return new Result<String>().setObj(result);
     }
 
-<<<<<<< HEAD
+
     @ApiOperation(value = "查询外网路由")
     @PostMapping(value = "/queryListMenu")
     @PreAuthorize(value = "hasAuthority('sys:user:queryListMenu')")
@@ -108,9 +91,7 @@ public class UserManageController {
         log.info(JSONObject.toJSONString(result));
         return new Result<List<WebMenuVo>>().setObj(result);
     }
-=======
 
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
     @ApiOperation(value = "保存外网角色和路由的关系")
     @PostMapping(value = "/saveRoleAndMenu")
     @PreAuthorize(value = "hasAuthority('sys:user:saveRoleAndMenu')")
@@ -121,7 +102,7 @@ public class UserManageController {
         return new Result<String>().setObj(result);
     }
 
-<<<<<<< HEAD
+
 
 
     @ApiOperation(value = "保存外网权限")
@@ -133,8 +114,7 @@ public class UserManageController {
         log.info(JSONObject.toJSONString(result));
         return new Result<String>().setObj(result);
     }
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
     @ApiOperation(value = "分页查询外网权限")
     @PostMapping(value = "/queryPagePermission")
     @PreAuthorize(value = "hasAuthority('sys:user:queryPagePermission')")
@@ -144,7 +124,7 @@ public class UserManageController {
         log.info(JSONObject.toJSONString(result));
         return new Result<IPage<WebPermissionVo>>().setObj(result);
     }
-<<<<<<< HEAD
+
     @ApiOperation(value = "分页查询外网权限")
     @PostMapping(value = "/queryListPermission")
     @PreAuthorize(value = "hasAuthority('sys:user:queryListPermission')")
@@ -163,17 +143,7 @@ public class UserManageController {
         String result = userService.saveRoleAndPermission(saveRoleAndPermissionMo);
         log.info(JSONObject.toJSONString(result));
         return new Result<String>().setObj(result);
-=======
 
-    @ApiOperation(value = "保存外网权限")
-    @PostMapping(value = "/savePermission")
-    @PreAuthorize(value = "hasAuthority('sys:user:savePermission')")
-    public Result<WebPermissionVo> savePermission(@RequestBody @Valid SaveWebPermissionMo saveWebPermissionMo) {
-        log.info(JSONObject.toJSONString(saveWebPermissionMo));
-        WebPermissionVo result = null;
-        log.info(JSONObject.toJSONString(result));
-        return new Result<WebPermissionVo>().setObj(result);
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
     }
 
 

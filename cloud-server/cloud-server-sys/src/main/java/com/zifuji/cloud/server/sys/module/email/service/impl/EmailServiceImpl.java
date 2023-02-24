@@ -31,10 +31,9 @@ import com.zifuji.cloud.server.sys.module.email.vo.EmailRecordVo;
 import com.zifuji.cloud.server.sys.module.email.vo.EmailTemplateVo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
 import com.zifuji.cloud.server.sys.module.template.service.TemplateService;
-<<<<<<< HEAD
+
 import com.zifuji.cloud.starter.web.util.MyBatisPlusUtil;
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -193,10 +192,9 @@ public class EmailServiceImpl implements EmailService {
     private IPage<EmailRecordBo> selectPageEmailRecord(EmailRecordPageQo emailRecordPageQo) {
         Page<EmailRecordBo> page = new Page<EmailRecordBo>(emailRecordPageQo.getCurrent(), emailRecordPageQo.getSize());
         QueryWrapper<EmailRecordBo> ew = new QueryWrapper<>();
-<<<<<<< HEAD
+
         MyBatisPlusUtil.orderWrapper(ew, emailRecordPageQo.getOrders());
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
         ew.eq(StrUtil.isNotBlank(emailRecordPageQo.getAddrTo()), "zser.addr_to", emailRecordPageQo.getAddrTo());
         return emailMapper.selectPageEmailRecord(page, ew);
     }
@@ -205,10 +203,9 @@ public class EmailServiceImpl implements EmailService {
     private IPage<EmailTemplateBo> selectPageEmailTemplate(EmailTemplatePageQo emailTemplatePageQo) {
         Page<EmailTemplateBo> page = new Page<EmailTemplateBo>(emailTemplatePageQo.getCurrent(), emailTemplatePageQo.getSize());
         QueryWrapper<EmailTemplateBo> ew = new QueryWrapper<>();
-<<<<<<< HEAD
+
         MyBatisPlusUtil.orderWrapper(ew, emailTemplatePageQo.getOrders());
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
         return emailMapper.selectPageEmailTemplate(page, ew);
     }
 }

@@ -68,11 +68,9 @@ public class ManageUserServiceImpl implements ManageUserService {
 
     @Override
     public String login(LoginMo loginMo) {
-<<<<<<< HEAD
+
         coreService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_MANAGE,"img",loginMo.getRedisUuid(),loginMo.getValue());
-=======
-        checkCodeAndValue("", loginMo.getCode(), loginMo.getValue());
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
         // 通过用户名查询数据库记录
         QueryWrapper<ManageUserEntity> manageUserEntityQueryWrapper = new QueryWrapper<>();
         manageUserEntityQueryWrapper.lambda().eq(ManageUserEntity::getUserName, loginMo.getUserName());

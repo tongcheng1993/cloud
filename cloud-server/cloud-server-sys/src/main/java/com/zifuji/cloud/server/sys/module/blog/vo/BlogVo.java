@@ -14,15 +14,11 @@ public class BlogVo extends BaseVo {
 
     private String blogAuth;
 
-<<<<<<< HEAD
     private String blogType;
 
     private String blogContent;
 
     private String blogText;
-=======
-    private String blogContent;
 
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
 
 }

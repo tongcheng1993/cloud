@@ -8,11 +8,8 @@ import org.springframework.web.socket.WebSocketSession;
 
 import lombok.extern.slf4j.Slf4j;
 
-<<<<<<< HEAD
-//@Slf4j
-=======
+
 @Slf4j
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
 public class WebsocketSessionManager {
 	/**
      * 保存连接 session 的地方

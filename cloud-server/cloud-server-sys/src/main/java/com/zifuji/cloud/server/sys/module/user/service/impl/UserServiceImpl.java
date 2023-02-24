@@ -176,10 +176,9 @@ public class UserServiceImpl implements UserService {
     private String getLoginToken(UserInfo userInfo) {
         // 将用户信息json化，放入redis 获取redis key
         String token = StrUtil.uuid();
-<<<<<<< HEAD
+
         userInfo.setToken(token);
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
         stringRedisTemplate.opsForValue().set(token, JSONObject.toJSONString(userInfo), 60 * 30, TimeUnit.SECONDS);
         // 返回key
         return token;
@@ -290,12 +289,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public String sendBindPhoneCaptcha(SendBindPhoneCaptchaMo sendBindPhoneCaptchaMo) {
         DrawCaptchaBo drawCaptchaBo = coreService.drawCaptcha("bindPhone", sendBindPhoneCaptchaMo.getPhone());
-<<<<<<< HEAD
+
         // 发送手机验证码
 
 
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
 
         return drawCaptchaBo.getRedisUuid();
     }
@@ -303,11 +300,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean saveBindPhone(SaveBindPhoneMo saveBindPhoneMo) {
         // 校验验证码
-<<<<<<< HEAD
+
         coreService.checkCodeAndValue("bindPhone", saveBindPhoneMo.getPhone(), saveBindPhoneMo.getRedisUuid(), saveBindPhoneMo.getValue());
-=======
-//        coreService.checkCodeAndValue("bindPhone", saveBindPhoneMo.getPhone(), saveBindPhoneMo.getRedisUuid(), saveBindPhoneMo.getValue());
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
         WebUserEntity webUserEntity = webUserEntityService.getById(SecurityUtil.getUserDetails().getId());
         // 校验账号和密码
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -329,27 +324,21 @@ public class UserServiceImpl implements UserService {
         webPeopleEntity.setCardNumber(savePeopleInfoMo.getCardNumber());
         webPeopleEntityService.save(webPeopleEntity);
         // 个人信息与账号信息的绑定
-<<<<<<< HEAD
+
 
         UserInfo userInfo = SecurityUtil.getUserDetails();
         Long userId =userInfo  .getId();
-=======
-        Long userId = SecurityUtil.getUserDetails().getId();
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
         WebUserEntity webUserEntity = webUserEntityService.getById(userId);
         webUserEntity.setType("1");
         webUserEntity.setPeopleId(webPeopleEntity.getId());
         webUserEntityService.updateById(webUserEntity);
         // 将用户的角色进行修改--增加个人的权限
-<<<<<<< HEAD
+
         this.saveUserAndRole(webUserEntity.getId(), BaseConstant.ROLE_BIND_PEOPLE);
         // 刷新当前登录token对应的权限
         flashTokenUserInfo(  userInfo.getToken(),webUserEntity);
-=======
 
-        // 刷新当前登录token对应的权限
-
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
         BeanUtil.copyProperties(savePeopleInfoMo, vo);
         return vo;
     }
@@ -377,31 +366,25 @@ public class UserServiceImpl implements UserService {
         webCompanyEntity.setDeptCode(saveCompanyInfoMo.getDeptCode());
         webCompanyEntityService.save(webCompanyEntity);
         // 将账号信息和单位信息绑定
-<<<<<<< HEAD
+
         UserInfo userInfo = SecurityUtil.getUserDetails();
         Long userId =userInfo  .getId();
-=======
-        Long userId = SecurityUtil.getUserDetails().getId();
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
         WebUserEntity webUserEntity = webUserEntityService.getById(userId);
         webUserEntity.setType("2");
         webUserEntity.setCompanyId(webCompanyEntity.getId());
         webUserEntityService.updateById(webUserEntity);
         // 将用户的角色进行修改--增加单位的权限
-<<<<<<< HEAD
+
         this.saveUserAndRole(webUserEntity.getId(), BaseConstant.ROLE_BIND_DEPT);
         // 刷新当前登录token对应的权限
         flashTokenUserInfo(  userInfo.getToken(),webUserEntity);
-=======
 
-        // 刷新当前登录token对应的权限
-
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
         BeanUtil.copyProperties(saveCompanyInfoMo, vo);
         return vo;
     }
 
-<<<<<<< HEAD
+
     private void flashTokenUserInfo(String token,WebUserEntity webUserEntity){
 
         UserInfo userInfo = new UserInfo();
@@ -433,8 +416,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
     @Override
     public WebCompanyVo getCompanyInfo() {
         WebCompanyVo vo = new WebCompanyVo();
@@ -499,7 +481,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String saveMenu(SaveWebMenuMo saveWebMenuMo) {
-<<<<<<< HEAD
+
         if (ObjectUtil.isNotNull(saveWebMenuMo.getId()) && saveWebMenuMo.getId() > 0) {
             WebMenuEntity webMenuEntity = webMenuEntityService.getById(saveWebMenuMo.getId());
 
@@ -521,18 +503,7 @@ public class UserServiceImpl implements UserService {
         }
 
 
-=======
-        QueryWrapper<WebMenuEntity> queryWrapper = new QueryWrapper<WebMenuEntity>();
-        queryWrapper.lambda().eq(WebMenuEntity::getPath, saveWebMenuMo.getPath());
-        WebMenuEntity webMenuEntity = webMenuEntityService.getOne(queryWrapper);
-        if (ObjectUtil.isNotNull(webMenuEntity)) {
-            throw new Exception200("");
-        }
-        webMenuEntity = new WebMenuEntity();
-        BeanUtil.copyProperties(saveWebMenuMo, webMenuEntity);
-        webMenuEntityService.save(webMenuEntity);
-        return webMenuEntity.getId() + "";
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
     }
 
     @Override
@@ -565,14 +536,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public String savePermission(SaveWebPermissionMo saveWebPermissionMo) {
         QueryWrapper<WebPermissionEntity> queryWrapper = new QueryWrapper<WebPermissionEntity>();
-<<<<<<< HEAD
+
         queryWrapper.lambda()
                 .eq(WebPermissionEntity::getCodeSys,saveWebPermissionMo.getCodeSys())
                 .eq(WebPermissionEntity::getCodeModule,saveWebPermissionMo.getCodeModule())
                 .eq(WebPermissionEntity::getCode, saveWebPermissionMo.getCode());
-=======
-        queryWrapper.lambda().eq(WebPermissionEntity::getCode, saveWebPermissionMo.getCode());
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
         WebPermissionEntity webPermissionEntity = webPermissionEntityService.getOne(queryWrapper);
         if (ObjectUtil.isNotNull(webPermissionEntity)) {
             throw new Exception200("");
@@ -625,7 +594,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String saveRoleAndPermission(SaveRoleAndPermissionMo saveRoleAndPermissionMo) {
-<<<<<<< HEAD
+
         QueryWrapper<WebRolePermissionEntity> queryWrapper = new QueryWrapper<WebRolePermissionEntity>();
         queryWrapper.lambda().eq(WebRolePermissionEntity::getRoleId, saveRoleAndPermissionMo.getRoleId());
         webRolePermissionEntityService.remove(queryWrapper);
@@ -639,10 +608,7 @@ public class UserServiceImpl implements UserService {
         }
         return saveRoleAndPermissionMo.getRoleId() + "";
 
-=======
-        // TODO Auto-generated method stub
-        return null;
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
     }
 
     @Override
@@ -705,7 +671,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public IPage<WebPermissionVo> queryPagePermission(WebPermissionPageQo webPermissionPageQo) {
-<<<<<<< HEAD
+
         IPage<WebPermissionBo> page = selectPagePermission(webPermissionPageQo);
         return page.convert(webPermissionBo -> {
             WebPermissionVo webPermissionVo = new WebPermissionVo();
@@ -722,9 +688,7 @@ public class UserServiceImpl implements UserService {
             BeanUtil.copyProperties(webPermissionBo, webPermissionVo);
             return webPermissionVo;
         }).collect(Collectors.toList());
-=======
-        return null;
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
     }
 
     private IPage<WebRoleBo> selectPageRole(WebRolePageQo webRolePageQo) {
@@ -770,11 +734,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectListPermission(queryWrapper);
     }
 
-<<<<<<< HEAD
+
     public IPage<WebPermissionBo> selectPagePermission(WebPermissionPageQo webPermissionPageQo) {
-=======
-    private IPage<WebPermissionBo> selectPagePermission(WebPermissionPageQo webPermissionPageQo) {
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
         Page<WebPermissionBo> page = new Page<WebPermissionBo>(webPermissionPageQo.getCurrent(), webPermissionPageQo.getSize());
         QueryWrapper<WebPermissionBo> queryWrapper = new QueryWrapper<WebPermissionBo>();
         if (ObjectUtil.isNotEmpty(webPermissionPageQo.getUserIds())) {

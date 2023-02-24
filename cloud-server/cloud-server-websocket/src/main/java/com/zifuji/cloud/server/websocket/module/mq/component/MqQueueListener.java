@@ -21,11 +21,7 @@ public class MqQueueListener {
 	@RabbitHandler
 	public void process(String mes) {
 		MyWebsocketMessage myWebsocketMessage=JSONObject.parseObject(mes, MyWebsocketMessage.class);
-<<<<<<< HEAD
 
-=======
-		websocketService.sendMessage(myWebsocketMessage);
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
 	}
 
 }

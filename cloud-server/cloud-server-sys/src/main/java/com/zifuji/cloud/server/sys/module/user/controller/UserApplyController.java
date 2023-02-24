@@ -9,10 +9,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-<<<<<<< HEAD
+
 import org.springframework.security.access.prepost.PreAuthorize;
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

@@ -33,11 +33,9 @@ public class WebUserVo extends BaseVo {
     
     private String type;
 
-<<<<<<< HEAD
+
     private Long peopleId;
 
     private Long companyId;
 
-=======
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
 }
