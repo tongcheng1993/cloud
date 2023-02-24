@@ -1,0 +1,25 @@
+server:
+  port: 11002
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.84.150:11001/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
+spring:
+  application:
+    name: config
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:/root/ymls
+logging:
+  file: ./logs/${spring.application.name}/out.log
+  level:
+    root: INFO
+  pattern:
+    console: '%d{yyyy/MM/dd-HH:mm:ss} [%thread] %clr(%-5level) %clr(%logger:%line{36}){cyan} %clr(%msg%n){green}'

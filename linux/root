@@ -1,0 +1,4 @@
+* * * * * sh /root/startEureka.sh start >>/tmp/startEureka.txt 
+* * * * * sh /root/startConfig.sh start >>/tmp/startConfig.txt
+* * * * * sh /root/start.sh start cloud-gateway-web-0.0.1-SNAPSHOT.jar >>/tmp/startGatewayWeb.txt
+* * * * * sh /root/start.sh start cloud-gateway-manage-0.0.1-SNAPSHOT.jar >>/tmp/startGatewayManage.txt

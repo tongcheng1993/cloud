@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="com.zifuji.cloud.server.sys.module.user.mapper.UserMapper">
+
+
+    <select id="selectListUser" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebUserBo">
+		SELECT
+		zwu.id,
+		zwu.create_by,
+		zwu.create_time,
+		zwu.update_by,
+		zwu.update_time,
+		zwu.del_flag,
+		zwu.sort_num,
+		zwu.user_name,
+		zwu.pass_word,
+		zwu.name,
+		zwu.phone,
+		zwu.email
+		FROM
+		z_web_user zwu
+		LEFT JOIN z_web_user_role zwur ON zwu.id = zwur.user_id
+		LEFT JOIN z_web_role zwr ON zwr.id = zwur.role_id
+		LEFT JOIN z_web_role_menu zwrm ON zwrm.role_id = zwr.id
+		LEFT JOIN z_web_menu zwm ON zwm.id = zwrm.menu_id
+		LEFT JOIN z_web_role_permission zwrp ON zwrp.role_id = zwr.id
+		LEFT JOIN z_web_permission zwp ON zwp.id = zwrp.permission_id
+		${ew.customSqlSegment}		
+	</select>
+
+    <select id="selectPageUser" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebUserBo">
+		SELECT
+<<<<<<< HEAD
+			zwu.*
+=======
+		zwu.id,
+		zwu.create_by,
+		zwu.create_time,
+		zwu.update_by,
+		zwu.update_time,
+		zwu.del_flag,
+		zwu.sort_num,
+		zwu.user_name,
+		zwu.pass_word,
+		zwu.name,
+		zwu.phone,
+		zwu.email
+>>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
+		FROM
+		z_web_user zwu
+		LEFT JOIN z_web_user_role zwur ON zwu.id = zwur.user_id
+		LEFT JOIN z_web_role zwr ON zwr.id = zwur.role_id
+		LEFT JOIN z_web_role_menu zwrm ON zwrm.role_id = zwr.id
+		LEFT JOIN z_web_menu zwm ON zwm.id = zwrm.menu_id
+		LEFT JOIN z_web_role_permission zwrp ON zwrp.role_id = zwr.id
+		LEFT JOIN z_web_permission zwp ON zwp.id = zwrp.permission_id
+		${ew.customSqlSegment}	
+	</select>
+
+    <select id="selectListRole" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebRoleBo">
+		SELECT
+		zwr.id,
+		zwr.create_by,
+		zwr.create_time,
+		zwr.update_by,
+		zwr.update_time,
+		zwr.sort_num,
+		zwr.del_flag,
+		zwr.name,
+		zwr.code,
+		zwr.description
+		FROM
+		z_web_role zwr
+		LEFT JOIN z_web_user_role zwur ON zwr.id = zwur.role_id
+		LEFT JOIN z_web_user zwu ON zwu.id = zwur.user_id
+		LEFT JOIN z_web_role_menu zwrm ON zwrm.role_id = zwr.id
+		LEFT JOIN z_web_menu zwm ON zwm.id = zwrm.menu_id
+		${ew.customSqlSegment}	
+	</select>
+
+
+    <select id="selectPageRole" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebRoleBo">
+		SELECT
+		zwr.id,
+		zwr.create_by,
+		zwr.create_time,
+		zwr.update_by,
+		zwr.update_time,
+		zwr.sort_num,
+		zwr.del_flag,
+		zwr.name,
+		zwr.code,
+		zwr.description
+		FROM
+		z_web_role zwr
+		LEFT JOIN z_web_user_role zwur ON zwr.id = zwur.role_id
+		LEFT JOIN z_web_user zwu ON zwu.id = zwur.user_id
+		LEFT JOIN z_web_role_menu zwrm ON zwrm.role_id = zwr.id
+		LEFT JOIN z_web_menu zwm ON zwm.id = zwrm.menu_id
+		${ew.customSqlSegment}
+	</select>
+
+
+    <select id="selectListMenu" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebMenuBo">
+		SELECT
+			zwm.id,
+			zwm.create_by,
+			zwm.create_time,
+			zwm.update_by,
+			zwm.update_time,
+			zwm.sort_num,
+			zwm.del_flag,
+			zwm.parent_id,
+			zwm.name,
+			zwm.path,
+			zwm.component,
+			zwm.show_flag,
+			zwm.icon_flag
+		FROM
+			z_web_menu zwm
+			LEFT JOIN z_web_role_menu zwrm ON zwm.id = zwrm.menu_id
+			LEFT JOIN z_web_role zwr ON zwr.id = zwrm.role_id
+			LEFT JOIN z_web_user_role zwur ON zwur.role_id = zwr.id
+			LEFT JOIN z_web_user zwu ON zwu.id = zwur.user_id
+		${ew.customSqlSegment}
+	</select>
+
+
+    <select id="selectPageMenu" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebMenuBo">
+		SELECT
+		zwm.id,
+		zwm.create_by,
+		zwm.create_time,
+		zwm.update_by,
+		zwm.update_time,
+		zwm.sort_num,
+		zwm.del_flag,
+		zwm.parent_id,
+		zwm.name,
+		zwm.path,
+		zwm.component,
+		zwm.show_flag,
+		zwm.icon_flag
+		FROM
+		z_web_menu zwm
+		LEFT JOIN z_web_role_menu zwrm ON zwm.id = zwrm.menu_id
+		LEFT JOIN z_web_role zwr ON zwr.id = zwrm.role_id
+		LEFT JOIN z_web_user_role zwur ON zwur.role_id = zwr.id
+		LEFT JOIN z_web_user zwu ON zwu.id = zwur.user_id
+		${ew.customSqlSegment}	
+	</select>
+    <select id="selectListPermission" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebPermissionBo">
+		SELECT
+			zwp.id,
+			zwp.create_by,
+			zwp.create_time,
+			zwp.update_by,
+			zwp.update_time,
+			zwp.sort_num,
+			zwp.del_flag,
+			zwp.name,
+			zwp.code_sys,
+			zwp.code_module,
+			zwp.code,
+			zwp.description
+		FROM
+			z_web_permission zwp
+		LEFT JOIN z_web_role_permission zwrp ON zwp.id = zwrp.permission_id
+		LEFT JOIN z_web_role zwr ON zwr.id = zwrp.role_id
+		LEFT JOIN z_web_user_role zwur ON zwur.role_id = zwr.id
+		LEFT JOIN z_web_user zwu ON zwu.id = zwur.user_id
+				${ew.customSqlSegment}
+	</select>
+    <select id="selectPagePermission" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebPermissionBo">
+		SELECT
+			zwp.id,
+			zwp.create_by,
+			zwp.create_time,
+			zwp.update_by,
+			zwp.update_time,
+			zwp.sort_num,
+			zwp.del_flag,
+			zwp.name,
+			zwp.code_sys,
+			zwp.code_module,
+			zwp.code,
+			zwp.description
+		FROM
+			z_web_permission zwp
+		LEFT JOIN z_web_role_permission zwrp ON zwp.id = zwrp.permission_id
+		LEFT JOIN z_web_role zwr ON zwr.id = zwrp.role_id
+		LEFT JOIN z_web_user_role zwur ON zwur.role_id = zwr.id
+		LEFT JOIN z_web_user zwu ON zwu.id = zwur.user_id
+				${ew.customSqlSegment}
+
+    </select>
+</mapper>

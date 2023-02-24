@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="com.zifuji.cloud.server.sys.module.seq.mapper.SeqMapper">
+    <select id="selectPageSeq" resultType="com.zifuji.cloud.server.sys.module.seq.bo.SeqBo">
+        SELECT
+            zss.id,
+            zss.create_by,
+            zss.create_time,
+            zss.update_by,
+            zss.update_time,
+            zss.del_flag,
+            zss.sort_num,
+            zss.name,
+            zss.code,
+            zss.description,
+            zss.seq_type,
+            zss.supplement_flag,
+            zss.supplement_num,
+            zss.prefix,
+            zss.suffix
+        FROM
+            z_sys_seq zss
+        ${ew.customSqlSegment}
+    </select>
+    <select id="selectListSeq" resultType="com.zifuji.cloud.server.sys.module.seq.bo.SeqBo">
+        SELECT
+            zss.id,
+            zss.create_by,
+            zss.create_time,
+            zss.update_by,
+            zss.update_time,
+            zss.del_flag,
+            zss.sort_num,
+            zss.name,
+            zss.code,
+            zss.description,
+            zss.seq_type,
+            zss.supplement_flag,
+            zss.supplement_num,
+            zss.prefix,
+            zss.suffix
+        FROM
+            z_sys_seq zss
+        ${ew.customSqlSegment}
+    </select>
+</mapper>
