@@ -89,6 +89,8 @@ mybatis-plus:
   mapper-locations: classpath*:com/zifuji/**/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    enable-sql-runner: true
 logging:
   file: ./logs/${spring.application.name}/out.log
   level:

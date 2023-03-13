@@ -58,9 +58,15 @@ public class QuartzServiceImpl implements QuartzService {
             if (!StrUtil.equals(quartzRecordEntity.getJobClassName(), quartzRecordMo.getJobClassName())) {
                 throw new Exception200("类名称不能修改");
             }
+
+
+
             if (!StrUtil.equals(quartzRecordEntity.getCronExpression(), quartzRecordMo.getCronExpression())) {
                 quartzComponent.cronJob(quartzRecordEntity.getJobGroupName(), quartzRecordEntity.getJobClassName(), quartzRecordMo.getCronExpression());
             }
+
+
+
             if (StrUtil.equals(BaseConstant.CODE_START_STOP_TYPE_1, quartzRecordMo.getStatus())) {
                 quartzComponent.resumeJob(quartzRecordEntity.getJobGroupName(), quartzRecordEntity.getJobClassName());
             } else if (StrUtil.equals(BaseConstant.CODE_START_STOP_TYPE_2, quartzRecordMo.getStatus())) {
@@ -68,6 +74,8 @@ public class QuartzServiceImpl implements QuartzService {
             } else {
                 throw new Exception200("定时任务状态编码错误");
             }
+
+
             BeanUtil.copyProperties(quartzRecordMo, quartzRecordEntity);
             quartzRecordEntityService.updateById(quartzRecordEntity);
             BeanUtil.copyProperties(quartzRecordEntity, quartzRecordVo);

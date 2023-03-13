@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
-@Api(value = "user")
+@Api(value = "用户/应用")
 @RestController
 @RequestMapping(value = "/user/apply")
 @AllArgsConstructor

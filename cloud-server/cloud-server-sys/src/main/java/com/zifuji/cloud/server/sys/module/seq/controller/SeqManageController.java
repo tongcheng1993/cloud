@@ -26,11 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @Slf4j
-@Api(value = "seq")
+@Api(value = "流水号/管理")
 @RestController
 @RequestMapping(value = "/seq")
 @AllArgsConstructor
-public class SeqController {
+public class SeqManageController {
 
     private SeqService seqService;
 
@@ -72,14 +72,7 @@ public class SeqController {
     }
 
 
-    @ApiOperation(value = "获取一个流水号的下一个号")
-    @GetMapping(value = "/getNextSeq")
-    public Result<String> getNextSeq(@RequestParam String code) {
-        log.info(JSONObject.toJSONString(code));
-        String result = seqService.getNextSeq(code);
-        log.info(JSONObject.toJSONString(result));
-        return new Result<String>().setObj(result);
-    }
+
 
 
 }

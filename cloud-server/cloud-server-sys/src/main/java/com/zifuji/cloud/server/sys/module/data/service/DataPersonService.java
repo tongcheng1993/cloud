@@ -9,7 +9,7 @@ public interface DataPersonService {
 
 	Boolean uploadPersonListFile(MultipartFile file);
 
-
+	Boolean addPerson(String name,String cardNumber);
 
 	IPage<PersonVo> queryPagePerson(PersonPageQo personPageQo);
 }

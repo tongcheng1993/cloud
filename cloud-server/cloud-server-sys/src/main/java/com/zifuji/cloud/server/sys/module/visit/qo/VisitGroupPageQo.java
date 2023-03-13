@@ -13,5 +13,7 @@ public class VisitGroupPageQo extends BasePageQo {
      *
      */
     private static final long serialVersionUID = 1L;
+
+
     private String name;
 }

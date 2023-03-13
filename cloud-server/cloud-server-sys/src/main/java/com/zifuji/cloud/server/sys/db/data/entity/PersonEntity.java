@@ -12,15 +12,15 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName(value = "z_sys_person")
 public class PersonEntity extends MyBaseEntity {
-	
-	 private String name="";
+
+	private String cardNumber;
+
+	 private String name;
 	 
 	 private LocalDate birthday;
 	 
-	 private String sex = "";
+	 private String sex;
 	 
 	 private String cardType;
-	 
-	 private String cardNumber;
 
 }

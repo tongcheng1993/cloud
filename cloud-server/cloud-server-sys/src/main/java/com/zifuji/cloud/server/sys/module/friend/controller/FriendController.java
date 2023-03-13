@@ -30,14 +30,7 @@ public class FriendController {
 
     private FriendService friendService;
 
-    @ApiOperation(value = "")
-    @GetMapping(value = "/registerFriend")
-    public Result<Boolean> registerFriend(@RequestParam Long createById) {
-        log.info(JSONObject.toJSONString(createById));
-        Boolean result = friendService.registerFriend(createById);
-        log.info(JSONObject.toJSONString(result));
-        return new Result<Boolean>().setObj(result);
-    }
+
 
     @PreAuthorize("hasAnyRole('register')")
     @ApiOperation(value = "分页查询交友列表")

@@ -8,11 +8,9 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class ScorePageQo extends BasePageQo {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class ScoreRecordPageQo extends BasePageQo {
 
-	private String name;
+    private String name;
+
+
 }

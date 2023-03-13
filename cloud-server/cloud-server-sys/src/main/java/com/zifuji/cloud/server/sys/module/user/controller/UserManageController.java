@@ -29,7 +29,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
-@Api(value = "user")
+@Api(value = "用户/管理")
 @RestController
 @RequestMapping(value = "/user/manage")
 @AllArgsConstructor
@@ -69,8 +69,6 @@ public class UserManageController {
     }
 
 
-
-
     @ApiOperation(value = "保存外网路由")
     @PostMapping(value = "/saveMenu")
     @PreAuthorize(value = "hasAuthority('sys:user:saveMenu')")
@@ -101,9 +99,6 @@ public class UserManageController {
         log.info(JSONObject.toJSONString(result));
         return new Result<String>().setObj(result);
     }
-
-
-
 
     @ApiOperation(value = "保存外网权限")
     @PostMapping(value = "/savePermission")

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @Slf4j
-@Api(value = "reservation")
+@Api(value = "预约/管理")
 @RestController
 @RequestMapping(value = "/reservation/manage")
 @AllArgsConstructor

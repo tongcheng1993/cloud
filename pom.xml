@@ -33,7 +33,7 @@
         <fastdfs.version>1.26.5</fastdfs.version>
         <camunda.version>3.2.0</camunda.version>
         <cloud.version>0.0.1-SNAPSHOT</cloud.version>
-
+        <aspose.version>22.10</aspose.version>
     </properties>
 
     <dependencies>
@@ -54,11 +54,6 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool-all.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>${poi.version}</version>
         </dependency>
     </dependencies>
 
@@ -90,4 +85,11 @@
         <module>cloud-base</module>
         <module>cloud-starter</module>
     </modules>
+    <repositories>
+        <repository>
+            <id>AsposeJavaAPI</id>
+            <name>Aspose Java API</name>
+            <url>https://releases.aspose.com/java/repo/</url>
+        </repository>
+    </repositories>
 </project>

@@ -15,6 +15,8 @@ import com.zifuji.cloud.server.sys.db.user.service.*;
 import com.zifuji.cloud.server.sys.module.core.bo.DrawCaptchaBo;
 import com.zifuji.cloud.server.sys.module.core.service.CoreService;
 import com.zifuji.cloud.server.sys.module.email.service.EmailService;
+import com.zifuji.cloud.server.sys.module.friend.service.FriendService;
+import com.zifuji.cloud.server.sys.module.score.service.ScoreService;
 import com.zifuji.cloud.server.sys.module.user.bo.WebMenuBo;
 import com.zifuji.cloud.server.sys.module.user.bo.WebPermissionBo;
 import com.zifuji.cloud.server.sys.module.user.bo.WebRoleBo;
@@ -67,6 +69,8 @@ public class UserServiceImpl implements UserService {
     private StringRedisTemplate stringRedisTemplate;
     private CoreService coreService;
     private EmailService emailService;
+    private ScoreService scoreService;
+    private FriendService friendService;
 
 
     @Override
@@ -100,14 +104,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String register(RegisterMo registerMo) {
-        coreService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_WEB, "img", registerMo.getRedisUuid(), registerMo.getValue());
-
+        Boolean flag = coreService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_WEB, "img", registerMo.getRedisUuid(), registerMo.getValue());
+        if(!flag){
+            throw new Exception200("验证码错误");
+        }
         if (!StrUtil.equals(registerMo.getPassWord(), registerMo.getPassWordSec())) {
             throw new Exception200("密码输入不一致");
         }
         // 通过用户名查询数据库记录
+        WebUserEntity  webUserEntity =  register(registerMo.getUserName(),registerMo.getPassWord(),registerMo.getName());
+
+        return this.getLoginToken(webUserEntity);
+    }
+
+    private WebUserEntity register(String userName, String passWord, String name) {
+        if (StrUtil.isBlank(userName)) {
+            return null;
+        }
+        if (StrUtil.isBlank(passWord)) {
+            return null;
+        }
+        if (StrUtil.isBlank(name)) {
+            return null;
+        }
+        // 通过用户名查询数据库记录
         QueryWrapper<WebUserEntity> webUserEntityQueryWrapper = new QueryWrapper<>();
-        webUserEntityQueryWrapper.lambda().eq(WebUserEntity::getUserName, registerMo.getUserName());
+        webUserEntityQueryWrapper.lambda().eq(WebUserEntity::getUserName, userName);
         WebUserEntity webUserEntity = this.webUserEntityService.getOne(webUserEntityQueryWrapper);
         if (ObjectUtil.isNotNull(webUserEntity)) {
             throw new Exception200("用户名重复");
@@ -116,19 +138,22 @@ public class UserServiceImpl implements UserService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         webUserEntity = new WebUserEntity();
-        webUserEntity.setUserName(registerMo.getUserName());
-        webUserEntity.setPassWord(bCryptPasswordEncoder.encode(registerMo.getPassWord()));
-        webUserEntity.setName(registerMo.getName());
+        webUserEntity.setUserName(userName);
+        webUserEntity.setPassWord(bCryptPasswordEncoder.encode(passWord));
+        webUserEntity.setName(name);
         webUserEntity.setEmail("");
         webUserEntity.setPhone("");
         this.webUserEntityService.save(webUserEntity);
-
         // 给予权限
         this.saveUserAndRole(webUserEntity.getId(), BaseConstant.ROLE_REGISTER);
 
+        scoreService.initScoreAccount(webUserEntity.getId());
+        friendService.initFriendInfo(webUserEntity.getId());
 
-        return this.getLoginToken(webUserEntity);
+        return webUserEntity;
     }
+
+
 
     @Override
     public String login(LoginMo loginMo) {

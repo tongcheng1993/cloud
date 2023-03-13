@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Slf4j
-@Api(value = "quartz/manage")
+@Api(value = "定时器/管理")
 @RestController
 @RequestMapping(value = "/quartz/manage")
 @AllArgsConstructor
@@ -24,7 +24,7 @@ public class QuartzManageController {
 
     private QuartzService quartzService;
 
-    @ApiOperation(value = "")
+    @ApiOperation(value = "增加一个定时器")
     @PostMapping(value = "/saveQuartzRecord")
     public Result<QuartzRecordVo> saveQuartzRecord(@RequestBody @Valid QuartzRecordMo quartzRecordMo) throws Exception {
         log.info(JSONObject.toJSONString(quartzRecordMo));
@@ -44,7 +44,7 @@ public class QuartzManageController {
     }
 
 
-    @ApiOperation(value = "")
+    @ApiOperation(value = "分页查询定时器")
     @PostMapping(value = "/queryPageQuartzRecord")
     public Result<IPage<QuartzRecordVo>> queryPageQuartzRecord(@RequestBody @Valid QuartzRecordPageQo quartzRecordPageQo) {
         log.info(JSONObject.toJSONString(quartzRecordPageQo));

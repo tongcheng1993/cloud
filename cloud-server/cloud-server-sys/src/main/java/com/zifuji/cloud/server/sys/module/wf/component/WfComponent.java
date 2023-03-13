@@ -25,10 +25,4 @@ public class WfComponent {
     private RepositoryService repositoryService;
 
 
-    public void create1(){
-        repositoryService.createDeployment();
-    }
-    public void create2(){
-        runtimeService.activateProcessInstanceByProcessDefinitionKey("1");
-    }
 }

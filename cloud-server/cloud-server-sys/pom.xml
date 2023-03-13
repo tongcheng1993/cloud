@@ -57,7 +57,26 @@
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
         </dependency>
-
+        <!-- aspose 操作office -->
+        <!-- https://mvnrepository.com/artifact/com.aspose/aspose-words -->
+        <dependency>
+            <groupId>com.aspose</groupId>
+            <artifactId>aspose-words</artifactId>
+            <version>${aspose.version}</version>
+            <classifier>jdk17</classifier>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.aspose/aspose-cells -->
+        <dependency>
+            <groupId>com.aspose</groupId>
+            <artifactId>aspose-cells</artifactId>
+            <version>${aspose.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.aspose/aspose-pdf -->
+        <dependency>
+            <groupId>com.aspose</groupId>
+            <artifactId>aspose-pdf</artifactId>
+            <version>${aspose.version}</version>
+        </dependency>
         <!-- camunda工作流-->
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>

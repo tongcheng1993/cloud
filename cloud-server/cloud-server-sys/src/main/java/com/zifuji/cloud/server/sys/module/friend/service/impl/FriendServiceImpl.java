@@ -50,17 +50,16 @@ public class FriendServiceImpl implements FriendService {
     private FriendMapper friendMapper;
 
     @Override
-    public Boolean registerFriend(Long createById) {
+    public FriendInfoEntity initFriendInfo(Long createById) {
         QueryWrapper<FriendInfoEntity> queryWrapper = new QueryWrapper<FriendInfoEntity>();
         queryWrapper.lambda().eq(FriendInfoEntity::getCreateBy, createById);
         FriendInfoEntity friendInfoEntity = friendInfoEntityService.getOne(queryWrapper);
         if (ObjectUtil.isNull(friendInfoEntity)) {
             friendInfoEntity = new FriendInfoEntity();
-        } else {
-            return true;
+            friendInfoEntity.setCreateBy(createById);
+            friendInfoEntityService.save(friendInfoEntity);
         }
-        friendInfoEntity.setCreateBy(createById);
-        return friendInfoEntityService.save(friendInfoEntity);
+        return friendInfoEntity;
     }
 
     @Override
@@ -84,16 +83,22 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public FriendInfoVo getFriendInfoByMyself() {
         UserInfo userInfo = SecurityUtil.getUserDetails();
-        QueryWrapper<FriendInfoEntity> queryWrapper = new QueryWrapper<FriendInfoEntity>();
-        queryWrapper.lambda().eq(FriendInfoEntity::getCreateBy, userInfo.getId());
-        FriendInfoEntity friendInfoEntity = friendInfoEntityService.getOne(queryWrapper);
+        FriendInfoEntity friendInfoEntity = getFriendInfoByCreateBy(userInfo.getId());
         FriendInfoVo friendInfoVo = new FriendInfoVo();
         BeanUtil.copyProperties(friendInfoEntity, friendInfoVo);
         friendInfoVo.setName(userInfo.getName());
         return friendInfoVo;
 
     }
-
+    private FriendInfoEntity getFriendInfoByCreateBy(Long id){
+        QueryWrapper<FriendInfoEntity> queryWrapper = new QueryWrapper<FriendInfoEntity>();
+        queryWrapper.lambda().eq(FriendInfoEntity::getCreateBy, id);
+        FriendInfoEntity friendInfoEntity = friendInfoEntityService.getOne(queryWrapper);
+        if(ObjectUtil.isNull(friendInfoEntity)){
+            friendInfoEntity =   initFriendInfo(id);
+        }
+        return friendInfoEntity;
+    }
 
     @Override
     public FriendInfoVo getFriendInfoById(Long friendId) {

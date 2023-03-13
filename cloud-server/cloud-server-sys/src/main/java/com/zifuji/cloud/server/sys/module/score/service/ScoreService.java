@@ -1,23 +1,19 @@
 package com.zifuji.cloud.server.sys.module.score.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.sys.module.score.qo.ScorePageQo;
-import com.zifuji.cloud.server.sys.module.score.vo.ScoreInfoVo;
-
-
-import java.util.List;
+import com.zifuji.cloud.server.sys.db.score.entity.ScoreAccountEntity;
+import com.zifuji.cloud.server.sys.module.score.qo.ScoreRecordPageQo;
+import com.zifuji.cloud.server.sys.module.score.vo.ScoreAccountVo;
+import com.zifuji.cloud.server.sys.module.score.vo.ScoreRecordVo;
 
 public interface ScoreService {
 
+    ScoreAccountEntity initScoreAccount(Long createById);
 
-    Boolean registerScore(Long createById);
+    ScoreAccountVo getScoreAccountVoById(Long id);
 
-    IPage<String> queryPageScore(ScorePageQo scorePageQo);
+    ScoreAccountVo getScoreAccountVoByMyself();
 
-    List<String> queryListScore(ScorePageQo scorePageQo);
+    IPage<ScoreRecordVo> queryPageScoreRecord(ScoreRecordPageQo scoreRecordPageQo);
 
-    String getScoreInfoById(Long id);
-
-
-    ScoreInfoVo getScoreInfoByMyself();
 }

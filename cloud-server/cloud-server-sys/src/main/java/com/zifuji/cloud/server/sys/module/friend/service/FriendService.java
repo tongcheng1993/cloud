@@ -1,6 +1,7 @@
 package com.zifuji.cloud.server.sys.module.friend.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zifuji.cloud.server.sys.db.friend.entity.FriendInfoEntity;
 import com.zifuji.cloud.server.sys.module.friend.mo.AuditFriendApplyMo;
 import com.zifuji.cloud.server.sys.module.friend.mo.MakeFriendApplyMo;
 import com.zifuji.cloud.server.sys.module.friend.mo.FriendInfoMo;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public interface FriendService {
 
-    Boolean registerFriend(Long createById);
+    FriendInfoEntity initFriendInfo(Long createById);
 
     //找朋友列表分页查询交友信息 有查询条件
     IPage<FriendVo> queryPageFriend(FriendPageQo friendPageQo);

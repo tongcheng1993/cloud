@@ -53,34 +53,38 @@ public class DataPersonServiceImpl implements DataPersonService {
             for (Map<String, Object> map : readAll) {
                 String name = ObjectUtil.isNull(map.get("name")) ? "" : map.get("name").toString();
                 String cardNumber = ObjectUtil.isNull(map.get("cardNumber")) ? "" : map.get("cardNumber").toString();
-
-
-                if (!ChinaIdCardUtil.validateCard(cardNumber)) {
-                    log.info("身份证数据错误");
-                    continue;
-                }
-                QueryWrapper<PersonEntity> queryWrapper = new QueryWrapper<>();
-                queryWrapper.lambda().eq(PersonEntity::getName, name).eq(PersonEntity::getCardNumber, cardNumber);
-                PersonEntity personEntity = personEntityService.getOne(queryWrapper);
-                if (ObjectUtil.isNull(personEntity)) {
-                    personEntity = new PersonEntity();
-                } else {
-                    log.info("数据重复");
-                    continue;
-                }
-
-                personEntity.setName(name);
-                personEntity.setCardNumber(cardNumber);
-                personEntity.setBirthday(ChinaIdCardUtil.getBirthday(cardNumber));
-                personEntity.setCardType("身份证");
-                personEntity.setSex(ChinaIdCardUtil.getSex(cardNumber));
-                personEntityService.save(personEntity);
-
+                addPerson(name,cardNumber);
             }
         }
-
         FileUtil.del(tempDirPath);
         return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean addPerson(String name, String cardNumber) {
+       if (!ChinaIdCardUtil.validateCard(cardNumber)) {
+            log.info("身份证数据错误");
+           return false;
+        }
+        QueryWrapper<PersonEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda()
+                .eq(PersonEntity::getCardNumber, cardNumber)
+                .eq(PersonEntity::getName, name);
+        PersonEntity personEntity = personEntityService.getOne(queryWrapper);
+        if (ObjectUtil.isNull(personEntity)) {
+            personEntity = new PersonEntity();
+            personEntity.setName(name);
+            personEntity.setCardNumber(cardNumber);
+            personEntity.setBirthday(ChinaIdCardUtil.getBirthday(cardNumber));
+            personEntity.setCardType("身份证");
+            personEntity.setSex(ChinaIdCardUtil.getSex(cardNumber));
+            personEntityService.save(personEntity);
+            return Boolean.TRUE;
+        }else{
+            log.info("数据重复");
+            return false;
+        }
+
     }
 
 

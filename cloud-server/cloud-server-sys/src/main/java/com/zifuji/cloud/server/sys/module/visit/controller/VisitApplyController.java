@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @Slf4j
-@Api(value = "visit")
+@Api(value = "出游/应用")
 @RestController
-@RequestMapping(value = "/visit")
+@RequestMapping(value = "/visit/apply")
 @AllArgsConstructor
-public class VisitController {
+public class VisitApplyController {
 
     private VisitService visitService;
 

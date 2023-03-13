@@ -31,22 +31,7 @@
 
     <select id="selectPageUser" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebUserBo">
 		SELECT
-<<<<<<< HEAD
 			zwu.*
-=======
-		zwu.id,
-		zwu.create_by,
-		zwu.create_time,
-		zwu.update_by,
-		zwu.update_time,
-		zwu.del_flag,
-		zwu.sort_num,
-		zwu.user_name,
-		zwu.pass_word,
-		zwu.name,
-		zwu.phone,
-		zwu.email
->>>>>>> f0666b324d0f19084264899903a51bf36f2b88df
 		FROM
 		z_web_user zwu
 		LEFT JOIN z_web_user_role zwur ON zwu.id = zwur.user_id

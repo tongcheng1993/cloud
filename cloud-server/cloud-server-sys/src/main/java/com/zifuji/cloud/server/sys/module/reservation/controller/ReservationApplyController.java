@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@Api(value = "reservation_apply")
+@Api(value = "预约/应用")
 @RestController
 @RequestMapping(value = "/reservation/apply")
 @AllArgsConstructor
