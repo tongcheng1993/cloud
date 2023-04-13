@@ -14,6 +14,8 @@ public class FriendInfoEntity extends MyBaseEntity {
 
 	private String imgUrl;
 
+	private String name;
+
 	private String sex;
 
 	private LocalDate birthday;

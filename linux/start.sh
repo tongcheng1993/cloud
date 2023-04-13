@@ -7,8 +7,8 @@ start(){
       	if [ "$pid" ]; then
 		echo "$APP_NAME is already running. pid=$pid ."
 	else
-		nohup java -Xmx128m -Xms128m -jar $APP_NAME --spring.profiles.active=prod >/dev/null 2>&1 & 
-		echo "$APP_NAME now is running. pid=$pid ."
+		nohup java -Xmx512m -Xms512m -jar $APP_NAME --spring.profiles.active=prod >/dev/null 2>&1 & 
+		echo "$APP_NAME now is running"
 	fi
 }
 #停止方法
