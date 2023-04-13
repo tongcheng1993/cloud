@@ -27,6 +27,8 @@ public class FileVo extends BaseVo {
 	private Long fileByteSize;
 
 	private byte[] fileByte;
+
+	private String mimeType;
 	
 	private String fileUrl;
 }

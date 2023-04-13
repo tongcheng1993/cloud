@@ -1,12 +1,11 @@
 package com.zifuji.cloud.server.sys.module.file.service.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.zifuji.cloud.server.base.properties.ZfjProperties;
 import com.zifuji.cloud.server.base.util.ZfjFileUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.springframework.stereotype.Service;
@@ -38,6 +37,7 @@ public class FileServiceImpl implements FileService {
 
     private FileEntityService fileEntityService;
 
+
     @Override
     public String uploadFile(String uploadPath, MultipartFile file) {
         String fileUrl = "";
@@ -66,17 +66,16 @@ public class FileServiceImpl implements FileService {
     public FileVo downloadFile(Long id) throws IOException {
         FileVo vo = new FileVo();
         FileEntity fileEntity = fileEntityService.getById(id);
-        InputStream is = fastdfsComponent.download(fileEntity.getFileUrl());
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        byte[] buf = new byte[1024];
-        int len = is.read(buf);
-        while (len != -1) {
-            os.write(buf, 0, len);
-            len = is.read(buf);
+        InputStream inStream = fastdfsComponent.download(fileEntity.getFileUrl());
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = inStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, len);
         }
-        os.flush();
         vo.setFileName(fileEntity.getFileName());
-        vo.setFileByte(os.toByteArray());
+        vo.setFileByte(outStream.toByteArray());
+        vo.setMimeType(ZfjFileUtil.getMimeType(fileEntity.getFileName()));
         return vo;
     }
 

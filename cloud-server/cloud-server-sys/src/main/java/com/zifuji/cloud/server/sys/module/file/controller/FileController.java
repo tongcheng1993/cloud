@@ -45,9 +45,7 @@ public class FileController {
     @ApiOperation(value = "下载文件")
     @PostMapping(value = "/downloadFile")
     public Result<FileVo> downloadFile(Long id) throws IOException {
-        log.info(JSONObject.toJSONString(id));
         FileVo result = fileService.downloadFile(id);
-        log.info(JSONObject.toJSONString(result));
         return new Result<FileVo>().setObj(result);
     }
 
