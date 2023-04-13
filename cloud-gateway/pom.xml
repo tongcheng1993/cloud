@@ -21,7 +21,6 @@
 				<groupId>com.zifuji</groupId>
 				<artifactId>cloud-gateway-base</artifactId>
 				<version>${cloud.version}</version>
-				<optional>true</optional>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

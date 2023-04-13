@@ -13,7 +13,7 @@ import com.zifuji.cloud.server.sys.module.score.qo.ScoreRecordPageQo;
 import com.zifuji.cloud.server.sys.module.score.service.ScoreService;
 import com.zifuji.cloud.server.sys.module.score.vo.ScoreAccountVo;
 import com.zifuji.cloud.server.sys.module.score.vo.ScoreRecordVo;
-import com.zifuji.cloud.starter.web.object.SecurityUtil;
+import com.zifuji.cloud.server.base.object.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

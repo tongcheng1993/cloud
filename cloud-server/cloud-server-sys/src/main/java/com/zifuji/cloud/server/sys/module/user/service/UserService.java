@@ -32,7 +32,7 @@ public interface UserService {
 
     WebCompanyVo saveCompanyInfo(SaveCompanyInfoMo saveCompanyInfoMo);
 
-    Boolean saveName(SaveNameMo saveNameMo);
+
 
     String changePassWord(ChangePassWordMo changePassWordMo);
 

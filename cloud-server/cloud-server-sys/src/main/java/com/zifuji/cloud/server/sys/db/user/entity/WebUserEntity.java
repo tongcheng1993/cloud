@@ -17,8 +17,6 @@ public class WebUserEntity extends MyBaseEntity {
 	private String userName;
 	@ApiModelProperty(value = "密码")
 	private String passWord;
-	@ApiModelProperty(value = "账户昵称")
-	private String name;
 	@ApiModelProperty(value = "绑定邮箱")
 	private String email;
 	@ApiModelProperty(value = "绑定手机号")

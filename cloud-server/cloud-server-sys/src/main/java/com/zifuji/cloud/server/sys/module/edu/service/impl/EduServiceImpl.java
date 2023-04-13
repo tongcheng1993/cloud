@@ -7,7 +7,7 @@ import cn.hutool.poi.excel.ExcelUtil;
 import com.zifuji.cloud.base.exception.Exception200;
 import com.zifuji.cloud.server.sys.db.edu.service.EduSchoolEntityService;
 import com.zifuji.cloud.server.sys.module.edu.service.EduService;
-import com.zifuji.cloud.starter.web.properties.ZfjProperties;
+import com.zifuji.cloud.server.base.properties.ZfjProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

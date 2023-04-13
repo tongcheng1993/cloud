@@ -27,7 +27,7 @@ import com.zifuji.cloud.server.sys.module.dic.qo.DicItemPageQo;
 import com.zifuji.cloud.server.sys.module.dic.qo.DicPageQo;
 import com.zifuji.cloud.server.sys.module.dic.service.DicService;
 import com.zifuji.cloud.server.sys.module.dic.vo.DicItemVo;
-import com.zifuji.cloud.starter.web.util.MyBatisPlusUtil;
+import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;

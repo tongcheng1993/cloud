@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -31,8 +32,6 @@ public class FriendController {
     private FriendService friendService;
 
 
-
-    @PreAuthorize("hasAnyRole('register')")
     @ApiOperation(value = "分页查询交友列表")
     @PostMapping(value = "/queryPageFriend")
     public Result<IPage<FriendVo>> queryPageFriend(@RequestBody @Valid FriendPageQo friendPageQo) {
@@ -42,7 +41,7 @@ public class FriendController {
         return new Result<IPage<FriendVo>>().setObj(result);
     }
 
-    @PreAuthorize("hasAnyRole('register')")
+
     @ApiOperation(value = "查看他人交友信息")
     @GetMapping(value = "/getFriendInfoById")
     public Result<FriendInfoVo> getFriendInfoById(@RequestParam Long friendId) {
@@ -52,7 +51,16 @@ public class FriendController {
         return new Result<FriendInfoVo>().setObj(result);
     }
 
-    @PreAuthorize("hasAnyRole('register')")
+    @ApiOperation(value = "上传交友照片文件")
+    @PostMapping(value = "/uploadFriendInfoImgFile")
+    public Result<String> uploadFriendInfoImgFile(MultipartFile file) {
+        log.info(JSONObject.toJSONString("文件参数"));
+        String result = friendService.uploadFriendInfoImgFile(file);
+        log.info(JSONObject.toJSONString(result));
+        return new Result<String>().setObj(result);
+    }
+
+
     @ApiOperation(value = "保存自身交友信息")
     @PostMapping(value = "/saveFriendInfo")
     public Result<String> saveFriendInfo(@RequestBody @Valid FriendInfoMo friendInfoMo) {
@@ -62,7 +70,7 @@ public class FriendController {
         return new Result<String>().setObj(result);
     }
 
-    @PreAuthorize("hasAnyRole('register')")
+
     @ApiOperation(value = "获取自身交友信息")
     @GetMapping(value = "/getFriendInfoByMyself")
     public Result<FriendInfoVo> getFriendInfoByMyself() {
@@ -73,7 +81,6 @@ public class FriendController {
     }
 
 
-    @PreAuthorize("hasAnyRole('register')")
     @ApiOperation(value = "发出交朋友的申请 需要消费积分")
     @PostMapping(value = "/makeFriendApply")
     public Result<String> makeFriendApply(@RequestBody @Valid MakeFriendApplyMo makeFriendApplyMo) {
@@ -84,7 +91,6 @@ public class FriendController {
     }
 
 
-    @PreAuthorize("hasAnyRole('register')")
     @ApiOperation(value = "同意或者拒绝 朋友申请")
     @PostMapping(value = "/auditFriendApply")
     public Result<String> auditFriendApply(@RequestBody @Valid AuditFriendApplyMo auditFriendApplyMo) {
@@ -100,8 +106,7 @@ public class FriendController {
     }
 
 
-
-    public Result<Boolean> saveFriendNote(){
+    public Result<Boolean> saveFriendNote() {
         return new Result<Boolean>().setObj(null);
     }
 

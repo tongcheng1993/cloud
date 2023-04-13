@@ -33,7 +33,8 @@
         <fastdfs.version>1.26.5</fastdfs.version>
         <camunda.version>3.2.0</camunda.version>
         <cloud.version>0.0.1-SNAPSHOT</cloud.version>
-        <aspose.version>22.10</aspose.version>
+        <aspose.version>19.5</aspose.version>
+<!--        <aspose.version>22.10</aspose.version>-->
     </properties>
 
     <dependencies>
@@ -71,25 +72,22 @@
                 <groupId>com.zifuji</groupId>
                 <artifactId>cloud-base</artifactId>
                 <version>${cloud.version}</version>
-                <optional>true</optional>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
+        <module>cloud-base</module>
         <module>cloud-eureka</module>
         <module>cloud-config</module>
         <module>cloud-gateway</module>
-        <module>cloud-feign</module>
         <module>cloud-server</module>
-        <module>cloud-base</module>
-        <module>cloud-starter</module>
     </modules>
     <repositories>
-        <repository>
-            <id>AsposeJavaAPI</id>
-            <name>Aspose Java API</name>
-            <url>https://releases.aspose.com/java/repo/</url>
-        </repository>
+<!--        <repository>-->
+<!--            <id>AsposeJavaAPI</id>-->
+<!--            <name>Aspose Java API</name>-->
+<!--            <url>https://releases.aspose.com/java/repo/</url>-->
+<!--        </repository>-->
     </repositories>
 </project>

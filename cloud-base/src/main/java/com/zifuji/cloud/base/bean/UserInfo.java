@@ -19,7 +19,6 @@ public class UserInfo implements Serializable {
         this.id = 0L;
         this.token = "";
         this.userName = "游客" + DateUtil.now();
-        this.name = this.userName;
         this.type = "";
         this.email = "";
         this.phone = "";
@@ -32,8 +31,6 @@ public class UserInfo implements Serializable {
     private String token;
 
     private String userName;
-
-    private String name;
 
     private String type;
 

@@ -5,22 +5,7 @@
 
     <select id="selectPageFriend" resultType="com.zifuji.cloud.server.sys.module.friend.bo.FriendBo">
 		SELECT
-			zwu.name,
-			zbfi.id,
-			zbfi.create_time,
-			zbfi.sort_num,
-			zbfi.img_url,
-			zbfi.sex,
-			zbfi.birthday,
-			zbfi.birth_province,
-			zbfi.birth_city,
-			zbfi.birth_town,
-			zbfi.birth_addr,
-			zbfi.province,
-			zbfi.city,
-			zbfi.town,
-			zbfi.addr,
-			zbfi.info
+			zbfi.*
 		FROM
 		z_bu_friend_info zbfi
 		INNER JOIN z_web_user zwu ON zbfi.create_by = zwu.id
@@ -28,9 +13,9 @@
 	</select>
     <select id="getListFriendRelation" resultType="com.zifuji.cloud.server.sys.module.friend.bo.FriendRelationBo">
         SELECT
-        zbfg.group_name,
-        zbfi.name,
-        zbfi.img_url
+			zbfg.group_name,
+			zbfi.name,
+			zbfi.img_url
         FROM
         z_bu_friend_relation zbfr
         INNER JOIN z_bu_friend_info zbfi ON zbfr.friend_id = zbfi.id

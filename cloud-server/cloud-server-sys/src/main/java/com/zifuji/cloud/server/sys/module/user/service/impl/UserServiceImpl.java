@@ -12,8 +12,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.server.base.util.ZfjFileUtil;
 import com.zifuji.cloud.server.sys.db.user.entity.*;
 import com.zifuji.cloud.server.sys.db.user.service.*;
-import com.zifuji.cloud.server.sys.module.core.bo.DrawCaptchaBo;
-import com.zifuji.cloud.server.sys.module.core.service.CoreService;
+import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaBo;
+import com.zifuji.cloud.server.sys.module.captcha.service.CaptchaService;
 import com.zifuji.cloud.server.sys.module.email.service.EmailService;
 import com.zifuji.cloud.server.sys.module.friend.service.FriendService;
 import com.zifuji.cloud.server.sys.module.score.service.ScoreService;
@@ -40,8 +40,8 @@ import com.zifuji.cloud.server.sys.module.user.mapper.UserMapper;
 import com.zifuji.cloud.server.sys.module.user.qo.WebMenuPageQo;
 import com.zifuji.cloud.server.sys.module.user.qo.WebRolePageQo;
 import com.zifuji.cloud.server.sys.module.user.service.UserService;
-import com.zifuji.cloud.starter.web.object.SecurityUtil;
-import com.zifuji.cloud.starter.web.util.MyBatisPlusUtil;
+import com.zifuji.cloud.server.base.object.SecurityUtil;
+import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     private WebPeopleEntityService webPeopleEntityService;
     private WebCompanyEntityService webCompanyEntityService;
     private StringRedisTemplate stringRedisTemplate;
-    private CoreService coreService;
+    private CaptchaService captchaService;
     private EmailService emailService;
     private ScoreService scoreService;
     private FriendService friendService;
@@ -97,14 +97,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public WebDrawCaptchaVo drawCaptcha() {
         WebDrawCaptchaVo webDrawCaptchaVo = new WebDrawCaptchaVo();
-        DrawCaptchaBo drawCaptchaBo = coreService.drawCaptcha(BaseConstant.BUSINESS_TYPE_WEB, "img");
+        DrawCaptchaBo drawCaptchaBo = captchaService.drawCaptcha(BaseConstant.BUSINESS_TYPE_WEB, "img");
         BeanUtil.copyProperties(drawCaptchaBo, webDrawCaptchaVo);
         return webDrawCaptchaVo;
     }
 
     @Override
     public String register(RegisterMo registerMo) {
-        Boolean flag = coreService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_WEB, "img", registerMo.getRedisUuid(), registerMo.getValue());
+        Boolean flag = captchaService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_WEB, "img", registerMo.getRedisUuid(), registerMo.getValue());
         if(!flag){
             throw new Exception200("验证码错误");
         }
@@ -112,19 +112,16 @@ public class UserServiceImpl implements UserService {
             throw new Exception200("密码输入不一致");
         }
         // 通过用户名查询数据库记录
-        WebUserEntity  webUserEntity =  register(registerMo.getUserName(),registerMo.getPassWord(),registerMo.getName());
+        WebUserEntity  webUserEntity =  register(registerMo.getUserName(),registerMo.getPassWord());
 
         return this.getLoginToken(webUserEntity);
     }
 
-    private WebUserEntity register(String userName, String passWord, String name) {
+    private WebUserEntity register(String userName, String passWord) {
         if (StrUtil.isBlank(userName)) {
             return null;
         }
         if (StrUtil.isBlank(passWord)) {
-            return null;
-        }
-        if (StrUtil.isBlank(name)) {
             return null;
         }
         // 通过用户名查询数据库记录
@@ -140,15 +137,11 @@ public class UserServiceImpl implements UserService {
         webUserEntity = new WebUserEntity();
         webUserEntity.setUserName(userName);
         webUserEntity.setPassWord(bCryptPasswordEncoder.encode(passWord));
-        webUserEntity.setName(name);
         webUserEntity.setEmail("");
         webUserEntity.setPhone("");
         this.webUserEntityService.save(webUserEntity);
         // 给予权限
         this.saveUserAndRole(webUserEntity.getId(), BaseConstant.ROLE_REGISTER);
-
-        scoreService.initScoreAccount(webUserEntity.getId());
-        friendService.initFriendInfo(webUserEntity.getId());
 
         return webUserEntity;
     }
@@ -158,7 +151,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(LoginMo loginMo) {
 
-        coreService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_WEB, "img", loginMo.getRedisUuid(), loginMo.getValue());
+        captchaService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_WEB, "img", loginMo.getRedisUuid(), loginMo.getValue());
         // 通过用户名查询数据库记录
         QueryWrapper<WebUserEntity> webUserEntityQueryWrapper = new QueryWrapper<>();
         webUserEntityQueryWrapper.lambda().eq(WebUserEntity::getUserName, loginMo.getUserName());
@@ -222,13 +215,13 @@ public class UserServiceImpl implements UserService {
         if (StrUtil.isBlank(webUserEntity.getEmail())) {
             throw new Exception200("未查询到绑定邮箱");
         }
-        DrawCaptchaBo drawCaptchaBo = coreService.drawCaptcha("forgetPassWord", sendForgetPassWordCaptchaMo.getUserName());
+        DrawCaptchaBo drawCaptchaBo = captchaService.drawCaptcha("forgetPassWord", sendForgetPassWordCaptchaMo.getUserName());
 
         List<MultipartFile> imgList = new ArrayList<>();
         FileItem fileItem = ZfjFileUtil.createFileItem(new ByteArrayInputStream(drawCaptchaBo.getImgBytes()), "验证码.png");
         imgList.add(new CommonsMultipartFile(fileItem));
         Map<String, Object> map = new HashMap<>();
-        map.put("user", webUserEntity.getName());
+        map.put("userName", webUserEntity.getUserName());
         emailService.sendEmailTemplateByName(webUserEntity.getEmail(), "forget_pw_captcha", map, imgList, null);
 
         return drawCaptchaBo.getRedisUuid();
@@ -236,7 +229,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean resetForgetPassWord(ResetForgetPassWordMo resetForgetPassWordMo) {
-        coreService.checkCodeAndValue("forgetPassWord", resetForgetPassWordMo.getUserName(), resetForgetPassWordMo.getRedisUuid(), resetForgetPassWordMo.getValue());
+        captchaService.checkCodeAndValue("forgetPassWord", resetForgetPassWordMo.getUserName(), resetForgetPassWordMo.getRedisUuid(), resetForgetPassWordMo.getValue());
         // 通过用户名查询数据库记录
         QueryWrapper<WebUserEntity> webUserEntityQueryWrapper = new QueryWrapper<>();
         webUserEntityQueryWrapper.lambda().eq(WebUserEntity::getUserName, resetForgetPassWordMo.getUserName());
@@ -251,14 +244,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    @Override
-    public Boolean saveName(SaveNameMo saveNameMo) {
-        Long userId = SecurityUtil.getUserDetails().getId();
-        WebUserEntity webUserEntity = webUserEntityService.getById(userId);
-        webUserEntity.setName(saveNameMo.getName());
-        webUserEntityService.updateById(webUserEntity);
-        return true;
-    }
+
 
     @Override
     public String changePassWord(ChangePassWordMo changePassWordMo) {
@@ -286,7 +272,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String sendBindEmailCaptcha(SendBindEmailCaptchaMo sendBindEmailCaptchaMo) {
-        DrawCaptchaBo drawCaptchaBo = coreService.drawCaptcha("bindEmail", sendBindEmailCaptchaMo.getEmail());
+        DrawCaptchaBo drawCaptchaBo = captchaService.drawCaptcha("bindEmail", sendBindEmailCaptchaMo.getEmail());
         List<MultipartFile> imgList = new ArrayList<>();
         FileItem fileItem = ZfjFileUtil.createFileItem(new ByteArrayInputStream(drawCaptchaBo.getImgBytes()), "验证码.png");
         imgList.add(new CommonsMultipartFile(fileItem));
@@ -299,7 +285,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean saveBindEmail(SaveBindEmailMo saveBindEmailMo) {
         // 校验验证码
-        coreService.checkCodeAndValue("bindEmail", saveBindEmailMo.getEmail(), saveBindEmailMo.getRedisUuid(), saveBindEmailMo.getValue());
+        captchaService.checkCodeAndValue("bindEmail", saveBindEmailMo.getEmail(), saveBindEmailMo.getRedisUuid(), saveBindEmailMo.getValue());
         WebUserEntity webUserEntity = webUserEntityService.getById(SecurityUtil.getUserDetails().getId());
         // 校验账号和密码
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -313,7 +299,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String sendBindPhoneCaptcha(SendBindPhoneCaptchaMo sendBindPhoneCaptchaMo) {
-        DrawCaptchaBo drawCaptchaBo = coreService.drawCaptcha("bindPhone", sendBindPhoneCaptchaMo.getPhone());
+        DrawCaptchaBo drawCaptchaBo = captchaService.drawCaptcha("bindPhone", sendBindPhoneCaptchaMo.getPhone());
 
         // 发送手机验证码
 
@@ -326,7 +312,7 @@ public class UserServiceImpl implements UserService {
     public Boolean saveBindPhone(SaveBindPhoneMo saveBindPhoneMo) {
         // 校验验证码
 
-        coreService.checkCodeAndValue("bindPhone", saveBindPhoneMo.getPhone(), saveBindPhoneMo.getRedisUuid(), saveBindPhoneMo.getValue());
+        captchaService.checkCodeAndValue("bindPhone", saveBindPhoneMo.getPhone(), saveBindPhoneMo.getRedisUuid(), saveBindPhoneMo.getValue());
 
         WebUserEntity webUserEntity = webUserEntityService.getById(SecurityUtil.getUserDetails().getId());
         // 校验账号和密码
@@ -352,7 +338,7 @@ public class UserServiceImpl implements UserService {
 
 
         UserInfo userInfo = SecurityUtil.getUserDetails();
-        Long userId =userInfo  .getId();
+        Long userId =userInfo.getId();
 
         WebUserEntity webUserEntity = webUserEntityService.getById(userId);
         webUserEntity.setType("1");

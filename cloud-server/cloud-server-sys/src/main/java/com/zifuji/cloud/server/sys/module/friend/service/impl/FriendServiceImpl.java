@@ -9,13 +9,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.base.bean.BaseConstant;
 import com.zifuji.cloud.base.bean.UserInfo;
 import com.zifuji.cloud.base.exception.Exception200;
-import com.zifuji.cloud.feign.common.websocket.WebsocketFeignClient;
+import com.zifuji.cloud.server.base.feign.websocket.WebsocketFeignClient;
 import com.zifuji.cloud.server.sys.db.friend.entity.FriendApplyEntity;
 import com.zifuji.cloud.server.sys.db.friend.entity.FriendInfoEntity;
 import com.zifuji.cloud.server.sys.db.friend.entity.FriendRelationEntity;
 import com.zifuji.cloud.server.sys.db.friend.service.FriendApplyEntityService;
 import com.zifuji.cloud.server.sys.db.friend.service.FriendInfoEntityService;
 import com.zifuji.cloud.server.sys.db.friend.service.FriendRelationEntityService;
+import com.zifuji.cloud.server.sys.module.file.service.FileService;
 import com.zifuji.cloud.server.sys.module.friend.bo.FriendBo;
 import com.zifuji.cloud.server.sys.module.friend.mapper.FriendMapper;
 import com.zifuji.cloud.server.sys.module.friend.mo.AuditFriendApplyMo;
@@ -26,11 +27,12 @@ import com.zifuji.cloud.server.sys.module.friend.service.FriendService;
 import com.zifuji.cloud.server.sys.module.friend.vo.FriendInfoVo;
 import com.zifuji.cloud.server.sys.module.friend.vo.FriendRelationVo;
 import com.zifuji.cloud.server.sys.module.friend.vo.FriendVo;
-import com.zifuji.cloud.starter.web.object.SecurityUtil;
-import com.zifuji.cloud.starter.web.util.MyBatisPlusUtil;
+import com.zifuji.cloud.server.base.object.SecurityUtil;
+import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -48,6 +50,9 @@ public class FriendServiceImpl implements FriendService {
     private FriendRelationEntityService friendRelationEntityService;
 
     private FriendMapper friendMapper;
+
+    private FileService fileService;
+
 
     @Override
     public FriendInfoEntity initFriendInfo(Long createById) {
@@ -86,7 +91,6 @@ public class FriendServiceImpl implements FriendService {
         FriendInfoEntity friendInfoEntity = getFriendInfoByCreateBy(userInfo.getId());
         FriendInfoVo friendInfoVo = new FriendInfoVo();
         BeanUtil.copyProperties(friendInfoEntity, friendInfoVo);
-        friendInfoVo.setName(userInfo.getName());
         return friendInfoVo;
 
     }
@@ -108,6 +112,11 @@ public class FriendServiceImpl implements FriendService {
         FriendInfoVo friendInfoVo = new FriendInfoVo();
         BeanUtil.copyProperties(friendInfoEntity, friendInfoVo);
         return friendInfoVo;
+    }
+
+    @Override
+    public String uploadFriendInfoImgFile(MultipartFile file) {
+        return fileService.uploadFile("/friend/uploadFriendInfoImgFile",file);
     }
 
 

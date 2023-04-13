@@ -25,8 +25,6 @@ public class RegisterMo extends BaseMo {
 	private String passWord;
 	@NotBlank(message = "确认密码不能为空")
 	private String passWordSec;
-	@NotBlank(message = "昵称不能为空")
-	private String name;
 	@NotBlank(message = "图片验证码唯一标识不能为空")
 	private String redisUuid;
 	@NotBlank(message = "验证码不能为空")

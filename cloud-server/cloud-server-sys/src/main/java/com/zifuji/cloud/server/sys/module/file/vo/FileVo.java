@@ -20,16 +20,9 @@ public class FileVo extends BaseVo {
 	private static final long serialVersionUID = 1L;
 
 
-	@JsonSerialize(using = ToStringSerializer.class)
-	private Long id;
-	@JsonSerialize(using = ToStringSerializer.class)
-	private Long sortNum;
-	
-	
-	private LocalDateTime createTime;
-	
-	
 	private String fileName;
+
+	private String fileType;
 	
 	private Long fileByteSize;
 

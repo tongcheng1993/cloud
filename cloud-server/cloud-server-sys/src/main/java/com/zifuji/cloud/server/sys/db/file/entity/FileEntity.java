@@ -16,4 +16,6 @@ public class FileEntity extends MyBaseEntity {
 	private Long fileByteSize = 0L;
 	// 文件地址
 	private String fileUrl = "";
+	// 文件上传来源地址
+	private String uploadPath = "";
 }

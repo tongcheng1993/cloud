@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zifuji.cloud.server.sys.db.data.entity.PersonEntity;
 import com.zifuji.cloud.server.sys.module.data.service.DataPersonService;
-import com.zifuji.cloud.starter.web.properties.ZfjProperties;
+import com.zifuji.cloud.server.base.properties.ZfjProperties;
 
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;

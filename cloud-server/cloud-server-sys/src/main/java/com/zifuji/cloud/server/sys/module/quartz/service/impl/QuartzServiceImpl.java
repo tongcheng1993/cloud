@@ -18,7 +18,7 @@ import com.zifuji.cloud.server.sys.module.quartz.mo.QuartzRecordMo;
 import com.zifuji.cloud.server.sys.module.quartz.qo.QuartzRecordPageQo;
 import com.zifuji.cloud.server.sys.module.quartz.service.QuartzService;
 import com.zifuji.cloud.server.sys.module.quartz.vo.QuartzRecordVo;
-import com.zifuji.cloud.starter.web.util.MyBatisPlusUtil;
+import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

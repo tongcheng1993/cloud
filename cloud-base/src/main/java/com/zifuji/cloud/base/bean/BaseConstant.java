@@ -3,35 +3,30 @@ package com.zifuji.cloud.base.bean;
 public class BaseConstant {
 
 	// 系统安全参数
-	public static final String KEY="woaimengyue";
-	public static final String VISIT_KEY="woaiwangmengyue,woyaozuowangmengyuedetiangou";
-	
+	public static final String KEY="woaiwangmengyue";
 	public static final Long TTL=1800000L;
-	
-	
-	// 系统初始化数据
-	//------------------------登录
-	public static final String STRING_A="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	public static final String STRING_B="abcdefghijklmnopqrstuvwxyz";
-	public static final String STRING_C="1234567890";
-	public static final String BUSINESS_TYPE_WEB="web";
-	
-	public static final String BUSINESS_TYPE_MANAGE="manage";
-	//------------------------角色
-	public static final String ROLE_VISIT="visit";
-	
-	public static final String ROLE_REGISTER="register";
 
+	//------------------------角色code
+	public static final String ROLE_VISIT="visit";
+
+	public static final String ROLE_REGISTER="register";
 
 	public static final String ROLE_BIND_PEOPLE="bind_people";
 
 	public static final String ROLE_BIND_DEPT="bind_dept";
 
-
 	public static final String ROLE_BASE="base";
 
-	
 	public static final String ROLE_ADMIN="admin";
+	
+	// 系统初始化数据
+	//------------------------验证码
+	public static final String STRING_A="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	public static final String STRING_B="abcdefghijklmnopqrstuvwxyz";
+	public static final String STRING_C="1234567890";
+	public static final String BUSINESS_TYPE_WEB="web";
+	public static final String BUSINESS_TYPE_MANAGE="manage";
+
 	//------------------------判断字段字典
 	public static final String CODE_START_STOP_TYPE ="start_stop_type";
 	public static final String CODE_START_STOP_TYPE_1 ="start_stop_type_1";

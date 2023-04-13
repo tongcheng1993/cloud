@@ -1,7 +1,5 @@
 package com.zifuji.cloud.server.sys.module.manageUser.service.impl;
 
-import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -14,8 +12,8 @@ import com.zifuji.cloud.base.bean.UserInfo;
 import com.zifuji.cloud.base.exception.Exception200;
 import com.zifuji.cloud.server.sys.db.manageUser.entity.*;
 import com.zifuji.cloud.server.sys.db.manageUser.service.*;
-import com.zifuji.cloud.server.sys.module.core.bo.DrawCaptchaBo;
-import com.zifuji.cloud.server.sys.module.core.service.CoreService;
+import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaBo;
+import com.zifuji.cloud.server.sys.module.captcha.service.CaptchaService;
 import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageMenuBo;
 import com.zifuji.cloud.server.sys.module.manageUser.bo.ManagePermissionBo;
 import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageRoleBo;
@@ -28,8 +26,8 @@ import com.zifuji.cloud.server.sys.module.manageUser.qo.ManageRolePageQo;
 import com.zifuji.cloud.server.sys.module.manageUser.qo.ManageUserPageQo;
 import com.zifuji.cloud.server.sys.module.manageUser.service.ManageUserService;
 import com.zifuji.cloud.server.sys.module.manageUser.vo.*;
-import com.zifuji.cloud.starter.web.object.SecurityUtil;
-import com.zifuji.cloud.starter.web.util.MyBatisPlusUtil;
+import com.zifuji.cloud.server.base.object.SecurityUtil;
+import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,12 +54,12 @@ public class ManageUserServiceImpl implements ManageUserService {
     private ManageUserRoleEntityService manageUserRoleEntityService;
     private ManageRoleMenuEntityService manageRoleMenuEntityService;
     private ManageRolePermissionEntityService manageRolePermissionEntityService;
-    private CoreService coreService;
+    private CaptchaService captchaService;
 
     @Override
     public DrawCaptchaVo drawCaptcha() {
         DrawCaptchaVo drawCaptchaVo = new DrawCaptchaVo();
-        DrawCaptchaBo drawCaptchaBo = coreService.drawCaptcha(BaseConstant.BUSINESS_TYPE_MANAGE,"img");
+        DrawCaptchaBo drawCaptchaBo = captchaService.drawCaptcha(BaseConstant.BUSINESS_TYPE_MANAGE, "img");
         BeanUtil.copyProperties(drawCaptchaBo, drawCaptchaVo);
         return drawCaptchaVo;
     }
@@ -69,7 +67,7 @@ public class ManageUserServiceImpl implements ManageUserService {
     @Override
     public String login(LoginMo loginMo) {
 
-        coreService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_MANAGE,"img",loginMo.getRedisUuid(),loginMo.getValue());
+        captchaService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_MANAGE, "img", loginMo.getRedisUuid(), loginMo.getValue());
 
         // 通过用户名查询数据库记录
         QueryWrapper<ManageUserEntity> manageUserEntityQueryWrapper = new QueryWrapper<>();
@@ -185,6 +183,27 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
+    public String saveRole(ManageRoleMo manageRoleMo) {
+        if (ObjectUtil.isNull(manageRoleMo.getId())) {
+            QueryWrapper<ManageRoleEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.lambda().eq(ManageRoleEntity::getCode,manageRoleMo.getCode());
+            ManageRoleEntity manageRoleEntity = manageRoleEntityService.getOne(queryWrapper);
+            if(ObjectUtil.isNull(manageRoleEntity)){
+                manageRoleEntity= new ManageRoleEntity();
+                BeanUtil.copyProperties(manageRoleMo,manageRoleEntity);
+                manageRoleEntityService.save(manageRoleEntity);
+            }else{
+
+            }
+        } else {
+
+        }
+        return null;
+    }
+
+
+
+    @Override
     public List<ManageRoleVo> queryListRole(ManageRolePageQo manageRolePageQo) {
         List<ManageRoleBo> list = selectListRole(manageRolePageQo);
         return list.stream().map(manageRoleBo -> {
@@ -244,10 +263,11 @@ public class ManageUserServiceImpl implements ManageUserService {
 
     @Override
     public String saveMenu(ManageMenuMo manageMenuMo) {
+        ManageMenuEntity manageMenuEntity = null;
         if (ObjectUtil.isNull(manageMenuMo.getId())) {
             QueryWrapper<ManageMenuEntity> queryWrapper = new QueryWrapper<ManageMenuEntity>();
             queryWrapper.lambda().eq(ManageMenuEntity::getPath, manageMenuMo.getPath());
-            ManageMenuEntity manageMenuEntity = manageMenuEntityService.getOne(queryWrapper);
+            manageMenuEntity = manageMenuEntityService.getOne(queryWrapper);
             if (ObjectUtil.isNotNull(manageMenuEntity)) {
                 throw new Exception200("当前路径重复");
             } else {
@@ -255,9 +275,8 @@ public class ManageUserServiceImpl implements ManageUserService {
             }
             BeanUtil.copyProperties(manageMenuMo, manageMenuEntity);
             manageMenuEntityService.save(manageMenuEntity);
-            return manageMenuEntity.getId() + "";
         } else {
-            ManageMenuEntity manageMenuEntity = manageMenuEntityService.getById(manageMenuMo.getId());
+            manageMenuEntity = manageMenuEntityService.getById(manageMenuMo.getId());
             if (ObjectUtil.isNull(manageMenuEntity)) {
                 throw new Exception200("编辑数据错误");
             } else {
@@ -279,8 +298,10 @@ public class ManageUserServiceImpl implements ManageUserService {
                 }
 
             }
-            return manageMenuMo.getId() + "";
         }
+
+
+        return manageMenuMo.getId() + "";
     }
 
     @Override
@@ -343,33 +364,51 @@ public class ManageUserServiceImpl implements ManageUserService {
 
     @Override
     public String saveRoleMenuRelation(ManageRoleMenuRelationMo manageRoleMenuRelationMo) {
-        QueryWrapper<ManageRoleMenuEntity> queryWrapper = new QueryWrapper<ManageRoleMenuEntity>();
-        queryWrapper.lambda().eq(ManageRoleMenuEntity::getRoleId, manageRoleMenuRelationMo.getRoleId());
-        manageRoleMenuEntityService.remove(queryWrapper);
-        List<ManageRoleMenuEntity> list = new ArrayList<ManageRoleMenuEntity>();
-        if (ObjectUtil.isNotEmpty(manageRoleMenuRelationMo.getMenuIdList())) {
+        if (ObjectUtil.isNull(manageRoleMenuRelationMo.getRoleId()) || manageRoleMenuRelationMo.getRoleId().equals(0L)) {
+            throw new Exception200("");
+        }
+        if (ObjectUtil.isEmpty(manageRoleMenuRelationMo.getMenuIdList())) {
+            QueryWrapper<ManageRoleMenuEntity> queryWrapper = new QueryWrapper<ManageRoleMenuEntity>();
+            queryWrapper.lambda().eq(ManageRoleMenuEntity::getRoleId, manageRoleMenuRelationMo.getRoleId());
+            manageRoleMenuEntityService.remove(queryWrapper);
+        } else {
             for (Long menuId : manageRoleMenuRelationMo.getMenuIdList()) {
-                ManageRoleMenuEntity manageRoleMenuEntity = new ManageRoleMenuEntity();
-                manageRoleMenuEntity.setRoleId(manageRoleMenuRelationMo.getRoleId());
-                manageRoleMenuEntity.setMenuId(menuId);
-                list.add(manageRoleMenuEntity);
+                saveRoleMenuRelation(manageRoleMenuRelationMo.getRoleId(), menuId);
             }
         }
-        manageRoleMenuEntityService.saveBatch(list);
         return manageRoleMenuRelationMo.getRoleId() + "";
-
     }
 
-
-    private void checkCodeAndValue(String businessCode, String code, String value) {
-        // 先校验验证码
-        String tempValue = stringRedisTemplate.opsForValue().get(businessCode + code);
-        if (StrUtil.isNotBlank(tempValue) && StrUtil.equalsIgnoreCase(tempValue, value)) {
-            stringRedisTemplate.delete(code);
-        } else {
-            throw new Exception200("验证码错误");
+    @Override
+    public String saveRoleMenuRelation(Long roleId, Long menuId) {
+        QueryWrapper<ManageRoleMenuEntity> queryWrapper = new QueryWrapper<ManageRoleMenuEntity>();
+        queryWrapper.lambda()
+                .eq(ManageRoleMenuEntity::getRoleId, roleId)
+                .eq(ManageRoleMenuEntity::getMenuId, menuId);
+        ManageRoleMenuEntity manageRoleMenuEntity = manageRoleMenuEntityService.getOne(queryWrapper);
+        if (ObjectUtil.isNull(manageRoleMenuEntity)) {
+            manageRoleMenuEntity = new ManageRoleMenuEntity();
+            manageRoleMenuEntity.setRoleId(roleId);
+            manageRoleMenuEntity.setMenuId(menuId);
+            manageRoleMenuEntityService.save(manageRoleMenuEntity);
         }
+        return manageRoleMenuEntity.getId() + "";
     }
+
+    @Override
+    public String saveRoleMenuRelation(String roleCode, Long menuId) {
+
+
+        return null;
+    }
+
+    @Override
+    public Boolean initManage() {
+
+
+        return null;
+    }
+
 
     private String getLoginToken(ManageUserEntity manageUserEntity) {
         UserInfo userInfo = new UserInfo();

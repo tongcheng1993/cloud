@@ -32,7 +32,7 @@ import com.zifuji.cloud.server.sys.module.email.vo.EmailTemplateVo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
 import com.zifuji.cloud.server.sys.module.template.service.TemplateService;
 
-import com.zifuji.cloud.starter.web.util.MyBatisPlusUtil;
+import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

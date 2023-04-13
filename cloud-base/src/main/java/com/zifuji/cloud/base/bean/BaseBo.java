@@ -27,5 +27,6 @@ public class BaseBo implements Serializable {
 
     private Boolean delFlag;
 
+    private Long parentId;
 
 }

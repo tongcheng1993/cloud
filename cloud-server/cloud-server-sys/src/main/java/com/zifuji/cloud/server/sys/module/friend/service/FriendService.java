@@ -9,6 +9,7 @@ import com.zifuji.cloud.server.sys.module.friend.qo.FriendPageQo;
 import com.zifuji.cloud.server.sys.module.friend.vo.FriendInfoVo;
 import com.zifuji.cloud.server.sys.module.friend.vo.FriendRelationVo;
 import com.zifuji.cloud.server.sys.module.friend.vo.FriendVo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,16 +17,19 @@ public interface FriendService {
 
     FriendInfoEntity initFriendInfo(Long createById);
 
-    //找朋友列表分页查询交友信息 有查询条件
+    // 找朋友列表分页查询交友信息 有查询条件
     IPage<FriendVo> queryPageFriend(FriendPageQo friendPageQo);
 
-    //查看他人账号交友信息
+    // 查看他人账号交友信息
     FriendInfoVo getFriendInfoById(Long userId);
 
-    //保存自己的交友信息
+    // 上传交友信息的照片
+    String uploadFriendInfoImgFile(MultipartFile file);
+
+    // 保存自己的交友信息
     String saveFriendInfo(FriendInfoMo friendInfoMo);
 
-    //自己查看自己的交友信息
+    // 自己查看自己的交友信息
     FriendInfoVo getFriendInfoByMyself();
 
     String makeFriendApply(MakeFriendApplyMo makeFriendApplyMo);

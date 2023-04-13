@@ -52,6 +52,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <!-- openfeign-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
         <!-- redis驱动 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -79,18 +84,6 @@
         <dependency>
             <groupId>com.zifuji</groupId>
             <artifactId>cloud-base</artifactId>
-        </dependency>
-        <!-- 自定义启动配置依赖 -->
-        <dependency>
-            <groupId>com.zifuji</groupId>
-            <artifactId>cloud-starter-common</artifactId>
-            <version>${cloud.version}</version>
-        </dependency>
-        <!-- 自定义feign接口配置依赖 -->
-        <dependency>
-            <groupId>com.zifuji</groupId>
-            <artifactId>cloud-feign-common</artifactId>
-            <version>${cloud.version}</version>
         </dependency>
     </dependencies>
 

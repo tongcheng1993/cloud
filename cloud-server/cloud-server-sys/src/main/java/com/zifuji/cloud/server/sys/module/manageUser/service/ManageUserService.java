@@ -29,6 +29,8 @@ public interface ManageUserService {
 
     IPage<ManageRoleVo> queryPageRole(ManageRolePageQo manageRolePageQo);
 
+    String saveRole(ManageRoleMo manageRoleMo);
+
     List<ManageRoleVo> queryListRole(ManageRolePageQo manageRolePageQo);
 
     List<ManagePermissionVo> queryListPermission(ManagePermissionPageQo managePermissionPageQo);
@@ -41,9 +43,9 @@ public interface ManageUserService {
 
     String saveMenu(ManageMenuMo manageMenuMo);
 
-    String saveUserAndRole(Long userId,String roleCode);
+    String saveUserAndRole(Long userId, String roleCode);
 
-    String saveUserAndRole(Long userId,Long roleId);
+    String saveUserAndRole(Long userId, Long roleId);
 
     String saveUserRoleRelation(ManageUserRoleRelationMo manageUserRoleRelationMo);
 
@@ -51,5 +53,9 @@ public interface ManageUserService {
 
     String saveRoleMenuRelation(ManageRoleMenuRelationMo manageRoleMenuRelationMo);
 
+    String saveRoleMenuRelation(Long roleId, Long menuId);
 
+    String saveRoleMenuRelation(String roleCode, Long menuId);
+
+    Boolean initManage();
 }

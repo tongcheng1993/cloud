@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.server.sys.module.seq.bo.SeqBo;
 import com.zifuji.cloud.server.sys.module.seq.mapper.SeqMapper;
 import com.zifuji.cloud.server.sys.module.seq.mo.SaveSeqMo;
-import com.zifuji.cloud.starter.web.util.MyBatisPlusUtil;
+import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 

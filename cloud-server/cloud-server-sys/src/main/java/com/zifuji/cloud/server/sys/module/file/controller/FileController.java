@@ -35,15 +35,15 @@ public class FileController {
 
     @ApiOperation(value = "上传文件")
     @PostMapping(value = "/uploadFile")
-    public Result<String> uploadFile(MultipartFile file) {
+    public Result<String> uploadFile(String uploadPath, MultipartFile file) {
         log.info(JSONObject.toJSONString("文件参数"));
-        String result = fileService.uploadFile(file);
+        String result = fileService.uploadFile(uploadPath, file);
         log.info(JSONObject.toJSONString(result));
         return new Result<String>().setObj(result);
     }
 
     @ApiOperation(value = "下载文件")
-    @GetMapping(value = "/downloadFile")
+    @PostMapping(value = "/downloadFile")
     public Result<FileVo> downloadFile(Long id) throws IOException {
         log.info(JSONObject.toJSONString(id));
         FileVo result = fileService.downloadFile(id);

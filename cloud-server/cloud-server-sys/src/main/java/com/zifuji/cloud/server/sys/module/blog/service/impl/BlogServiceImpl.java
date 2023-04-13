@@ -14,7 +14,7 @@ import com.zifuji.cloud.server.sys.module.blog.qo.BlogPageQo;
 import com.zifuji.cloud.server.sys.module.blog.service.BlogService;
 import com.zifuji.cloud.server.sys.module.blog.vo.BlogVo;
 
-import com.zifuji.cloud.starter.web.object.SecurityUtil;
+import com.zifuji.cloud.server.base.object.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

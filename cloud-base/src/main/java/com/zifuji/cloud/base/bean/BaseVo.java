@@ -15,8 +15,10 @@ public class BaseVo implements Serializable {
      *
      */
     private static final long serialVersionUID = 1L;
+
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
+
     @JsonSerialize(using = ToStringSerializer.class)
     private Long createBy;
 
@@ -27,7 +29,7 @@ public class BaseVo implements Serializable {
 
     private LocalDateTime updateTime;
 
-
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long sortNum;
 
     private Boolean delFlag;

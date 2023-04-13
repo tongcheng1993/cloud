@@ -10,7 +10,7 @@ import com.zifuji.cloud.base.exception.Exception200;
 import com.zifuji.cloud.server.sys.db.data.entity.PhoneEntity;
 import com.zifuji.cloud.server.sys.db.data.service.PhoneEntityService;
 import com.zifuji.cloud.server.sys.module.data.service.DataPhoneService;
-import com.zifuji.cloud.starter.web.properties.ZfjProperties;
+import com.zifuji.cloud.server.base.properties.ZfjProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

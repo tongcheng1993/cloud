@@ -53,7 +53,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
         // 获取当前请求路径
         String path = request.getURI().getPath();
-        log.debug("path:{}" + path);
+        log.info("path:{}" + path);
 
 
         String tc_token = "";
@@ -129,14 +129,14 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
             return setResponseInfo(response, result);
         }
 
-        log.debug("tc_token:{}", tc_token);
-        log.debug("userInfo:{}", userInfo);
+        log.info("tc_token:{}", tc_token);
+        log.info("userInfo:{}", userInfo);
 
 
         map.put("userInfo", userInfo);
         // 网关通过后 在请求中增加 内部token
         String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
-        log.debug("token:{}", token);
+        log.info("token:{}", token);
         ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
             httpHeaders.add("X-Access-Token", token);
         }).build();

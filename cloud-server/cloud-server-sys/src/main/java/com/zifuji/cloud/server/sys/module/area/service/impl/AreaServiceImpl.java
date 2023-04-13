@@ -12,7 +12,7 @@ import com.zifuji.cloud.server.sys.module.area.mapper.AreaMapper;
 import com.zifuji.cloud.server.sys.module.area.mo.SaveAreaMo;
 import com.zifuji.cloud.server.sys.module.area.qo.AreaPageQo;
 import com.zifuji.cloud.server.sys.module.area.vo.AreaVo;
-import com.zifuji.cloud.starter.web.util.MyBatisPlusUtil;
+import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import org.springframework.stereotype.Service;
 

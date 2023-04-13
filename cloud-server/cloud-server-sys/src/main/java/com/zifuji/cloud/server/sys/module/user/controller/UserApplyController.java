@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -120,14 +119,6 @@ public class UserApplyController {
         return new Result<String>().setObj(result);
     }
 
-    @ApiOperation(value = "修改昵称")
-    @PostMapping(value = "/saveName")
-    public Result<Boolean> saveName(@RequestBody @Valid SaveNameMo saveNameMo) {
-        log.info(JSONObject.toJSONString(saveNameMo));
-        Boolean result = userService.saveName(saveNameMo);
-        log.info(JSONObject.toJSONString(result));
-        return new Result<Boolean>().setObj(result);
-    }
 
     @ApiOperation(value = "发送绑定邮箱验证码")
     @PostMapping(value = "/sendBindEmailCaptcha")
@@ -147,7 +138,7 @@ public class UserApplyController {
         return new Result<Boolean>().setObj(result);
     }
 
-    @ApiOperation(value = "发送绑定邮箱验证码")
+    @ApiOperation(value = "发送绑定手机号证码")
     @PostMapping(value = "/sendBindPhoneCaptcha")
     public Result<String> sendBindPhoneCaptcha(@RequestBody @Valid SendBindPhoneCaptchaMo sendBindPhoneCaptchaMo) {
         log.info(JSONObject.toJSONString(sendBindPhoneCaptchaMo));

@@ -12,7 +12,7 @@ import com.zifuji.cloud.server.sys.module.file.vo.FileVo;
 
 public interface FileService {
 
-    String uploadFile(MultipartFile file);
+    String uploadFile(String uploadPath, MultipartFile file);
 
     InputStream downloadFileStream(Long id);
 

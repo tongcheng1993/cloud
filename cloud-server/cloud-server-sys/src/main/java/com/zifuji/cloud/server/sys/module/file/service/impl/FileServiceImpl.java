@@ -22,7 +22,7 @@ import com.zifuji.cloud.server.sys.module.file.component.FastdfsComponent;
 import com.zifuji.cloud.server.sys.module.file.qo.FilePageQo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
 import com.zifuji.cloud.server.sys.module.file.vo.FileVo;
-import com.zifuji.cloud.starter.web.util.MyBatisPlusUtil;
+import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import cn.hutool.core.bean.BeanUtil;
 import lombok.AllArgsConstructor;
@@ -39,9 +39,7 @@ public class FileServiceImpl implements FileService {
     private FileEntityService fileEntityService;
 
     @Override
-    public String uploadFile(MultipartFile file) {
-        String fileName = file.getOriginalFilename();
-        Long fileByteSize = file.getSize();
+    public String uploadFile(String uploadPath, MultipartFile file) {
         String fileUrl = "";
         try {
             fileUrl = fastdfsComponent.uploadFile(file);
@@ -50,9 +48,10 @@ public class FileServiceImpl implements FileService {
             throw new Exception200("上传文件失败");
         }
         FileEntity fileEntity = new FileEntity();
-        fileEntity.setFileName(fileName);
-        fileEntity.setFileByteSize(fileByteSize);
+        fileEntity.setFileName(file.getOriginalFilename());
+        fileEntity.setFileByteSize(file.getSize());
         fileEntity.setFileUrl(fileUrl);
+        fileEntity.setUploadPath(uploadPath);
         fileEntityService.save(fileEntity);
         return fileEntity.getId() + "";
     }
@@ -75,6 +74,7 @@ public class FileServiceImpl implements FileService {
             os.write(buf, 0, len);
             len = is.read(buf);
         }
+        os.flush();
         vo.setFileName(fileEntity.getFileName());
         vo.setFileByte(os.toByteArray());
         return vo;
@@ -124,6 +124,4 @@ public class FileServiceImpl implements FileService {
             return fileVo;
         });
     }
-
-
 }
