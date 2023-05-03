@@ -47,6 +47,49 @@
             <artifactId>fastdfs-client</artifactId>
             <version>${fastdfs.version}</version>
         </dependency>
+        <!--minio -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.4.5</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.squareup.okhttp3</groupId>
+                    <artifactId>okhttp</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.10.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jetbrains.kotlin</groupId>
+                    <artifactId>kotlin-stdlib-jdk</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>1.3.70</version>
+        </dependency>
+        <!-- websocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <!-- amqp高级消息队列的依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <!-- stomp -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-reactor-netty</artifactId>
+        </dependency>
         <!-- freemarker 模板 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,31 +100,7 @@
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
         </dependency>
-        <!-- aspose 操作office -->
-        <dependency>
-            <groupId>com.aspose.words</groupId>
-            <artifactId>aspose-words</artifactId>
-            <version>${aspose.version}</version>
-        </dependency>
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.aspose/aspose-words &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.aspose</groupId>-->
-<!--            <artifactId>aspose-words</artifactId>-->
-<!--            <version>${aspose.version}</version>-->
-<!--            <classifier>jdk17</classifier>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.aspose/aspose-cells &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.aspose</groupId>-->
-<!--            <artifactId>aspose-cells</artifactId>-->
-<!--            <version>${aspose.version}</version>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.aspose/aspose-pdf &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.aspose</groupId>-->
-<!--            <artifactId>aspose-pdf</artifactId>-->
-<!--            <version>${aspose.version}</version>-->
-<!--        </dependency>-->
+
         <!-- camunda工作流-->
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>

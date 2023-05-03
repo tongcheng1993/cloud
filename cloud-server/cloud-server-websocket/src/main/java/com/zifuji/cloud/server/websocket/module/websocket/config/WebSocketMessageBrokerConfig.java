@@ -32,8 +32,7 @@ public class WebSocketMessageBrokerConfig implements WebSocketMessageBrokerConfi
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app/");
         registry.setUserDestinationPrefix("/user/");
-        registry
-                .enableStompBrokerRelay("/queue/", "/topic/")
+        registry.enableStompBrokerRelay("/queue/", "/topic/")
                 .setRelayHost(rabbitProperties.getHost())
                 .setClientLogin(rabbitProperties.getUsername())
                 .setClientPasscode(rabbitProperties.getPassword())

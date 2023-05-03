@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.zifuji.cloud.server.base.properties.ZfjProperties;
 import com.zifuji.cloud.server.base.util.ZfjFileUtil;
+import com.zifuji.cloud.server.sys.module.file.component.MinioComponent;
 import org.apache.commons.fileupload.FileItem;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,18 +37,19 @@ public class FileServiceImpl implements FileService {
 
     private FastdfsComponent fastdfsComponent;
 
+    private MinioComponent minioComponent;
+
     private FileEntityService fileEntityService;
 
 
     @Override
+    public String uploadFile(MultipartFile file) {
+        return minioComponent.uploadFile(file);
+    }
+
+    @Override
     public String uploadFile(String uploadPath, MultipartFile file) {
-        String fileUrl = "";
-        try {
-            fileUrl = fastdfsComponent.uploadFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new Exception200("上传文件失败");
-        }
+        String fileUrl = uploadFile(file);
         FileEntity fileEntity = new FileEntity();
         fileEntity.setFileName(file.getOriginalFilename());
         fileEntity.setFileByteSize(file.getSize());
@@ -57,16 +60,24 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public InputStream downloadFileStream(Long id) {
-        FileEntity fileEntity = fileEntityService.getById(id);
-        return fastdfsComponent.download(fileEntity.getFileUrl());
+    public InputStream downloadFileStream(String fileUuid) {
+        return minioComponent.downloadFile(fileUuid);
     }
 
     @Override
-    public FileVo downloadFile(Long id) throws IOException {
+    public FileVo downloadFile(String uploadPath, Long id) throws IOException {
         FileVo vo = new FileVo();
         FileEntity fileEntity = fileEntityService.getById(id);
-        InputStream inStream = fastdfsComponent.download(fileEntity.getFileUrl());
+        if (ObjectUtil.isNull(fileEntity)) {
+            throw new Exception200("找不到对应的数据");
+        }
+        log.info(uploadPath);
+        log.info(fileEntity.getUploadPath());
+        log.info("" + StrUtil.equals(uploadPath, fileEntity.getUploadPath()));
+        if (!StrUtil.equals(uploadPath, fileEntity.getUploadPath())) {
+            throw new Exception200("找不到对应的数据");
+        }
+        InputStream inStream = downloadFileStream(fileEntity.getFileUrl());
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len = 0;
@@ -81,7 +92,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public MultipartFile getFile(Long id) {
-        FileItem fileItem = ZfjFileUtil.createFileItem(downloadFileStream(id), getFileName(id));
+        FileEntity fileEntity = fileEntityService.getById(id);
+        FileItem fileItem = ZfjFileUtil.createFileItem(downloadFileStream(fileEntity.getFileUrl()), getFileName(id));
         return new CommonsMultipartFile(fileItem);
     }
 

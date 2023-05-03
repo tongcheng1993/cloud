@@ -28,5 +28,6 @@
         <module>cloud-server-sys</module>
         <module>cloud-server-websocket</module>
         <module>cloud-server-base</module>
+        <module>cloud-server-office</module>
     </modules>
 </project>

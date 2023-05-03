@@ -17,6 +17,7 @@ import com.zifuji.cloud.server.sys.db.friend.service.FriendApplyEntityService;
 import com.zifuji.cloud.server.sys.db.friend.service.FriendInfoEntityService;
 import com.zifuji.cloud.server.sys.db.friend.service.FriendRelationEntityService;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
+import com.zifuji.cloud.server.sys.module.file.vo.FileVo;
 import com.zifuji.cloud.server.sys.module.friend.bo.FriendBo;
 import com.zifuji.cloud.server.sys.module.friend.mapper.FriendMapper;
 import com.zifuji.cloud.server.sys.module.friend.mo.AuditFriendApplyMo;
@@ -34,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -94,12 +96,13 @@ public class FriendServiceImpl implements FriendService {
         return friendInfoVo;
 
     }
-    private FriendInfoEntity getFriendInfoByCreateBy(Long id){
+
+    private FriendInfoEntity getFriendInfoByCreateBy(Long id) {
         QueryWrapper<FriendInfoEntity> queryWrapper = new QueryWrapper<FriendInfoEntity>();
         queryWrapper.lambda().eq(FriendInfoEntity::getCreateBy, id);
         FriendInfoEntity friendInfoEntity = friendInfoEntityService.getOne(queryWrapper);
-        if(ObjectUtil.isNull(friendInfoEntity)){
-            friendInfoEntity =   initFriendInfo(id);
+        if (ObjectUtil.isNull(friendInfoEntity)) {
+            friendInfoEntity = initFriendInfo(id);
         }
         return friendInfoEntity;
     }
@@ -116,7 +119,12 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public String uploadFriendInfoImgFile(MultipartFile file) {
-        return fileService.uploadFile("/friend/uploadFriendInfoImgFile",file);
+        return fileService.uploadFile("/friend/uploadFriendInfoImgFile", file);
+    }
+
+    @Override
+    public FileVo downloadFriendInfoImgFile(Long id) throws IOException {
+        return fileService.downloadFile("/friend/uploadFriendInfoImgFile", id);
     }
 
 

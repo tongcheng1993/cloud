@@ -3,6 +3,7 @@ package com.zifuji.cloud.server.sys.module.friend.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
+import com.zifuji.cloud.server.sys.module.file.vo.FileVo;
 import com.zifuji.cloud.server.sys.module.friend.mo.AuditFriendApplyMo;
 import com.zifuji.cloud.server.sys.module.friend.mo.MakeFriendApplyMo;
 import com.zifuji.cloud.server.sys.module.friend.mo.FriendInfoMo;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -60,6 +62,14 @@ public class FriendController {
         return new Result<String>().setObj(result);
     }
 
+    @ApiOperation(value = "下载交友照片文件")
+    @PostMapping(value = "/downloadFriendInfoImgFile")
+    public Result<FileVo> downloadFriendInfoImgFile(Long id) throws IOException {
+        log.info(JSONObject.toJSONString("文件参数"));
+        FileVo result = friendService.downloadFriendInfoImgFile(id);
+        log.info(JSONObject.toJSONString(result));
+        return new Result<FileVo>().setObj(result);
+    }
 
     @ApiOperation(value = "保存自身交友信息")
     @PostMapping(value = "/saveFriendInfo")

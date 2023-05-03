@@ -103,6 +103,13 @@ management:
   endpoint:
     health:
       show-details: always
+minio:
+  endpoint: 192.168.84.150
+  port: 9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  secure: false
+  defaultBucketName: mytc
 fdfs:
   connect-timeout: 600
   so-timeout: 600

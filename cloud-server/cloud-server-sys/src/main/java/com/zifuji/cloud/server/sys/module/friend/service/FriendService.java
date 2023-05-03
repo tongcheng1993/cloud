@@ -2,6 +2,7 @@ package com.zifuji.cloud.server.sys.module.friend.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.server.sys.db.friend.entity.FriendInfoEntity;
+import com.zifuji.cloud.server.sys.module.file.vo.FileVo;
 import com.zifuji.cloud.server.sys.module.friend.mo.AuditFriendApplyMo;
 import com.zifuji.cloud.server.sys.module.friend.mo.MakeFriendApplyMo;
 import com.zifuji.cloud.server.sys.module.friend.mo.FriendInfoMo;
@@ -11,6 +12,7 @@ import com.zifuji.cloud.server.sys.module.friend.vo.FriendRelationVo;
 import com.zifuji.cloud.server.sys.module.friend.vo.FriendVo;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface FriendService {
@@ -25,6 +27,8 @@ public interface FriendService {
 
     // 上传交友信息的照片
     String uploadFriendInfoImgFile(MultipartFile file);
+
+    FileVo downloadFriendInfoImgFile(Long id) throws IOException;
 
     // 保存自己的交友信息
     String saveFriendInfo(FriendInfoMo friendInfoMo);

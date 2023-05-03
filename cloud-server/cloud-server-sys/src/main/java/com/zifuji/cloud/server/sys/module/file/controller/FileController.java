@@ -3,6 +3,8 @@ package com.zifuji.cloud.server.sys.module.file.controller;
 import java.io.IOException;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,8 +46,8 @@ public class FileController {
 
     @ApiOperation(value = "下载文件")
     @PostMapping(value = "/downloadFile")
-    public Result<FileVo> downloadFile(Long id) throws IOException {
-        FileVo result = fileService.downloadFile(id);
+    public Result<FileVo> downloadFile(@NotBlank(message = "uploadPath") String uploadPath, @NotNull(message = "id") Long id) throws IOException {
+        FileVo result = fileService.downloadFile(uploadPath, id);
         return new Result<FileVo>().setObj(result);
     }
 

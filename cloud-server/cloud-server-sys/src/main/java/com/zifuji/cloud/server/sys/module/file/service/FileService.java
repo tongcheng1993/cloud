@@ -12,11 +12,13 @@ import com.zifuji.cloud.server.sys.module.file.vo.FileVo;
 
 public interface FileService {
 
+    String uploadFile(MultipartFile file);
+
     String uploadFile(String uploadPath, MultipartFile file);
 
-    InputStream downloadFileStream(Long id);
+    InputStream downloadFileStream(String fileUuid);
 
-    FileVo downloadFile(Long id) throws IOException;
+    FileVo downloadFile(String uploadPath, Long id) throws IOException;
 
     MultipartFile getFile(Long id);
 

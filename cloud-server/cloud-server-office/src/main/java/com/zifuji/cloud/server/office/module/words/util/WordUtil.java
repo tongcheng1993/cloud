@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.sys.module.office.util;
+package com.zifuji.cloud.server.office.module.words.util;
 
 import com.aspose.words.Document;
 import com.aspose.words.FontSettings;
@@ -10,8 +10,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-public class OfficeUtil {
-
+public class WordUtil {
     public static boolean getLicense() {
         boolean result = false;
         try {
@@ -62,5 +61,4 @@ public class OfficeUtil {
         long now = System.currentTimeMillis();
         System.out.println("共耗时：" + ((now - old) / 1000.0) + "秒");
     }
-
 }
