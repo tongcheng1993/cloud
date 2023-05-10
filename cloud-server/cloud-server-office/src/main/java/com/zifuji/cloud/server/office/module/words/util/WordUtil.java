@@ -54,7 +54,6 @@ public class WordUtil {
             //如果是linux执行，需要添加这个 ，如果还有乱码，可以把/usr/share/fonts/chinese路径下的所有文件拷贝到有问题的环境。并且再执行：source /etc/profile
             new FontSettings().setFontsFolder("/usr/share/fonts/chinese",true);
         }
-
         FileOutputStream pdfPathStream = new FileOutputStream(pdfPath);
         Document doc = new Document(docPath);
         doc.save(pdfPathStream, SaveFormat.PDF);

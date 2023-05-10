@@ -39,9 +39,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/queryPageUser")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:queryPageUser')")
     public Result<IPage<ManageUserVo>> queryPageUser(@RequestBody @Valid ManageUserPageQo manageUserPageQo) {
-        log.info(JSONObject.toJSONString(manageUserPageQo));
+
         IPage<ManageUserVo> result = manageUserService.queryPageUser(manageUserPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<ManageUserVo>>().setObj(result);
     }
 
@@ -49,9 +49,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/queryListUser")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:queryListUser')")
     public Result<List<ManageUserVo>> queryListUser(@RequestBody @Valid ManageUserPageQo manageUserPageQo) {
-        log.info(JSONObject.toJSONString(manageUserPageQo));
+
         List<ManageUserVo> result = manageUserService.queryListUser(manageUserPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<List<ManageUserVo>>().setObj(result);
     }
 
@@ -59,9 +59,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/saveUser")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:saveUser')")
     public Result<ManageUserVo> saveUser(@RequestBody @Valid ManageUserMo manageUserMo) {
-        log.info(JSONObject.toJSONString(manageUserMo));
+
         ManageUserVo result = manageUserService.saveUser(manageUserMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<ManageUserVo>().setObj(result);
     }
 
@@ -69,9 +69,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/resetPassWord")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:resetPassWord')")
     public Result<ManageUserVo> resetPassWord(@RequestBody @Valid ResetPassWordMo resetPassWordMo) {
-        log.info(JSONObject.toJSONString(resetPassWordMo));
+
         ManageUserVo result = manageUserService.resetPassWord(resetPassWordMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<ManageUserVo>().setObj(result);
     }
 
@@ -79,9 +79,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/queryPageRole")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:queryPageRole')")
     public Result<IPage<ManageRoleVo>> queryPageRole(@RequestBody @Valid ManageRolePageQo manageRolePageQo) {
-        log.info(JSONObject.toJSONString(manageRolePageQo));
+
         IPage<ManageRoleVo> result = manageUserService.queryPageRole(manageRolePageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<ManageRoleVo>>().setObj(result);
     }
 
@@ -89,9 +89,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/queryListRole")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:queryListRole')")
     public Result<List<ManageRoleVo>> queryListRole(@RequestBody @Valid ManageRolePageQo manageRolePageQo) {
-        log.info(JSONObject.toJSONString(manageRolePageQo));
+
         List<ManageRoleVo> result = manageUserService.queryListRole(manageRolePageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<List<ManageRoleVo>>().setObj(result);
     }
 
@@ -99,9 +99,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/queryListPermission")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:queryListPermission')")
     public Result<List<ManagePermissionVo>> queryListPermission(@RequestBody @Valid ManagePermissionPageQo managePermissionPageQo) {
-        log.info(JSONObject.toJSONString(managePermissionPageQo));
+
         List<ManagePermissionVo> result = manageUserService.queryListPermission(managePermissionPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<List<ManagePermissionVo>>().setObj(result);
     }
 
@@ -110,9 +110,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/queryPagePermission")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:queryPagePermission')")
     public Result<IPage<ManagePermissionVo>> queryPagePermission(@RequestBody @Valid ManagePermissionPageQo managePermissionPageQo) {
-        log.info(JSONObject.toJSONString(managePermissionPageQo));
+
         IPage<ManagePermissionVo> result = manageUserService.queryPagePermission(managePermissionPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<ManagePermissionVo>>().setObj(result);
     }
 
@@ -120,9 +120,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/savePermission")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:savePermission')")
     public Result<String> savePermission(@RequestBody @Valid ManagePermissionMo managePermissionMo) {
-        log.info(JSONObject.toJSONString(managePermissionMo));
+
         String result = manageUserService.savePermission(managePermissionMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
@@ -131,9 +131,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/queryListMenu")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:queryListMenu')")
     public Result<List<ManageMenuVo>> queryListMenu(@RequestBody @Valid ManageMenuPageQo manageMenuPageQo) {
-        log.info(JSONObject.toJSONString(manageMenuPageQo));
+
         List<ManageMenuVo> result = manageUserService.queryListMenu(manageMenuPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<List<ManageMenuVo>>().setObj(result);
     }
 
@@ -142,9 +142,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/saveMenu")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:saveMenu')")
     public Result<String> saveMenu(@RequestBody @Valid ManageMenuMo manageMenuMo) {
-        log.info(JSONObject.toJSONString(manageMenuMo));
+
         String result = manageUserService.saveMenu(manageMenuMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
@@ -152,9 +152,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/saveUserRoleRelation")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:saveUserRoleRelation')")
     public Result<String> saveUserRoleRelation(@RequestBody @Valid ManageUserRoleRelationMo manageUserRoleRelationMo) {
-        log.info(JSONObject.toJSONString(manageUserRoleRelationMo));
+
         String result = manageUserService.saveUserRoleRelation(manageUserRoleRelationMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
@@ -162,9 +162,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/saveRolePermissionRelation")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:saveRolePermissionRelation')")
     public Result<String> saveRolePermissionRelation(@RequestBody @Valid ManageRolePermissionRelationMo manageRolePermissionRelationMo) {
-        log.info(JSONObject.toJSONString(manageRolePermissionRelationMo));
+
         String result = manageUserService.saveRolePermissionRelation(manageRolePermissionRelationMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
@@ -172,9 +172,9 @@ public class ManageUserManageController {
     @PostMapping(value = "/saveRoleMenuRelation")
     @PreAuthorize(value = "hasAuthority('sys:manageUser:saveRoleMenuRelation')")
     public Result<String> saveRoleMenuRelation(@RequestBody @Valid ManageRoleMenuRelationMo manageRoleMenuRelationMo) {
-        log.info(JSONObject.toJSONString(manageRoleMenuRelationMo));
+
         String result = manageUserService.saveRoleMenuRelation(manageRoleMenuRelationMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 

@@ -1,5 +1,5 @@
 server:
-  port: 12002
+  port: 12001
 eureka:
   client:
     serviceUrl:
@@ -10,6 +10,29 @@ eureka:
 spring:
   application:
     name: websocket
+  elasticsearch:
+    rest:
+      username: localhost.localdomain
+      uris: http://192.168.84.150:9200
+      password:
+      connection-timeout: 1s
+      read-timeout: 30s
+  servlet:
+    multipart:
+      max-request-size: 1000MB
+      max-file-size: 1000MB
+  mail:
+    host: smtp.163.com
+    username: tongcheng_java@163.com
+    password: WIOKMLTZUCDSVVPC
+    default-encoding: UTF-8
+    protocol: smtp
+    port: 25
+    properties:
+      mail:
+        smtp:
+          socketFactoryClass: javax.net.ssl.SSLSocketFactory
+          debug: true
   datasource:
     url: jdbc:mysql://192.168.84.150:3306/zifuji?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
@@ -41,10 +64,31 @@ spring:
     port: 5672
     username: admin
     password: admin
+  quartz:
+    job-store-type: jdbc
+    wait-for-jobs-to-complete-on-shutdown: true
+    scheduler-name: quartzDemo
+    jdbc:
+      initialize-schema: never
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceId: AUTO
+            makeSchedulerThreadDaemon: true
+          threadPool:
+            threadCount: 5
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+          jobStore:
+            isClustered: false
+            misfireThreshold: 5000
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            acquireTriggersWithinLock: true
 mybatis-plus:
   mapper-locations: classpath*:com/zifuji/**/*.xml
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl                
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 logging:
   file: ./logs/${spring.application.name}/out.log
   level:
@@ -59,4 +103,11 @@ management:
   endpoint:
     health:
       show-details: always
-queue: ws1
+minio:
+  endpoint: 192.168.84.150
+  port: 9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  secure: false
+  defaultBucketName: mytc
+temppath: c:/tmp/zfj

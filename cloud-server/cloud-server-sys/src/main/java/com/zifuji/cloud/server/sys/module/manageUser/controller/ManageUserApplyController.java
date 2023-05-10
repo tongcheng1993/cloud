@@ -27,27 +27,27 @@ public class ManageUserApplyController {
     @ApiOperation(value = "根据验证码ID获取图片")
     @GetMapping(value = "/drawCaptcha")
     public Result<DrawCaptchaVo> drawCaptcha() {
-        log.info(JSONObject.toJSONString("空参数"));
+
         DrawCaptchaVo result = manageUserService.drawCaptcha();
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<DrawCaptchaVo>().setObj(result);
     }
 
     @ApiOperation(value = "账号密码登录")
     @PostMapping(value = "/login")
     public Result<String> login(@RequestBody @Valid LoginMo loginMo) {
-        log.info(JSONObject.toJSONString(loginMo));
+
         String result = manageUserService.login(loginMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
     @ApiOperation(value = "获取路由")
     @GetMapping(value = "/getMenu")
     public Result<List<ManageMenuVo>> getMenu() {
-        log.info(JSONObject.toJSONString("空参数"));
+
         List<ManageMenuVo> result = manageUserService.getMenu();
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<List<ManageMenuVo>>().setObj(result);
     }
 

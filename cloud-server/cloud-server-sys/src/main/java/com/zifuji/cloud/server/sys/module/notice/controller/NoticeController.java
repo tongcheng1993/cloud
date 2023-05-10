@@ -31,9 +31,9 @@ public class NoticeController {
     @ApiOperation(value = "查询列表")
     @PostMapping(value = "/queryPageNotice")
     public Result<IPage<NoticeVo>> queryPageNotice(@RequestBody @Valid NoticePageQo noticePageQo) {
-        log.info(JSONObject.toJSONString(noticePageQo));
+
         IPage<NoticeVo> result = noticeService.queryPageNotice(noticePageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<NoticeVo>>().setObj(result);
     }
 

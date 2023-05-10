@@ -24,9 +24,9 @@ public class DataPhoneController {
     @ApiOperation(value = "上传电话文件")
     @PostMapping(value = "/uploadPhoneListFile")
     public Result<Boolean> uploadPhoneListFile(MultipartFile file) {
-        log.info(JSONObject.toJSONString("文件参数"+file.getOriginalFilename()));
+
         Boolean result = dataPhoneService.uploadPhoneListFile(file);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<Boolean>().setObj(result);
     }
 

@@ -6,9 +6,9 @@ import com.zifuji.cloud.server.websocket.module.websocket.mo.SendWsMessageMo;
 
 public interface WebsocketService {
 
+    void sendWsAllMessage(SendWsMessageMo sendWsMessageMo);
 
+    void sendWsMessage(SendWsMessageMo sendWsMessageMo);
 
-	void sendWsMessage(SendWsMessageMo sendWsMessageMo);
-	
-	Integer info();
+    Integer info();
 }

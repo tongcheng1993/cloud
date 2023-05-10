@@ -13,28 +13,22 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: websocket
-          uri: lb://websocket
-          predicates:
-            - Path=/websocket/**
-          filters:
-            - StripPrefix=1
         - id: sys
           uri: lb://sys
           predicates:
             - Path=/sys/**
           filters:
             - StripPrefix=1
-        - id: webspider
-          uri: lb://webspider
+        - id: websocket
+          uri: lb://websocket
           predicates:
-            - Path=/webspider/**
+            - Path=/websocket/**
           filters:
             - StripPrefix=1
-        - id: business
-          uri: lb://business
+        - id: office
+          uri: lb://office
           predicates:
-            - Path=/business/**
+            - Path=/office/**
           filters:
             - StripPrefix=1
   datasource:

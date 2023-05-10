@@ -33,9 +33,9 @@ public class UseDbManageController {
     @PostMapping(value = "/executeSql")
     @PreAuthorize(value = "hasAuthority('sys:useDb:executeSql')")
     public Result<ExecuteSqlVo> executeSql(ExecuteSqlQo executeSqlQo){
-        log.info(JSONObject.toJSONString(executeSqlQo));
+
         ExecuteSqlVo result = useDbService.executeSql(executeSqlQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<ExecuteSqlVo>().setObj(result);
     }
 

@@ -34,7 +34,7 @@ public class TokenFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        log.info(request.getRequestURI());
+
         // ws请求设置session时间无限
         if (request.getRequestURI().startsWith("/ws")) {
             request.getSession().setMaxInactiveInterval(-1);
@@ -48,25 +48,24 @@ public class TokenFilter extends BasicAuthenticationFilter {
         // 有token的 转成 jwt 对象
         JWT jwt = JWTUtil.parseToken(token);
         // 无法转化成功的是身份验证有问题 报400 异常
-        if(ObjectUtil.isNull(jwt)){
+        if (ObjectUtil.isNull(jwt)) {
             throw new Exception400("验证jwt失败");
         }
         Object object = jwt.getPayload("userInfo");
         // 无法获得内容的是身份验证有问题 报400 异常
-        if(ObjectUtil.isNull(object)){
+        if (ObjectUtil.isNull(object)) {
             throw new Exception400("验证Payload失败");
         }
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(object);
         // 无法格式化的是身份验证有问题 报400 异常
-        if(ObjectUtil.isNull(jsonObject)){
+        if (ObjectUtil.isNull(jsonObject)) {
             throw new Exception400("验证JSONObject失败");
         }
         UserInfo userInfo = JSONObject.toJavaObject(jsonObject, UserInfo.class);
         // 无法格式化的是身份验证有问题 报400 异常
-        if(ObjectUtil.isNull(userInfo)){
+        if (ObjectUtil.isNull(userInfo)) {
             throw new Exception400("验证userInfo格式失败");
         }
-        log.info("userInfo:{}",userInfo);
         // 当前用户的角色信息和权限信息
         List<GrantedAuthority> list = new ArrayList<>();
         if (ObjectUtil.isNotEmpty(userInfo.getRoleList())) {

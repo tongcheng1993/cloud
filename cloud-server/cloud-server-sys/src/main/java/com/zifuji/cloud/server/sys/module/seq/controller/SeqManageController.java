@@ -37,27 +37,27 @@ public class SeqManageController {
     @ApiOperation(value = "查询列表")
     @PostMapping(value = "/queryListSeq")
     public Result<List<SeqVo>> queryListSeq(@RequestBody @Valid SeqPageQo seqPageQo) {
-        log.info(JSONObject.toJSONString(seqPageQo));
+
         List<SeqVo> result = seqService.queryListSeq(seqPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<List<SeqVo>>().setObj(result);
     }
 
     @ApiOperation(value = "分页查询列表")
     @PostMapping(value = "/queryPageSeq")
     public Result<IPage<SeqVo>> queryPageSeq(@RequestBody @Valid SeqPageQo seqPageQo) {
-        log.info(JSONObject.toJSONString(seqPageQo));
+
         IPage<SeqVo> result = seqService.queryPageSeq(seqPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<SeqVo>>().setObj(result);
     }
 
     @ApiOperation(value = "查询详情")
     @PostMapping(value = "/getSeqById")
     public Result<SeqVo> getSeqById(@RequestParam Long id) {
-        log.info(JSONObject.toJSONString(id));
+
         SeqVo result = seqService.getSeqById(id);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<SeqVo>().setObj(result);
     }
 
@@ -65,9 +65,9 @@ public class SeqManageController {
     @ApiOperation(value = "新建一个新的流水号")
     @PostMapping(value = "/saveSeq")
     public Result<SeqVo> saveSeq(@RequestBody @Valid SaveSeqMo saveSeqMo) {
-        log.info(JSONObject.toJSONString(saveSeqMo));
+
         SeqVo result = seqService.saveSeq(saveSeqMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<SeqVo>().setObj(result);
     }
 

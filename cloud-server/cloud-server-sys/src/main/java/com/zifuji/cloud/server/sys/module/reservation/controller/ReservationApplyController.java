@@ -25,9 +25,9 @@ public class ReservationApplyController {
     @PostMapping(value = "/getDefaultReservationSetting")
     public Result<ReservationSettingMainVo> getDefaultReservationSetting() {
         log.info("getDefaultReservationSetting");
-        log.info(JSONObject.toJSONString("空参数"));
+
         ReservationSettingMainVo result = reservationService.getDefaultReservationSetting();
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<ReservationSettingMainVo>().setObj(result);
     }
 

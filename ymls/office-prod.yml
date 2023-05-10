@@ -1,0 +1,113 @@
+server:
+  port: 13001
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.84.150:11001/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
+spring:
+  application:
+    name: office
+  elasticsearch:
+    rest:
+      username: localhost.localdomain
+      uris: http://192.168.84.150:9200
+      password:
+      connection-timeout: 1s
+      read-timeout: 30s
+  servlet:
+    multipart:
+      max-request-size: 1000MB
+      max-file-size: 1000MB
+  mail:
+    host: smtp.163.com
+    username: tongcheng_java@163.com
+    password: WIOKMLTZUCDSVVPC
+    default-encoding: UTF-8
+    protocol: smtp
+    port: 25
+    properties:
+      mail:
+        smtp:
+          socketFactoryClass: javax.net.ssl.SSLSocketFactory
+          debug: true
+  datasource:
+    url: jdbc:mysql://192.168.84.150:3306/zifuji?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+  output:
+    ansi:
+      enabled: always
+  redis:
+    host: 192.168.84.150
+    port: 6379
+    password: 123456
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 200
+        max-wait: 1
+        max-idle: 8
+        min-idle: 0
+  rabbitmq:
+    host: 192.168.84.150
+    port: 5672
+    username: admin
+    password: admin
+  quartz:
+    job-store-type: jdbc
+    wait-for-jobs-to-complete-on-shutdown: true
+    scheduler-name: quartzDemo
+    jdbc:
+      initialize-schema: never
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceId: AUTO
+            makeSchedulerThreadDaemon: true
+          threadPool:
+            threadCount: 5
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+          jobStore:
+            isClustered: true
+            misfireThreshold: 5000
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            acquireTriggersWithinLock: true
+mybatis-plus:
+  mapper-locations: classpath*:com/zifuji/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  file: ./logs/${spring.application.name}/out.log
+  level:
+    root: INFO
+  pattern:
+    console: '%d{yyyy/MM/dd-HH:mm:ss} [%thread] %clr(%-5level) %clr(%logger:%line{36}){cyan} %clr(%msg%n){green}'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+minio:
+  endpoint: 192.168.84.150
+  port: 9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  secure: false
+  defaultBucketName: mytc
+temppath: /tmp/zfj

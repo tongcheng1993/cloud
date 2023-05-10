@@ -37,9 +37,9 @@ public class FriendController {
     @ApiOperation(value = "分页查询交友列表")
     @PostMapping(value = "/queryPageFriend")
     public Result<IPage<FriendVo>> queryPageFriend(@RequestBody @Valid FriendPageQo friendPageQo) {
-        log.info(JSONObject.toJSONString(friendPageQo));
+
         IPage<FriendVo> result = friendService.queryPageFriend(friendPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<FriendVo>>().setObj(result);
     }
 
@@ -47,36 +47,36 @@ public class FriendController {
     @ApiOperation(value = "查看他人交友信息")
     @GetMapping(value = "/getFriendInfoById")
     public Result<FriendInfoVo> getFriendInfoById(@RequestParam Long friendId) {
-        log.info(JSONObject.toJSONString(friendId));
+
         FriendInfoVo result = friendService.getFriendInfoById(friendId);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<FriendInfoVo>().setObj(result);
     }
 
     @ApiOperation(value = "上传交友照片文件")
     @PostMapping(value = "/uploadFriendInfoImgFile")
     public Result<String> uploadFriendInfoImgFile(MultipartFile file) {
-        log.info(JSONObject.toJSONString("文件参数"));
+
         String result = friendService.uploadFriendInfoImgFile(file);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
     @ApiOperation(value = "下载交友照片文件")
     @PostMapping(value = "/downloadFriendInfoImgFile")
     public Result<FileVo> downloadFriendInfoImgFile(Long id) throws IOException {
-        log.info(JSONObject.toJSONString("文件参数"));
+
         FileVo result = friendService.downloadFriendInfoImgFile(id);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<FileVo>().setObj(result);
     }
 
     @ApiOperation(value = "保存自身交友信息")
     @PostMapping(value = "/saveFriendInfo")
     public Result<String> saveFriendInfo(@RequestBody @Valid FriendInfoMo friendInfoMo) {
-        log.info(JSONObject.toJSONString(friendInfoMo));
+
         String result = friendService.saveFriendInfo(friendInfoMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
@@ -84,9 +84,9 @@ public class FriendController {
     @ApiOperation(value = "获取自身交友信息")
     @GetMapping(value = "/getFriendInfoByMyself")
     public Result<FriendInfoVo> getFriendInfoByMyself() {
-        log.info(JSONObject.toJSONString("空参数"));
+
         FriendInfoVo result = friendService.getFriendInfoByMyself();
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<FriendInfoVo>().setObj(result);
     }
 
@@ -94,9 +94,9 @@ public class FriendController {
     @ApiOperation(value = "发出交朋友的申请 需要消费积分")
     @PostMapping(value = "/makeFriendApply")
     public Result<String> makeFriendApply(@RequestBody @Valid MakeFriendApplyMo makeFriendApplyMo) {
-        log.info(JSONObject.toJSONString(makeFriendApplyMo));
+
         String result = friendService.makeFriendApply(makeFriendApplyMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
@@ -104,9 +104,9 @@ public class FriendController {
     @ApiOperation(value = "同意或者拒绝 朋友申请")
     @PostMapping(value = "/auditFriendApply")
     public Result<String> auditFriendApply(@RequestBody @Valid AuditFriendApplyMo auditFriendApplyMo) {
-        log.info(JSONObject.toJSONString(auditFriendApplyMo));
+
         String result = friendService.auditFriendApply(auditFriendApplyMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 

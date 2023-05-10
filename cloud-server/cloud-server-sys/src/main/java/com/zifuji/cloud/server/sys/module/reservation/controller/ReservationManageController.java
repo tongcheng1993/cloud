@@ -24,10 +24,10 @@ public class ReservationManageController {
     private ReservationService reservationService;
 
     public Result<ReservationSettingMainVo> saveReservationSettingMain(@RequestBody @Valid ReservationSettingMainMo reservationSettingMainMo) {
-        log.info("saveReservationSettingMain");
-        log.info(JSONObject.toJSONString(reservationSettingMainMo));
+
+
         ReservationSettingMainVo result = reservationService.saveReservationSettingMain(reservationSettingMainMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<ReservationSettingMainVo>().setObj(result);
     }
 

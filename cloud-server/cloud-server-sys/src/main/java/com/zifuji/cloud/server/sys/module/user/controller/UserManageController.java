@@ -41,9 +41,9 @@ public class UserManageController {
     @PostMapping(value = "/queryPageUser")
     @PreAuthorize(value = "hasAuthority('sys:user:queryPageUser')")
     public Result<IPage<WebUserVo>> queryPageUser(@RequestBody @Valid WebUserPageQo webUserPageQo) {
-        log.info(JSONObject.toJSONString(webUserPageQo));
+
         IPage<WebUserVo> result = userService.queryPageUser(webUserPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<WebUserVo>>().setObj(result);
     }
 
@@ -52,9 +52,9 @@ public class UserManageController {
     @PostMapping(value = "/queryPageRole")
     @PreAuthorize(value = "hasAuthority('sys:user:queryPageRole')")
     public Result<IPage<WebRoleVo>> queryPageRole(@RequestBody @Valid WebRolePageQo webRolePageQo) {
-        log.info(JSONObject.toJSONString(webRolePageQo));
+
         IPage<WebRoleVo> result = userService.queryPageRole(webRolePageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<WebRoleVo>>().setObj(userService.queryPageRole(webRolePageQo));
     }
 
@@ -62,9 +62,9 @@ public class UserManageController {
     @PostMapping(value = "/saveRole")
     @PreAuthorize(value = "hasAuthority('sys:user:saveRole')")
     public Result<String> saveRole(@RequestBody @Valid SaveWebRoleMo saveWebRoleMo) {
-        log.info(JSONObject.toJSONString(saveWebRoleMo));
+
         String result = userService.saveRole(saveWebRoleMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
@@ -73,9 +73,9 @@ public class UserManageController {
     @PostMapping(value = "/saveMenu")
     @PreAuthorize(value = "hasAuthority('sys:user:saveMenu')")
     public Result<String> saveMenu(@RequestBody @Valid SaveWebMenuMo saveWebMenuMo) {
-        log.info(JSONObject.toJSONString(saveWebMenuMo));
+
         String result = userService.saveMenu(saveWebMenuMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
@@ -84,9 +84,9 @@ public class UserManageController {
     @PostMapping(value = "/queryListMenu")
     @PreAuthorize(value = "hasAuthority('sys:user:queryListMenu')")
     public Result<List<WebMenuVo>> queryListMenu(@RequestBody @Valid WebMenuPageQo webMenuPageQo) {
-        log.info(JSONObject.toJSONString(webMenuPageQo));
+
         List<WebMenuVo> result = userService.queryListMenu(webMenuPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<List<WebMenuVo>>().setObj(result);
     }
 
@@ -94,9 +94,9 @@ public class UserManageController {
     @PostMapping(value = "/saveRoleAndMenu")
     @PreAuthorize(value = "hasAuthority('sys:user:saveRoleAndMenu')")
     public Result<String> saveRoleAndMenu(@RequestBody @Valid SaveRoleAndMenuMo saveRoleAndMenuMo) {
-        log.info(JSONObject.toJSONString(saveRoleAndMenuMo));
+
         String result = userService.saveRoleAndMenu(saveRoleAndMenuMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
@@ -104,9 +104,9 @@ public class UserManageController {
     @PostMapping(value = "/savePermission")
     @PreAuthorize(value = "hasAuthority('sys:user:savePermission')")
     public Result<String> savePermission(@RequestBody @Valid SaveWebPermissionMo saveWebPermissionMo) {
-        log.info(JSONObject.toJSONString(saveWebPermissionMo));
+
         String result = userService.savePermission(saveWebPermissionMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
@@ -114,9 +114,9 @@ public class UserManageController {
     @PostMapping(value = "/queryPagePermission")
     @PreAuthorize(value = "hasAuthority('sys:user:queryPagePermission')")
     public Result<IPage<WebPermissionVo>> queryPagePermission(@RequestBody @Valid WebPermissionPageQo webPermissionPageQo) {
-        log.info(JSONObject.toJSONString(webPermissionPageQo));
+
         IPage<WebPermissionVo> result = userService.queryPagePermission(webPermissionPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<WebPermissionVo>>().setObj(result);
     }
 
@@ -124,9 +124,9 @@ public class UserManageController {
     @PostMapping(value = "/queryListPermission")
     @PreAuthorize(value = "hasAuthority('sys:user:queryListPermission')")
     public Result<List<WebPermissionVo>> queryListPermission(@RequestBody @Valid WebPermissionPageQo webPermissionPageQo) {
-        log.info(JSONObject.toJSONString(webPermissionPageQo));
+
         List<WebPermissionVo> result = userService.queryListPermission(webPermissionPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<List<WebPermissionVo>>().setObj(result);
     }
 
@@ -134,9 +134,9 @@ public class UserManageController {
     @PostMapping(value = "/saveRoleAndPermission")
     @PreAuthorize(value = "hasAuthority('sys:user:saveRoleAndPermission')")
     public Result<String> saveRoleAndPermission(@RequestBody @Valid SaveRoleAndPermissionMo saveRoleAndPermissionMo) {
-        log.info(JSONObject.toJSONString(saveRoleAndPermissionMo));
+
         String result = userService.saveRoleAndPermission(saveRoleAndPermissionMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
 
     }

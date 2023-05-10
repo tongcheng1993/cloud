@@ -76,7 +76,6 @@ public class BlogServiceImpl implements BlogService {
             BeanUtil.copyProperties(blogEntity,vo);
         }else{
             throw  new Exception200("数据错误");
-
         }
         return vo;
     }

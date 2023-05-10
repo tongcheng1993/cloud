@@ -28,17 +28,17 @@ public class ScoreApplyController {
     @ApiOperation(value = "获取个人账户积分信息")
     @GetMapping(value = "/getScoreAccountVoByMyself")
     public Result<ScoreAccountVo> getScoreAccountVoByMyself(){
-        log.info(JSONObject.toJSONString("空参数"));
+
         ScoreAccountVo result = scoreService.getScoreAccountVoByMyself();
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<ScoreAccountVo>().setObj(result);
     }
     @ApiOperation(value = "获取个人账户积分信息")
     @PostMapping(value = "/queryPageScoreRecord")
     public Result<IPage<ScoreRecordVo>> queryPageScoreRecord(@RequestBody @Valid ScoreRecordPageQo scoreRecordPageQo){
-        log.info(JSONObject.toJSONString(scoreRecordPageQo));
+
         IPage<ScoreRecordVo> result = scoreService.queryPageScoreRecord(scoreRecordPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<ScoreRecordVo>>().setObj(result);
     }
 

@@ -24,18 +24,18 @@ public class HelpController {
     @ApiOperation(value = "")
     @PostMapping(value = "/saveHelpContent")
     public Result<String> saveHelpContent(@RequestBody @Valid HelpContentMo helpContentMo){
-        log.info(JSONObject.toJSONString(helpContentMo));
+
         String result = helpService.saveHelpContent(helpContentMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
     @ApiOperation(value = "")
     @GetMapping(value = "/getHelpContent")
     public Result<String> getHelpContent(){
-        log.info(JSONObject.toJSONString("空参数"));
+
         String result = helpService.getHelpContent();
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 

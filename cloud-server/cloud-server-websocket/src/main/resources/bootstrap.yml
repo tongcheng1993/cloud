@@ -6,12 +6,9 @@ eureka:
       defaultZone: http://192.168.84.150:11001/eureka/
   instance:
     prefer-ip-address: true
-
-
 spring:
   profiles:
     active: dev
-
 ---
 spring:
   profiles: prod
@@ -24,8 +21,6 @@ spring:
       discovery:
         enabled: true
         service-id: config
-
-
 ---
 spring:
   profiles: dev

@@ -28,27 +28,27 @@ public class BlogApplyController {
     @ApiOperation(value = "web端保存自己的博客")
     @PostMapping(value = "/saveBlog")
     public Result<BlogVo> saveBlog(@RequestBody @Valid SaveBlogMo saveBlogMo) {
-        log.info(JSONObject.toJSONString(saveBlogMo));
+
         BlogVo result = blogService.saveBlogMo(saveBlogMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<BlogVo>().setObj(result);
     }
 
     @ApiOperation(value = "web端查看博客")
     @GetMapping(value = "/getBlogById")
     public Result<BlogVo> getBlogById(@NotNull(message = "") Long id) {
-        log.info(JSONObject.toJSONString(id));
+
         BlogVo result = blogService.getBlogById(id);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<BlogVo>().setObj(result);
     }
 
     @ApiOperation(value = "web端分页查看公开的博客")
     @PostMapping(value = "/queryPageWebBlog")
     public Result<IPage<BlogVo>> queryPageWebBlog(@RequestBody @Valid BlogPageQo blogPageQo) {
-        log.info(JSONObject.toJSONString(blogPageQo));
+
         IPage<BlogVo> result = blogService.queryPageWebBlog(blogPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<BlogVo>>().setObj(result);
     }
 
@@ -56,9 +56,9 @@ public class BlogApplyController {
     @ApiOperation(value = "web端分页查看自己的博客")
     @PostMapping(value = "/queryPageMyBlog")
     public Result<IPage<BlogVo>> queryPageMyBlog (@RequestBody @Valid BlogPageQo blogPageQo) {
-        log.info(JSONObject.toJSONString(blogPageQo));
+
         IPage<BlogVo> result = blogService.queryPageMyBlog(blogPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<BlogVo>>().setObj(result);
     }
 

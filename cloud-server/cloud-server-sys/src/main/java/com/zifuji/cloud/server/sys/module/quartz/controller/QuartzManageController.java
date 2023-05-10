@@ -27,9 +27,9 @@ public class QuartzManageController {
     @ApiOperation(value = "增加一个定时器")
     @PostMapping(value = "/saveQuartzRecord")
     public Result<QuartzRecordVo> saveQuartzRecord(@RequestBody @Valid QuartzRecordMo quartzRecordMo) throws Exception {
-        log.info(JSONObject.toJSONString(quartzRecordMo));
+
         QuartzRecordVo result = quartzService.saveQuartzRecord(quartzRecordMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<QuartzRecordVo>().setObj(result);
     }
 
@@ -37,9 +37,9 @@ public class QuartzManageController {
     @ApiOperation(value = "")
     @GetMapping(value = "/delQuartzRecord")
     public Result<Boolean> delQuartzRecord(Long id) throws Exception {
-        log.info(JSONObject.toJSONString(id));
+
         Boolean result = quartzService.delQuartzRecord(id);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<Boolean>().setObj(result);
     }
 
@@ -47,18 +47,18 @@ public class QuartzManageController {
     @ApiOperation(value = "分页查询定时器")
     @PostMapping(value = "/queryPageQuartzRecord")
     public Result<IPage<QuartzRecordVo>> queryPageQuartzRecord(@RequestBody @Valid QuartzRecordPageQo quartzRecordPageQo) {
-        log.info(JSONObject.toJSONString(quartzRecordPageQo));
+
         IPage<QuartzRecordVo> result = quartzService.queryPageQuartzRecord(quartzRecordPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<QuartzRecordVo>>().setObj(result);
     }
 
     @ApiOperation(value = "")
     @PostMapping(value = "/syncQuartzList")
     public Result<Boolean> syncQuartzList() {
-        log.info(JSONObject.toJSONString("空参数"));
+
         Boolean result = quartzService.syncQuartzList();
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<Boolean>().setObj(result);
     }
 

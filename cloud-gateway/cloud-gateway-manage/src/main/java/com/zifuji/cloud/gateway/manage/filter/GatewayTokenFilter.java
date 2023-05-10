@@ -53,8 +53,6 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
         // 获取当前请求路径
         String path = request.getURI().getPath();
-        log.info("path:{}" + path);
-
 
         String tc_token = "";
         UserInfo userInfo = null;
@@ -62,7 +60,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
         Map<String, Object> map = new HashMap<String, Object>();
 
         // 如果是websocket的请求
-        if (path.startsWith("/websocket/ws")) {
+        if (path.startsWith("/sys/ws")) {
             // url 地址中的参数 token 每个都必须有
             MultiValueMap<String, String> multiValueMap = request.getQueryParams();
             tc_token = multiValueMap.get("token").get(0);

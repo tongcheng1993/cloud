@@ -25,18 +25,18 @@ public class DashboardController {
     @ApiOperation(value = "")
     @GetMapping(value = "/info")
     public Result<String> info() {
-        log.info(JSONObject.toJSONString("空参数"));
+
         String result = dashboardService.info();
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
     @ApiOperation(value = "")
     @GetMapping(value = "/getParameter")
     public Result<String> getParameter() {
-        log.info(JSONObject.toJSONString("空参数"));
+
         String result = dashboardService.getParameter();
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 

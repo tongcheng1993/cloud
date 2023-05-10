@@ -25,9 +25,9 @@ public class EduController {
     @ApiOperation(value = "上传文件")
     @PostMapping(value = "/uploadFile")
     public Result<Boolean> uploadFile(MultipartFile file) {
-        log.info(JSONObject.toJSONString("文件参数"+file.getOriginalFilename()));
+
         Boolean result = true;
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<Boolean>().setObj(result);
     }
 

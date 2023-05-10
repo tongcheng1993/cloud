@@ -6,7 +6,6 @@ import java.util.List;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.zifuji.cloud.server.base.properties.ZfjProperties;
 import com.zifuji.cloud.server.base.util.ZfjFileUtil;
 import com.zifuji.cloud.server.sys.module.file.component.MinioComponent;
 import org.apache.commons.fileupload.FileItem;
@@ -19,7 +18,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.base.exception.Exception200;
 import com.zifuji.cloud.server.sys.db.file.entity.FileEntity;
 import com.zifuji.cloud.server.sys.db.file.service.FileEntityService;
-import com.zifuji.cloud.server.sys.module.file.component.FastdfsComponent;
 import com.zifuji.cloud.server.sys.module.file.qo.FilePageQo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
 import com.zifuji.cloud.server.sys.module.file.vo.FileVo;
@@ -35,12 +33,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 @AllArgsConstructor
 public class FileServiceImpl implements FileService {
 
-    private FastdfsComponent fastdfsComponent;
-
     private MinioComponent minioComponent;
 
     private FileEntityService fileEntityService;
-
 
     @Override
     public String uploadFile(MultipartFile file) {
@@ -117,8 +112,8 @@ public class FileServiceImpl implements FileService {
     @Override
     public Boolean delFile(Long id) {
         FileEntity fileEntity = fileEntityService.getById(id);
-        fastdfsComponent.deleteFile(fileEntity.getFileUrl());
-        return fileEntityService.removeById(id);
+        fileEntity.setDelFlag(true);
+        return fileEntityService.updateById(fileEntity);
     }
 
 
@@ -126,7 +121,6 @@ public class FileServiceImpl implements FileService {
     public IPage<FileVo> queryPageFile(FilePageQo filePageQo) {
         Page<FileEntity> page = new Page<FileEntity>(filePageQo.getCurrent(), filePageQo.getSize());
         QueryWrapper<FileEntity> queryWrapper = new QueryWrapper<FileEntity>();
-
         MyBatisPlusUtil.orderWrapper(queryWrapper, filePageQo.getOrders());
         IPage<FileEntity> fileEntityPage = fileEntityService.page(page, queryWrapper);
         return fileEntityPage.convert(fileEntity -> {

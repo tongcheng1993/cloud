@@ -28,9 +28,9 @@ public class BlogController {
 
     @PostMapping(value = "/saveBlogMo")
     public Result<BlogVo> saveBlogMo(SaveBlogMo saveBlogMo) {
-        log.info(JSONObject.toJSONString(saveBlogMo));
+
         BlogVo result = blogService.saveBlogMo(saveBlogMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<BlogVo>().setObj(result);
     }
 

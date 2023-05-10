@@ -441,6 +441,9 @@ public class ManageUserServiceImpl implements ManageUserService {
     private String getLoginToken(UserInfo userInfo) {
         // 将用户信息json化，放入redis 获取redis key
         String token = StrUtil.uuid();
+
+        userInfo.setToken(token);
+
         stringRedisTemplate.opsForValue().set(token, JSONObject.toJSONString(userInfo), 60 * 30, TimeUnit.SECONDS);
         // 返回key
         return token;

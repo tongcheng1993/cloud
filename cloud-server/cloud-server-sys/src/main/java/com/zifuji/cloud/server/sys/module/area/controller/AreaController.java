@@ -37,9 +37,9 @@ public class AreaController {
     @ApiOperation(value = "")
     @PostMapping(value = "/saveArea")
     public Result<String> saveArea(@RequestBody @Valid SaveAreaMo saveAreaMo) {
-        log.info(JSONObject.toJSONString(saveAreaMo));
+
         String result = areaService.saveArea(saveAreaMo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
     //删除
@@ -49,18 +49,18 @@ public class AreaController {
     //查询
     @PostMapping(value = "/queryPageArea")
     public Result<IPage<AreaVo>> queryPageArea(@RequestBody @Valid AreaPageQo areaPageQo) {
-        log.info(JSONObject.toJSONString(areaPageQo));
+
         IPage<AreaVo> result = areaService.queryPageArea(areaPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<AreaVo>>().setObj(result);
     }
 
 
     @PostMapping(value = "/queryListArea")
     public Result<List<AreaVo>> queryListArea(@RequestBody @Valid AreaPageQo areaPageQo) {
-        log.info(JSONObject.toJSONString(areaPageQo));
+
         List<AreaVo> result = areaService.queryListArea(areaPageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<List<AreaVo>>().setObj(areaService.queryListArea(areaPageQo));
     }
 

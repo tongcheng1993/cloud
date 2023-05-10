@@ -38,9 +38,9 @@ public class FileController {
     @ApiOperation(value = "上传文件")
     @PostMapping(value = "/uploadFile")
     public Result<String> uploadFile(String uploadPath, MultipartFile file) {
-        log.info(JSONObject.toJSONString("文件参数"));
+
         String result = fileService.uploadFile(uploadPath, file);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<String>().setObj(result);
     }
 
@@ -54,9 +54,9 @@ public class FileController {
     @ApiOperation(value = "删除文件")
     @GetMapping(value = "/delFile")
     public Result<Boolean> delFile(Long id) {
-        log.info(JSONObject.toJSONString(id));
+
         Boolean result = fileService.delFile(id);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<Boolean>().setObj(result);
     }
 
@@ -64,9 +64,9 @@ public class FileController {
     @ApiOperation(value = "查询文件保存记录")
     @PostMapping(value = "/queryPageFile")
     public Result<IPage<FileVo>> queryPageFile(@RequestBody @Valid FilePageQo filePageQo) {
-        log.info(JSONObject.toJSONString(filePageQo));
+
         IPage<FileVo> result = fileService.queryPageFile(filePageQo);
-        log.info(JSONObject.toJSONString(result));
+
         return new Result<IPage<FileVo>>().setObj(result);
     }
 
