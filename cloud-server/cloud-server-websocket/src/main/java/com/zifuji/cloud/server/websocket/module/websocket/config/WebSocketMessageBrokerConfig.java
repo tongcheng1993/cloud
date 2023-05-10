@@ -42,10 +42,6 @@ public class WebSocketMessageBrokerConfig implements WebSocketMessageBrokerConfi
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
 
-        // 前端绑定cache广播路径
-//        registry.enableSimpleBroker("/topic","/user");
-
-
         // 前端绑定stomp广播路径
         registry.enableStompBrokerRelay("/topic")
                 .setAutoStartup(true)

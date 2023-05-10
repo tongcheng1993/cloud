@@ -57,7 +57,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
         String tc_token = "";
         UserInfo userInfo = null;
         // 如果是websocket的请求
-        if (path.startsWith("/sys/ws")) {
+        if (path.startsWith("/websocket/ws")) {
             // url 地址中的参数 token 每个都必须有
             MultiValueMap<String, String> multiValueMap = request.getQueryParams();
             tc_token = multiValueMap.get("token").get(0);

@@ -18,9 +18,11 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class RedisRouteDefinitionRepository implements RouteDefinitionRepository{
 
-	
+
 	private StringRedisTemplate stringRedisTemplate;
-	
+
+
+
 	@Override
 	public Flux<RouteDefinition> getRouteDefinitions() {
 		List<RouteDefinition> routeDefinitionList=new ArrayList<RouteDefinition>();

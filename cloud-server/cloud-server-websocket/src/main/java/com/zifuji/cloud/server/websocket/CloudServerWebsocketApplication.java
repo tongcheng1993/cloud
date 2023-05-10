@@ -15,6 +15,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class CloudServerWebsocketApplication {
     public static void main(String[] args) {
         SpringApplication.run(CloudServerWebsocketApplication.class, args);
-        log.info("网站框架sys项目开始");
+        log.info("websocket项目开始");
     }
 }
