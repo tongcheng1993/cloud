@@ -1,5 +1,0 @@
-* * * * * sh /root/eurekaStart.sh start >>/dev/null 
-* * * * * sh /root/configStart.sh start >>/dev/null
-* * * * * sh /root/start.sh start cloud-gateway-web-0.0.1-SNAPSHOT.jar >>/dev/null
-* * * * * sh /root/start.sh start cloud-gateway-manage-0.0.1-SNAPSHOT.jar >>/dev/null
-* * * * * sh /root/start.sh start cloud-server-sys-0.0.1-SNAPSHOT.jar >>/dev/null
