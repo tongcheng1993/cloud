@@ -25,6 +25,12 @@ spring:
             - Path=/websocket/**
           filters:
             - StripPrefix=1
+        - id: business
+          uri: lb://business
+          predicates:
+            - Path=/business/**
+          filters:
+            - StripPrefix=1
         - id: office
           uri: lb://office
           predicates:

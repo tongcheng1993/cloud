@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -21,7 +22,8 @@ public class WebSocketStompController {
 
     @ApiOperation(value = "发送消息")
     @MessageMapping(value = "/sendWsMessage")
-    public Result<Boolean> sendWsMessage( SendWsMessageMo sendWsMessageMo) {
+    @SendToUser
+    public Result<Boolean> sendWsMessage(SendWsMessageMo sendWsMessageMo) {
         websocketService.sendWsMessage(sendWsMessageMo);
         return new Result<Boolean>().setObj(true);
     }

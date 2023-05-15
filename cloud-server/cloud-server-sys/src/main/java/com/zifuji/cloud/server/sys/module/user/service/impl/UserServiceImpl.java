@@ -15,8 +15,6 @@ import com.zifuji.cloud.server.sys.db.user.service.*;
 import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaBo;
 import com.zifuji.cloud.server.sys.module.captcha.service.CaptchaService;
 import com.zifuji.cloud.server.sys.module.email.service.EmailService;
-import com.zifuji.cloud.server.sys.module.friend.service.FriendService;
-import com.zifuji.cloud.server.sys.module.score.service.ScoreService;
 import com.zifuji.cloud.server.sys.module.user.bo.WebMenuBo;
 import com.zifuji.cloud.server.sys.module.user.bo.WebPermissionBo;
 import com.zifuji.cloud.server.sys.module.user.bo.WebRoleBo;
@@ -69,8 +67,6 @@ public class UserServiceImpl implements UserService {
     private StringRedisTemplate stringRedisTemplate;
     private CaptchaService captchaService;
     private EmailService emailService;
-    private ScoreService scoreService;
-    private FriendService friendService;
 
 
     @Override

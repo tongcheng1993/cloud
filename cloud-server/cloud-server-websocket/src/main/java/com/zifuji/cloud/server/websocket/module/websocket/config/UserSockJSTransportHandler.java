@@ -20,25 +20,25 @@ public class UserSockJSTransportHandler extends DefaultHandshakeHandler {
 
     @Override
     public void start() {
-        log.info("start");
+
         super.start();
     }
 
     @Override
     public void stop() {
-        log.info("stop");
+
         super.stop();
     }
 
     @Override
     protected void doStop() {
-        log.info("doStop");
+
         super.doStop();
     }
 
     @Override
     protected void doStart() {
-        log.info("doStart");
+
         super.doStart();
     }
 }

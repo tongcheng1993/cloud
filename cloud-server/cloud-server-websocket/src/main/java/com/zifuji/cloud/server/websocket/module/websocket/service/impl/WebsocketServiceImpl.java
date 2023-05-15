@@ -2,17 +2,18 @@ package com.zifuji.cloud.server.websocket.module.websocket.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.zifuji.cloud.base.bean.MyWebsocketMessage;
+
 
 import com.zifuji.cloud.server.websocket.module.websocket.mo.SendWsMessageMo;
 import com.zifuji.cloud.server.websocket.module.websocket.service.WebsocketService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+
 import java.util.Set;
 
 @Slf4j
@@ -22,8 +23,10 @@ public class WebsocketServiceImpl implements WebsocketService {
 
     private StringRedisTemplate stringRedisTemplate;
 
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private RabbitMessagingTemplate rabbitMessagingTemplate;
 
+
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     @Override
     public void sendWsAllMessage(SendWsMessageMo sendWsMessageMo) {
@@ -38,11 +41,6 @@ public class WebsocketServiceImpl implements WebsocketService {
                 simpMessagingTemplate.convertAndSendToUser(str, "/message", JSONObject.toJSONString(sendWsMessageMo));
             }
         }
-        MyWebsocketMessage myWebsocketMessage = new MyWebsocketMessage();
-        myWebsocketMessage.setBusinessType(sendWsMessageMo.getBusinessType());
-        myWebsocketMessage.setUserId(sendWsMessageMo.getUserId());
-        myWebsocketMessage.setObj(sendWsMessageMo.getObj());
-        myWebsocketMessage.setTime(LocalDateTime.now());
     }
 
     @Override

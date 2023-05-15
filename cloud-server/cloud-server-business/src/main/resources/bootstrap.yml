@@ -1,0 +1,35 @@
+eureka:
+  client:
+    serviceUrl:
+      register-with-eureka: true
+      fetch-registry: true
+      defaultZone: http://192.168.84.150:11001/eureka/
+  instance:
+    prefer-ip-address: true
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles: prod
+  application:
+    name: business
+  cloud:
+    config:
+      label: master
+      profile: prod
+      discovery:
+        enabled: true
+        service-id: config
+---
+spring:
+  profiles: dev
+  application:
+    name: business
+  cloud:
+    config:
+      label: master
+      profile: dev
+      discovery:
+        enabled: true
+        service-id: config

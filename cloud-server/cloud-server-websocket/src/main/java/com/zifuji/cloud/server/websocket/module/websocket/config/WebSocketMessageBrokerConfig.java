@@ -10,6 +10,7 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 
 @Configuration
@@ -21,7 +22,6 @@ public class WebSocketMessageBrokerConfig implements WebSocketMessageBrokerConfi
 
     private StringRedisTemplate stringRedisTemplate;
 
-
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
@@ -30,21 +30,32 @@ public class WebSocketMessageBrokerConfig implements WebSocketMessageBrokerConfi
                 .addInterceptors(new UserHandshakeInterceptor(stringRedisTemplate))
                 .setHandshakeHandler(new UserSockJSTransportHandler())
                 .withSockJS();
+    }
 
-
+    @Override
+    public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
+        registry.addDecoratorFactory(new UserWebSocketHandlerDecoratorFactory(stringRedisTemplate))
+                .setMessageSizeLimit(64 * 1024)
+                .setSendBufferSizeLimit(1024 * 1024 * 10)
+                .setSendTimeLimit(1000 * 10 * 6);
     }
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors();
+        registration.interceptors(new UserChannelInterceptor());
     }
+
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-
+        // 简单cache广播
+//        registry.enableSimpleBroker("/topic", "/queue", "/exchange", "/user");
+        // 前端绑定个人通道
+        registry.setUserDestinationPrefix("/user");
+        // 前端使用ws发送消息的时候
+        registry.setApplicationDestinationPrefixes("/app/");
         // 前端绑定stomp广播路径
-        registry.enableStompBrokerRelay("/topic")
-                .setAutoStartup(true)
+        registry.enableStompBrokerRelay("/topic", "/queue", "/exchange")
                 .setRelayHost(rabbitProperties.getHost())
                 .setClientLogin(rabbitProperties.getUsername())
                 .setClientPasscode(rabbitProperties.getPassword())
@@ -52,12 +63,6 @@ public class WebSocketMessageBrokerConfig implements WebSocketMessageBrokerConfi
                 .setSystemPasscode(rabbitProperties.getPassword())
                 .setSystemHeartbeatSendInterval(5000)
                 .setSystemHeartbeatReceiveInterval(5000);
-
-        // 前端使用ws发送消息的时候
-        registry.setApplicationDestinationPrefixes("/app/");
-        // 前端绑定个人通道
-        registry.setUserDestinationPrefix("/user");
-
 
 
     }

@@ -29,5 +29,6 @@
         <module>cloud-server-base</module>
         <module>cloud-server-websocket</module>
         <module>cloud-server-office</module>
+        <module>cloud-server-business</module>
     </modules>
 </project>

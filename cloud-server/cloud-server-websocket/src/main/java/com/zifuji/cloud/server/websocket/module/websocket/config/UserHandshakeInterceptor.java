@@ -24,8 +24,9 @@ public class UserHandshakeInterceptor implements HandshakeInterceptor {
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
-        log.info("beforeHandshake");
+
         UserInfo userInfo = SecurityUtil.getUserDetails();
+        stringRedisTemplate.opsForValue().set("ws"+userInfo.getToken(),""+userInfo.getId());
         stringRedisTemplate.opsForSet().add("ws" + userInfo.getId(), userInfo.getToken());
         return true;
     }
@@ -33,6 +34,6 @@ public class UserHandshakeInterceptor implements HandshakeInterceptor {
     @Override
     public void afterHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Exception e) {
 
-        log.info("afterHandshake");
+
     }
 }

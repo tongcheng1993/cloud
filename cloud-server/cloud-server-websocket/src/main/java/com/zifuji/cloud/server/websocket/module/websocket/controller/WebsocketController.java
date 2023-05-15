@@ -40,5 +40,12 @@ public class WebsocketController {
         return new Result<Boolean>().setObj(true);
     }
 
+    @ApiOperation(value = "发送个人消息")
+    @PostMapping(value = "/sendWsOneMessage")
+    public Result<Boolean> sendWsOneMessage(@RequestBody @Valid SendWsMessageMo sendWsMessageMo) {
+        websocketService.sendWsMessage(sendWsMessageMo);
+        return new Result<Boolean>().setObj(true);
+    }
+
 
 }
