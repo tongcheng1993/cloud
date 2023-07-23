@@ -11,9 +11,9 @@ import com.zifuji.cloud.server.business.db.score.service.ScoreRecordEntityServic
 import com.zifuji.cloud.server.business.module.score.mapper.ScoreMapper;
 import com.zifuji.cloud.server.business.module.score.qo.ScoreRecordPageQo;
 import com.zifuji.cloud.server.business.module.score.service.ScoreService;
-import com.zifuji.cloud.server.business.module.score.vo.ScoreAccountVo;
-import com.zifuji.cloud.server.business.module.score.vo.ScoreRecordVo;
-import com.zifuji.cloud.server.base.object.SecurityUtil;
+import com.zifuji.cloud.server.business.module.score.vo.ScoreAccountControllerVo;
+import com.zifuji.cloud.server.business.module.score.vo.ScoreRecordControllerVo;
+import com.zifuji.cloud.server.base.util.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -46,8 +46,8 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public ScoreAccountVo getScoreAccountVoById(Long id) {
-        ScoreAccountVo vo = new ScoreAccountVo();
+    public ScoreAccountControllerVo getScoreAccountVoById(Long id) {
+        ScoreAccountControllerVo vo = new ScoreAccountControllerVo();
         QueryWrapper<ScoreAccountEntity> queryWrapper = new QueryWrapper<ScoreAccountEntity>();
         queryWrapper.lambda().eq(ScoreAccountEntity::getCreateBy, id);
         ScoreAccountEntity scoreAccountEntity = scoreAccountEntityService.getOne(queryWrapper);
@@ -59,13 +59,13 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public ScoreAccountVo getScoreAccountVoByMyself() {
+    public ScoreAccountControllerVo getScoreAccountVoByMyself() {
         Long userId = SecurityUtil.getUserDetails().getId();
         return getScoreAccountVoById(userId);
     }
 
     @Override
-    public IPage<ScoreRecordVo> queryPageScoreRecord(ScoreRecordPageQo scoreRecordPageQo) {
+    public IPage<ScoreRecordControllerVo> queryPageScoreRecord(ScoreRecordPageQo scoreRecordPageQo) {
         return null;
     }
 

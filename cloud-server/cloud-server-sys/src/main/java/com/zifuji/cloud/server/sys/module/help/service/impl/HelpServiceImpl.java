@@ -4,7 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zifuji.cloud.server.sys.db.help.entity.HelpEntity;
 import com.zifuji.cloud.server.sys.db.help.service.HelpEntityService;
-import com.zifuji.cloud.server.sys.module.help.mo.HelpContentMo;
+import com.zifuji.cloud.server.sys.module.help.mo.HelpContentControllerMo;
 import com.zifuji.cloud.server.sys.module.help.service.HelpService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ public class HelpServiceImpl implements HelpService {
     private HelpEntityService helpEntityService;
 
     @Override
-    public String saveHelpContent(HelpContentMo helpContentMo) {
+    public String saveHelpContent(HelpContentControllerMo helpContentMo) {
         QueryWrapper<HelpEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(HelpEntity::getName, helpContentMo.getName());
         HelpEntity helpEntity = helpEntityService.getOne(queryWrapper);

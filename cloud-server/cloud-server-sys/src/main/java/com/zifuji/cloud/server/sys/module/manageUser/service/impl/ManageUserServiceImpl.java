@@ -7,17 +7,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.base.bean.BaseConstant;
+import com.zifuji.cloud.base.bean.constant.BaseConstant;
 import com.zifuji.cloud.base.bean.UserInfo;
 import com.zifuji.cloud.base.exception.Exception200;
 import com.zifuji.cloud.server.sys.db.manageUser.entity.*;
 import com.zifuji.cloud.server.sys.db.manageUser.service.*;
-import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaBo;
+import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaComponentMo;
 import com.zifuji.cloud.server.sys.module.captcha.service.CaptchaService;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageMenuBo;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManagePermissionBo;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageRoleBo;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageUserBo;
+import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageMenuComponentMo;
+import com.zifuji.cloud.server.sys.module.manageUser.bo.ManagePermissionComponentMo;
+import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageRoleComponentMo;
+import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageUserComponentMo;
 import com.zifuji.cloud.server.sys.module.manageUser.mapper.ManageUserMapper;
 import com.zifuji.cloud.server.sys.module.manageUser.mo.*;
 import com.zifuji.cloud.server.sys.module.manageUser.qo.ManageMenuPageQo;
@@ -26,7 +26,7 @@ import com.zifuji.cloud.server.sys.module.manageUser.qo.ManageRolePageQo;
 import com.zifuji.cloud.server.sys.module.manageUser.qo.ManageUserPageQo;
 import com.zifuji.cloud.server.sys.module.manageUser.service.ManageUserService;
 import com.zifuji.cloud.server.sys.module.manageUser.vo.*;
-import com.zifuji.cloud.server.base.object.SecurityUtil;
+import com.zifuji.cloud.server.base.util.SecurityUtil;
 import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import lombok.AllArgsConstructor;
@@ -57,15 +57,15 @@ public class ManageUserServiceImpl implements ManageUserService {
     private CaptchaService captchaService;
 
     @Override
-    public DrawCaptchaVo drawCaptcha() {
-        DrawCaptchaVo drawCaptchaVo = new DrawCaptchaVo();
-        DrawCaptchaBo drawCaptchaBo = captchaService.drawCaptcha(BaseConstant.BUSINESS_TYPE_MANAGE, "img");
+    public DrawCaptchaControllerVo drawCaptcha() {
+        DrawCaptchaControllerVo drawCaptchaVo = new DrawCaptchaControllerVo();
+        DrawCaptchaComponentMo drawCaptchaBo = captchaService.drawCaptcha(BaseConstant.BUSINESS_TYPE_MANAGE, "img");
         BeanUtil.copyProperties(drawCaptchaBo, drawCaptchaVo);
         return drawCaptchaVo;
     }
 
     @Override
-    public String login(LoginMo loginMo) {
+    public String login(LoginControllerMo loginMo) {
 
         captchaService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_MANAGE, "img", loginMo.getRedisUuid(), loginMo.getValue());
 
@@ -84,7 +84,7 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public List<ManageMenuVo> getMenu() {
+    public List<ManageMenuControllerVo> getMenu() {
         UserInfo userInfo = SecurityUtil.getUserDetails();
         List<String> roleList = new ArrayList<String>();
         for (int i = 0; i < userInfo.getRoleList().size(); i++) {
@@ -92,11 +92,11 @@ public class ManageUserServiceImpl implements ManageUserService {
         }
         ManageMenuPageQo manageMenuPageQo = new ManageMenuPageQo();
         manageMenuPageQo.setRoleCode(roleList);
-        List<ManageMenuBo> manageMenuBoList = selectListMenu(manageMenuPageQo);
-        List<ManageMenuVo> manageMenuVoList = new ArrayList<ManageMenuVo>();
+        List<ManageMenuComponentMo> manageMenuBoList = selectListMenu(manageMenuPageQo);
+        List<ManageMenuControllerVo> manageMenuVoList = new ArrayList<ManageMenuControllerVo>();
         for (int i = 0; i < manageMenuBoList.size(); i++) {
-            ManageMenuBo menuBo = manageMenuBoList.get(i);
-            ManageMenuVo manageMenuVo = new ManageMenuVo();
+            ManageMenuComponentMo menuBo = manageMenuBoList.get(i);
+            ManageMenuControllerVo manageMenuVo = new ManageMenuControllerVo();
             BeanUtil.copyProperties(menuBo, manageMenuVo);
             manageMenuVoList.add(manageMenuVo);
         }
@@ -104,23 +104,23 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public IPage<ManageUserVo> queryPageUser(ManageUserPageQo manageUserPageQo) {
-        IPage<ManageUserBo> page = selectPageUser(manageUserPageQo);
+    public IPage<ManageUserControllerVo> queryPageUser(ManageUserPageQo manageUserPageQo) {
+        IPage<ManageUserComponentMo> page = selectPageUser(manageUserPageQo);
         return page.convert(manageUserBo -> {
-            ManageUserVo manageUserVo = new ManageUserVo();
+            ManageUserControllerVo manageUserVo = new ManageUserControllerVo();
             BeanUtil.copyProperties(manageUserBo, manageUserVo);
             return manageUserVo;
         });
     }
 
     @Override
-    public List<ManageUserVo> queryListUser(ManageUserPageQo manageUserPageQo) {
+    public List<ManageUserControllerVo> queryListUser(ManageUserPageQo manageUserPageQo) {
         return null;
     }
 
     @Override
-    public ManageUserVo saveUser(ManageUserMo manageUserMo) {
-        ManageUserVo vo = new ManageUserVo();
+    public ManageUserControllerVo saveUser(ManageUserControllerMo manageUserMo) {
+        ManageUserControllerVo vo = new ManageUserControllerVo();
         if (ObjectUtil.isNull(manageUserMo.getId())) {
             // 通过用户名查询数据库记录
             QueryWrapper<ManageUserEntity> manageUserEntityQueryWrapper = new QueryWrapper<>();
@@ -158,8 +158,8 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public ManageUserVo resetPassWord(ResetPassWordMo resetPassWordMo) {
-        ManageUserVo vo = new ManageUserVo();
+    public ManageUserControllerVo resetPassWord(ResetPassWordControllerMo resetPassWordMo) {
+        ManageUserControllerVo vo = new ManageUserControllerVo();
         ManageUserEntity manageUserEntity = this.manageUserEntityService.getById(resetPassWordMo.getId());
         if (ObjectUtil.isNull(manageUserEntity)) {
             throw new Exception200("编辑数据错误");
@@ -173,17 +173,17 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public IPage<ManageRoleVo> queryPageRole(ManageRolePageQo manageRolePageQo) {
-        IPage<ManageRoleBo> page = selectPageRole(manageRolePageQo);
+    public IPage<ManageRoleControllerVo> queryPageRole(ManageRolePageQo manageRolePageQo) {
+        IPage<ManageRoleComponentMo> page = selectPageRole(manageRolePageQo);
         return page.convert(manageRoleBo -> {
-            ManageRoleVo manageRoleVo = new ManageRoleVo();
+            ManageRoleControllerVo manageRoleVo = new ManageRoleControllerVo();
             BeanUtil.copyProperties(manageRoleBo, manageRoleVo);
             return manageRoleVo;
         });
     }
 
     @Override
-    public String saveRole(ManageRoleMo manageRoleMo) {
+    public String saveRole(ManageRoleControllerMo manageRoleMo) {
         if (ObjectUtil.isNull(manageRoleMo.getId())) {
             QueryWrapper<ManageRoleEntity> queryWrapper = new QueryWrapper<>();
             queryWrapper.lambda().eq(ManageRoleEntity::getCode,manageRoleMo.getCode());
@@ -204,38 +204,38 @@ public class ManageUserServiceImpl implements ManageUserService {
 
 
     @Override
-    public List<ManageRoleVo> queryListRole(ManageRolePageQo manageRolePageQo) {
-        List<ManageRoleBo> list = selectListRole(manageRolePageQo);
+    public List<ManageRoleControllerVo> queryListRole(ManageRolePageQo manageRolePageQo) {
+        List<ManageRoleComponentMo> list = selectListRole(manageRolePageQo);
         return list.stream().map(manageRoleBo -> {
-            ManageRoleVo manageRoleVo = new ManageRoleVo();
+            ManageRoleControllerVo manageRoleVo = new ManageRoleControllerVo();
             BeanUtil.copyProperties(manageRoleBo, manageRoleVo);
             return manageRoleVo;
         }).collect(Collectors.toList());
     }
 
     @Override
-    public List<ManagePermissionVo> queryListPermission(ManagePermissionPageQo managePermissionPageQo) {
-        List<ManagePermissionBo> list = selectListPermission(managePermissionPageQo);
+    public List<ManagePermissionControllerVo> queryListPermission(ManagePermissionPageQo managePermissionPageQo) {
+        List<ManagePermissionComponentMo> list = selectListPermission(managePermissionPageQo);
         return list.stream().map(managePermissionBo -> {
-            ManagePermissionVo managePermissionVo = new ManagePermissionVo();
+            ManagePermissionControllerVo managePermissionVo = new ManagePermissionControllerVo();
             BeanUtil.copyProperties(managePermissionBo, managePermissionVo);
             return managePermissionVo;
         }).collect(Collectors.toList());
     }
 
     @Override
-    public IPage<ManagePermissionVo> queryPagePermission(ManagePermissionPageQo managePermissionPageQo) {
+    public IPage<ManagePermissionControllerVo> queryPagePermission(ManagePermissionPageQo managePermissionPageQo) {
 
-        IPage<ManagePermissionBo> page = selectPagePermission(managePermissionPageQo);
+        IPage<ManagePermissionComponentMo> page = selectPagePermission(managePermissionPageQo);
         return page.convert(managePermissionBo -> {
-            ManagePermissionVo managePermissionVo = new ManagePermissionVo();
+            ManagePermissionControllerVo managePermissionVo = new ManagePermissionControllerVo();
             BeanUtil.copyProperties(managePermissionBo, managePermissionVo);
             return managePermissionVo;
         });
     }
 
     @Override
-    public String savePermission(ManagePermissionMo managePermissionMo) {
+    public String savePermission(ManagePermissionControllerMo managePermissionMo) {
         if (ObjectUtil.isNull(managePermissionMo.getId())) {
             ManagePermissionEntity managePermissionEntity = new ManagePermissionEntity();
             BeanUtil.copyProperties(managePermissionMo, managePermissionEntity);
@@ -249,11 +249,11 @@ public class ManageUserServiceImpl implements ManageUserService {
     ;
 
     @Override
-    public List<ManageMenuVo> queryListMenu(ManageMenuPageQo manageMenuPageQo) {
-        List<ManageMenuBo> list = selectListMenu(manageMenuPageQo);
+    public List<ManageMenuControllerVo> queryListMenu(ManageMenuPageQo manageMenuPageQo) {
+        List<ManageMenuComponentMo> list = selectListMenu(manageMenuPageQo);
 
         return list.stream().map(manageMenuBo -> {
-            ManageMenuVo manageMenuVo = new ManageMenuVo();
+            ManageMenuControllerVo manageMenuVo = new ManageMenuControllerVo();
             BeanUtil.copyProperties(manageMenuBo, manageMenuVo);
             return manageMenuVo;
         }).collect(Collectors.toList());
@@ -262,7 +262,7 @@ public class ManageUserServiceImpl implements ManageUserService {
 
 
     @Override
-    public String saveMenu(ManageMenuMo manageMenuMo) {
+    public String saveMenu(ManageMenuControllerMo manageMenuMo) {
         ManageMenuEntity manageMenuEntity = null;
         if (ObjectUtil.isNull(manageMenuMo.getId())) {
             QueryWrapper<ManageMenuEntity> queryWrapper = new QueryWrapper<ManageMenuEntity>();
@@ -327,7 +327,7 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public String saveUserRoleRelation(ManageUserRoleRelationMo manageUserRoleRelationMo) {
+    public String saveUserRoleRelation(ManageUserRoleRelationControllerMo manageUserRoleRelationMo) {
         QueryWrapper<ManageUserRoleEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ManageUserRoleEntity::getUserId, manageUserRoleRelationMo.getUserId());
         manageUserRoleEntityService.remove(queryWrapper);
@@ -345,7 +345,7 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public String saveRolePermissionRelation(ManageRolePermissionRelationMo manageRolePermissionRelationMo) {
+    public String saveRolePermissionRelation(ManageRolePermissionRelationControllerMo manageRolePermissionRelationMo) {
         QueryWrapper<ManageRolePermissionEntity> queryWrapper = new QueryWrapper<ManageRolePermissionEntity>();
         queryWrapper.lambda().eq(ManageRolePermissionEntity::getRoleId, manageRolePermissionRelationMo.getRoleId());
         manageRolePermissionEntityService.remove(queryWrapper);
@@ -363,7 +363,7 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public String saveRoleMenuRelation(ManageRoleMenuRelationMo manageRoleMenuRelationMo) {
+    public String saveRoleMenuRelation(ManageRoleMenuRelationControllerMo manageRoleMenuRelationMo) {
         if (ObjectUtil.isNull(manageRoleMenuRelationMo.getRoleId()) || manageRoleMenuRelationMo.getRoleId().equals(0L)) {
             throw new Exception200("");
         }
@@ -419,16 +419,16 @@ public class ManageUserServiceImpl implements ManageUserService {
         ManageRolePageQo manageRolePageQo = new ManageRolePageQo();
         manageRolePageQo.setUserId(new ArrayList<Long>());
         manageRolePageQo.getUserId().add(userInfo.getId());
-        List<ManageRoleBo> manageRoleBoList = selectListRole(manageRolePageQo);
-        for (ManageRoleBo manageRoleBo : manageRoleBoList) {
+        List<ManageRoleComponentMo> manageRoleBoList = selectListRole(manageRolePageQo);
+        for (ManageRoleComponentMo manageRoleBo : manageRoleBoList) {
             roleCodeList.add(manageRoleBo.getCode());
         }
 
         ManagePermissionPageQo managePermissionPageQo = new ManagePermissionPageQo();
         managePermissionPageQo.setUserId(new ArrayList<Long>());
         managePermissionPageQo.getUserId().add(userInfo.getId());
-        List<ManagePermissionBo> managePermissionBoList = selectListPermission(managePermissionPageQo);
-        for (ManagePermissionBo managePermissionBo : managePermissionBoList) {
+        List<ManagePermissionComponentMo> managePermissionBoList = selectListPermission(managePermissionPageQo);
+        for (ManagePermissionComponentMo managePermissionBo : managePermissionBoList) {
             permissionCodeList.add(managePermissionBo.getCodeSys() + ":" + managePermissionBo.getCodeModule() + ":" + managePermissionBo.getCode());
         }
 
@@ -450,8 +450,8 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
 
-    private QueryWrapper<ManageUserBo> getManageUserBoQueryWrapper(ManageUserPageQo manageUserPageQo) {
-        QueryWrapper<ManageUserBo> queryWrapper = new QueryWrapper<ManageUserBo>();
+    private QueryWrapper<ManageUserComponentMo> getManageUserBoQueryWrapper(ManageUserPageQo manageUserPageQo) {
+        QueryWrapper<ManageUserComponentMo> queryWrapper = new QueryWrapper<ManageUserComponentMo>();
         if (StrUtil.isNotBlank(manageUserPageQo.getUserName())) {
             queryWrapper.like("zmu.user_name", manageUserPageQo.getUserName());
         }
@@ -466,17 +466,17 @@ public class ManageUserServiceImpl implements ManageUserService {
         return queryWrapper;
     }
 
-    private List<ManageUserBo> selectListUser(ManageUserPageQo manageUserPageQo) {
+    private List<ManageUserComponentMo> selectListUser(ManageUserPageQo manageUserPageQo) {
         return manageUserMapper.selectListUser(getManageUserBoQueryWrapper(manageUserPageQo));
     }
 
-    private IPage<ManageUserBo> selectPageUser(ManageUserPageQo manageUserPageQo) {
-        Page<ManageUserBo> page = new Page<ManageUserBo>(manageUserPageQo.getCurrent(), manageUserPageQo.getSize());
+    private IPage<ManageUserComponentMo> selectPageUser(ManageUserPageQo manageUserPageQo) {
+        Page<ManageUserComponentMo> page = new Page<ManageUserComponentMo>(manageUserPageQo.getCurrent(), manageUserPageQo.getSize());
         return manageUserMapper.selectPageUser(page, getManageUserBoQueryWrapper(manageUserPageQo));
     }
 
-    private QueryWrapper<ManageRoleBo> getManageRoleBoQueryWrapper(ManageRolePageQo manageRolePageQo) {
-        QueryWrapper<ManageRoleBo> queryWrapper = new QueryWrapper<>();
+    private QueryWrapper<ManageRoleComponentMo> getManageRoleBoQueryWrapper(ManageRolePageQo manageRolePageQo) {
+        QueryWrapper<ManageRoleComponentMo> queryWrapper = new QueryWrapper<>();
         if (ObjectUtil.isNotEmpty(manageRolePageQo.getUserId())) {
             queryWrapper.in("zmu.id", manageRolePageQo.getUserId());
         }
@@ -485,18 +485,18 @@ public class ManageUserServiceImpl implements ManageUserService {
         return queryWrapper;
     }
 
-    private List<ManageRoleBo> selectListRole(ManageRolePageQo manageRolePageQo) {
+    private List<ManageRoleComponentMo> selectListRole(ManageRolePageQo manageRolePageQo) {
         return manageUserMapper.selectListRole(getManageRoleBoQueryWrapper(manageRolePageQo));
     }
 
 
-    private IPage<ManageRoleBo> selectPageRole(ManageRolePageQo manageRolePageQo) {
-        Page<ManageRoleBo> page = new Page<ManageRoleBo>(manageRolePageQo.getCurrent(), manageRolePageQo.getSize());
+    private IPage<ManageRoleComponentMo> selectPageRole(ManageRolePageQo manageRolePageQo) {
+        Page<ManageRoleComponentMo> page = new Page<ManageRoleComponentMo>(manageRolePageQo.getCurrent(), manageRolePageQo.getSize());
         return manageUserMapper.selectPageRole(page, getManageRoleBoQueryWrapper(manageRolePageQo));
     }
 
-    private QueryWrapper<ManagePermissionBo> getManagePermissionBoQueryWrapper(ManagePermissionPageQo managePermissionPageQo) {
-        QueryWrapper<ManagePermissionBo> queryWrapper = new QueryWrapper<>();
+    private QueryWrapper<ManagePermissionComponentMo> getManagePermissionBoQueryWrapper(ManagePermissionPageQo managePermissionPageQo) {
+        QueryWrapper<ManagePermissionComponentMo> queryWrapper = new QueryWrapper<>();
         if (ObjectUtil.isNotEmpty(managePermissionPageQo.getUserId())) {
             queryWrapper.in("zmu.id", managePermissionPageQo.getUserId());
         }
@@ -508,17 +508,17 @@ public class ManageUserServiceImpl implements ManageUserService {
         return queryWrapper;
     }
 
-    private List<ManagePermissionBo> selectListPermission(ManagePermissionPageQo managePermissionPageQo) {
+    private List<ManagePermissionComponentMo> selectListPermission(ManagePermissionPageQo managePermissionPageQo) {
         return manageUserMapper.selectListPermission(getManagePermissionBoQueryWrapper(managePermissionPageQo));
     }
 
-    private IPage<ManagePermissionBo> selectPagePermission(ManagePermissionPageQo managePermissionPageQo) {
-        Page<ManagePermissionBo> page = new Page<ManagePermissionBo>(managePermissionPageQo.getCurrent(), managePermissionPageQo.getSize());
+    private IPage<ManagePermissionComponentMo> selectPagePermission(ManagePermissionPageQo managePermissionPageQo) {
+        Page<ManagePermissionComponentMo> page = new Page<ManagePermissionComponentMo>(managePermissionPageQo.getCurrent(), managePermissionPageQo.getSize());
         return manageUserMapper.selectPagePermission(page, getManagePermissionBoQueryWrapper(managePermissionPageQo));
     }
 
-    private QueryWrapper<ManageMenuBo> getManageMenuBoQueryWrapper(ManageMenuPageQo manageMenuPageQo) {
-        QueryWrapper<ManageMenuBo> queryWrapper = new QueryWrapper<>();
+    private QueryWrapper<ManageMenuComponentMo> getManageMenuBoQueryWrapper(ManageMenuPageQo manageMenuPageQo) {
+        QueryWrapper<ManageMenuComponentMo> queryWrapper = new QueryWrapper<>();
         if (ObjectUtil.isNotEmpty(manageMenuPageQo.getUserName())) {
             queryWrapper.in("zmu.user_name", manageMenuPageQo.getUserName());
         }
@@ -530,7 +530,7 @@ public class ManageUserServiceImpl implements ManageUserService {
         return queryWrapper;
     }
 
-    private List<ManageMenuBo> selectListMenu(ManageMenuPageQo manageMenuPageQo) {
+    private List<ManageMenuComponentMo> selectListMenu(ManageMenuPageQo manageMenuPageQo) {
         return manageUserMapper.selectListMenu(getManageMenuBoQueryWrapper(manageMenuPageQo));
     }
 

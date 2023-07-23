@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "business", contextId = "friend", path = "/friend")
+@FeignClient(name = "cloud-server-business", contextId = "friend", path = "/friend")
 public interface FriendFeignClient {
 
     @GetMapping(value = "/registerFriend")

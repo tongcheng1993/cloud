@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zifuji.cloud.server.sys.module.email.mapper.EmailMapper">
-    <select id="selectListEmailRecord" resultType="com.zifuji.cloud.server.sys.module.email.bo.EmailRecordBo">
+    <select id="selectListEmailRecord" resultType="com.zifuji.cloud.server.sys.module.email.bo.EmailRecordComponentMo">
         SELECT
             zser.id,
             zser.addr_from,
@@ -16,7 +16,7 @@
         LEFT JOIN z_manage_user zmu ON zser.create_by = zmu.id
         LEFT JOIN z_web_user zwu ON zser.create_by = zwu.id
     </select>
-    <select id="selectPageEmailRecord" resultType="com.zifuji.cloud.server.sys.module.email.bo.EmailRecordBo">
+    <select id="selectPageEmailRecord" resultType="com.zifuji.cloud.server.sys.module.email.bo.EmailRecordComponentMo">
         SELECT
             zser.id,
             zser.addr_from,
@@ -32,7 +32,7 @@
         LEFT JOIN z_web_user zwu ON zser.create_by = zwu.id
     </select>
     <select id="selectListEmailTemplate"
-            resultType="com.zifuji.cloud.server.sys.module.email.bo.EmailTemplateBo">
+            resultType="com.zifuji.cloud.server.sys.module.email.bo.EmailTemplateComponentMo">
         SELECT
             zset.id,
             zset.create_time,
@@ -43,7 +43,7 @@
         INNER JOIN z_sys_template zst ON zset.template_id = zst.id
     </select>
     <select id="selectPageEmailTemplate"
-            resultType="com.zifuji.cloud.server.sys.module.email.bo.EmailTemplateBo">
+            resultType="com.zifuji.cloud.server.sys.module.email.bo.EmailTemplateComponentMo">
         SELECT
             zset.id,
             zset.create_time,

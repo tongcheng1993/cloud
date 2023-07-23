@@ -1,6 +1,6 @@
 package com.zifuji.cloud.server.sys.module.useDb.qo;
 
-import com.zifuji.cloud.base.bean.BasePageQo;
+import com.zifuji.cloud.base.bean.controller.BaseControllerPageQo;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class ExecuteSqlQo extends BasePageQo {
+public class ExecuteSqlQo extends BaseControllerPageQo {
 
     private long size = 1000;
 

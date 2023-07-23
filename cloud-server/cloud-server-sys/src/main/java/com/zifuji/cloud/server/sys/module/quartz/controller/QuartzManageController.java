@@ -1,12 +1,11 @@
 package com.zifuji.cloud.server.sys.module.quartz.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.sys.module.quartz.mo.QuartzRecordMo;
+import com.zifuji.cloud.server.sys.module.quartz.mo.QuartzRecordControllerMo;
 import com.zifuji.cloud.server.sys.module.quartz.qo.QuartzRecordPageQo;
 import com.zifuji.cloud.server.sys.module.quartz.service.QuartzService;
-import com.zifuji.cloud.server.sys.module.quartz.vo.QuartzRecordVo;
+import com.zifuji.cloud.server.sys.module.quartz.vo.QuartzRecordControllerVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -26,11 +25,11 @@ public class QuartzManageController {
 
     @ApiOperation(value = "增加一个定时器")
     @PostMapping(value = "/saveQuartzRecord")
-    public Result<QuartzRecordVo> saveQuartzRecord(@RequestBody @Valid QuartzRecordMo quartzRecordMo) throws Exception {
+    public Result<QuartzRecordControllerVo> saveQuartzRecord(@RequestBody @Valid QuartzRecordControllerMo quartzRecordMo) throws Exception {
 
-        QuartzRecordVo result = quartzService.saveQuartzRecord(quartzRecordMo);
+        QuartzRecordControllerVo result = quartzService.saveQuartzRecord(quartzRecordMo);
 
-        return new Result<QuartzRecordVo>().setObj(result);
+        return new Result<QuartzRecordControllerVo>().setObj(result);
     }
 
 
@@ -46,11 +45,11 @@ public class QuartzManageController {
 
     @ApiOperation(value = "分页查询定时器")
     @PostMapping(value = "/queryPageQuartzRecord")
-    public Result<IPage<QuartzRecordVo>> queryPageQuartzRecord(@RequestBody @Valid QuartzRecordPageQo quartzRecordPageQo) {
+    public Result<IPage<QuartzRecordControllerVo>> queryPageQuartzRecord(@RequestBody @Valid QuartzRecordPageQo quartzRecordPageQo) {
 
-        IPage<QuartzRecordVo> result = quartzService.queryPageQuartzRecord(quartzRecordPageQo);
+        IPage<QuartzRecordControllerVo> result = quartzService.queryPageQuartzRecord(quartzRecordPageQo);
 
-        return new Result<IPage<QuartzRecordVo>>().setObj(result);
+        return new Result<IPage<QuartzRecordControllerVo>>().setObj(result);
     }
 
     @ApiOperation(value = "")

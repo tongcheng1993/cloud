@@ -2,7 +2,7 @@ package com.zifuji.cloud.server.websocket.module.websocket.config;
 
 
 import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.server.base.object.SecurityUtil;
+import com.zifuji.cloud.server.base.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.server.ServerHttpRequest;
@@ -25,9 +25,6 @@ public class UserHandshakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
 
-        UserInfo userInfo = SecurityUtil.getUserDetails();
-        stringRedisTemplate.opsForValue().set("ws"+userInfo.getToken(),""+userInfo.getId());
-        stringRedisTemplate.opsForSet().add("ws" + userInfo.getId(), userInfo.getToken());
         return true;
     }
 

@@ -1,11 +1,9 @@
 package com.zifuji.cloud.server.sys.module.area.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.sys.module.area.mo.SaveAreaMo;
+import com.zifuji.cloud.server.sys.module.area.mo.SaveAreaControllerMo;
 import com.zifuji.cloud.server.sys.module.area.qo.AreaPageQo;
-import com.zifuji.cloud.server.sys.module.area.vo.AreaVo;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.zifuji.cloud.server.sys.module.area.vo.AreaControllerVo;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +34,7 @@ public class AreaController {
     //增加
     @ApiOperation(value = "")
     @PostMapping(value = "/saveArea")
-    public Result<String> saveArea(@RequestBody @Valid SaveAreaMo saveAreaMo) {
+    public Result<String> saveArea(@RequestBody @Valid SaveAreaControllerMo saveAreaMo) {
 
         String result = areaService.saveArea(saveAreaMo);
 
@@ -48,20 +46,20 @@ public class AreaController {
 
     //查询
     @PostMapping(value = "/queryPageArea")
-    public Result<IPage<AreaVo>> queryPageArea(@RequestBody @Valid AreaPageQo areaPageQo) {
+    public Result<IPage<AreaControllerVo>> queryPageArea(@RequestBody @Valid AreaPageQo areaPageQo) {
 
-        IPage<AreaVo> result = areaService.queryPageArea(areaPageQo);
+        IPage<AreaControllerVo> result = areaService.queryPageArea(areaPageQo);
 
-        return new Result<IPage<AreaVo>>().setObj(result);
+        return new Result<IPage<AreaControllerVo>>().setObj(result);
     }
 
 
     @PostMapping(value = "/queryListArea")
-    public Result<List<AreaVo>> queryListArea(@RequestBody @Valid AreaPageQo areaPageQo) {
+    public Result<List<AreaControllerVo>> queryListArea(@RequestBody @Valid AreaPageQo areaPageQo) {
 
-        List<AreaVo> result = areaService.queryListArea(areaPageQo);
+        List<AreaControllerVo> result = areaService.queryListArea(areaPageQo);
 
-        return new Result<List<AreaVo>>().setObj(areaService.queryListArea(areaPageQo));
+        return new Result<List<AreaControllerVo>>().setObj(areaService.queryListArea(areaPageQo));
     }
 
 

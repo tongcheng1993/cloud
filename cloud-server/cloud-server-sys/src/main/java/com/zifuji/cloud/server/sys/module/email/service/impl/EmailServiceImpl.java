@@ -15,20 +15,20 @@ import com.zifuji.cloud.server.sys.db.email.service.EmailRecordEntityService;
 import com.zifuji.cloud.server.sys.db.email.service.EmailTemplateEntityService;
 import com.zifuji.cloud.server.sys.db.template.entity.TemplateEntity;
 import com.zifuji.cloud.server.sys.db.template.service.TemplateEntityService;
-import com.zifuji.cloud.server.sys.module.email.bo.EmailRecordBo;
-import com.zifuji.cloud.server.sys.module.email.bo.EmailTemplateBo;
+import com.zifuji.cloud.server.sys.module.email.bo.EmailRecordComponentMo;
+import com.zifuji.cloud.server.sys.module.email.bo.EmailTemplateComponentMo;
 import com.zifuji.cloud.server.sys.module.email.component.EmailComponent;
 import com.zifuji.cloud.server.sys.module.email.mapper.EmailMapper;
-import com.zifuji.cloud.server.sys.module.email.mo.SaveEmailTemplateMo;
-import com.zifuji.cloud.server.sys.module.email.mo.SendEmailSimpleMo;
-import com.zifuji.cloud.server.sys.module.email.mo.SendEmailTemplateMo;
+import com.zifuji.cloud.server.sys.module.email.mo.SaveEmailTemplateControllerMo;
+import com.zifuji.cloud.server.sys.module.email.mo.SendEmailSimpleControllerMo;
+import com.zifuji.cloud.server.sys.module.email.mo.SendEmailTemplateControllerMo;
 import com.zifuji.cloud.server.sys.module.email.properties.EmailProperties;
 import com.zifuji.cloud.server.sys.module.email.qo.EmailRecordPageQo;
 import com.zifuji.cloud.server.sys.module.email.qo.EmailTemplatePageQo;
 import com.zifuji.cloud.server.sys.module.email.service.EmailService;
-import com.zifuji.cloud.server.sys.module.email.vo.EmailAccountVo;
-import com.zifuji.cloud.server.sys.module.email.vo.EmailRecordVo;
-import com.zifuji.cloud.server.sys.module.email.vo.EmailTemplateVo;
+import com.zifuji.cloud.server.sys.module.email.vo.EmailAccountControllerVo;
+import com.zifuji.cloud.server.sys.module.email.vo.EmailRecordControllerVo;
+import com.zifuji.cloud.server.sys.module.email.vo.EmailTemplateControllerVo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
 import com.zifuji.cloud.server.sys.module.template.service.TemplateService;
 
@@ -67,14 +67,14 @@ public class EmailServiceImpl implements EmailService {
 
 
     @Override
-    public EmailAccountVo getEmailAccount() {
-        EmailAccountVo vo = new EmailAccountVo();
+    public EmailAccountControllerVo getEmailAccount() {
+        EmailAccountControllerVo vo = new EmailAccountControllerVo();
         vo.setName(emailProperties.getUsername());
         return vo;
     }
 
     @Override
-    public String saveEmailTemplate(SaveEmailTemplateMo saveEmailTemplateMo) {
+    public String saveEmailTemplate(SaveEmailTemplateControllerMo saveEmailTemplateMo) {
         if (ObjectUtil.isNull(saveEmailTemplateMo.getId())) {
             TemplateEntity templateEntity = new TemplateEntity();
             templateEntity.setContent(saveEmailTemplateMo.getContent());
@@ -101,7 +101,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public EmailRecordVo sendEmailByTemplate(SendEmailTemplateMo sendEmailTemplateMo) {
+    public EmailRecordControllerVo sendEmailByTemplate(SendEmailTemplateControllerMo sendEmailTemplateMo) {
         List<MultipartFile> imgList = fileService.getFileList(sendEmailTemplateMo.getImgList());
         List<MultipartFile> fileList = fileService.getFileList(sendEmailTemplateMo.getFileList());
         Map<String, Object> map = JSONObject.parseObject(sendEmailTemplateMo.getParamMapStr(), new TypeReference<Map<String, Object>>() {
@@ -111,35 +111,35 @@ public class EmailServiceImpl implements EmailService {
 
 
     @Override
-    public EmailRecordVo sendEmail(SendEmailSimpleMo sendEmailSimpleMo) {
+    public EmailRecordControllerVo sendEmail(SendEmailSimpleControllerMo sendEmailSimpleMo) {
         List<MultipartFile> imgList = fileService.getFileList(sendEmailSimpleMo.getImgList());
         List<MultipartFile> fileList = fileService.getFileList(sendEmailSimpleMo.getFileList());
         return sendMailNoException(sendEmailSimpleMo.getTo(), sendEmailSimpleMo.getSubject(), sendEmailSimpleMo.getContent(), imgList, fileList);
     }
 
     @Override
-    public IPage<EmailRecordVo> queryPageEmailRecord(EmailRecordPageQo emailRecordPageQo) {
-        IPage<EmailRecordBo> page = selectPageEmailRecord(emailRecordPageQo);
+    public IPage<EmailRecordControllerVo> queryPageEmailRecord(EmailRecordPageQo emailRecordPageQo) {
+        IPage<EmailRecordComponentMo> page = selectPageEmailRecord(emailRecordPageQo);
         return page.convert(bo -> {
-            EmailRecordVo vo = new EmailRecordVo();
+            EmailRecordControllerVo vo = new EmailRecordControllerVo();
             BeanUtil.copyProperties(bo, vo);
             return vo;
         });
     }
 
     @Override
-    public IPage<EmailTemplateVo> queryPageEmailTemplate(EmailTemplatePageQo emailTemplatePageQo) {
-        IPage<EmailTemplateBo> page = selectPageEmailTemplate(emailTemplatePageQo);
+    public IPage<EmailTemplateControllerVo> queryPageEmailTemplate(EmailTemplatePageQo emailTemplatePageQo) {
+        IPage<EmailTemplateComponentMo> page = selectPageEmailTemplate(emailTemplatePageQo);
         return page.convert(bo -> {
-            EmailTemplateVo vo = new EmailTemplateVo();
+            EmailTemplateControllerVo vo = new EmailTemplateControllerVo();
             BeanUtil.copyProperties(bo, vo);
             return vo;
         });
     }
 
     @Override
-    public EmailTemplateVo getEmailTemplateById(Long id) {
-        EmailTemplateVo vo = new EmailTemplateVo();
+    public EmailTemplateControllerVo getEmailTemplateById(Long id) {
+        EmailTemplateControllerVo vo = new EmailTemplateControllerVo();
         EmailTemplateEntity emailTemplateEntity = emailTemplateEntityService.getById(id);
         BeanUtil.copyProperties(emailTemplateEntity, vo);
         TemplateEntity templateEntity = templateEntityService.getById(emailTemplateEntity.getTemplateId());
@@ -149,7 +149,7 @@ public class EmailServiceImpl implements EmailService {
 
 
     @Override
-    public EmailRecordVo sendEmailTemplateById(String to, Long id, Map<String, Object> map, List<MultipartFile> imgList, List<MultipartFile> fileList) {
+    public EmailRecordControllerVo sendEmailTemplateById(String to, Long id, Map<String, Object> map, List<MultipartFile> imgList, List<MultipartFile> fileList) {
         EmailTemplateEntity emailTemplateEntity = emailTemplateEntityService.getById(id);
         String subject = emailTemplateEntity.getSubject();
         Long templateId = emailTemplateEntity.getTemplateId();
@@ -157,7 +157,7 @@ public class EmailServiceImpl implements EmailService {
         return sendMailNoException(to, subject, content, imgList, fileList);
     }
     @Override
-    public EmailRecordVo sendEmailTemplateByName(String to, String name, Map<String, Object> map, List<MultipartFile> imgList, List<MultipartFile> fileList) {
+    public EmailRecordControllerVo sendEmailTemplateByName(String to, String name, Map<String, Object> map, List<MultipartFile> imgList, List<MultipartFile> fileList) {
         QueryWrapper<EmailTemplateEntity> emailTemplateEntityQueryWrapper = new QueryWrapper<>();
         emailTemplateEntityQueryWrapper.lambda().eq(EmailTemplateEntity::getName,name);
         EmailTemplateEntity emailTemplateEntity = emailTemplateEntityService.getOne(emailTemplateEntityQueryWrapper);
@@ -169,7 +169,7 @@ public class EmailServiceImpl implements EmailService {
 
 
     @Override
-    public EmailRecordVo sendMailNoException(String to, String subject, String content, List<MultipartFile> imgList, List<MultipartFile> fileList) {
+    public EmailRecordControllerVo sendMailNoException(String to, String subject, String content, List<MultipartFile> imgList, List<MultipartFile> fileList) {
         Boolean flag = emailComponent.sendMailNoException(to, subject, content, imgList, fileList);
         EmailRecordEntity emailRecordEntity = new EmailRecordEntity();
         emailRecordEntity.setAddrFrom(emailProperties.getUsername());
@@ -183,15 +183,15 @@ public class EmailServiceImpl implements EmailService {
             emailRecordEntity.setSendStatus("0");
         }
         emailRecordEntityService.save(emailRecordEntity);
-        EmailRecordVo emailRecordVo = new EmailRecordVo();
+        EmailRecordControllerVo emailRecordVo = new EmailRecordControllerVo();
         BeanUtil.copyProperties(emailRecordEntity, emailRecordVo);
         return emailRecordVo;
     }
 
 
-    private IPage<EmailRecordBo> selectPageEmailRecord(EmailRecordPageQo emailRecordPageQo) {
-        Page<EmailRecordBo> page = new Page<EmailRecordBo>(emailRecordPageQo.getCurrent(), emailRecordPageQo.getSize());
-        QueryWrapper<EmailRecordBo> ew = new QueryWrapper<>();
+    private IPage<EmailRecordComponentMo> selectPageEmailRecord(EmailRecordPageQo emailRecordPageQo) {
+        Page<EmailRecordComponentMo> page = new Page<EmailRecordComponentMo>(emailRecordPageQo.getCurrent(), emailRecordPageQo.getSize());
+        QueryWrapper<EmailRecordComponentMo> ew = new QueryWrapper<>();
 
         MyBatisPlusUtil.orderWrapper(ew, emailRecordPageQo.getOrders());
 
@@ -200,9 +200,9 @@ public class EmailServiceImpl implements EmailService {
     }
 
 
-    private IPage<EmailTemplateBo> selectPageEmailTemplate(EmailTemplatePageQo emailTemplatePageQo) {
-        Page<EmailTemplateBo> page = new Page<EmailTemplateBo>(emailTemplatePageQo.getCurrent(), emailTemplatePageQo.getSize());
-        QueryWrapper<EmailTemplateBo> ew = new QueryWrapper<>();
+    private IPage<EmailTemplateComponentMo> selectPageEmailTemplate(EmailTemplatePageQo emailTemplatePageQo) {
+        Page<EmailTemplateComponentMo> page = new Page<EmailTemplateComponentMo>(emailTemplatePageQo.getCurrent(), emailTemplatePageQo.getSize());
+        QueryWrapper<EmailTemplateComponentMo> ew = new QueryWrapper<>();
 
         MyBatisPlusUtil.orderWrapper(ew, emailTemplatePageQo.getOrders());
 

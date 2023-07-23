@@ -1,6 +1,6 @@
 package com.zifuji.cloud.server.sys.module.quartz.component;
 
-import com.zifuji.cloud.server.sys.module.quartz.bo.QuartzRecordBo;
+import com.zifuji.cloud.server.sys.module.quartz.bo.QuartzRecordComponentMo;
 import lombok.AllArgsConstructor;
 
 import org.quartz.*;
@@ -113,16 +113,16 @@ public class QuartzComponent {
     }
 
 
-    public List<QuartzRecordBo> getAllJob(){
+    public List<QuartzRecordComponentMo> getAllJob(){
         GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
         Set<JobKey> jobKeys = null;
-        List<QuartzRecordBo> jobList = new ArrayList();
+        List<QuartzRecordComponentMo> jobList = new ArrayList();
         try {
             jobKeys = scheduler.getJobKeys(matcher);
             for (JobKey jobKey : jobKeys) {
                 List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
                 for (Trigger trigger : triggers) {
-                    QuartzRecordBo job = new QuartzRecordBo();
+                    QuartzRecordComponentMo job = new QuartzRecordComponentMo();
                     job.setName(jobKey.getName());
                     job.setJobGroupName(jobKey.getGroup());
                     job.setDescription("触发器:" + trigger.getKey());

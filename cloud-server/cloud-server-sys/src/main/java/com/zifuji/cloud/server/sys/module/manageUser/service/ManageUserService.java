@@ -13,45 +13,45 @@ import java.util.List;
 
 public interface ManageUserService {
 
-    DrawCaptchaVo drawCaptcha();
+    DrawCaptchaControllerVo drawCaptcha();
 
-    String login(LoginMo loginMo);
+    String login(LoginControllerMo loginMo);
 
-    List<ManageMenuVo> getMenu();
+    List<ManageMenuControllerVo> getMenu();
 
-    IPage<ManageUserVo> queryPageUser(ManageUserPageQo manageUserPageQo);
+    IPage<ManageUserControllerVo> queryPageUser(ManageUserPageQo manageUserPageQo);
 
-    List<ManageUserVo> queryListUser(ManageUserPageQo manageUserPageQo);
+    List<ManageUserControllerVo> queryListUser(ManageUserPageQo manageUserPageQo);
 
-    ManageUserVo saveUser(ManageUserMo manageUserMo);
+    ManageUserControllerVo saveUser(ManageUserControllerMo manageUserMo);
 
-    ManageUserVo resetPassWord(ResetPassWordMo resetPassWordMo);
+    ManageUserControllerVo resetPassWord(ResetPassWordControllerMo resetPassWordMo);
 
-    IPage<ManageRoleVo> queryPageRole(ManageRolePageQo manageRolePageQo);
+    IPage<ManageRoleControllerVo> queryPageRole(ManageRolePageQo manageRolePageQo);
 
-    String saveRole(ManageRoleMo manageRoleMo);
+    String saveRole(ManageRoleControllerMo manageRoleMo);
 
-    List<ManageRoleVo> queryListRole(ManageRolePageQo manageRolePageQo);
+    List<ManageRoleControllerVo> queryListRole(ManageRolePageQo manageRolePageQo);
 
-    List<ManagePermissionVo> queryListPermission(ManagePermissionPageQo managePermissionPageQo);
+    List<ManagePermissionControllerVo> queryListPermission(ManagePermissionPageQo managePermissionPageQo);
 
-    IPage<ManagePermissionVo> queryPagePermission(ManagePermissionPageQo managePermissionPageQo);
+    IPage<ManagePermissionControllerVo> queryPagePermission(ManagePermissionPageQo managePermissionPageQo);
 
-    String savePermission(ManagePermissionMo managePermissionMo);
+    String savePermission(ManagePermissionControllerMo managePermissionMo);
 
-    List<ManageMenuVo> queryListMenu(ManageMenuPageQo manageMenuPageQo);
+    List<ManageMenuControllerVo> queryListMenu(ManageMenuPageQo manageMenuPageQo);
 
-    String saveMenu(ManageMenuMo manageMenuMo);
+    String saveMenu(ManageMenuControllerMo manageMenuMo);
 
     String saveUserAndRole(Long userId, String roleCode);
 
     String saveUserAndRole(Long userId, Long roleId);
 
-    String saveUserRoleRelation(ManageUserRoleRelationMo manageUserRoleRelationMo);
+    String saveUserRoleRelation(ManageUserRoleRelationControllerMo manageUserRoleRelationMo);
 
-    String saveRolePermissionRelation(ManageRolePermissionRelationMo manageRolePermissionRelationMo);
+    String saveRolePermissionRelation(ManageRolePermissionRelationControllerMo manageRolePermissionRelationMo);
 
-    String saveRoleMenuRelation(ManageRoleMenuRelationMo manageRoleMenuRelationMo);
+    String saveRoleMenuRelation(ManageRoleMenuRelationControllerMo manageRoleMenuRelationMo);
 
     String saveRoleMenuRelation(Long roleId, Long menuId);
 

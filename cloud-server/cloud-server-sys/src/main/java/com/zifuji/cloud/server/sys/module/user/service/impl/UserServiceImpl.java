@@ -12,13 +12,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.server.base.util.ZfjFileUtil;
 import com.zifuji.cloud.server.sys.db.user.entity.*;
 import com.zifuji.cloud.server.sys.db.user.service.*;
-import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaBo;
+import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaComponentMo;
 import com.zifuji.cloud.server.sys.module.captcha.service.CaptchaService;
 import com.zifuji.cloud.server.sys.module.email.service.EmailService;
-import com.zifuji.cloud.server.sys.module.user.bo.WebMenuBo;
-import com.zifuji.cloud.server.sys.module.user.bo.WebPermissionBo;
-import com.zifuji.cloud.server.sys.module.user.bo.WebRoleBo;
-import com.zifuji.cloud.server.sys.module.user.bo.WebUserBo;
+import com.zifuji.cloud.server.sys.module.user.bo.WebMenuComponentMo;
+import com.zifuji.cloud.server.sys.module.user.bo.WebPermissionComponentMo;
+import com.zifuji.cloud.server.sys.module.user.bo.WebRoleComponentMo;
+import com.zifuji.cloud.server.sys.module.user.bo.WebUserComponentMo;
 import com.zifuji.cloud.server.sys.module.user.mo.*;
 import com.zifuji.cloud.server.sys.module.user.qo.WebPermissionPageQo;
 import com.zifuji.cloud.server.sys.module.user.qo.WebUserPageQo;
@@ -31,14 +31,14 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.base.bean.BaseConstant;
+import com.zifuji.cloud.base.bean.constant.BaseConstant;
 import com.zifuji.cloud.base.bean.UserInfo;
 import com.zifuji.cloud.base.exception.Exception200;
 import com.zifuji.cloud.server.sys.module.user.mapper.UserMapper;
 import com.zifuji.cloud.server.sys.module.user.qo.WebMenuPageQo;
 import com.zifuji.cloud.server.sys.module.user.qo.WebRolePageQo;
 import com.zifuji.cloud.server.sys.module.user.service.UserService;
-import com.zifuji.cloud.server.base.object.SecurityUtil;
+import com.zifuji.cloud.server.base.util.SecurityUtil;
 import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<WebMenuVo> getMenu() {
+    public List<WebMenuControllerVo> getMenu() {
         UserInfo userInfo = SecurityUtil.getUserDetails();
         List<String> roleCodeList = new ArrayList<String>();
         if (ObjectUtil.isEmpty(userInfo.getRoleList())) {
@@ -82,24 +82,24 @@ public class UserServiceImpl implements UserService {
         }
         WebMenuPageQo webMenuPageQo = new WebMenuPageQo();
         webMenuPageQo.setRoleCodes(roleCodeList);
-        List<WebMenuBo> menuBoList = selectListMenu(webMenuPageQo);
+        List<WebMenuComponentMo> menuBoList = selectListMenu(webMenuPageQo);
         return menuBoList.stream().map(menuBo -> {
-            WebMenuVo webMenuVo = new WebMenuVo();
+            WebMenuControllerVo webMenuVo = new WebMenuControllerVo();
             BeanUtil.copyProperties(menuBo, webMenuVo);
             return webMenuVo;
         }).collect(Collectors.toList());
     }
 
     @Override
-    public WebDrawCaptchaVo drawCaptcha() {
-        WebDrawCaptchaVo webDrawCaptchaVo = new WebDrawCaptchaVo();
-        DrawCaptchaBo drawCaptchaBo = captchaService.drawCaptcha(BaseConstant.BUSINESS_TYPE_WEB, "img");
+    public WebDrawCaptchaControllerVo drawCaptcha() {
+        WebDrawCaptchaControllerVo webDrawCaptchaVo = new WebDrawCaptchaControllerVo();
+        DrawCaptchaComponentMo drawCaptchaBo = captchaService.drawCaptcha(BaseConstant.BUSINESS_TYPE_WEB, "img");
         BeanUtil.copyProperties(drawCaptchaBo, webDrawCaptchaVo);
         return webDrawCaptchaVo;
     }
 
     @Override
-    public String register(RegisterMo registerMo) {
+    public String register(RegisterControllerMo registerMo) {
         Boolean flag = captchaService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_WEB, "img", registerMo.getRedisUuid(), registerMo.getValue());
         if(!flag){
             throw new Exception200("验证码错误");
@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public String login(LoginMo loginMo) {
+    public String login(LoginControllerMo loginMo) {
 
         captchaService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_WEB, "img", loginMo.getRedisUuid(), loginMo.getValue());
         // 通过用户名查询数据库记录
@@ -170,15 +170,15 @@ public class UserServiceImpl implements UserService {
         WebRolePageQo webRolePageQo = new WebRolePageQo();
         webRolePageQo.setUserIds(new ArrayList<Long>());
         webRolePageQo.getUserIds().add(userInfo.getId());
-        List<WebRoleBo> webRoleBoList = selectListRole(webRolePageQo);
-        for (WebRoleBo webRoleBo : webRoleBoList) {
+        List<WebRoleComponentMo> webRoleBoList = selectListRole(webRolePageQo);
+        for (WebRoleComponentMo webRoleBo : webRoleBoList) {
             roleCodeList.add(webRoleBo.getCode());
         }
         WebPermissionPageQo webPermissionPageQo = new WebPermissionPageQo();
         webPermissionPageQo.setUserIds(new ArrayList<Long>());
         webPermissionPageQo.getUserIds().add(userInfo.getId());
-        List<WebPermissionBo> webPermissionBoList = selectListPermission(webPermissionPageQo);
-        for (WebPermissionBo webPermissionBo : webPermissionBoList) {
+        List<WebPermissionComponentMo> webPermissionBoList = selectListPermission(webPermissionPageQo);
+        for (WebPermissionComponentMo webPermissionBo : webPermissionBoList) {
             permissionCodeList.add(webPermissionBo.getCodeSys() + ":" + webPermissionBo.getCodeModule() + ":" + webPermissionBo.getCode());
         }
         userInfo.setRoleList(roleCodeList);
@@ -200,7 +200,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public String sendForgetPassWordCaptcha(SendForgetPassWordCaptchaMo sendForgetPassWordCaptchaMo) {
+    public String sendForgetPassWordCaptcha(SendForgetPassWordCaptchaControllerMo sendForgetPassWordCaptchaMo) {
         // 通过用户名查询数据库记录
         QueryWrapper<WebUserEntity> webUserEntityQueryWrapper = new QueryWrapper<>();
         webUserEntityQueryWrapper.lambda().eq(WebUserEntity::getUserName, sendForgetPassWordCaptchaMo.getUserName());
@@ -211,7 +211,7 @@ public class UserServiceImpl implements UserService {
         if (StrUtil.isBlank(webUserEntity.getEmail())) {
             throw new Exception200("未查询到绑定邮箱");
         }
-        DrawCaptchaBo drawCaptchaBo = captchaService.drawCaptcha("forgetPassWord", sendForgetPassWordCaptchaMo.getUserName());
+        DrawCaptchaComponentMo drawCaptchaBo = captchaService.drawCaptcha("forgetPassWord", sendForgetPassWordCaptchaMo.getUserName());
 
         List<MultipartFile> imgList = new ArrayList<>();
         FileItem fileItem = ZfjFileUtil.createFileItem(new ByteArrayInputStream(drawCaptchaBo.getImgBytes()), "验证码.png");
@@ -224,7 +224,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean resetForgetPassWord(ResetForgetPassWordMo resetForgetPassWordMo) {
+    public Boolean resetForgetPassWord(ResetForgetPassWordControllerMo resetForgetPassWordMo) {
         captchaService.checkCodeAndValue("forgetPassWord", resetForgetPassWordMo.getUserName(), resetForgetPassWordMo.getRedisUuid(), resetForgetPassWordMo.getValue());
         // 通过用户名查询数据库记录
         QueryWrapper<WebUserEntity> webUserEntityQueryWrapper = new QueryWrapper<>();
@@ -243,7 +243,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public String changePassWord(ChangePassWordMo changePassWordMo) {
+    public String changePassWord(ChangePassWordControllerMo changePassWordMo) {
         UserInfo userInfo = SecurityUtil.getUserDetails();
         WebUserEntity webUserEntity = webUserEntityService.getById(userInfo.getId());
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -257,8 +257,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public WebUserVo getUserInfo() {
-        WebUserVo vo = new WebUserVo();
+    public WebUserControllerVo getUserInfo() {
+        WebUserControllerVo vo = new WebUserControllerVo();
         UserInfo userInfo = SecurityUtil.getUserDetails();
         WebUserEntity webUserEntity = webUserEntityService.getById(userInfo.getId());
         BeanUtil.copyProperties(webUserEntity, vo);
@@ -267,8 +267,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public String sendBindEmailCaptcha(SendBindEmailCaptchaMo sendBindEmailCaptchaMo) {
-        DrawCaptchaBo drawCaptchaBo = captchaService.drawCaptcha("bindEmail", sendBindEmailCaptchaMo.getEmail());
+    public String sendBindEmailCaptcha(SendBindEmailCaptchaControllerMo sendBindEmailCaptchaMo) {
+        DrawCaptchaComponentMo drawCaptchaBo = captchaService.drawCaptcha("bindEmail", sendBindEmailCaptchaMo.getEmail());
         List<MultipartFile> imgList = new ArrayList<>();
         FileItem fileItem = ZfjFileUtil.createFileItem(new ByteArrayInputStream(drawCaptchaBo.getImgBytes()), "验证码.png");
         imgList.add(new CommonsMultipartFile(fileItem));
@@ -279,7 +279,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean saveBindEmail(SaveBindEmailMo saveBindEmailMo) {
+    public Boolean saveBindEmail(SaveBindEmailControllerMo saveBindEmailMo) {
         // 校验验证码
         captchaService.checkCodeAndValue("bindEmail", saveBindEmailMo.getEmail(), saveBindEmailMo.getRedisUuid(), saveBindEmailMo.getValue());
         WebUserEntity webUserEntity = webUserEntityService.getById(SecurityUtil.getUserDetails().getId());
@@ -294,8 +294,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String sendBindPhoneCaptcha(SendBindPhoneCaptchaMo sendBindPhoneCaptchaMo) {
-        DrawCaptchaBo drawCaptchaBo = captchaService.drawCaptcha("bindPhone", sendBindPhoneCaptchaMo.getPhone());
+    public String sendBindPhoneCaptcha(SendBindPhoneCaptchaControllerMo sendBindPhoneCaptchaMo) {
+        DrawCaptchaComponentMo drawCaptchaBo = captchaService.drawCaptcha("bindPhone", sendBindPhoneCaptchaMo.getPhone());
 
         // 发送手机验证码
 
@@ -305,7 +305,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean saveBindPhone(SaveBindPhoneMo saveBindPhoneMo) {
+    public Boolean saveBindPhone(SaveBindPhoneControllerMo saveBindPhoneMo) {
         // 校验验证码
 
         captchaService.checkCodeAndValue("bindPhone", saveBindPhoneMo.getPhone(), saveBindPhoneMo.getRedisUuid(), saveBindPhoneMo.getValue());
@@ -323,9 +323,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public WebPeopleVo savePeopleInfo(SavePeopleInfoMo savePeopleInfoMo) {
+    public WebPeopleControllerVo savePeopleInfo(SavePeopleInfoControllerMo savePeopleInfoMo) {
         // 保存个人信息
-        WebPeopleVo vo = new WebPeopleVo();
+        WebPeopleControllerVo vo = new WebPeopleControllerVo();
         WebPeopleEntity webPeopleEntity = new WebPeopleEntity();
         webPeopleEntity.setPeopleName(savePeopleInfoMo.getPeopleName());
         webPeopleEntity.setCardNumber(savePeopleInfoMo.getCardNumber());
@@ -351,8 +351,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public WebPeopleVo getPeopleInfo() {
-        WebPeopleVo vo = new WebPeopleVo();
+    public WebPeopleControllerVo getPeopleInfo() {
+        WebPeopleControllerVo vo = new WebPeopleControllerVo();
         Long userId = SecurityUtil.getUserDetails().getId();
         QueryWrapper<WebPeopleEntity> webPeopleEntityQueryWrapper = new QueryWrapper<>();
         webPeopleEntityQueryWrapper.lambda().eq(WebPeopleEntity::getCreateBy, userId);
@@ -365,9 +365,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public WebCompanyVo saveCompanyInfo(SaveCompanyInfoMo saveCompanyInfoMo) {
+    public WebCompanyControllerVo saveCompanyInfo(SaveCompanyInfoControllerMo saveCompanyInfoMo) {
         // 保存单位信息
-        WebCompanyVo vo = new WebCompanyVo();
+        WebCompanyControllerVo vo = new WebCompanyControllerVo();
         WebCompanyEntity webCompanyEntity = new WebCompanyEntity();
         webCompanyEntity.setCompanyName(saveCompanyInfoMo.getCompanyName());
         webCompanyEntity.setDeptCode(saveCompanyInfoMo.getDeptCode());
@@ -401,15 +401,15 @@ public class UserServiceImpl implements UserService {
         WebRolePageQo webRolePageQo = new WebRolePageQo();
         webRolePageQo.setUserIds(new ArrayList<Long>());
         webRolePageQo.getUserIds().add(userInfo.getId());
-        List<WebRoleBo> webRoleBoList = selectListRole(webRolePageQo);
-        for (WebRoleBo webRoleBo : webRoleBoList) {
+        List<WebRoleComponentMo> webRoleBoList = selectListRole(webRolePageQo);
+        for (WebRoleComponentMo webRoleBo : webRoleBoList) {
             roleCodeList.add(webRoleBo.getCode());
         }
         WebPermissionPageQo webPermissionPageQo = new WebPermissionPageQo();
         webPermissionPageQo.setUserIds(new ArrayList<Long>());
         webPermissionPageQo.getUserIds().add(userInfo.getId());
-        List<WebPermissionBo> webPermissionBoList = selectListPermission(webPermissionPageQo);
-        for (WebPermissionBo webPermissionBo : webPermissionBoList) {
+        List<WebPermissionComponentMo> webPermissionBoList = selectListPermission(webPermissionPageQo);
+        for (WebPermissionComponentMo webPermissionBo : webPermissionBoList) {
             permissionCodeList.add(webPermissionBo.getCodeSys() + ":" + webPermissionBo.getCodeModule() + ":" + webPermissionBo.getCode());
         }
         userInfo.setRoleList(roleCodeList);
@@ -425,8 +425,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public WebCompanyVo getCompanyInfo() {
-        WebCompanyVo vo = new WebCompanyVo();
+    public WebCompanyControllerVo getCompanyInfo() {
+        WebCompanyControllerVo vo = new WebCompanyControllerVo();
         Long userId = SecurityUtil.getUserDetails().getId();
         QueryWrapper<WebCompanyEntity> webCompanyEntityQueryWrapper = new QueryWrapper<>();
         webCompanyEntityQueryWrapper.lambda().eq(WebCompanyEntity::getCreateBy, userId);
@@ -440,29 +440,29 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public IPage<WebUserVo> queryPageUser(WebUserPageQo webUserPageQo) {
+    public IPage<WebUserControllerVo> queryPageUser(WebUserPageQo webUserPageQo) {
 
-        IPage<WebUserBo> page = selectPageUser(webUserPageQo);
+        IPage<WebUserComponentMo> page = selectPageUser(webUserPageQo);
 
         return page.convert(webUserBo -> {
-            WebUserVo webUserVo = new WebUserVo();
+            WebUserControllerVo webUserVo = new WebUserControllerVo();
             BeanUtil.copyProperties(webUserBo, webUserVo);
             return webUserVo;
         });
     }
 
     @Override
-    public List<WebUserVo> queryListUser(WebUserPageQo webUserPageQo) {
-        List<WebUserBo> list = selectListUser(webUserPageQo);
+    public List<WebUserControllerVo> queryListUser(WebUserPageQo webUserPageQo) {
+        List<WebUserComponentMo> list = selectListUser(webUserPageQo);
         return list.stream().map(webUserBo -> {
-            WebUserVo webUserVo = new WebUserVo();
+            WebUserControllerVo webUserVo = new WebUserControllerVo();
             BeanUtil.copyProperties(webUserBo, webUserVo);
             return webUserVo;
         }).collect(Collectors.toList());
     }
 
     @Override
-    public String saveRole(SaveWebRoleMo saveWebRoleMo) {
+    public String saveRole(SaveWebRoleControllerMo saveWebRoleMo) {
         QueryWrapper<WebRoleEntity> queryWrapper = new QueryWrapper<WebRoleEntity>();
         queryWrapper.lambda().eq(WebRoleEntity::getCode, saveWebRoleMo.getCode());
         WebRoleEntity webRoleEntity = webRoleEntityService.getOne(queryWrapper);
@@ -477,17 +477,17 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public IPage<WebRoleVo> queryPageRole(WebRolePageQo webRolePageQo) {
-        IPage<WebRoleBo> page = selectPageRole(webRolePageQo);
+    public IPage<WebRoleControllerVo> queryPageRole(WebRolePageQo webRolePageQo) {
+        IPage<WebRoleComponentMo> page = selectPageRole(webRolePageQo);
         return page.convert(webRoleBo -> {
-            WebRoleVo webRoleVo = new WebRoleVo();
+            WebRoleControllerVo webRoleVo = new WebRoleControllerVo();
             BeanUtil.copyProperties(webRoleBo, webRoleVo);
             return webRoleVo;
         });
     }
 
     @Override
-    public String saveMenu(SaveWebMenuMo saveWebMenuMo) {
+    public String saveMenu(SaveWebMenuControllerMo saveWebMenuMo) {
 
         if (ObjectUtil.isNotNull(saveWebMenuMo.getId()) && saveWebMenuMo.getId() > 0) {
             WebMenuEntity webMenuEntity = webMenuEntityService.getById(saveWebMenuMo.getId());
@@ -521,27 +521,27 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<WebMenuVo> queryListMenu(WebMenuPageQo webMenuPageQo) {
-        List<WebMenuBo> list = selectListMenu(webMenuPageQo);
+    public List<WebMenuControllerVo> queryListMenu(WebMenuPageQo webMenuPageQo) {
+        List<WebMenuComponentMo> list = selectListMenu(webMenuPageQo);
         return list.stream().map(webMenuBo -> {
-            WebMenuVo webMenuVo = new WebMenuVo();
+            WebMenuControllerVo webMenuVo = new WebMenuControllerVo();
             BeanUtil.copyProperties(webMenuBo, webMenuVo);
             return webMenuVo;
         }).collect(Collectors.toList());
     }
 
     @Override
-    public IPage<WebMenuVo> queryPageMenu(WebMenuPageQo webMenuPageQo) {
-        IPage<WebMenuBo> page = selectPageMenu(webMenuPageQo);
+    public IPage<WebMenuControllerVo> queryPageMenu(WebMenuPageQo webMenuPageQo) {
+        IPage<WebMenuComponentMo> page = selectPageMenu(webMenuPageQo);
         return page.convert(webMenuBo -> {
-            WebMenuVo webMenuVo = new WebMenuVo();
+            WebMenuControllerVo webMenuVo = new WebMenuControllerVo();
             BeanUtil.copyProperties(webMenuBo, webMenuVo);
             return webMenuVo;
         });
     }
 
     @Override
-    public String savePermission(SaveWebPermissionMo saveWebPermissionMo) {
+    public String savePermission(SaveWebPermissionControllerMo saveWebPermissionMo) {
         QueryWrapper<WebPermissionEntity> queryWrapper = new QueryWrapper<WebPermissionEntity>();
 
         queryWrapper.lambda()
@@ -572,7 +572,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String saveRoleAndMenu(SaveRoleAndMenuMo saveRoleAndMenuMo) {
+    public String saveRoleAndMenu(SaveRoleAndMenuControllerMo saveRoleAndMenuMo) {
         QueryWrapper<WebRoleMenuEntity> queryWrapper = new QueryWrapper<WebRoleMenuEntity>();
         queryWrapper.lambda().eq(WebRoleMenuEntity::getRoleId, saveRoleAndMenuMo.getRoleId());
         webRoleMenuEntityService.remove(queryWrapper);
@@ -592,15 +592,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public WebMenuVo getMenuInfoById(Long menuId) {
-        WebMenuVo vo = new WebMenuVo();
+    public WebMenuControllerVo getMenuInfoById(Long menuId) {
+        WebMenuControllerVo vo = new WebMenuControllerVo();
         WebMenuEntity webMenuEntity = webMenuEntityService.getById(menuId);
         BeanUtil.copyProperties(webMenuEntity, vo);
         return vo;
     }
 
     @Override
-    public String saveRoleAndPermission(SaveRoleAndPermissionMo saveRoleAndPermissionMo) {
+    public String saveRoleAndPermission(SaveRoleAndPermissionControllerMo saveRoleAndPermissionMo) {
 
         QueryWrapper<WebRolePermissionEntity> queryWrapper = new QueryWrapper<WebRolePermissionEntity>();
         queryWrapper.lambda().eq(WebRolePermissionEntity::getRoleId, saveRoleAndPermissionMo.getRoleId());
@@ -648,25 +648,25 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private IPage<WebUserBo> selectPageUser(WebUserPageQo webUserPageQo) {
-        Page<WebUserBo> page = new Page<WebUserBo>(webUserPageQo.getCurrent(), webUserPageQo.getSize());
-        QueryWrapper<WebUserBo> queryWrapper = new QueryWrapper<WebUserBo>();
+    private IPage<WebUserComponentMo> selectPageUser(WebUserPageQo webUserPageQo) {
+        Page<WebUserComponentMo> page = new Page<WebUserComponentMo>(webUserPageQo.getCurrent(), webUserPageQo.getSize());
+        QueryWrapper<WebUserComponentMo> queryWrapper = new QueryWrapper<WebUserComponentMo>();
 
         MyBatisPlusUtil.orderWrapper(queryWrapper, webUserPageQo.getOrders());
         queryWrapper.groupBy("id");
         return userMapper.selectPageUser(page, queryWrapper);
     }
 
-    private List<WebUserBo> selectListUser(WebUserPageQo webUserPageQo) {
-        QueryWrapper<WebUserBo> queryWrapper = new QueryWrapper<WebUserBo>();
+    private List<WebUserComponentMo> selectListUser(WebUserPageQo webUserPageQo) {
+        QueryWrapper<WebUserComponentMo> queryWrapper = new QueryWrapper<WebUserComponentMo>();
 
         MyBatisPlusUtil.orderWrapper(queryWrapper, webUserPageQo.getOrders());
         queryWrapper.groupBy("id");
         return userMapper.selectListUser(queryWrapper);
     }
 
-    public List<WebRoleBo> selectListRole(WebRolePageQo webRolePageQo) {
-        QueryWrapper<WebRoleBo> queryWrapper = new QueryWrapper<WebRoleBo>();
+    public List<WebRoleComponentMo> selectListRole(WebRolePageQo webRolePageQo) {
+        QueryWrapper<WebRoleComponentMo> queryWrapper = new QueryWrapper<WebRoleComponentMo>();
         if (ObjectUtil.isNotEmpty(webRolePageQo.getUserIds())) {
             queryWrapper.in("zwu.id", webRolePageQo.getUserIds());
         }
@@ -679,7 +679,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public IPage<WebPermissionVo> queryPagePermission(WebPermissionPageQo webPermissionPageQo) {
 
-        IPage<WebPermissionBo> page = selectPagePermission(webPermissionPageQo);
+        IPage<WebPermissionComponentMo> page = selectPagePermission(webPermissionPageQo);
         return page.convert(webPermissionBo -> {
             WebPermissionVo webPermissionVo = new WebPermissionVo();
             BeanUtil.copyProperties(webPermissionBo, webPermissionVo);
@@ -689,7 +689,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<WebPermissionVo> queryListPermission(WebPermissionPageQo webPermissionPageQo) {
-        List<WebPermissionBo> list = selectListPermission(webPermissionPageQo);
+        List<WebPermissionComponentMo> list = selectListPermission(webPermissionPageQo);
         return list.stream().map(webPermissionBo -> {
             WebPermissionVo webPermissionVo = new WebPermissionVo();
             BeanUtil.copyProperties(webPermissionBo, webPermissionVo);
@@ -698,16 +698,16 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private IPage<WebRoleBo> selectPageRole(WebRolePageQo webRolePageQo) {
-        Page<WebRoleBo> page = new Page<WebRoleBo>(webRolePageQo.getCurrent(), webRolePageQo.getSize());
-        QueryWrapper<WebRoleBo> queryWrapper = new QueryWrapper<WebRoleBo>();
+    private IPage<WebRoleComponentMo> selectPageRole(WebRolePageQo webRolePageQo) {
+        Page<WebRoleComponentMo> page = new Page<WebRoleComponentMo>(webRolePageQo.getCurrent(), webRolePageQo.getSize());
+        QueryWrapper<WebRoleComponentMo> queryWrapper = new QueryWrapper<WebRoleComponentMo>();
         MyBatisPlusUtil.orderWrapper(queryWrapper, webRolePageQo.getOrders());
         queryWrapper.groupBy("id");
         return userMapper.selectPageRole(page, queryWrapper);
     }
 
-    private List<WebMenuBo> selectListMenu(WebMenuPageQo webMenuPageQo) {
-        QueryWrapper<WebMenuBo> queryWrapper = new QueryWrapper<WebMenuBo>();
+    private List<WebMenuComponentMo> selectListMenu(WebMenuPageQo webMenuPageQo) {
+        QueryWrapper<WebMenuComponentMo> queryWrapper = new QueryWrapper<WebMenuComponentMo>();
         if (ObjectUtil.isNotEmpty(webMenuPageQo.getRoleIds())) {
             queryWrapper.in("zwr.id", webMenuPageQo.getRoleIds());
         }
@@ -719,9 +719,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectListMenu(queryWrapper);
     }
 
-    private IPage<WebMenuBo> selectPageMenu(WebMenuPageQo webMenuPageQo) {
-        Page<WebMenuBo> page = new Page<WebMenuBo>(webMenuPageQo.getCurrent(), webMenuPageQo.getSize());
-        QueryWrapper<WebMenuBo> queryWrapper = new QueryWrapper<WebMenuBo>();
+    private IPage<WebMenuComponentMo> selectPageMenu(WebMenuPageQo webMenuPageQo) {
+        Page<WebMenuComponentMo> page = new Page<WebMenuComponentMo>(webMenuPageQo.getCurrent(), webMenuPageQo.getSize());
+        QueryWrapper<WebMenuComponentMo> queryWrapper = new QueryWrapper<WebMenuComponentMo>();
         if (ObjectUtil.isNotEmpty(webMenuPageQo.getRoleCodes())) {
             queryWrapper.in("zwr.code", webMenuPageQo.getRoleCodes());
         }
@@ -731,8 +731,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectPageMenu(page, queryWrapper);
     }
 
-    public List<WebPermissionBo> selectListPermission(WebPermissionPageQo webPermissionPageQo) {
-        QueryWrapper<WebPermissionBo> queryWrapper = new QueryWrapper<WebPermissionBo>();
+    public List<WebPermissionComponentMo> selectListPermission(WebPermissionPageQo webPermissionPageQo) {
+        QueryWrapper<WebPermissionComponentMo> queryWrapper = new QueryWrapper<WebPermissionComponentMo>();
         if (ObjectUtil.isNotEmpty(webPermissionPageQo.getUserIds())) {
             queryWrapper.in("zwu.id", webPermissionPageQo.getUserIds());
         }
@@ -742,10 +742,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public IPage<WebPermissionBo> selectPagePermission(WebPermissionPageQo webPermissionPageQo) {
+    public IPage<WebPermissionComponentMo> selectPagePermission(WebPermissionPageQo webPermissionPageQo) {
 
-        Page<WebPermissionBo> page = new Page<WebPermissionBo>(webPermissionPageQo.getCurrent(), webPermissionPageQo.getSize());
-        QueryWrapper<WebPermissionBo> queryWrapper = new QueryWrapper<WebPermissionBo>();
+        Page<WebPermissionComponentMo> page = new Page<WebPermissionComponentMo>(webPermissionPageQo.getCurrent(), webPermissionPageQo.getSize());
+        QueryWrapper<WebPermissionComponentMo> queryWrapper = new QueryWrapper<WebPermissionComponentMo>();
         if (ObjectUtil.isNotEmpty(webPermissionPageQo.getUserIds())) {
             queryWrapper.in("zwu.id", webPermissionPageQo.getUserIds());
         }

@@ -7,11 +7,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.base.exception.Exception200;
 import com.zifuji.cloud.server.sys.db.area.entity.AreaEntity;
-import com.zifuji.cloud.server.sys.module.area.bo.AreaBo;
+import com.zifuji.cloud.server.sys.module.area.bo.AreaComponentMo;
 import com.zifuji.cloud.server.sys.module.area.mapper.AreaMapper;
-import com.zifuji.cloud.server.sys.module.area.mo.SaveAreaMo;
+import com.zifuji.cloud.server.sys.module.area.mo.SaveAreaControllerMo;
 import com.zifuji.cloud.server.sys.module.area.qo.AreaPageQo;
-import com.zifuji.cloud.server.sys.module.area.vo.AreaVo;
+import com.zifuji.cloud.server.sys.module.area.vo.AreaControllerVo;
 import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class AreaServiceImpl implements AreaService{
 
 	//保存地区
 	@Override
-	public String saveArea(SaveAreaMo saveAreaMo) {
+	public String saveArea(SaveAreaControllerMo saveAreaMo) {
 		QueryWrapper<AreaEntity> queryWrapper=new QueryWrapper<>();
 		queryWrapper.lambda().eq(AreaEntity::getRealName,saveAreaMo.getRealName());
 		AreaEntity areaEntity=areaEntityService.getOne(queryWrapper);
@@ -51,10 +51,10 @@ public class AreaServiceImpl implements AreaService{
 	}
 
 	@Override
-	public IPage<AreaVo> queryPageArea(AreaPageQo areaPageQo) {
-		IPage<AreaBo> page = selectPageArea(areaPageQo);
+	public IPage<AreaControllerVo> queryPageArea(AreaPageQo areaPageQo) {
+		IPage<AreaComponentMo> page = selectPageArea(areaPageQo);
 		return page.convert(areaBo -> {
-			AreaVo areaVo = new AreaVo();
+			AreaControllerVo areaVo = new AreaControllerVo();
 			BeanUtil.copyProperties(areaBo, areaVo);
 			return areaVo;
 		});
@@ -63,10 +63,10 @@ public class AreaServiceImpl implements AreaService{
 	}
 
 	@Override
-	public List<AreaVo> queryListArea(AreaPageQo areaPageQo) {
-		List<AreaBo> list =selectListArea(areaPageQo);
+	public List<AreaControllerVo> queryListArea(AreaPageQo areaPageQo) {
+		List<AreaComponentMo> list =selectListArea(areaPageQo);
 		return list.stream().map(areaBo ->{
-			AreaVo areaVo = new AreaVo();
+			AreaControllerVo areaVo = new AreaControllerVo();
 			BeanUtil.copyProperties(areaBo, areaVo);
 			return areaVo;
 		}).collect(Collectors.toList());
@@ -74,9 +74,9 @@ public class AreaServiceImpl implements AreaService{
 	
 	
 	
-	private IPage<AreaBo> selectPageArea(AreaPageQo areaPageQo){
-		Page<AreaBo> page = new Page<AreaBo>(areaPageQo.getCurrent(),areaPageQo.getSize());
-		QueryWrapper<AreaBo> queryWrapper=new QueryWrapper<>();
+	private IPage<AreaComponentMo> selectPageArea(AreaPageQo areaPageQo){
+		Page<AreaComponentMo> page = new Page<AreaComponentMo>(areaPageQo.getCurrent(),areaPageQo.getSize());
+		QueryWrapper<AreaComponentMo> queryWrapper=new QueryWrapper<>();
 		
 		
 		MyBatisPlusUtil.orderWrapper(queryWrapper, areaPageQo.getOrders());
@@ -84,8 +84,8 @@ public class AreaServiceImpl implements AreaService{
 	}
 	
 	
-	private List<AreaBo> selectListArea(AreaPageQo areaPageQo){
-		QueryWrapper<AreaBo> queryWrapper=new QueryWrapper<>();
+	private List<AreaComponentMo> selectListArea(AreaPageQo areaPageQo){
+		QueryWrapper<AreaComponentMo> queryWrapper=new QueryWrapper<>();
 		
 		
 		MyBatisPlusUtil.orderWrapper(queryWrapper, areaPageQo.getOrders());

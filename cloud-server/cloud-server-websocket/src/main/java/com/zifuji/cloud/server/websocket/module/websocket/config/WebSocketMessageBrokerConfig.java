@@ -45,26 +45,35 @@ public class WebSocketMessageBrokerConfig implements WebSocketMessageBrokerConfi
         registration.interceptors(new UserChannelInterceptor());
     }
 
+    @Override
+    public void configureClientOutboundChannel(ChannelRegistration registration){
+        registration.interceptors(new UserChannelInterceptor());
+    }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        // 简单cache广播
-//        registry.enableSimpleBroker("/topic", "/queue", "/exchange", "/user");
-        // 前端绑定个人通道
-        registry.setUserDestinationPrefix("/user");
-        // 前端使用ws发送消息的时候
-        registry.setApplicationDestinationPrefixes("/app/");
-        // 前端绑定stomp广播路径
-        registry.enableStompBrokerRelay("/topic", "/queue", "/exchange")
-                .setRelayHost(rabbitProperties.getHost())
-                .setClientLogin(rabbitProperties.getUsername())
-                .setClientPasscode(rabbitProperties.getPassword())
-                .setSystemLogin(rabbitProperties.getUsername())
-                .setSystemPasscode(rabbitProperties.getPassword())
-                .setSystemHeartbeatSendInterval(5000)
-                .setSystemHeartbeatReceiveInterval(5000);
-
-
+        if (false) {
+            // 前端绑定个人通道
+            registry.setUserDestinationPrefix("/user/");
+            // 前端使用ws发送消息的时候
+            registry.setApplicationDestinationPrefixes("/app/");
+            // 前端绑定stomp广播路径
+            registry.enableStompBrokerRelay("/topic", "/queue", "/user")
+                    .setRelayHost(rabbitProperties.getHost())
+                    .setClientLogin(rabbitProperties.getUsername())
+                    .setClientPasscode(rabbitProperties.getPassword())
+                    .setSystemLogin(rabbitProperties.getUsername())
+                    .setSystemPasscode(rabbitProperties.getPassword())
+                    .setSystemHeartbeatSendInterval(5000)
+                    .setSystemHeartbeatReceiveInterval(5000);
+        } else {
+            // 前端绑定个人通道
+            registry.setUserDestinationPrefix("/user/");
+            // 前端使用ws发送消息的时候
+            registry.setApplicationDestinationPrefixes("/app/");
+            // 简单cache广播
+            registry.enableSimpleBroker("/topic", "/queue", "/user");
+        }
     }
 
 

@@ -3,7 +3,7 @@
 <mapper
         namespace="com.zifuji.cloud.server.sys.module.manageUser.mapper.ManageUserMapper">
 
-	 <select id="selectListUser" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageUserBo">
+	 <select id="selectListUser" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageUserComponentMo">
 		SELECT
 		zmu.id,
 		zmu.create_by,
@@ -25,7 +25,7 @@
 		LEFT JOIN z_manage_permission zmp ON zmp.id = zmrp.permission_id
 		${ew.customSqlSegment}			
 	 </select>
-	 <select id="selectPageUser" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageUserBo">
+	 <select id="selectPageUser" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageUserComponentMo">
 		SELECT
 		zmu.id,
 		zmu.create_by,
@@ -47,7 +47,7 @@
 		LEFT JOIN z_manage_permission zmp ON zmp.id = zmrp.permission_id
 		${ew.customSqlSegment}	 
 	 </select>
-	 <select id="selectListRole" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageRoleBo">
+	 <select id="selectListRole" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageRoleComponentMo">
 		SELECT
 		zmr.id,
 		zmr.create_by,
@@ -67,7 +67,7 @@
 		LEFT JOIN z_manage_menu zmm ON zmrm.menu_id = zmm.id
 		${ew.customSqlSegment}
     </select>
-    <select id="selectPageRole" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageRoleBo">
+    <select id="selectPageRole" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageRoleComponentMo">
 		SELECT
 		zmr.id,
 		zmr.create_by,
@@ -88,7 +88,7 @@
 		${ew.customSqlSegment}    
     </select>
 	<select id="selectListPermission"
-			resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManagePermissionBo">
+			resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManagePermissionComponentMo">
 		SELECT
 			zmp.id,
 			zmp.create_by,
@@ -111,7 +111,7 @@
 		${ew.customSqlSegment}
 	</select>
 	<select id="selectPagePermission"
-			resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManagePermissionBo">
+			resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManagePermissionComponentMo">
 		SELECT
 			zmp.id,
 			zmp.create_by,
@@ -133,7 +133,7 @@
 		LEFT JOIN z_manage_user zmu on zmu.id = zmur.user_id
 		${ew.customSqlSegment}
 	</select>
-	<select id="selectListMenu" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageMenuBo">
+	<select id="selectListMenu" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageMenuComponentMo">
 		SELECT
 		zmm.id,
 		zmm.create_by,
@@ -156,7 +156,7 @@
 		LEFT JOIN z_manage_user zmu ON zmu.id = zmur.user_id
 		${ew.customSqlSegment}
 	</select>
-	<select id="selectPageMenu" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageMenuBo">
+	<select id="selectPageMenu" resultType="com.zifuji.cloud.server.sys.module.manageUser.bo.ManageMenuComponentMo">
 		SELECT
 		zmm.id,
 		zmm.create_by,

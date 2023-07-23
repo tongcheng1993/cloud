@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageMenuBo;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManagePermissionBo;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageRoleBo;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageUserBo;
+import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageMenuComponentMo;
+import com.zifuji.cloud.server.sys.module.manageUser.bo.ManagePermissionComponentMo;
+import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageRoleComponentMo;
+import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageUserComponentMo;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,19 +17,19 @@ import java.util.List;
 @Mapper
 public interface ManageUserMapper {
 
-    List<ManageUserBo> selectListUser(@Param(Constants.WRAPPER) Wrapper<ManageUserBo> ew);
+    List<ManageUserComponentMo> selectListUser(@Param(Constants.WRAPPER) Wrapper<ManageUserComponentMo> ew);
 
-    IPage<ManageUserBo> selectPageUser(@Param(value = "page") Page<ManageUserBo> page, @Param(Constants.WRAPPER) Wrapper<ManageUserBo> ew);
+    IPage<ManageUserComponentMo> selectPageUser(@Param(value = "page") Page<ManageUserComponentMo> page, @Param(Constants.WRAPPER) Wrapper<ManageUserComponentMo> ew);
 
-    List<ManageRoleBo> selectListRole(@Param(Constants.WRAPPER) Wrapper<ManageRoleBo> ew);
+    List<ManageRoleComponentMo> selectListRole(@Param(Constants.WRAPPER) Wrapper<ManageRoleComponentMo> ew);
 
-    IPage<ManageRoleBo> selectPageRole(@Param(value = "page") Page<ManageRoleBo> page, @Param(Constants.WRAPPER) Wrapper<ManageRoleBo> ew);
+    IPage<ManageRoleComponentMo> selectPageRole(@Param(value = "page") Page<ManageRoleComponentMo> page, @Param(Constants.WRAPPER) Wrapper<ManageRoleComponentMo> ew);
 
-    List<ManagePermissionBo> selectListPermission(@Param(Constants.WRAPPER) Wrapper<ManagePermissionBo> ew);
+    List<ManagePermissionComponentMo> selectListPermission(@Param(Constants.WRAPPER) Wrapper<ManagePermissionComponentMo> ew);
 
-    IPage<ManagePermissionBo> selectPagePermission(@Param(value = "page") Page<ManagePermissionBo> page, @Param(Constants.WRAPPER) Wrapper<ManagePermissionBo> ew);
+    IPage<ManagePermissionComponentMo> selectPagePermission(@Param(value = "page") Page<ManagePermissionComponentMo> page, @Param(Constants.WRAPPER) Wrapper<ManagePermissionComponentMo> ew);
 
-    List<ManageMenuBo> selectListMenu(@Param(Constants.WRAPPER) Wrapper<ManageMenuBo> ew);
+    List<ManageMenuComponentMo> selectListMenu(@Param(Constants.WRAPPER) Wrapper<ManageMenuComponentMo> ew);
 
-    IPage<ManageMenuBo> selectPageMenu(@Param(value = "page") Page<ManageMenuBo> page, @Param(Constants.WRAPPER) Wrapper<ManageMenuBo> ew);
+    IPage<ManageMenuComponentMo> selectPageMenu(@Param(value = "page") Page<ManageMenuComponentMo> page, @Param(Constants.WRAPPER) Wrapper<ManageMenuComponentMo> ew);
 }

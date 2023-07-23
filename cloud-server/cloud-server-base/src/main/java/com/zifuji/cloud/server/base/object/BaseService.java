@@ -1,19 +1,19 @@
 package com.zifuji.cloud.server.base.object;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.base.bean.BaseBo;
-import com.zifuji.cloud.base.bean.BaseMo;
-import com.zifuji.cloud.base.bean.BasePageQo;
+import com.zifuji.cloud.base.bean.component.BaseComponentMo;
+import com.zifuji.cloud.base.bean.controller.BaseControllerMo;
+import com.zifuji.cloud.base.bean.controller.BaseControllerPageQo;
 
 public interface BaseService {
 
-    <T extends BaseMo> String save(T mo);
+    <T extends BaseControllerMo> String save(T mo);
 
-    <T extends BaseMo> String add(T mo);
+    <T extends BaseControllerMo> String add(T mo);
 
-    <T extends BaseMo> String update(T mo);
+    <T extends BaseControllerMo> String update(T mo);
 
     Boolean del(Long id);
 
-    <K extends BasePageQo, V extends BaseBo> IPage<V> queryPageBo(K qo);
+    <K extends BaseControllerPageQo, V extends BaseComponentMo> IPage<V> queryPageBo(K qo);
 }

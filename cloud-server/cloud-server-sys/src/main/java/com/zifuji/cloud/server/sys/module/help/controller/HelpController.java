@@ -1,8 +1,7 @@
 package com.zifuji.cloud.server.sys.module.help.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.sys.module.help.mo.HelpContentMo;
+import com.zifuji.cloud.server.sys.module.help.mo.HelpContentControllerMo;
 import com.zifuji.cloud.server.sys.module.help.service.HelpService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +22,7 @@ public class HelpController {
 
     @ApiOperation(value = "")
     @PostMapping(value = "/saveHelpContent")
-    public Result<String> saveHelpContent(@RequestBody @Valid HelpContentMo helpContentMo){
+    public Result<String> saveHelpContent(@RequestBody @Valid HelpContentControllerMo helpContentMo){
 
         String result = helpService.saveHelpContent(helpContentMo);
 

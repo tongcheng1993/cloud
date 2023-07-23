@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "websocket", contextId = "websocket", path = "/websocket")
+@FeignClient(name = "cloud-server-websocket", contextId = "websocket", path = "/websocket")
 public interface WebsocketFeignClient {
 
     @PostMapping(value = "/sendWsMessage")

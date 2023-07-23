@@ -35,19 +35,12 @@ public class WebsocketServiceImpl implements WebsocketService {
 
     @Override
     public void sendWsMessage(SendWsMessageMo sendWsMessageMo) {
-        Set<String> set = stringRedisTemplate.opsForSet().members("ws" + sendWsMessageMo.getUserId());
-        if (ObjectUtil.isNotNull(set) && ObjectUtil.isNotEmpty(set)) {
-            for (String str : set) {
-                simpMessagingTemplate.convertAndSendToUser(str, "/message", JSONObject.toJSONString(sendWsMessageMo));
-            }
-        }
+        simpMessagingTemplate.convertAndSendToUser(sendWsMessageMo.getUserId() + "", "/message", JSONObject.toJSONString(sendWsMessageMo));
     }
 
     @Override
     public Integer info() {
-
         return 0;
-
     }
 
 }

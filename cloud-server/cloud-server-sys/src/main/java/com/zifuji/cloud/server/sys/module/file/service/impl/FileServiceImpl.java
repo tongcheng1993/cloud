@@ -6,6 +6,7 @@ import java.util.List;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.zifuji.cloud.base.bean.FileBo;
 import com.zifuji.cloud.server.base.util.ZfjFileUtil;
 import com.zifuji.cloud.server.sys.module.file.component.MinioComponent;
 import org.apache.commons.fileupload.FileItem;
@@ -20,7 +21,7 @@ import com.zifuji.cloud.server.sys.db.file.entity.FileEntity;
 import com.zifuji.cloud.server.sys.db.file.service.FileEntityService;
 import com.zifuji.cloud.server.sys.module.file.qo.FilePageQo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
-import com.zifuji.cloud.server.sys.module.file.vo.FileVo;
+import com.zifuji.cloud.server.sys.module.file.vo.FileControllerVo;
 import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -37,58 +38,54 @@ public class FileServiceImpl implements FileService {
 
     private FileEntityService fileEntityService;
 
-    @Override
-    public String uploadFile(MultipartFile file) {
-        return minioComponent.uploadFile(file);
-    }
+
 
     @Override
-    public String uploadFile(String uploadPath, MultipartFile file) {
-        String fileUrl = uploadFile(file);
+    public String uploadFile( MultipartFile file) {
+        String fileUrl = minioComponent.uploadFile(file);
         FileEntity fileEntity = new FileEntity();
         fileEntity.setFileName(file.getOriginalFilename());
         fileEntity.setFileByteSize(file.getSize());
         fileEntity.setFileUrl(fileUrl);
-        fileEntity.setUploadPath(uploadPath);
         fileEntityService.save(fileEntity);
         return fileEntity.getId() + "";
     }
 
     @Override
-    public InputStream downloadFileStream(String fileUuid) {
-        return minioComponent.downloadFile(fileUuid);
-    }
-
-    @Override
-    public FileVo downloadFile(String uploadPath, Long id) throws IOException {
-        FileVo vo = new FileVo();
+    public FileBo downloadFileStream(Long id) {
         FileEntity fileEntity = fileEntityService.getById(id);
         if (ObjectUtil.isNull(fileEntity)) {
             throw new Exception200("找不到对应的数据");
         }
-        log.info(uploadPath);
-        log.info(fileEntity.getUploadPath());
-        log.info("" + StrUtil.equals(uploadPath, fileEntity.getUploadPath()));
-        if (!StrUtil.equals(uploadPath, fileEntity.getUploadPath())) {
-            throw new Exception200("找不到对应的数据");
-        }
-        InputStream inStream = downloadFileStream(fileEntity.getFileUrl());
+        InputStream inStream = minioComponent.downloadFile(fileEntity.getFileUrl());
+        FileBo bo = new FileBo();
+        bo.setFileName(fileEntity.getFileName());
+        bo.setFileSize(fileEntity.getFileByteSize());
+        bo.setInputStream(inStream);
+        return bo;
+    }
+
+    @Override
+    public FileControllerVo downloadFile( Long id) throws IOException {
+        FileControllerVo vo = new FileControllerVo();
+        FileBo bo = downloadFileStream(id);
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len = 0;
-        while ((len = inStream.read(buffer)) != -1) {
+        while ((len = bo.getInputStream().read(buffer)) != -1) {
             outStream.write(buffer, 0, len);
         }
-        vo.setFileName(fileEntity.getFileName());
+        vo.setFileName(bo.getFileName());
         vo.setFileByte(outStream.toByteArray());
-        vo.setMimeType(ZfjFileUtil.getMimeType(fileEntity.getFileName()));
+        vo.setFileByteSize((long) outStream.size());
+        vo.setMimeType(ZfjFileUtil.getMimeType(bo.getFileName()));
         return vo;
     }
 
     @Override
     public MultipartFile getFile(Long id) {
-        FileEntity fileEntity = fileEntityService.getById(id);
-        FileItem fileItem = ZfjFileUtil.createFileItem(downloadFileStream(fileEntity.getFileUrl()), getFileName(id));
+        FileBo bo = downloadFileStream(id);
+        FileItem fileItem = ZfjFileUtil.createFileItem(bo.getInputStream(), bo.getFileName());
         return new CommonsMultipartFile(fileItem);
     }
 
@@ -118,13 +115,13 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public IPage<FileVo> queryPageFile(FilePageQo filePageQo) {
+    public IPage<FileControllerVo> queryPageFile(FilePageQo filePageQo) {
         Page<FileEntity> page = new Page<FileEntity>(filePageQo.getCurrent(), filePageQo.getSize());
         QueryWrapper<FileEntity> queryWrapper = new QueryWrapper<FileEntity>();
         MyBatisPlusUtil.orderWrapper(queryWrapper, filePageQo.getOrders());
         IPage<FileEntity> fileEntityPage = fileEntityService.page(page, queryWrapper);
         return fileEntityPage.convert(fileEntity -> {
-            FileVo fileVo = new FileVo();
+            FileControllerVo fileVo = new FileControllerVo();
             BeanUtil.copyProperties(fileEntity, fileVo);
             return fileVo;
         });

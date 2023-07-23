@@ -1,11 +1,16 @@
 package com.zifuji.cloud.server.base.util;
 
 
+import cn.hutool.core.io.IoUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -465,4 +470,29 @@ public class ZfjFileUtil {
 
         return type;
     }
+
+
+    public static String getUrlFileName(String urlFilePath) {
+        String[] split = urlFilePath.split("\\/");
+        return split[split.length - 1];
+    }
+
+
+    public static MultipartFile getMultipartFile(File file) {
+        FileItem item = new DiskFileItemFactory().createItem("file"
+                , MediaType.MULTIPART_FORM_DATA_VALUE
+                , true
+                , file.getName());
+        try (InputStream input = new FileInputStream(file);
+             OutputStream os = item.getOutputStream()) {
+            // 流转移
+            IoUtil.copy(input, os);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid file: " + e, e);
+        }
+
+        return new CommonsMultipartFile(item);
+    }
+
+
 }

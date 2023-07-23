@@ -1,6 +1,7 @@
 package com.zifuji.cloud.server.sys.module.file.component;
 
 import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.StrUtil;
 import com.zifuji.cloud.base.exception.Exception200;
 import com.zifuji.cloud.server.sys.module.file.properties.MinioProperties;
 import io.minio.*;
@@ -29,6 +30,9 @@ public class MinioComponent {
 
     // 上传文件到一个文件桶中
     public String uploadFile(String bucketName, MultipartFile file) {
+        if(StrUtil.isBlank(bucketName)){
+            log.info("bucketName为空");
+        }
         String fileUuid = snowflake.nextIdStr();
         try {
             minioClient.putObject(PutObjectArgs.builder()

@@ -3,7 +3,7 @@ package com.zifuji.cloud.server.sys.module.data.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.server.sys.module.data.qo.PersonPageQo;
-import com.zifuji.cloud.server.sys.module.data.vo.PersonVo;
+import com.zifuji.cloud.server.sys.module.data.vo.PersonControllerVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,7 +39,7 @@ public class DataPersonController {
 
 
 
-	public Result<IPage<PersonVo>> queryPagePerson(@RequestBody PersonPageQo personPageQo){
-		return new Result<IPage<PersonVo>>().setObj(null);
+	public Result<IPage<PersonControllerVo>> queryPagePerson(@RequestBody PersonPageQo personPageQo){
+		return new Result<IPage<PersonControllerVo>>().setObj(null);
 	}
 }

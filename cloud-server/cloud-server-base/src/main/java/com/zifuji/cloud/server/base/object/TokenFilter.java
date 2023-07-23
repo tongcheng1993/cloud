@@ -35,10 +35,7 @@ public class TokenFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        // ws请求设置session时间无限
-        if (request.getRequestURI().startsWith("/ws")) {
-            request.getSession().setMaxInactiveInterval(-1);
-        }
+
         // 每个请求都带有token
         String token = request.getHeader("X-Access-Token");
         // 没有token的是身份验证有问题，报400 异常
@@ -79,7 +76,12 @@ public class TokenFilter extends BasicAuthenticationFilter {
             }
         }
         // 在容器中放入身份信息
-        UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(userInfo, token, list);
+        // ws请求设置session时间无限
+        if (request.getRequestURI().startsWith("/ws")) {
+            request.getSession().setMaxInactiveInterval(-1);
+        }
+        UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(userInfo.getId(), userInfo.getUserName(), list);
+        authResult.setDetails(userInfo);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authResult);
         // 放行请求

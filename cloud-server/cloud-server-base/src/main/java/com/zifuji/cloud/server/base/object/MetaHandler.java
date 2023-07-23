@@ -3,6 +3,7 @@ package com.zifuji.cloud.server.base.object;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.zifuji.cloud.base.bean.UserInfo;
+import com.zifuji.cloud.server.base.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
@@ -23,7 +24,6 @@ public class MetaHandler implements MetaObjectHandler {
 			}else{
 				this.setFieldValByName("createBy", userInfo.getId(), metaObject);
 			}
-
 		}
 		if (ObjectUtil.isNull(getFieldValByName("updateTime", metaObject))) {
 			this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
@@ -34,7 +34,6 @@ public class MetaHandler implements MetaObjectHandler {
 			}else{
 				this.setFieldValByName("updateBy", userInfo.getId(), metaObject);
 			}
-
 		}
 		if (ObjectUtil.isNull(getFieldValByName("sortNum", metaObject))) {
 			this.setFieldValByName("sortNum", 0L, metaObject);

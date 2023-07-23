@@ -12,6 +12,8 @@ public class ReservationSettingMainEntity extends MyBaseEntity {
 
     private String code;
 
+    private String status;
+
     private Integer openDays;
 
     private String openAddr;

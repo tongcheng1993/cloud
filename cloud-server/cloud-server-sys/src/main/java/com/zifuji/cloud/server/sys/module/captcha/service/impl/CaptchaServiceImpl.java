@@ -4,9 +4,9 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.captcha.generator.RandomGenerator;
 import cn.hutool.core.util.StrUtil;
-import com.zifuji.cloud.base.bean.BaseConstant;
+import com.zifuji.cloud.base.bean.constant.BaseConstant;
 import com.zifuji.cloud.base.exception.Exception200;
-import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaBo;
+import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaComponentMo;
 import com.zifuji.cloud.server.sys.module.captcha.service.CaptchaService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +23,8 @@ public class CaptchaServiceImpl implements CaptchaService {
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
-    public DrawCaptchaBo drawCaptcha(String businessCode, String businessId) {
-        DrawCaptchaBo drawCaptchaBo = new DrawCaptchaBo();
+    public DrawCaptchaComponentMo drawCaptcha(String businessCode, String businessId) {
+        DrawCaptchaComponentMo drawCaptchaBo = new DrawCaptchaComponentMo();
         drawCaptchaBo.setBusinessCode(businessCode);
         drawCaptchaBo.setBusinessId(businessId);
         String redisUuid = StrUtil.uuid();

@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.9.RELEASE</version>
+        <version>2.3.2.RELEASE</version>
         <relativePath/>
     </parent>
     <groupId>com.zifuji</groupId>
@@ -65,7 +65,15 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Greenwich.RELEASE</version>
+                <version>Hoxton.SR9</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2.2.6.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -80,8 +88,6 @@
 
     <modules>
         <module>cloud-base</module>
-        <module>cloud-eureka</module>
-        <module>cloud-config</module>
         <module>cloud-gateway</module>
         <module>cloud-server</module>
     </modules>

@@ -1,20 +1,16 @@
 package com.zifuji.cloud.gateway.web.filter;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import cn.hutool.core.util.ObjectUtil;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.cloud.gateway.filter.WebsocketRoutingFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -23,7 +19,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zifuji.cloud.base.bean.BaseConstant;
+import com.zifuji.cloud.base.bean.constant.BaseConstant;
 import com.zifuji.cloud.base.bean.Result;
 import com.zifuji.cloud.base.bean.UserInfo;
 
@@ -51,7 +47,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
         // 获取当前请求路径
         String path = request.getURI().getPath();
-        log.info("path:{}" + path);
+        log.info("path:{}" , path);
 
         Map<String, Object> map = new HashMap<String, Object>();
         String tc_token = "";

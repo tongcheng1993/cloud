@@ -138,16 +138,16 @@
         </dependency>
         <!--aspose.com dependencies end here.-->
         <!-- aspose 操作office -->
-        <dependency>
-            <groupId>com.aspose.words</groupId>
-            <artifactId>aspose-words</artifactId>
-            <version>${aspose-words.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.aspose.cells</groupId>
-            <artifactId>aspose-cells</artifactId>
-            <version>${aspose-cells.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.aspose.words</groupId>-->
+<!--            <artifactId>aspose-words</artifactId>-->
+<!--            <version>${aspose-words.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.aspose.cells</groupId>-->
+<!--            <artifactId>aspose-cells</artifactId>-->
+<!--            <version>${aspose-cells.version}</version>-->
+<!--        </dependency>-->
 
         <!-- 自定义服务依赖 -->
         <dependency>

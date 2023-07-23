@@ -1,5 +1,6 @@
 package com.zifuji.cloud.server.business.runner;
 
+import com.zifuji.cloud.server.business.module.reservation.service.ReservationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -13,12 +14,16 @@ import java.util.Set;
 @AllArgsConstructor
 public class AppRunner implements ApplicationRunner {
 
+
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("当系统启动时，会自动执行此方法，用来初始化系统数据");
+        log.info("当系统启动时，会自动执行此方法，用来初始化系统数据--start");
         Set<String> set = args.getOptionNames();
         set.forEach(name -> {
             log.info("{}:{}", name, args.getOptionValues(name));
         });
+
+        log.info("当系统启动时，会自动执行此方法，用来初始化系统数据--end");
     }
 }

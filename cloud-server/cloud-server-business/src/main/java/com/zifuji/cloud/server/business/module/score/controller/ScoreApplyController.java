@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
 import com.zifuji.cloud.server.business.module.score.qo.ScoreRecordPageQo;
 import com.zifuji.cloud.server.business.module.score.service.ScoreService;
-import com.zifuji.cloud.server.business.module.score.vo.ScoreAccountVo;
-import com.zifuji.cloud.server.business.module.score.vo.ScoreRecordVo;
+import com.zifuji.cloud.server.business.module.score.vo.ScoreAccountControllerVo;
+import com.zifuji.cloud.server.business.module.score.vo.ScoreRecordControllerVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -26,19 +26,19 @@ public class ScoreApplyController {
 
     @ApiOperation(value = "获取个人账户积分信息")
     @GetMapping(value = "/getScoreAccountVoByMyself")
-    public Result<ScoreAccountVo> getScoreAccountVoByMyself(){
+    public Result<ScoreAccountControllerVo> getScoreAccountVoByMyself(){
 
-        ScoreAccountVo result = scoreService.getScoreAccountVoByMyself();
+        ScoreAccountControllerVo result = scoreService.getScoreAccountVoByMyself();
 
-        return new Result<ScoreAccountVo>().setObj(result);
+        return new Result<ScoreAccountControllerVo>().setObj(result);
     }
     @ApiOperation(value = "获取个人账户积分信息")
     @PostMapping(value = "/queryPageScoreRecord")
-    public Result<IPage<ScoreRecordVo>> queryPageScoreRecord(@RequestBody @Valid ScoreRecordPageQo scoreRecordPageQo){
+    public Result<IPage<ScoreRecordControllerVo>> queryPageScoreRecord(@RequestBody @Valid ScoreRecordPageQo scoreRecordPageQo){
 
-        IPage<ScoreRecordVo> result = scoreService.queryPageScoreRecord(scoreRecordPageQo);
+        IPage<ScoreRecordControllerVo> result = scoreService.queryPageScoreRecord(scoreRecordPageQo);
 
-        return new Result<IPage<ScoreRecordVo>>().setObj(result);
+        return new Result<IPage<ScoreRecordControllerVo>>().setObj(result);
     }
 
 }

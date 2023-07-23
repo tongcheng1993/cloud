@@ -1,0 +1,63 @@
+server:
+  port: 12001
+spring:
+  servlet:
+    multipart:
+      max-request-size: 1000MB
+      max-file-size: 1000MB
+  datasource:
+    url: jdbc:mysql://192.168.84.150:3306/zifuji?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+  output:
+    ansi:
+      enabled: always
+  redis:
+    host: 192.168.84.150
+    port: 6379
+    password: 123456
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 200
+        max-wait: 1
+        max-idle: 8
+        min-idle: 0
+  rabbitmq:
+    host: 192.168.84.150
+    port: 5672
+    username: admin
+    password: admin
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+mybatis-plus:
+  mapper-locations: classpath*:com/zifuji/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  file: ./logs/${spring.application.name}/out.log
+  level:
+    root: INFO
+  pattern:
+    console: '%d{yyyy/MM/dd-HH:mm:ss} [%thread] %clr(%-5level) %clr(%logger:%line{36}){cyan} %clr(%msg%n){green}'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+temppath: c:/tmp/zfj

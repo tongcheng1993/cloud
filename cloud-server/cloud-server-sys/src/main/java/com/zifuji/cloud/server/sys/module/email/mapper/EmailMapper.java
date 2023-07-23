@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.server.sys.module.email.bo.EmailRecordBo;
-import com.zifuji.cloud.server.sys.module.email.bo.EmailTemplateBo;
+import com.zifuji.cloud.server.sys.module.email.bo.EmailRecordComponentMo;
+import com.zifuji.cloud.server.sys.module.email.bo.EmailTemplateComponentMo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,11 +15,11 @@ import java.util.List;
 public interface EmailMapper {
 
 
-    List<EmailRecordBo> selectListEmailRecord(@Param(Constants.WRAPPER) Wrapper<EmailRecordBo> ew);
+    List<EmailRecordComponentMo> selectListEmailRecord(@Param(Constants.WRAPPER) Wrapper<EmailRecordComponentMo> ew);
 
-    IPage<EmailRecordBo> selectPageEmailRecord(@Param(value = "page") Page<EmailRecordBo> page, @Param(Constants.WRAPPER) Wrapper<EmailRecordBo> ew);
+    IPage<EmailRecordComponentMo> selectPageEmailRecord(@Param(value = "page") Page<EmailRecordComponentMo> page, @Param(Constants.WRAPPER) Wrapper<EmailRecordComponentMo> ew);
 
-    List<EmailTemplateBo> selectListEmailTemplate(@Param(Constants.WRAPPER) Wrapper<EmailTemplateBo> ew);
+    List<EmailTemplateComponentMo> selectListEmailTemplate(@Param(Constants.WRAPPER) Wrapper<EmailTemplateComponentMo> ew);
 
-    IPage<EmailTemplateBo> selectPageEmailTemplate(@Param(value = "page") Page<EmailTemplateBo> page, @Param(Constants.WRAPPER) Wrapper<EmailTemplateBo> ew);
+    IPage<EmailTemplateComponentMo> selectPageEmailTemplate(@Param(value = "page") Page<EmailTemplateComponentMo> page, @Param(Constants.WRAPPER) Wrapper<EmailTemplateComponentMo> ew);
 }

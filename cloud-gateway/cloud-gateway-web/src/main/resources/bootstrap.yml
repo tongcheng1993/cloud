@@ -1,40 +1,17 @@
-eureka:
-  client:
-    serviceUrl:
-      register-with-eureka: true
-      fetch-registry: true
-      defaultZone: http://192.168.84.150:11001/eureka/
-  instance:
-    prefer-ip-address: true
-
-
 spring:
-  profiles:
-    active: dev
-
----
-spring:
-  profiles: prod
   application:
-    name: gatewayweb
+    name: cloud-gateway-web
   cloud:
-    config:
-      label: master
-      profile: prod
+    nacos:
+      username: nacos
+      password: nacos
+      server-addr: 192.168.84.150:8848
       discovery:
-        enabled: true
-        service-id: config
-
-
----
-spring:
-  profiles: dev
-  application:
-    name: gatewayweb
-  cloud:
-    config:
-      label: master
-      profile: dev
-      discovery:
-        enabled: true
-        service-id: config
+        namespace: 27a4b49a-4cb1-4381-8b0c-d67fa8d0b454
+        group: DEFAULT_GROUP
+      config:
+        namespace: 27a4b49a-4cb1-4381-8b0c-d67fa8d0b454
+        file-extension: yaml
+        enable-remote-sync-config: true
+        refresh-enabled: true
+        timeout: 3000

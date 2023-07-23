@@ -8,7 +8,7 @@ import com.zifuji.cloud.base.exception.Exception200;
 import com.zifuji.cloud.server.sys.db.data.service.PersonEntityService;
 import com.zifuji.cloud.server.sys.module.data.component.ChinaIdCardUtil;
 import com.zifuji.cloud.server.sys.module.data.qo.PersonPageQo;
-import com.zifuji.cloud.server.sys.module.data.vo.PersonVo;
+import com.zifuji.cloud.server.sys.module.data.vo.PersonControllerVo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -89,7 +89,7 @@ public class DataPersonServiceImpl implements DataPersonService {
 
 
     @Override
-    public IPage<PersonVo> queryPagePerson(PersonPageQo personPageQo) {
+    public IPage<PersonControllerVo> queryPagePerson(PersonPageQo personPageQo) {
         return null;
     }
 

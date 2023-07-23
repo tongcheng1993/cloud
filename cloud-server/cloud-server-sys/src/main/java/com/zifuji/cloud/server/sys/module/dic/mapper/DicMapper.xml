@@ -4,7 +4,7 @@
 	namespace="com.zifuji.cloud.server.sys.module.dic.mapper.DicMapper">
 	
 		
-	<select id="selectListDic" resultType="com.zifuji.cloud.server.sys.module.dic.bo.DicBo">
+	<select id="selectListDic" resultType="com.zifuji.cloud.server.sys.module.dic.bo.DicComponentMo">
 		SELECT
 		zsd.id,
 		zsd.create_by,
@@ -22,7 +22,7 @@
 		${ew.customSqlSegment}	
 	</select>
 	
-	<select id="selectPageDic" resultType="com.zifuji.cloud.server.sys.module.dic.bo.DicBo">
+	<select id="selectPageDic" resultType="com.zifuji.cloud.server.sys.module.dic.bo.DicComponentMo">
 		SELECT
 		zsd.id,
 		zsd.create_by,
@@ -40,7 +40,7 @@
 		${ew.customSqlSegment}	
 	</select>
 	
-	<select id="selectListDicItem" resultType="com.zifuji.cloud.server.sys.module.dic.bo.DicItemBo">
+	<select id="selectListDicItem" resultType="com.zifuji.cloud.server.sys.module.dic.bo.DicItemComponentMo">
 		SELECT
 		zsdi.id,
 		zsdi.create_by,
@@ -61,7 +61,7 @@
 		${ew.customSqlSegment}			
 	</select>
 	
-	<select id="selectPageDicItem" resultType="com.zifuji.cloud.server.sys.module.dic.bo.DicItemBo">
+	<select id="selectPageDicItem" resultType="com.zifuji.cloud.server.sys.module.dic.bo.DicItemComponentMo">
 		SELECT
 		zsdi.id,
 		zsdi.create_by,

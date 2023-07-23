@@ -4,7 +4,7 @@
         namespace="com.zifuji.cloud.server.sys.module.user.mapper.UserMapper">
 
 
-    <select id="selectListUser" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebUserBo">
+    <select id="selectListUser" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebUserComponentMo">
 		SELECT
 		zwu.id,
 		zwu.create_by,
@@ -29,7 +29,7 @@
 		${ew.customSqlSegment}		
 	</select>
 
-    <select id="selectPageUser" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebUserBo">
+    <select id="selectPageUser" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebUserComponentMo">
 		SELECT
 			zwu.*
 		FROM
@@ -43,7 +43,7 @@
 		${ew.customSqlSegment}	
 	</select>
 
-    <select id="selectListRole" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebRoleBo">
+    <select id="selectListRole" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebRoleComponentMo">
 		SELECT
 		zwr.id,
 		zwr.create_by,
@@ -65,7 +65,7 @@
 	</select>
 
 
-    <select id="selectPageRole" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebRoleBo">
+    <select id="selectPageRole" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebRoleComponentMo">
 		SELECT
 		zwr.id,
 		zwr.create_by,
@@ -87,7 +87,7 @@
 	</select>
 
 
-    <select id="selectListMenu" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebMenuBo">
+    <select id="selectListMenu" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebMenuComponentMo">
 		SELECT
 			zwm.id,
 			zwm.create_by,
@@ -112,7 +112,7 @@
 	</select>
 
 
-    <select id="selectPageMenu" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebMenuBo">
+    <select id="selectPageMenu" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebMenuComponentMo">
 		SELECT
 		zwm.id,
 		zwm.create_by,
@@ -135,7 +135,7 @@
 		LEFT JOIN z_web_user zwu ON zwu.id = zwur.user_id
 		${ew.customSqlSegment}	
 	</select>
-    <select id="selectListPermission" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebPermissionBo">
+    <select id="selectListPermission" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebPermissionComponentMo">
 		SELECT
 			zwp.id,
 			zwp.create_by,
@@ -157,7 +157,7 @@
 		LEFT JOIN z_web_user zwu ON zwu.id = zwur.user_id
 				${ew.customSqlSegment}
 	</select>
-    <select id="selectPagePermission" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebPermissionBo">
+    <select id="selectPagePermission" resultType="com.zifuji.cloud.server.sys.module.user.bo.WebPermissionComponentMo">
 		SELECT
 			zwp.id,
 			zwp.create_by,

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.zifuji.cloud.server.sys.module.dic.mo.UpdateDicMo;
-import com.zifuji.cloud.server.sys.module.dic.vo.DicVo;
+import com.zifuji.cloud.server.sys.module.dic.mo.UpdateDicControllerMo;
+import com.zifuji.cloud.server.sys.module.dic.vo.DicControllerVo;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -18,15 +18,15 @@ import com.zifuji.cloud.server.sys.db.dic.entity.DicEntity;
 import com.zifuji.cloud.server.sys.db.dic.entity.DicItemEntity;
 import com.zifuji.cloud.server.sys.db.dic.service.DicEntityService;
 import com.zifuji.cloud.server.sys.db.dic.service.DicItemEntityService;
-import com.zifuji.cloud.server.sys.module.dic.bo.DicBo;
-import com.zifuji.cloud.server.sys.module.dic.bo.DicItemBo;
+import com.zifuji.cloud.server.sys.module.dic.bo.DicComponentMo;
+import com.zifuji.cloud.server.sys.module.dic.bo.DicItemComponentMo;
 import com.zifuji.cloud.server.sys.module.dic.mapper.DicMapper;
-import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicItemMo;
-import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicMo;
+import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicItemControllerMo;
+import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicControllerMo;
 import com.zifuji.cloud.server.sys.module.dic.qo.DicItemPageQo;
 import com.zifuji.cloud.server.sys.module.dic.qo.DicPageQo;
 import com.zifuji.cloud.server.sys.module.dic.service.DicService;
-import com.zifuji.cloud.server.sys.module.dic.vo.DicItemVo;
+import com.zifuji.cloud.server.sys.module.dic.vo.DicItemControllerVo;
 import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -45,7 +45,7 @@ public class DicServiceImpl implements DicService {
     private DicMapper dicMapper;
 
     @Override
-    public String saveDic(SaveDicMo saveDicMo) {
+    public String saveDic(SaveDicControllerMo saveDicMo) {
         QueryWrapper<DicEntity> queryWrapper = new QueryWrapper<DicEntity>();
         queryWrapper.lambda().eq(DicEntity::getCode, saveDicMo.getCode());
         DicEntity dicEntity = dicEntityService.getOne(queryWrapper);
@@ -67,7 +67,7 @@ public class DicServiceImpl implements DicService {
     }
 
     @Override
-    public String updateDic(UpdateDicMo updateDicMo) {
+    public String updateDic(UpdateDicControllerMo updateDicMo) {
         DicEntity dicEntity = dicEntityService.getById(updateDicMo.getId());
         if (ObjectUtil.isNull(dicEntity)) {
             throw new Exception200("");
@@ -90,8 +90,8 @@ public class DicServiceImpl implements DicService {
     }
 
     @Override
-    public DicVo getDicInfoById(Long id) {
-        DicVo vo = new DicVo();
+    public DicControllerVo getDicInfoById(Long id) {
+        DicControllerVo vo = new DicControllerVo();
         DicEntity dicEntity = dicEntityService.getById(id);
         if (ObjectUtil.isNull(dicEntity)) {
             throw new Exception200("");
@@ -102,27 +102,27 @@ public class DicServiceImpl implements DicService {
 
 
     @Override
-    public IPage<DicVo> queryPageDic(DicPageQo dicPageQo) {
-        IPage<DicBo> page = selectPageDic(dicPageQo);
+    public IPage<DicControllerVo> queryPageDic(DicPageQo dicPageQo) {
+        IPage<DicComponentMo> page = selectPageDic(dicPageQo);
 
         return page.convert(dicBo -> {
-            DicVo dicVo = new DicVo();
+            DicControllerVo dicVo = new DicControllerVo();
             BeanUtil.copyProperties(dicBo, dicVo);
             return dicVo;
         });
     }
 
     @Override
-    public List<DicVo> initDic() {
+    public List<DicControllerVo> initDic() {
         List<DicEntity> dicEntityList = dicEntityService.list();
         List<DicItemEntity> dicItemEntityList = dicItemEntityService.list();
         return dicEntityList.stream().map(dicEntity -> {
-            DicVo dicVo = new DicVo();
+            DicControllerVo dicVo = new DicControllerVo();
             BeanUtil.copyProperties(dicEntity, dicVo);
-            List<DicItemVo> dicItemVoList = new ArrayList<>();
+            List<DicItemControllerVo> dicItemVoList = new ArrayList<>();
             for(DicItemEntity dicItemEntity:dicItemEntityList){
                 if(dicEntity.getId().equals(dicItemEntity.getDicId())){
-                    DicItemVo dicItemVo = new DicItemVo();
+                    DicItemControllerVo dicItemVo = new DicItemControllerVo();
                     BeanUtil.copyProperties(dicItemEntity, dicItemVo);
                     dicItemVoList.add(dicItemVo);
                 }
@@ -134,7 +134,7 @@ public class DicServiceImpl implements DicService {
 
 
     @Override
-    public String saveDicItem(SaveDicItemMo saveDicItemMo) {
+    public String saveDicItem(SaveDicItemControllerMo saveDicItemMo) {
         DicEntity dicEntity = dicEntityService.getById(saveDicItemMo.getDicId());
         if (ObjectUtil.isNull(dicEntity)) {
             throw new Exception200("");
@@ -164,7 +164,7 @@ public class DicServiceImpl implements DicService {
 
     @Cacheable(value = "queryListDicItemByDicCode", key = "#dicCode")
     @Override
-    public List<DicItemVo> queryListDicItemByDicCode(String dicCode) {
+    public List<DicItemControllerVo> queryListDicItemByDicCode(String dicCode) {
         DicItemPageQo dicItemPageQo = new DicItemPageQo();
         dicItemPageQo.setDicCode(dicCode);
         return queryListDicItem(dicItemPageQo);
@@ -172,27 +172,27 @@ public class DicServiceImpl implements DicService {
 
 
     @Override
-    public List<DicItemVo> queryListDicItem(DicItemPageQo dicItemPageQo) {
-        List<DicItemBo> list = selectListDicItem(dicItemPageQo);
+    public List<DicItemControllerVo> queryListDicItem(DicItemPageQo dicItemPageQo) {
+        List<DicItemComponentMo> list = selectListDicItem(dicItemPageQo);
         return list.stream().map(dicItemBo -> {
-            DicItemVo dicItemVo = new DicItemVo();
+            DicItemControllerVo dicItemVo = new DicItemControllerVo();
             BeanUtil.copyProperties(dicItemBo, dicItemVo);
             return dicItemVo;
         }).collect(Collectors.toList());
     }
 
 
-    private IPage<DicBo> selectPageDic(DicPageQo dicPageQo) {
-        Page<DicBo> page = new Page<DicBo>(dicPageQo.getCurrent(), dicPageQo.getSize());
-        QueryWrapper<DicBo> queryWrapper = new QueryWrapper<DicBo>();
+    private IPage<DicComponentMo> selectPageDic(DicPageQo dicPageQo) {
+        Page<DicComponentMo> page = new Page<DicComponentMo>(dicPageQo.getCurrent(), dicPageQo.getSize());
+        QueryWrapper<DicComponentMo> queryWrapper = new QueryWrapper<DicComponentMo>();
 
         MyBatisPlusUtil.orderWrapper(queryWrapper, dicPageQo.getOrders());
         queryWrapper.groupBy("id");
         return dicMapper.selectPageDic(page, queryWrapper);
     }
 
-    private List<DicItemBo> selectListDicItem(DicItemPageQo dicItemPageQo) {
-        QueryWrapper<DicItemBo> queryWrapper = new QueryWrapper<DicItemBo>();
+    private List<DicItemComponentMo> selectListDicItem(DicItemPageQo dicItemPageQo) {
+        QueryWrapper<DicItemComponentMo> queryWrapper = new QueryWrapper<DicItemComponentMo>();
         if (ObjectUtil.isNotNull(dicItemPageQo.getDicId())) {
             queryWrapper.eq("zsd.id", dicItemPageQo.getDicId());
         }

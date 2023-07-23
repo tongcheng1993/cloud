@@ -2,7 +2,7 @@ package com.zifuji.cloud.server.base.util;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zifuji.cloud.base.bean.BaseOrderItem;
+import com.zifuji.cloud.base.bean.controller.BaseOrderItem;
 
 import java.util.List;
 

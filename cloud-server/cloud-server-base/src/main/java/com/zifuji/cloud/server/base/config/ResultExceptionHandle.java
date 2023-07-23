@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -21,14 +22,14 @@ import java.util.stream.Collectors;
 public class ResultExceptionHandle {
 
     public ResultExceptionHandle() {
+        log.info("ResultExceptionHandle");
     }
 
     // 入参框架报错
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(MethodArgumentNotValidException e) {
-        log.error("MethodArgumentNotValidException业务异常：" + e.getMessage(), e);
-        String err = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
+        String err = Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage();
         return new Result<>().set200Mes(err);
     }
 

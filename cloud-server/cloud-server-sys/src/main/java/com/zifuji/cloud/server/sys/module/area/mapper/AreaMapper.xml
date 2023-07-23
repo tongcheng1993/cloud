@@ -3,14 +3,14 @@
 <mapper
         namespace="com.zifuji.cloud.server.sys.module.area.mapper.AreaMapper">
 
-    <select id="selectListArea" resultType="com.zifuji.cloud.server.sys.module.area.bo.AreaBo">
+    <select id="selectListArea" resultType="com.zifuji.cloud.server.sys.module.area.bo.AreaComponentMo">
         select
             zsa.*
         from
             z_sys_area zsa
          ${ew.customSqlSegment}
     </select>
-    <select id="selectPageArea" resultType="com.zifuji.cloud.server.sys.module.area.bo.AreaBo">
+    <select id="selectPageArea" resultType="com.zifuji.cloud.server.sys.module.area.bo.AreaComponentMo">
         select
             zsa.*
         from

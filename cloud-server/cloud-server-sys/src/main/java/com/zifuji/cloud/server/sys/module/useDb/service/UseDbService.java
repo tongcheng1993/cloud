@@ -1,7 +1,6 @@
 package com.zifuji.cloud.server.sys.module.useDb.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.sys.module.useDb.mo.ExecuteSqlMo;
 import com.zifuji.cloud.server.sys.module.useDb.qo.ExecuteSqlQo;
 import com.zifuji.cloud.server.sys.module.useDb.vo.ExecuteSqlVo;
 

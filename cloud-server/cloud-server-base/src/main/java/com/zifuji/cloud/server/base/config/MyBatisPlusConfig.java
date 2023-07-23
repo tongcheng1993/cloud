@@ -14,17 +14,16 @@ import org.springframework.context.annotation.Configuration;
 public class MyBatisPlusConfig {
 
 	public MyBatisPlusConfig() {
-		System.out.println("MyBatisPlusConfig");
+		log.info("MyBatisPlusConfig");
 	}
 
 	@Bean
 	public MetaObjectHandler getMetaObjectHandler() {
-		log.info("new MetaHandler()");
 		return new MetaHandler();
 	}
 
 	@Bean
-	public PaginationInterceptor paginationInterceptor() {
+	public PaginationInterceptor getPaginationInterceptor() {
 		PaginationInterceptor page = new PaginationInterceptor();
 		page.setDbType(DbType.MYSQL);
 		return page;

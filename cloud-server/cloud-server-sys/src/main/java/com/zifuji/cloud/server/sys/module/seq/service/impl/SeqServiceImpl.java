@@ -9,22 +9,22 @@ import java.util.stream.Collectors;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.server.sys.module.seq.bo.SeqBo;
+import com.zifuji.cloud.server.sys.module.seq.bo.SeqComponentMo;
 import com.zifuji.cloud.server.sys.module.seq.mapper.SeqMapper;
-import com.zifuji.cloud.server.sys.module.seq.mo.SaveSeqMo;
+import com.zifuji.cloud.server.sys.module.seq.mo.SaveSeqControllerMo;
 import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.base.bean.BaseConstant;
+import com.zifuji.cloud.base.bean.constant.BaseConstant;
 import com.zifuji.cloud.base.exception.Exception200;
 import com.zifuji.cloud.server.sys.db.seq.entity.SeqEntity;
 import com.zifuji.cloud.server.sys.db.seq.service.SeqEntityService;
 import com.zifuji.cloud.server.sys.module.seq.qo.SeqPageQo;
 import com.zifuji.cloud.server.sys.module.seq.service.SeqService;
-import com.zifuji.cloud.server.sys.module.seq.vo.SeqVo;
+import com.zifuji.cloud.server.sys.module.seq.vo.SeqControllerVo;
 
 import cn.hutool.core.util.ObjectUtil;
 import lombok.AllArgsConstructor;
@@ -41,10 +41,10 @@ public class SeqServiceImpl implements SeqService {
 
 
     @Override
-    public List<SeqVo> queryListSeq(SeqPageQo seqPageQo) {
-        List<SeqBo> list = selectListSeq(seqPageQo);
+    public List<SeqControllerVo> queryListSeq(SeqPageQo seqPageQo) {
+        List<SeqComponentMo> list = selectListSeq(seqPageQo);
         return list.stream().map(seqBo -> {
-            SeqVo seqVo = new SeqVo();
+            SeqControllerVo seqVo = new SeqControllerVo();
             BeanUtil.copyProperties(seqBo, seqVo);
             return seqVo;
         }).collect(Collectors.toList());
@@ -52,30 +52,30 @@ public class SeqServiceImpl implements SeqService {
 
 
     @Override
-    public IPage<SeqVo> queryPageSeq(SeqPageQo seqPageQo) {
-        IPage<SeqBo> page = selectPageSeq(seqPageQo);
+    public IPage<SeqControllerVo> queryPageSeq(SeqPageQo seqPageQo) {
+        IPage<SeqComponentMo> page = selectPageSeq(seqPageQo);
         return page.convert(seqBo -> {
-            SeqVo seqVo = new SeqVo();
+            SeqControllerVo seqVo = new SeqControllerVo();
             BeanUtil.copyProperties(seqBo, seqVo);
             return seqVo;
         });
     }
 
     @Override
-    public SeqVo getSeqById(Long id) {
-        SeqVo vo = new SeqVo();
+    public SeqControllerVo getSeqById(Long id) {
+        SeqControllerVo vo = new SeqControllerVo();
         SeqEntity seqEntity = seqEntityService.getById(id);
         BeanUtil.copyProperties(seqEntity,vo);
         return vo;
     }
 
     @Override
-    public SeqVo saveSeq(SaveSeqMo saveSeqMo) {
+    public SeqControllerVo saveSeq(SaveSeqControllerMo saveSeqMo) {
         return null;
     }
 
-    private List<SeqBo> selectListSeq(SeqPageQo seqPageQo) {
-        QueryWrapper<SeqBo> queryWrapper = new QueryWrapper<SeqBo>();
+    private List<SeqComponentMo> selectListSeq(SeqPageQo seqPageQo) {
+        QueryWrapper<SeqComponentMo> queryWrapper = new QueryWrapper<SeqComponentMo>();
         if (StrUtil.isNotBlank(seqPageQo.getName())) {
             queryWrapper.eq("zss.name", seqPageQo.getName());
         } else {
@@ -85,9 +85,9 @@ public class SeqServiceImpl implements SeqService {
         return seqMapper.selectListSeq(queryWrapper);
     }
 
-    private IPage<SeqBo> selectPageSeq(SeqPageQo seqPageQo) {
-        Page<SeqBo> page = new Page<SeqBo>(seqPageQo.getCurrent(), seqPageQo.getSize());
-        QueryWrapper<SeqBo> queryWrapper = new QueryWrapper<SeqBo>();
+    private IPage<SeqComponentMo> selectPageSeq(SeqPageQo seqPageQo) {
+        Page<SeqComponentMo> page = new Page<SeqComponentMo>(seqPageQo.getCurrent(), seqPageQo.getSize());
+        QueryWrapper<SeqComponentMo> queryWrapper = new QueryWrapper<SeqComponentMo>();
         if (StrUtil.isNotBlank(seqPageQo.getName())) {
             queryWrapper.eq("zss.name", seqPageQo.getName());
         } else {

@@ -6,18 +6,18 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.base.bean.BaseConstant;
+import com.zifuji.cloud.base.bean.constant.BaseConstant;
 import com.zifuji.cloud.base.exception.Exception200;
 import com.zifuji.cloud.server.sys.db.quartz.entity.QuartzRecordEntity;
 import com.zifuji.cloud.server.sys.db.quartz.service.QuartzRecordEntityService;
-import com.zifuji.cloud.server.sys.module.quartz.bo.QuartzRecordBo;
+import com.zifuji.cloud.server.sys.module.quartz.bo.QuartzRecordComponentMo;
 import com.zifuji.cloud.server.sys.module.quartz.component.QuartzComponent;
 import com.zifuji.cloud.server.sys.module.quartz.mapper.QuartzMapper;
-import com.zifuji.cloud.server.sys.module.quartz.mo.QuartzRecordMo;
+import com.zifuji.cloud.server.sys.module.quartz.mo.QuartzRecordControllerMo;
 
 import com.zifuji.cloud.server.sys.module.quartz.qo.QuartzRecordPageQo;
 import com.zifuji.cloud.server.sys.module.quartz.service.QuartzService;
-import com.zifuji.cloud.server.sys.module.quartz.vo.QuartzRecordVo;
+import com.zifuji.cloud.server.sys.module.quartz.vo.QuartzRecordControllerVo;
 import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +39,8 @@ public class QuartzServiceImpl implements QuartzService {
     private QuartzComponent quartzComponent;
 
     @Override
-    public QuartzRecordVo saveQuartzRecord(QuartzRecordMo quartzRecordMo) throws Exception {
-        QuartzRecordVo quartzRecordVo = new QuartzRecordVo();
+    public QuartzRecordControllerVo saveQuartzRecord(QuartzRecordControllerMo quartzRecordMo) throws Exception {
+        QuartzRecordControllerVo quartzRecordVo = new QuartzRecordControllerVo();
         if (ObjectUtil.isNull(quartzRecordMo.getId())) {
             QuartzRecordEntity quartzRecordEntity = new QuartzRecordEntity();
             BeanUtil.copyProperties(quartzRecordMo, quartzRecordEntity);
@@ -91,10 +91,10 @@ public class QuartzServiceImpl implements QuartzService {
     }
 
     @Override
-    public IPage<QuartzRecordVo> queryPageQuartzRecord(QuartzRecordPageQo quartzRecordPageQo) {
-        IPage<QuartzRecordBo> page = selectPageQuartzRecord(quartzRecordPageQo);
+    public IPage<QuartzRecordControllerVo> queryPageQuartzRecord(QuartzRecordPageQo quartzRecordPageQo) {
+        IPage<QuartzRecordComponentMo> page = selectPageQuartzRecord(quartzRecordPageQo);
         return page.convert(bo -> {
-            QuartzRecordVo vo = new QuartzRecordVo();
+            QuartzRecordControllerVo vo = new QuartzRecordControllerVo();
             BeanUtil.copyProperties(bo, vo);
             return vo;
         });
@@ -104,9 +104,9 @@ public class QuartzServiceImpl implements QuartzService {
     public Boolean syncQuartzList() {
 
 
-        List<QuartzRecordBo> list = quartzComponent.getAllJob();
+        List<QuartzRecordComponentMo> list = quartzComponent.getAllJob();
 
-        for (QuartzRecordBo bo : list) {
+        for (QuartzRecordComponentMo bo : list) {
             log.info("job：{}", bo);
         }
 
@@ -114,9 +114,9 @@ public class QuartzServiceImpl implements QuartzService {
         return true;
     }
 
-    private IPage<QuartzRecordBo> selectPageQuartzRecord(QuartzRecordPageQo quartzRecordPageQo) {
-        Page<QuartzRecordBo> page = new Page<QuartzRecordBo>(quartzRecordPageQo.getCurrent(), quartzRecordPageQo.getSize());
-        QueryWrapper<QuartzRecordBo> queryWrapper = new QueryWrapper<QuartzRecordBo>();
+    private IPage<QuartzRecordComponentMo> selectPageQuartzRecord(QuartzRecordPageQo quartzRecordPageQo) {
+        Page<QuartzRecordComponentMo> page = new Page<QuartzRecordComponentMo>(quartzRecordPageQo.getCurrent(), quartzRecordPageQo.getSize());
+        QueryWrapper<QuartzRecordComponentMo> queryWrapper = new QueryWrapper<QuartzRecordComponentMo>();
         if (StrUtil.isNotBlank(quartzRecordPageQo.getName())) {
             queryWrapper.eq("name", quartzRecordPageQo.getName());
         } else {

@@ -13,6 +13,9 @@ public class UserChannelInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
+
+
+
         return message;
     }
 }

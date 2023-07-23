@@ -14,7 +14,6 @@
             <groupId>com.zifuji</groupId>
             <artifactId>cloud-server-base</artifactId>
         </dependency>
-
         <!-- freemarker 模板 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class DicChangeHandle {
-	public DicChangeHandle() {
-		System.out.println("DicChangeHandle");
-	}
-	
-	
-	
+    public DicChangeHandle() {
+        System.out.println("DicChangeHandle");
+    }
+
 
 }

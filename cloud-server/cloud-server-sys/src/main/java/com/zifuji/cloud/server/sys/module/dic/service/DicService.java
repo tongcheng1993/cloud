@@ -3,34 +3,34 @@ package com.zifuji.cloud.server.sys.module.dic.service;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicItemMo;
-import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicMo;
-import com.zifuji.cloud.server.sys.module.dic.mo.UpdateDicMo;
+import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicItemControllerMo;
+import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicControllerMo;
+import com.zifuji.cloud.server.sys.module.dic.mo.UpdateDicControllerMo;
 import com.zifuji.cloud.server.sys.module.dic.qo.DicItemPageQo;
 import com.zifuji.cloud.server.sys.module.dic.qo.DicPageQo;
-import com.zifuji.cloud.server.sys.module.dic.vo.DicItemVo;
-import com.zifuji.cloud.server.sys.module.dic.vo.DicVo;
+import com.zifuji.cloud.server.sys.module.dic.vo.DicItemControllerVo;
+import com.zifuji.cloud.server.sys.module.dic.vo.DicControllerVo;
 
 public interface DicService {
 
-    String saveDic(SaveDicMo saveDicMo);
+    String saveDic(SaveDicControllerMo saveDicMo);
 
-    String updateDic(UpdateDicMo updateDicMo);
+    String updateDic(UpdateDicControllerMo updateDicMo);
 
     Boolean delDic(Long id);
 
-    DicVo getDicInfoById(Long id);
+    DicControllerVo getDicInfoById(Long id);
 
-    IPage<DicVo> queryPageDic(DicPageQo dicPageQo);
+    IPage<DicControllerVo> queryPageDic(DicPageQo dicPageQo);
 
-    List<DicVo> initDic();
+    List<DicControllerVo> initDic();
 
-    String saveDicItem(SaveDicItemMo saveDicItemMo);
+    String saveDicItem(SaveDicItemControllerMo saveDicItemMo);
 
 
-    List<DicItemVo> queryListDicItem(DicItemPageQo dicItemPageQo);
+    List<DicItemControllerVo> queryListDicItem(DicItemPageQo dicItemPageQo);
 
-    List<DicItemVo> queryListDicItemByDicCode(String dicCode);
+    List<DicItemControllerVo> queryListDicItemByDicCode(String dicCode);
 
 
 }

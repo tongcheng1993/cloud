@@ -2,7 +2,7 @@ package com.zifuji.cloud.server.sys.module.data.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.server.sys.module.data.qo.PersonPageQo;
-import com.zifuji.cloud.server.sys.module.data.vo.PersonVo;
+import com.zifuji.cloud.server.sys.module.data.vo.PersonControllerVo;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface DataPersonService {
@@ -11,5 +11,5 @@ public interface DataPersonService {
 
 	Boolean addPerson(String name,String cardNumber);
 
-	IPage<PersonVo> queryPagePerson(PersonPageQo personPageQo);
+	IPage<PersonControllerVo> queryPagePerson(PersonPageQo personPageQo);
 }

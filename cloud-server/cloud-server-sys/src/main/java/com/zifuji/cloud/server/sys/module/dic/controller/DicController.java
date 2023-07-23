@@ -4,8 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.alibaba.fastjson.JSONObject;
-import com.zifuji.cloud.server.sys.module.dic.vo.DicVo;
+import com.zifuji.cloud.server.sys.module.dic.vo.DicControllerVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicItemMo;
-import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicMo;
-import com.zifuji.cloud.server.sys.module.dic.mo.UpdateDicMo;
+import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicItemControllerMo;
+import com.zifuji.cloud.server.sys.module.dic.mo.SaveDicControllerMo;
+import com.zifuji.cloud.server.sys.module.dic.mo.UpdateDicControllerMo;
 import com.zifuji.cloud.server.sys.module.dic.qo.DicItemPageQo;
 import com.zifuji.cloud.server.sys.module.dic.qo.DicPageQo;
 import com.zifuji.cloud.server.sys.module.dic.service.DicService;
-import com.zifuji.cloud.server.sys.module.dic.vo.DicItemVo;
+import com.zifuji.cloud.server.sys.module.dic.vo.DicItemControllerVo;
 
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -39,7 +38,7 @@ public class DicController {
     // 新增一个数据字典类型
 
     @PostMapping(value = "/saveDic")
-    public Result<String> saveDic(@RequestBody @Valid SaveDicMo saveDicMo) {
+    public Result<String> saveDic(@RequestBody @Valid SaveDicControllerMo saveDicMo) {
 
         String result = dicService.saveDic(saveDicMo);
 
@@ -48,7 +47,7 @@ public class DicController {
 
 
     @PostMapping(value = "/updateDic")
-    public Result<String> updateDic(@RequestBody @Valid UpdateDicMo updateDicMo) {
+    public Result<String> updateDic(@RequestBody @Valid UpdateDicControllerMo updateDicMo) {
 
         String result = dicService.updateDic(updateDicMo);
 
@@ -66,33 +65,33 @@ public class DicController {
 
 
     @GetMapping(value = "/getDicInfoById")
-    public Result<DicVo> getDicInfoById(@RequestParam Long id) {
+    public Result<DicControllerVo> getDicInfoById(@RequestParam Long id) {
 
-        DicVo result = dicService.getDicInfoById(id);
+        DicControllerVo result = dicService.getDicInfoById(id);
 
-        return new Result<DicVo>().setObj(result);
+        return new Result<DicControllerVo>().setObj(result);
     }
 
     @PostMapping(value = "/initDic")
-    public Result<List<DicVo>> initDic() {
+    public Result<List<DicControllerVo>> initDic() {
 
-        List<DicVo> result = dicService.initDic();
+        List<DicControllerVo> result = dicService.initDic();
 
-        return new Result<List<DicVo>>().setObj(result);
+        return new Result<List<DicControllerVo>>().setObj(result);
     }
 
     @PostMapping(value = "/queryPageDic")
-    public Result<IPage<DicVo>> queryPageDic(@RequestBody @Valid DicPageQo dicPageQo) {
+    public Result<IPage<DicControllerVo>> queryPageDic(@RequestBody @Valid DicPageQo dicPageQo) {
 
-        IPage<DicVo> result = dicService.queryPageDic(dicPageQo);
+        IPage<DicControllerVo> result = dicService.queryPageDic(dicPageQo);
 
-        return new Result<IPage<DicVo>>().setObj(result);
+        return new Result<IPage<DicControllerVo>>().setObj(result);
     }
 
     // 新增一个数据字典详细
 
     @PostMapping(value = "/saveDicItem")
-    public Result<String> saveDicItem(@RequestBody @Valid SaveDicItemMo saveDicItemMo) {
+    public Result<String> saveDicItem(@RequestBody @Valid SaveDicItemControllerMo saveDicItemMo) {
 
         String result = dicService.saveDicItem(saveDicItemMo);
 
@@ -101,20 +100,20 @@ public class DicController {
 
 
     @PostMapping(value = "/queryListDicItem")
-    public Result<List<DicItemVo>> queryListDicItem(@RequestBody @Valid DicItemPageQo dicItemPageQo) {
+    public Result<List<DicItemControllerVo>> queryListDicItem(@RequestBody @Valid DicItemPageQo dicItemPageQo) {
 
-        List<DicItemVo> result = dicService.queryListDicItem(dicItemPageQo);
+        List<DicItemControllerVo> result = dicService.queryListDicItem(dicItemPageQo);
 
-        return new Result<List<DicItemVo>>().setObj(result);
+        return new Result<List<DicItemControllerVo>>().setObj(result);
     }
 
 
     @PostMapping(value = "/queryListDicItemByDicCode")
-    public Result<List<DicItemVo>> queryListDicItemByDicCode(String dicCode) {
+    public Result<List<DicItemControllerVo>> queryListDicItemByDicCode(String dicCode) {
 
-        List<DicItemVo> result = dicService.queryListDicItemByDicCode(dicCode);
+        List<DicItemControllerVo> result = dicService.queryListDicItemByDicCode(dicCode);
 
-        return new Result<List<DicItemVo>>().setObj(result);
+        return new Result<List<DicItemControllerVo>>().setObj(result);
     }
 
 }

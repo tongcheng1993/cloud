@@ -8,21 +8,19 @@ import org.springframework.stereotype.Service;
 import com.zifuji.cloud.gateway.base.service.GatewayBaseService;
 
 @Service
-public class GatewayBaseImpl implements GatewayBaseService, ApplicationEventPublisherAware{
-	
-	private ApplicationEventPublisher applicationEventPublisher;
+public class GatewayBaseImpl implements GatewayBaseService, ApplicationEventPublisherAware {
 
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-		this.applicationEventPublisher=applicationEventPublisher;
-	}
+    private ApplicationEventPublisher applicationEventPublisher;
 
-	
-	private void notifyChanged() {
-		this.applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
-	}
-	
-	
-	
-	
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
+    }
+
+
+    private void notifyChanged() {
+        this.applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+    }
+
+
 }

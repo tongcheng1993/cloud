@@ -1,13 +1,8 @@
 package com.zifuji.cloud.server.websocket.module.websocket.config;
 
-import com.alibaba.fastjson.JSONObject;
-import com.zifuji.cloud.server.base.object.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketMessage;
-import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 
 
@@ -27,20 +22,36 @@ public class UserWebSocketHandler extends WebSocketHandlerDecorator {
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
+        if (message instanceof TextMessage) {
+            this.handleTextMessage(session, (TextMessage) message);
+        } else if (message instanceof BinaryMessage) {
+            this.handleBinaryMessage(session, (BinaryMessage) message);
+        } else {
+            if (!(message instanceof PongMessage)) {
+                throw new IllegalStateException("Unexpected WebSocket message type: " + message);
+            }
 
+            this.handlePongMessage(session, (PongMessage) message);
+        }
         super.handleMessage(session, message);
+    }
+
+    private void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+    }
+
+    private void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception {
+    }
+
+    private void handlePongMessage(WebSocketSession session, PongMessage message) throws Exception {
     }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-       super.afterConnectionEstablished(session);
+        super.afterConnectionEstablished(session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        String longId = stringRedisTemplate.opsForValue().get("ws" + session.getId());
-        stringRedisTemplate.delete("ws" + session.getId());
-        stringRedisTemplate.opsForSet().remove("ws" + longId, session.getId());
         super.afterConnectionClosed(session, closeStatus);
     }
 }
