@@ -8,7 +8,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.db.email.entity.EmailRecordEntity;
 import com.zifuji.cloud.server.sys.db.email.entity.EmailTemplateEntity;
 import com.zifuji.cloud.server.sys.db.email.service.EmailRecordEntityService;
@@ -88,7 +88,7 @@ public class EmailServiceImpl implements EmailService {
         } else {
             EmailTemplateEntity emailTemplateEntity = emailTemplateEntityService.getById(saveEmailTemplateMo.getId());
             if (ObjectUtil.isNull(emailTemplateEntity)) {
-                throw new Exception200("");
+                throw new Exception20000("");
             }
             emailTemplateEntity.setName(saveEmailTemplateMo.getName());
             emailTemplateEntity.setSubject(saveEmailTemplateMo.getSubject());

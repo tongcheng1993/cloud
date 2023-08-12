@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.zifuji.cloud.base.bean.controller.BaseControllerMo;
+import com.zifuji.cloud.server.base.bean.BaseControllerMo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -31,9 +31,9 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.base.bean.constant.BaseConstant;
+import com.zifuji.cloud.base.bean.BaseConstant;
 import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.module.user.mapper.UserMapper;
 import com.zifuji.cloud.server.sys.module.user.qo.WebMenuPageQo;
 import com.zifuji.cloud.server.sys.module.user.qo.WebRolePageQo;
@@ -73,11 +73,11 @@ public class UserServiceImpl implements UserService {
     public List<WebMenuControllerVo> getMenu() {
         UserInfo userInfo = SecurityUtil.getUserDetails();
         List<String> roleCodeList = new ArrayList<String>();
-        if (ObjectUtil.isEmpty(userInfo.getRoleList())) {
+        if (ObjectUtil.isEmpty(userInfo.getRoleCodeList())) {
             roleCodeList.add(BaseConstant.ROLE_VISIT);
         } else {
-            for (int i = 0; i < userInfo.getRoleList().size(); i++) {
-                roleCodeList.add(userInfo.getRoleList().get(i).replace("ROLE_", ""));
+            for (int i = 0; i < userInfo.getRoleCodeList().size(); i++) {
+                roleCodeList.add(userInfo.getRoleCodeList().get(i).replace("ROLE_", ""));
             }
         }
         WebMenuPageQo webMenuPageQo = new WebMenuPageQo();
@@ -102,10 +102,10 @@ public class UserServiceImpl implements UserService {
     public String register(RegisterControllerMo registerMo) {
         Boolean flag = captchaService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_WEB, "img", registerMo.getRedisUuid(), registerMo.getValue());
         if(!flag){
-            throw new Exception200("验证码错误");
+            throw new Exception20000("验证码错误");
         }
         if (!StrUtil.equals(registerMo.getPassWord(), registerMo.getPassWordSec())) {
-            throw new Exception200("密码输入不一致");
+            throw new Exception20000("密码输入不一致");
         }
         // 通过用户名查询数据库记录
         WebUserEntity  webUserEntity =  register(registerMo.getUserName(),registerMo.getPassWord());
@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
         webUserEntityQueryWrapper.lambda().eq(WebUserEntity::getUserName, userName);
         WebUserEntity webUserEntity = this.webUserEntityService.getOne(webUserEntityQueryWrapper);
         if (ObjectUtil.isNotNull(webUserEntity)) {
-            throw new Exception200("用户名重复");
+            throw new Exception20000("用户名重复");
         }
         // 密码加密
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -153,11 +153,11 @@ public class UserServiceImpl implements UserService {
         webUserEntityQueryWrapper.lambda().eq(WebUserEntity::getUserName, loginMo.getUserName());
         WebUserEntity webUserEntity = webUserEntityService.getOne(webUserEntityQueryWrapper);
         if (ObjectUtil.isNull(webUserEntity)) {
-            throw new Exception200("用户名密码错误");
+            throw new Exception20000("用户名密码错误");
         }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if (!bCryptPasswordEncoder.matches(loginMo.getPassWord(), webUserEntity.getPassWord())) {
-            throw new Exception200("用户名密码错误");
+            throw new Exception20000("用户名密码错误");
         }
         return getLoginToken(webUserEntity);
     }
@@ -181,8 +181,8 @@ public class UserServiceImpl implements UserService {
         for (WebPermissionComponentMo webPermissionBo : webPermissionBoList) {
             permissionCodeList.add(webPermissionBo.getCodeSys() + ":" + webPermissionBo.getCodeModule() + ":" + webPermissionBo.getCode());
         }
-        userInfo.setRoleList(roleCodeList);
-        userInfo.setPermissionList(permissionCodeList);
+        userInfo.setRoleCodeList(roleCodeList);
+        userInfo.setPermissionCodeList(permissionCodeList);
         return getLoginToken(userInfo);
     }
 
@@ -206,10 +206,10 @@ public class UserServiceImpl implements UserService {
         webUserEntityQueryWrapper.lambda().eq(WebUserEntity::getUserName, sendForgetPassWordCaptchaMo.getUserName());
         WebUserEntity webUserEntity = this.webUserEntityService.getOne(webUserEntityQueryWrapper);
         if (ObjectUtil.isNull(webUserEntity)) {
-            throw new Exception200("未查询到账户");
+            throw new Exception20000("未查询到账户");
         }
         if (StrUtil.isBlank(webUserEntity.getEmail())) {
-            throw new Exception200("未查询到绑定邮箱");
+            throw new Exception20000("未查询到绑定邮箱");
         }
         DrawCaptchaComponentMo drawCaptchaBo = captchaService.drawCaptcha("forgetPassWord", sendForgetPassWordCaptchaMo.getUserName());
 
@@ -231,7 +231,7 @@ public class UserServiceImpl implements UserService {
         webUserEntityQueryWrapper.lambda().eq(WebUserEntity::getUserName, resetForgetPassWordMo.getUserName());
         WebUserEntity webUserEntity = this.webUserEntityService.getOne(webUserEntityQueryWrapper);
         if (ObjectUtil.isNull(webUserEntity)) {
-            throw new Exception200("数据错误");
+            throw new Exception20000("数据错误");
         }
         // 密码加密
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -248,7 +248,7 @@ public class UserServiceImpl implements UserService {
         WebUserEntity webUserEntity = webUserEntityService.getById(userInfo.getId());
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if (!bCryptPasswordEncoder.matches(changePassWordMo.getPassWord(), webUserEntity.getPassWord())) {
-            throw new Exception200("旧密码错误");
+            throw new Exception20000("旧密码错误");
         }
         webUserEntity.setPassWord(bCryptPasswordEncoder.encode(changePassWordMo.getNewPassWord()));
         this.webUserEntityService.updateById(webUserEntity);
@@ -286,7 +286,7 @@ public class UserServiceImpl implements UserService {
         // 校验账号和密码
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if (!bCryptPasswordEncoder.matches(saveBindEmailMo.getPassWord(), webUserEntity.getPassWord())) {
-            throw new Exception200("当前密码错误");
+            throw new Exception20000("当前密码错误");
         }
         webUserEntity.setEmail(saveBindEmailMo.getEmail());
         webUserEntityService.updateById(webUserEntity);
@@ -314,7 +314,7 @@ public class UserServiceImpl implements UserService {
         // 校验账号和密码
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if (!bCryptPasswordEncoder.matches(saveBindPhoneMo.getPassWord(), webUserEntity.getPassWord())) {
-            throw new Exception200("当前密码错误");
+            throw new Exception20000("当前密码错误");
         }
         webUserEntity.setPhone(saveBindPhoneMo.getPhone());
         webUserEntityService.updateById(webUserEntity);
@@ -412,8 +412,8 @@ public class UserServiceImpl implements UserService {
         for (WebPermissionComponentMo webPermissionBo : webPermissionBoList) {
             permissionCodeList.add(webPermissionBo.getCodeSys() + ":" + webPermissionBo.getCodeModule() + ":" + webPermissionBo.getCode());
         }
-        userInfo.setRoleList(roleCodeList);
-        userInfo.setPermissionList(permissionCodeList);
+        userInfo.setRoleCodeList(roleCodeList);
+        userInfo.setPermissionCodeList(permissionCodeList);
 
         userInfo.setToken(token);
         log.info(token);
@@ -467,7 +467,7 @@ public class UserServiceImpl implements UserService {
         queryWrapper.lambda().eq(WebRoleEntity::getCode, saveWebRoleMo.getCode());
         WebRoleEntity webRoleEntity = webRoleEntityService.getOne(queryWrapper);
         if (ObjectUtil.isNotNull(webRoleEntity)) {
-            throw new Exception200("");
+            throw new Exception20000("");
         }
         webRoleEntity = new WebRoleEntity();
         BeanUtil.copyProperties(saveWebRoleMo, webRoleEntity);
@@ -501,7 +501,7 @@ public class UserServiceImpl implements UserService {
                     .eq(WebMenuEntity::getPath, saveWebMenuMo.getPath());
             WebMenuEntity webMenuEntity = webMenuEntityService.getOne(queryWrapper);
             if (ObjectUtil.isNotNull(webMenuEntity)) {
-                throw new Exception200("存在相同的页面地址，请确认数据");
+                throw new Exception20000("存在相同的页面地址，请确认数据");
             }
             webMenuEntity = new WebMenuEntity();
             BeanUtil.copyProperties(saveWebMenuMo, webMenuEntity);
@@ -551,7 +551,7 @@ public class UserServiceImpl implements UserService {
 
         WebPermissionEntity webPermissionEntity = webPermissionEntityService.getOne(queryWrapper);
         if (ObjectUtil.isNotNull(webPermissionEntity)) {
-            throw new Exception200("");
+            throw new Exception20000("");
         }
         webPermissionEntity = new WebPermissionEntity();
         BeanUtil.copyProperties(saveWebPermissionMo, webPermissionEntity);
@@ -624,7 +624,7 @@ public class UserServiceImpl implements UserService {
         roleQueryWrapper.lambda().eq(WebRoleEntity::getCode, roleCode);
         WebRoleEntity webRoleEntity = webRoleEntityService.getOne(roleQueryWrapper);
         if (ObjectUtil.isNull(webRoleEntity)) {
-            throw new Exception200("");
+            throw new Exception20000("");
         }
         return saveUserAndRole(userId, webRoleEntity.getId());
     }

@@ -25,6 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
@@ -42,6 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/favicon.ico","/index.html","/actuator/**", "/swagger-ui.html", "/webjars/**", "/v2/**", "/swagger-resources/**");
+        web.ignoring().antMatchers("/favicon.ico", "/index.html", "/actuator/**", "/swagger-ui.html", "/webjars/**", "/v2/**", "/swagger-resources/**");
     }
 }

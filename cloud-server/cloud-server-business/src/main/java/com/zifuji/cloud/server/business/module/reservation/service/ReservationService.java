@@ -1,9 +1,9 @@
 package com.zifuji.cloud.server.business.module.reservation.service;
 
-import com.zifuji.cloud.server.business.module.reservation.mo.ReservationSettingMainControllerMo;
-import com.zifuji.cloud.server.business.module.reservation.mo.ReservationSettingSpeDayMo;
-import com.zifuji.cloud.server.business.module.reservation.vo.ReservationApplyMainControllerVo;
-import com.zifuji.cloud.server.business.module.reservation.vo.ReservationApplyWorkDayControllerVo;
+import com.zifuji.cloud.server.business.module.reservation.controller.mo.ReservationSettingMainControllerMo;
+import com.zifuji.cloud.server.business.module.reservation.controller.mo.ReservationSettingSpeDayMo;
+import com.zifuji.cloud.server.business.module.reservation.controller.vo.ReservationApplyMainControllerVo;
+import com.zifuji.cloud.server.business.module.reservation.controller.vo.ReservationApplyWorkDayControllerVo;
 
 public interface ReservationService {
 

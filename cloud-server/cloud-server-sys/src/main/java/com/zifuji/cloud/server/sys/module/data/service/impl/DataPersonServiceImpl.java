@@ -4,7 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.db.data.service.PersonEntityService;
 import com.zifuji.cloud.server.sys.module.data.component.ChinaIdCardUtil;
 import com.zifuji.cloud.server.sys.module.data.qo.PersonPageQo;
@@ -45,7 +45,7 @@ public class DataPersonServiceImpl implements DataPersonService {
             file.transferTo(new File(path));
         } catch (IOException e) {
             e.printStackTrace();
-            throw new Exception200(e.getMessage());
+            throw new Exception20000(e.getMessage());
         }
         ExcelReader reader = ExcelUtil.getReader(path);
         List<Map<String, Object>> readAll = reader.readAll();

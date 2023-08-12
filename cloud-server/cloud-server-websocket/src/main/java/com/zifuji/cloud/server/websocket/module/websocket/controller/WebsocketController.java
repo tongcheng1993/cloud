@@ -30,21 +30,21 @@ public class WebsocketController {
     @PostMapping(value = "/info")
     public Result<Integer> info() {
         Integer result = websocketService.info();
-        return new Result<Integer>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "发送全网站通知")
     @PostMapping(value = "/sendWsAllMessage")
     public Result<Boolean> sendWsAllMessage(@RequestBody @Valid SendWsMessageMo sendWsMessageMo) {
         websocketService.sendWsAllMessage(sendWsMessageMo);
-        return new Result<Boolean>().setObj(true);
+        return Result.setObj(true);
     }
 
     @ApiOperation(value = "发送个人消息")
     @PostMapping(value = "/sendWsOneMessage")
     public Result<Boolean> sendWsOneMessage(@RequestBody @Valid SendWsMessageMo sendWsMessageMo) {
         websocketService.sendWsMessage(sendWsMessageMo);
-        return new Result<Boolean>().setObj(true);
+        return Result.setObj(true);
     }
 
 

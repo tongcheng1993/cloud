@@ -37,7 +37,7 @@ public class SeqManageController {
 
         List<SeqControllerVo> result = seqService.queryListSeq(seqPageQo);
 
-        return new Result<List<SeqControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "分页查询列表")
@@ -46,7 +46,7 @@ public class SeqManageController {
 
         IPage<SeqControllerVo> result = seqService.queryPageSeq(seqPageQo);
 
-        return new Result<IPage<SeqControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "查询详情")
@@ -55,7 +55,7 @@ public class SeqManageController {
 
         SeqControllerVo result = seqService.getSeqById(id);
 
-        return new Result<SeqControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -65,7 +65,7 @@ public class SeqManageController {
 
         SeqControllerVo result = seqService.saveSeq(saveSeqMo);
 
-        return new Result<SeqControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
 

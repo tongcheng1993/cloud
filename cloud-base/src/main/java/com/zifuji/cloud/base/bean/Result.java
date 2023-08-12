@@ -7,49 +7,54 @@ import lombok.Data;
 @Data
 public class Result<T> implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private int code;
-	private boolean success;
-	private String message;
-	private T result;
-	private long timestamp = System.currentTimeMillis();
+    private int code;
+    private boolean success;
+    private String message;
+    private T result;
+    private long timestamp = System.currentTimeMillis();
 
-	public Result<T> setObj(T data) {
-		this.code = 200;
-		this.success = true;
-		this.result = data;
-		return this;
-	}
+    public static <T> Result<T> setObj(T data) {
+        Result<T> r = new Result<>();
+        r.code = 20000;
+        r.success = true;
+        r.result = data;
+        return r;
+    }
 
-	public Result<T> set200Mes(String mes) {
-		this.code = 200;
-		this.success = false;
-		this.message = mes;
-		return this;
-	}
+    public static <T> Result<T> set20000Mes(String mes) {
+        Result<T> r = new Result<>();
+        r.code = 20000;
+        r.success = false;
+        r.message = mes;
+        return r;
+    }
 
-	public Result<T> set300Mes(String mes) {
-		this.code = 300;
-		this.success = false;
-		this.message = mes;
-		return this;
-	}
+    public static <T> Result<T> set30000Mes(String mes) {
+        Result<T> r = new Result<>();
+        r.code = 30000;
+        r.success = false;
+        r.message = mes;
+        return r;
+    }
 
-	public Result<T> set400Mes(String mes) {
-		this.code = 400;
-		this.success = false;
-		this.message = mes;
-		return this;
-	}
+    public static <T> Result<T> set40000Mes(String mes) {
+        Result<T> r = new Result<>();
+        r.code = 40000;
+        r.success = false;
+        r.message = mes;
+        return r;
+    }
 
-	public Result<T> set500Mes(String mes) {
-		this.code = 500;
-		this.success = false;
-		this.message = mes;
-		return this;
-	}
+    public static <T> Result<T> set50000Mes(String mes) {
+        Result<T> r = new Result<>();
+        r.code = 50000;
+        r.success = false;
+        r.message = mes;
+        return r;
+    }
 }

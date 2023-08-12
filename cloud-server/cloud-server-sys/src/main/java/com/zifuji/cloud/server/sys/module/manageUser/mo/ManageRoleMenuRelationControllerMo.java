@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import com.zifuji.cloud.base.bean.controller.BaseControllerMo;
+import com.zifuji.cloud.server.base.bean.BaseControllerMo;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

@@ -23,9 +23,9 @@ public class WebSocketStompController {
 
     @ApiOperation(value = "发送消息")
     @MessageMapping(value = "/sendWsMessage")
-    @SendToUser(value = "/queue/message")
+    @SendTo(value = "/topic/public")
     public Result<Boolean> sendWsMessage(SendWsMessageMo sendWsMessageMo) {
         websocketService.sendWsMessage(sendWsMessageMo);
-        return new Result<Boolean>().setObj(true);
+        return Result.setObj(true);
     }
 }

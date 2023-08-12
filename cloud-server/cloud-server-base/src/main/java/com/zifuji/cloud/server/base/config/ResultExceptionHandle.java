@@ -1,11 +1,10 @@
 package com.zifuji.cloud.server.base.config;
 
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.base.exception.Exception200;
-import com.zifuji.cloud.base.exception.Exception300;
-import com.zifuji.cloud.base.exception.Exception400;
+import com.zifuji.cloud.base.exception.Exception20000;
+import com.zifuji.cloud.base.exception.Exception30000;
+import com.zifuji.cloud.base.exception.Exception40000;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
@@ -30,23 +28,23 @@ public class ResultExceptionHandle {
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(MethodArgumentNotValidException e) {
         String err = Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage();
-        return new Result<>().set200Mes(err);
+        return Result.set20000Mes(err);
     }
 
     // 业务中自主抛出的异常
-    @ExceptionHandler(Exception200.class)
+    @ExceptionHandler(Exception20000.class)
     @ResponseStatus(value = HttpStatus.OK)
-    public Result<Object> handleException(Exception200 e) {
+    public Result<Object> handleException(Exception20000 e) {
         log.error("Exception200业务异常：" + e.getMessage(), e);
-        return new Result<Object>().set200Mes(e.getMessage());
+        return Result.set20000Mes(e.getMessage());
     }
 
     // 业务中自主抛出的300异常
-    @ExceptionHandler(Exception300.class)
+    @ExceptionHandler(Exception30000.class)
     @ResponseStatus(value = HttpStatus.OK)
-    public Result<Object> handleException(Exception300 e) {
+    public Result<Object> handleException(Exception30000 e) {
         log.error("Exception300业务异常：" + e.getMessage(), e);
-        return new Result<Object>().set300Mes("权限不足，请联系管理员" + e.getMessage());
+        return Result.set30000Mes("权限不足，请联系管理员" + e.getMessage());
     }
 
     // spring security 抛出的权限不足异常
@@ -54,15 +52,15 @@ public class ResultExceptionHandle {
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(AccessDeniedException e) {
         log.error("AccessDeniedException业务异常：" + e.getMessage(), e);
-        return new Result<>().set300Mes("权限不足，请联系管理员" + e.getMessage());
+        return Result.set30000Mes("权限不足，请联系管理员" + e.getMessage());
     }
 
     // 业务中自主抛出的400异常
-    @ExceptionHandler(Exception400.class)
+    @ExceptionHandler(Exception40000.class)
     @ResponseStatus(value = HttpStatus.OK)
-    public Result<Object> handleException(Exception400 e) {
+    public Result<Object> handleException(Exception40000 e) {
         log.error("Exception400业务异常：" + e.getMessage(), e);
-        return new Result<Object>().set400Mes("身份凭证异常，请联系管理员" + e.getMessage());
+        return Result.set40000Mes("身份凭证异常，请联系管理员" + e.getMessage());
     }
 
     // 业务中自主抛出的400异常
@@ -70,7 +68,7 @@ public class ResultExceptionHandle {
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(AuthenticationException e) {
         log.error("AuthenticationException业务异常：" + e.getMessage(), e);
-        return new Result<>().set400Mes("身份凭证异常，请联系管理员" + e.getMessage());
+        return Result.set40000Mes("身份凭证异常，请联系管理员" + e.getMessage());
     }
 
 
@@ -78,6 +76,6 @@ public class ResultExceptionHandle {
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(Exception e) {
         log.error("Exception业务异常：" + e.getMessage(), e);
-        return new Result<>().set500Mes("服务器网络错误，请向管理员求助" + e.getMessage());
+        return Result.set50000Mes("服务器网络错误，请向管理员求助" + e.getMessage());
     }
 }

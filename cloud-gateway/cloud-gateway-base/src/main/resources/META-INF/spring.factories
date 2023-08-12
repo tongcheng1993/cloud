@@ -1,1 +1,4 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.zifuji.cloud.gateway.base.service.impl.GatewayBaseImpl
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zifuji.cloud.gateway.base.service.impl.GatewayBaseServiceImpl,\
+  com.zifuji.cloud.gateway.base.controller.SwaggerHandlerController,\
+  com.zifuji.cloud.gateway.base.component.GatewaySwaggerResourcesProvider

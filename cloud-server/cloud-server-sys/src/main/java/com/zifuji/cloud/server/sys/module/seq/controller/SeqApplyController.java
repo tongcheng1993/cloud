@@ -29,7 +29,7 @@ public class SeqApplyController {
 
         String result = seqService.getNextSeq(code);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 

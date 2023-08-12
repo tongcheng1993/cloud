@@ -27,7 +27,7 @@ public class DataPhoneController {
 
         Boolean result = dataPhoneService.uploadPhoneListFile(file);
 
-        return new Result<Boolean>().setObj(result);
+        return Result.setObj(result);
     }
 
 }

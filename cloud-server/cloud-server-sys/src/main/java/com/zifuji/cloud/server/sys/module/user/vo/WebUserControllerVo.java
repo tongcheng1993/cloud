@@ -1,7 +1,7 @@
 package com.zifuji.cloud.server.sys.module.user.vo;
 
 
-import com.zifuji.cloud.base.bean.controller.BaseControllerVo;
+import com.zifuji.cloud.server.base.bean.BaseControllerVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

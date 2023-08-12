@@ -1,6 +1,6 @@
 package com.zifuji.cloud.server.sys.module.manageUser.mo;
 
-import com.zifuji.cloud.base.bean.controller.BaseControllerMo;
+import com.zifuji.cloud.server.base.bean.BaseControllerMo;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

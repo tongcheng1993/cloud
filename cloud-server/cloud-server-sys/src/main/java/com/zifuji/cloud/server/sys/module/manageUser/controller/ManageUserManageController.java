@@ -41,7 +41,7 @@ public class ManageUserManageController {
 
         IPage<ManageUserControllerVo> result = manageUserService.queryPageUser(manageUserPageQo);
 
-        return new Result<IPage<ManageUserControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "查询内网账号")
@@ -51,7 +51,7 @@ public class ManageUserManageController {
 
         List<ManageUserControllerVo> result = manageUserService.queryListUser(manageUserPageQo);
 
-        return new Result<List<ManageUserControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "保存内网账号")
@@ -61,7 +61,7 @@ public class ManageUserManageController {
 
         ManageUserControllerVo result = manageUserService.saveUser(manageUserMo);
 
-        return new Result<ManageUserControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "管理员重置内网密码")
@@ -71,7 +71,7 @@ public class ManageUserManageController {
 
         ManageUserControllerVo result = manageUserService.resetPassWord(resetPassWordMo);
 
-        return new Result<ManageUserControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "查询内网角色")
@@ -81,7 +81,7 @@ public class ManageUserManageController {
 
         IPage<ManageRoleControllerVo> result = manageUserService.queryPageRole(manageRolePageQo);
 
-        return new Result<IPage<ManageRoleControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "查询内网角色")
@@ -91,7 +91,7 @@ public class ManageUserManageController {
 
         List<ManageRoleControllerVo> result = manageUserService.queryListRole(manageRolePageQo);
 
-        return new Result<List<ManageRoleControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "查询内网权限")
@@ -101,7 +101,7 @@ public class ManageUserManageController {
 
         List<ManagePermissionControllerVo> result = manageUserService.queryListPermission(managePermissionPageQo);
 
-        return new Result<List<ManagePermissionControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -112,7 +112,7 @@ public class ManageUserManageController {
 
         IPage<ManagePermissionControllerVo> result = manageUserService.queryPagePermission(managePermissionPageQo);
 
-        return new Result<IPage<ManagePermissionControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "新增内网权限")
@@ -122,7 +122,7 @@ public class ManageUserManageController {
 
         String result = manageUserService.savePermission(managePermissionMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -133,7 +133,7 @@ public class ManageUserManageController {
 
         List<ManageMenuControllerVo> result = manageUserService.queryListMenu(manageMenuPageQo);
 
-        return new Result<List<ManageMenuControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -144,7 +144,7 @@ public class ManageUserManageController {
 
         String result = manageUserService.saveMenu(manageMenuMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "保存用户角色关系")
@@ -154,7 +154,7 @@ public class ManageUserManageController {
 
         String result = manageUserService.saveUserRoleRelation(manageUserRoleRelationMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "保存角色权限关系")
@@ -164,7 +164,7 @@ public class ManageUserManageController {
 
         String result = manageUserService.saveRolePermissionRelation(manageRolePermissionRelationMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "保存角色路由关系")
@@ -174,7 +174,7 @@ public class ManageUserManageController {
 
         String result = manageUserService.saveRoleMenuRelation(manageRoleMenuRelationMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 

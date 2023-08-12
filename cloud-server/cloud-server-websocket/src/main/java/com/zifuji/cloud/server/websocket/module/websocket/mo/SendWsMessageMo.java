@@ -13,8 +13,8 @@ public class SendWsMessageMo {
 
 	private String fromName;
 
-	@NotNull(message = "userId不能为空")
-	private Long userId;
+	@NotBlank(message = "userId不能为空")
+	private String userId;
 
 	private String userName;
 

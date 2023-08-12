@@ -2,7 +2,7 @@ package com.zifuji.cloud.server.sys.module.file.component;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.StrUtil;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.module.file.properties.MinioProperties;
 import io.minio.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -41,7 +40,7 @@ public class MinioComponent {
                     .object(fileUuid)
                     .build());
         } catch (Exception e) {
-            throw new Exception200(e.toString());
+            throw new Exception20000(e.toString());
         }
         return fileUuid;
     }
@@ -60,7 +59,7 @@ public class MinioComponent {
                     .object(fileUuid)
                     .build());
         } catch (Exception e) {
-            throw new Exception200(e.toString());
+            throw new Exception20000(e.toString());
         }
         return getObjectResponse;
     }

@@ -6,7 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.db.data.entity.PhoneEntity;
 import com.zifuji.cloud.server.sys.db.data.service.PhoneEntityService;
 import com.zifuji.cloud.server.sys.module.data.service.DataPhoneService;
@@ -38,7 +38,7 @@ public class DataPhoneServiceImpl implements DataPhoneService {
             file.transferTo(new File(path));
         } catch (IOException e) {
             e.printStackTrace();
-            throw new Exception200(e.getMessage());
+            throw new Exception20000(e.getMessage());
         }
         ExcelReader reader = ExcelUtil.getReader(path);
         List<Map<String, Object>> readAll = reader.readAll();

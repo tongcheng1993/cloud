@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.db.dic.entity.DicEntity;
 import com.zifuji.cloud.server.sys.db.dic.entity.DicItemEntity;
 import com.zifuji.cloud.server.sys.db.dic.service.DicEntityService;
@@ -50,7 +50,7 @@ public class DicServiceImpl implements DicService {
         queryWrapper.lambda().eq(DicEntity::getCode, saveDicMo.getCode());
         DicEntity dicEntity = dicEntityService.getOne(queryWrapper);
         if (ObjectUtil.isNotNull(dicEntity)) {
-            throw new Exception200(saveDicMo.getCode() + "已经存在");
+            throw new Exception20000(saveDicMo.getCode() + "已经存在");
         } else {
             dicEntity = new DicEntity();
             BeanUtil.copyProperties(saveDicMo, dicEntity);
@@ -70,7 +70,7 @@ public class DicServiceImpl implements DicService {
     public String updateDic(UpdateDicControllerMo updateDicMo) {
         DicEntity dicEntity = dicEntityService.getById(updateDicMo.getId());
         if (ObjectUtil.isNull(dicEntity)) {
-            throw new Exception200("");
+            throw new Exception20000("");
         }
         BeanUtil.copyProperties(updateDicMo, dicEntity);
         return dicEntity.getId() + "";
@@ -94,7 +94,7 @@ public class DicServiceImpl implements DicService {
         DicControllerVo vo = new DicControllerVo();
         DicEntity dicEntity = dicEntityService.getById(id);
         if (ObjectUtil.isNull(dicEntity)) {
-            throw new Exception200("");
+            throw new Exception20000("");
         }
         BeanUtil.copyProperties(dicEntity, vo);
         return vo;
@@ -137,13 +137,13 @@ public class DicServiceImpl implements DicService {
     public String saveDicItem(SaveDicItemControllerMo saveDicItemMo) {
         DicEntity dicEntity = dicEntityService.getById(saveDicItemMo.getDicId());
         if (ObjectUtil.isNull(dicEntity)) {
-            throw new Exception200("");
+            throw new Exception20000("");
         }
         QueryWrapper<DicItemEntity> queryWrapper = new QueryWrapper<DicItemEntity>();
         queryWrapper.lambda().orderByDesc(DicItemEntity::getCreateTime);
         List<DicItemEntity> list = dicItemEntityService.list(queryWrapper);
         if (ObjectUtil.isEmpty(list)) {
-            throw new Exception200("");
+            throw new Exception20000("");
         }
         String oldCode = list.get(0).getCode();
         Integer index = oldCode.lastIndexOf("_") + 1;

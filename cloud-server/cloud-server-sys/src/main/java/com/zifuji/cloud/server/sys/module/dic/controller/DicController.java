@@ -42,7 +42,7 @@ public class DicController {
 
         String result = dicService.saveDic(saveDicMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -51,7 +51,7 @@ public class DicController {
 
         String result = dicService.updateDic(updateDicMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -60,7 +60,7 @@ public class DicController {
 
         Boolean result = dicService.delDic(id);
 
-        return new Result<Boolean>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -69,7 +69,7 @@ public class DicController {
 
         DicControllerVo result = dicService.getDicInfoById(id);
 
-        return new Result<DicControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
     @PostMapping(value = "/initDic")
@@ -77,7 +77,7 @@ public class DicController {
 
         List<DicControllerVo> result = dicService.initDic();
 
-        return new Result<List<DicControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @PostMapping(value = "/queryPageDic")
@@ -85,7 +85,7 @@ public class DicController {
 
         IPage<DicControllerVo> result = dicService.queryPageDic(dicPageQo);
 
-        return new Result<IPage<DicControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     // 新增一个数据字典详细
@@ -95,7 +95,7 @@ public class DicController {
 
         String result = dicService.saveDicItem(saveDicItemMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -104,7 +104,7 @@ public class DicController {
 
         List<DicItemControllerVo> result = dicService.queryListDicItem(dicItemPageQo);
 
-        return new Result<List<DicItemControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -113,7 +113,7 @@ public class DicController {
 
         List<DicItemControllerVo> result = dicService.queryListDicItemByDicCode(dicCode);
 
-        return new Result<List<DicItemControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
 }

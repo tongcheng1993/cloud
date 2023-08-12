@@ -43,7 +43,7 @@ public class UserManageController {
 
         IPage<WebUserControllerVo> result = userService.queryPageUser(webUserPageQo);
 
-        return new Result<IPage<WebUserControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -54,7 +54,7 @@ public class UserManageController {
 
         IPage<WebRoleControllerVo> result = userService.queryPageRole(webRolePageQo);
 
-        return new Result<IPage<WebRoleControllerVo>>().setObj(userService.queryPageRole(webRolePageQo));
+        return Result.setObj(userService.queryPageRole(webRolePageQo));
     }
 
     @ApiOperation(value = "保存外网角色")
@@ -64,7 +64,7 @@ public class UserManageController {
 
         String result = userService.saveRole(saveWebRoleMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -75,7 +75,7 @@ public class UserManageController {
 
         String result = userService.saveMenu(saveWebMenuMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -86,7 +86,7 @@ public class UserManageController {
 
         List<WebMenuControllerVo> result = userService.queryListMenu(webMenuPageQo);
 
-        return new Result<List<WebMenuControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "保存外网角色和路由的关系")
@@ -96,7 +96,7 @@ public class UserManageController {
 
         String result = userService.saveRoleAndMenu(saveRoleAndMenuMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "保存外网权限")
@@ -106,7 +106,7 @@ public class UserManageController {
 
         String result = userService.savePermission(saveWebPermissionMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "分页查询外网权限")
@@ -116,7 +116,7 @@ public class UserManageController {
 
         IPage<WebPermissionVo> result = userService.queryPagePermission(webPermissionPageQo);
 
-        return new Result<IPage<WebPermissionVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "分页查询外网权限")
@@ -126,7 +126,7 @@ public class UserManageController {
 
         List<WebPermissionVo> result = userService.queryListPermission(webPermissionPageQo);
 
-        return new Result<List<WebPermissionVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "保存外网角色和路由的关系")
@@ -136,7 +136,7 @@ public class UserManageController {
 
         String result = userService.saveRoleAndPermission(saveRoleAndPermissionMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
 
     }
 

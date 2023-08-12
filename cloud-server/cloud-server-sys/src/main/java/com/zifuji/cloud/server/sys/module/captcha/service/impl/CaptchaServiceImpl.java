@@ -4,8 +4,8 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.captcha.generator.RandomGenerator;
 import cn.hutool.core.util.StrUtil;
-import com.zifuji.cloud.base.bean.constant.BaseConstant;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.bean.BaseConstant;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaComponentMo;
 import com.zifuji.cloud.server.sys.module.captcha.service.CaptchaService;
 import lombok.AllArgsConstructor;
@@ -50,10 +50,10 @@ public class CaptchaServiceImpl implements CaptchaService {
         String code = stringRedisTemplate.opsForValue().get(businessCode + businessId + redisUuid);
         stringRedisTemplate.delete(businessCode + businessId + redisUuid);
         if(StrUtil.isBlank(code)){
-            throw new Exception200("验证码错误");
+            throw new Exception20000("验证码错误");
         }
         if(!StrUtil.equalsIgnoreCase(code, value)){
-            throw new Exception200("验证码错误");
+            throw new Exception20000("验证码错误");
         }
         return true;
     }

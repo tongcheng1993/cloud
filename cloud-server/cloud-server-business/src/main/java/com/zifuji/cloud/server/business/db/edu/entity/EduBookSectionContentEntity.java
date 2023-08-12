@@ -10,8 +10,8 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_bu_edu_book_section_content")
 public class EduBookSectionContentEntity extends MyBaseEntity {
 
-        private Long sId;
+        private Long sectionId;
 
-        private String cContent;
+        private String sectionContent;
 
 }

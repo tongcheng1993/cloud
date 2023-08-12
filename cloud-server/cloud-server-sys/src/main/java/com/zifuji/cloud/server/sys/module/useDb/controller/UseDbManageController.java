@@ -25,7 +25,7 @@ public class UseDbManageController {
 
 
     public Result<Boolean> testOpenDb(){
-        return new Result<Boolean>().setObj(true);
+        return Result.setObj(true);
     }
 
 
@@ -36,7 +36,7 @@ public class UseDbManageController {
 
         ExecuteSqlVo result = useDbService.executeSql(executeSqlQo);
 
-        return new Result<ExecuteSqlVo>().setObj(result);
+        return Result.setObj(result);
     }
 
 

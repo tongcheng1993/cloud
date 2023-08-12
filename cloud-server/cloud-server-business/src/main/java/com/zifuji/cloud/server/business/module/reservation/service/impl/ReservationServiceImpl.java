@@ -7,15 +7,18 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.business.db.reservation.entity.*;
 import com.zifuji.cloud.server.business.db.reservation.service.*;
+import com.zifuji.cloud.server.business.module.reservation.controller.mo.ReservationSettingMainControllerMo;
+import com.zifuji.cloud.server.business.module.reservation.controller.mo.ReservationSettingSpeDayMo;
+import com.zifuji.cloud.server.business.module.reservation.controller.mo.ReservationSettingWorkDayMo;
+import com.zifuji.cloud.server.business.module.reservation.controller.mo.ReservationSettingWorkTimeMo;
 import com.zifuji.cloud.server.business.module.reservation.bo.ReservationDayBo;
 import com.zifuji.cloud.server.business.module.reservation.bo.ReservationTimeBo;
-import com.zifuji.cloud.server.business.module.reservation.mo.*;
 import com.zifuji.cloud.server.business.module.reservation.service.ReservationService;
-import com.zifuji.cloud.server.business.module.reservation.vo.ReservationApplyMainControllerVo;
-import com.zifuji.cloud.server.business.module.reservation.vo.ReservationApplyWorkDayControllerVo;
+import com.zifuji.cloud.server.business.module.reservation.controller.vo.ReservationApplyMainControllerVo;
+import com.zifuji.cloud.server.business.module.reservation.controller.vo.ReservationApplyWorkDayControllerVo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -51,7 +54,7 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationApplyMainControllerVo saveReservationSettingMain(ReservationSettingMainControllerMo reservationSettingMainMo) {
         // 判断星期工作日设置的正确性
         if (!(7 == reservationSettingMainMo.getReservationSettingWorkDayMoList().size())) {
-            throw new Exception200("code:" + reservationSettingMainMo.getCode() + "配置星期工作日信息有误");
+            throw new Exception20000("code:" + reservationSettingMainMo.getCode() + "配置星期工作日信息有误");
         }
         ReservationApplyMainControllerVo vo = new ReservationApplyMainControllerVo();
         if (ObjectUtil.isNull(reservationSettingMainMo.getId())) {
@@ -157,11 +160,11 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Boolean openReservation(ReservationSettingMainControllerMo reservationSettingMainMo) {
         if (ObjectUtil.isNull(reservationSettingMainMo) || 0 == reservationSettingMainMo.getId()) {
-            throw new Exception200("");
+            throw new Exception20000("");
         }
         ReservationSettingMainEntity reservationSettingMainEntity = reservationSettingMainEntityService.getById(reservationSettingMainMo.getId());
         if (ObjectUtil.isNull(reservationSettingMainEntity)) {
-            throw new Exception200("");
+            throw new Exception20000("");
         }
         reservationSettingMainEntity.setStatus("开启");
         reservationSettingMainEntityService.save(reservationSettingMainEntity);
@@ -181,7 +184,7 @@ public class ReservationServiceImpl implements ReservationService {
         queryWrapper.lambda().eq(ReservationSettingMainEntity::getCode, code);
         ReservationSettingMainEntity reservationSettingMainEntity = reservationSettingMainEntityService.getOne(queryWrapper);
         if (ObjectUtil.isNull(reservationSettingMainEntity)) {
-            throw new Exception200("code:" + code + "没有对应的配置主表记录");
+            throw new Exception20000("code:" + code + "没有对应的配置主表记录");
         }
         vo.setCode(code);
         vo.setOpenDays(reservationSettingMainEntity.getOpenDays());

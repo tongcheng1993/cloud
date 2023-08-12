@@ -28,7 +28,7 @@ public class DashboardController {
 
         String result = dashboardService.info();
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "")
@@ -37,7 +37,7 @@ public class DashboardController {
 
         String result = dashboardService.getParameter();
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 

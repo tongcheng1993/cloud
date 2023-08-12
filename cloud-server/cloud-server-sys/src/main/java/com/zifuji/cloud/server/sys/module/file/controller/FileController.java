@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import cn.hutool.core.io.IoUtil;
-import com.zifuji.cloud.base.bean.FileBo;
+import com.zifuji.cloud.server.sys.module.file.controller.mo.DownloadFileMo;
+import com.zifuji.cloud.server.sys.module.file.service.bo.FileBo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -17,9 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.sys.module.file.qo.FilePageQo;
+import com.zifuji.cloud.server.sys.module.file.controller.qo.FilePageQo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
-import com.zifuji.cloud.server.sys.module.file.vo.FileControllerVo;
+import com.zifuji.cloud.server.sys.module.file.controller.vo.FileControllerVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,7 +40,7 @@ public class FileController {
     @PostMapping(value = "/uploadFile")
     public Result<String> uploadFile(MultipartFile file) {
         String result = fileService.uploadFile(file);
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "下载文件")
@@ -64,7 +65,7 @@ public class FileController {
         // Content-Disposition的作用：告知浏览器以何种方式显示响应返回的文件，用浏览器打开还是以附件的形式下载到本地保存
         // attachment表示以附件方式下载 inline表示在线打开 "Content-Disposition: inline; filename=文件名.mp3"
         // filename表示文件的默认名称，因为网络传输只支持URL编码的相关支付，因此需要将文件名URL编码后进行传输,前端收到后需要反编码才能获取到真正的名称
-        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(result.getFileName(), "UTF-8"));
+        response.addHeader("Content-Disposition", "inline;filename=" + URLEncoder.encode(result.getFileName(), "UTF-8"));
         // 告知浏览器文件的大小
         response.addHeader("Content-Length", "" + result.getFileSize());
         try {
@@ -80,16 +81,16 @@ public class FileController {
 
     @ApiOperation(value = "下载文件")
     @PostMapping(value = "/downloadFile")
-    public Result<FileControllerVo> downloadFile(@RequestBody Long id) throws IOException {
-        FileControllerVo result = fileService.downloadFile(id);
-        return new Result<FileControllerVo>().setObj(result);
+    public Result<FileControllerVo> downloadFile(@RequestBody DownloadFileMo downloadFileMo) throws IOException {
+        FileControllerVo result = fileService.downloadFile(downloadFileMo.getId());
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "删除文件")
     @GetMapping(value = "/delFile")
     public Result<Boolean> delFile(Long id) {
         Boolean result = fileService.delFile(id);
-        return new Result<Boolean>().setObj(result);
+        return Result.setObj(result);
     }
 
     @PreAuthorize("hasAnyRole('admin')")
@@ -97,7 +98,7 @@ public class FileController {
     @PostMapping(value = "/queryPageFile")
     public Result<IPage<FileControllerVo>> queryPageFile(@RequestBody @Valid FilePageQo filePageQo) {
         IPage<FileControllerVo> result = fileService.queryPageFile(filePageQo);
-        return new Result<IPage<FileControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
 }

@@ -38,7 +38,7 @@ public class AreaController {
 
         String result = areaService.saveArea(saveAreaMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
     //删除
 
@@ -50,7 +50,7 @@ public class AreaController {
 
         IPage<AreaControllerVo> result = areaService.queryPageArea(areaPageQo);
 
-        return new Result<IPage<AreaControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -59,7 +59,7 @@ public class AreaController {
 
         List<AreaControllerVo> result = areaService.queryListArea(areaPageQo);
 
-        return new Result<List<AreaControllerVo>>().setObj(areaService.queryListArea(areaPageQo));
+        return Result.setObj(areaService.queryListArea(areaPageQo));
     }
 
 

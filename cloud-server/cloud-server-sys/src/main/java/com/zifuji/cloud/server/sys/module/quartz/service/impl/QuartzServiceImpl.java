@@ -6,8 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.base.bean.constant.BaseConstant;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.bean.BaseConstant;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.db.quartz.entity.QuartzRecordEntity;
 import com.zifuji.cloud.server.sys.db.quartz.service.QuartzRecordEntityService;
 import com.zifuji.cloud.server.sys.module.quartz.bo.QuartzRecordComponentMo;
@@ -53,10 +53,10 @@ public class QuartzServiceImpl implements QuartzService {
         } else {
             QuartzRecordEntity quartzRecordEntity = quartzRecordEntityService.getById(quartzRecordMo.getId());
             if (!StrUtil.equals(quartzRecordEntity.getJobGroupName(), quartzRecordMo.getJobGroupName())) {
-                throw new Exception200("");
+                throw new Exception20000("");
             }
             if (!StrUtil.equals(quartzRecordEntity.getJobClassName(), quartzRecordMo.getJobClassName())) {
-                throw new Exception200("类名称不能修改");
+                throw new Exception20000("类名称不能修改");
             }
 
 
@@ -72,7 +72,7 @@ public class QuartzServiceImpl implements QuartzService {
             } else if (StrUtil.equals(BaseConstant.CODE_START_STOP_TYPE_2, quartzRecordMo.getStatus())) {
                 quartzComponent.pauseJob(quartzRecordEntity.getJobGroupName(), quartzRecordEntity.getJobClassName());
             } else {
-                throw new Exception200("定时任务状态编码错误");
+                throw new Exception20000("定时任务状态编码错误");
             }
 
 

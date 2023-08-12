@@ -7,9 +7,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.base.bean.constant.BaseConstant;
+import com.zifuji.cloud.base.bean.BaseConstant;
 import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.db.manageUser.entity.*;
 import com.zifuji.cloud.server.sys.db.manageUser.service.*;
 import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaComponentMo;
@@ -74,11 +74,11 @@ public class ManageUserServiceImpl implements ManageUserService {
         manageUserEntityQueryWrapper.lambda().eq(ManageUserEntity::getUserName, loginMo.getUserName());
         ManageUserEntity manageUserEntity = manageUserEntityService.getOne(manageUserEntityQueryWrapper);
         if (ObjectUtil.isNull(manageUserEntity)) {
-            throw new Exception200("用户名密码错误");
+            throw new Exception20000("用户名密码错误");
         }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if (!bCryptPasswordEncoder.matches(loginMo.getPassWord(), manageUserEntity.getPassWord())) {
-            throw new Exception200("用户名密码错误");
+            throw new Exception20000("用户名密码错误");
         }
         return getLoginToken(manageUserEntity);
     }
@@ -87,8 +87,8 @@ public class ManageUserServiceImpl implements ManageUserService {
     public List<ManageMenuControllerVo> getMenu() {
         UserInfo userInfo = SecurityUtil.getUserDetails();
         List<String> roleList = new ArrayList<String>();
-        for (int i = 0; i < userInfo.getRoleList().size(); i++) {
-            roleList.add(userInfo.getRoleList().get(i).replace("ROLE_", ""));
+        for (int i = 0; i < userInfo.getRoleCodeList().size(); i++) {
+            roleList.add(userInfo.getRoleCodeList().get(i).replace("ROLE_", ""));
         }
         ManageMenuPageQo manageMenuPageQo = new ManageMenuPageQo();
         manageMenuPageQo.setRoleCode(roleList);
@@ -127,7 +127,7 @@ public class ManageUserServiceImpl implements ManageUserService {
             manageUserEntityQueryWrapper.lambda().eq(ManageUserEntity::getUserName, manageUserMo.getUserName());
             ManageUserEntity manageUserEntity = this.manageUserEntityService.getOne(manageUserEntityQueryWrapper);
             if (ObjectUtil.isNotNull(manageUserEntity)) {
-                throw new Exception200("用户名重复");
+                throw new Exception20000("用户名重复");
             }
             manageUserEntity = new ManageUserEntity();
 
@@ -145,7 +145,7 @@ public class ManageUserServiceImpl implements ManageUserService {
         } else {
             ManageUserEntity manageUserEntity = manageUserEntityService.getById(manageUserMo.getId());
             if (ObjectUtil.isNull(manageUserEntity)) {
-                throw new Exception200("编辑数据错误");
+                throw new Exception20000("编辑数据错误");
             }
             manageUserEntity.setUserName(manageUserMo.getUserName());
             manageUserEntity.setName(manageUserMo.getName());
@@ -162,7 +162,7 @@ public class ManageUserServiceImpl implements ManageUserService {
         ManageUserControllerVo vo = new ManageUserControllerVo();
         ManageUserEntity manageUserEntity = this.manageUserEntityService.getById(resetPassWordMo.getId());
         if (ObjectUtil.isNull(manageUserEntity)) {
-            throw new Exception200("编辑数据错误");
+            throw new Exception20000("编辑数据错误");
         }
         // 密码加密
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -269,7 +269,7 @@ public class ManageUserServiceImpl implements ManageUserService {
             queryWrapper.lambda().eq(ManageMenuEntity::getPath, manageMenuMo.getPath());
             manageMenuEntity = manageMenuEntityService.getOne(queryWrapper);
             if (ObjectUtil.isNotNull(manageMenuEntity)) {
-                throw new Exception200("当前路径重复");
+                throw new Exception20000("当前路径重复");
             } else {
                 manageMenuEntity = new ManageMenuEntity();
             }
@@ -278,7 +278,7 @@ public class ManageUserServiceImpl implements ManageUserService {
         } else {
             manageMenuEntity = manageMenuEntityService.getById(manageMenuMo.getId());
             if (ObjectUtil.isNull(manageMenuEntity)) {
-                throw new Exception200("编辑数据错误");
+                throw new Exception20000("编辑数据错误");
             } else {
                 QueryWrapper<ManageMenuEntity> queryWrapper = new QueryWrapper<ManageMenuEntity>();
                 queryWrapper.lambda().eq(ManageMenuEntity::getPath, manageMenuMo.getPath());
@@ -292,7 +292,7 @@ public class ManageUserServiceImpl implements ManageUserService {
                             BeanUtil.copyProperties(manageMenuMo, manageMenuEntity);
                             manageMenuEntityService.updateById(manageMenuEntity);
                         } else {
-                            throw new Exception200("当前路径重复");
+                            throw new Exception20000("当前路径重复");
                         }
                     }
                 }
@@ -365,7 +365,7 @@ public class ManageUserServiceImpl implements ManageUserService {
     @Override
     public String saveRoleMenuRelation(ManageRoleMenuRelationControllerMo manageRoleMenuRelationMo) {
         if (ObjectUtil.isNull(manageRoleMenuRelationMo.getRoleId()) || manageRoleMenuRelationMo.getRoleId().equals(0L)) {
-            throw new Exception200("");
+            throw new Exception20000("");
         }
         if (ObjectUtil.isEmpty(manageRoleMenuRelationMo.getMenuIdList())) {
             QueryWrapper<ManageRoleMenuEntity> queryWrapper = new QueryWrapper<ManageRoleMenuEntity>();
@@ -433,8 +433,8 @@ public class ManageUserServiceImpl implements ManageUserService {
         }
 
 
-        userInfo.setRoleList(roleCodeList);
-        userInfo.setPermissionList(permissionCodeList);
+        userInfo.setRoleCodeList(roleCodeList);
+        userInfo.setPermissionCodeList(permissionCodeList);
         return getLoginToken(userInfo);
     }
 

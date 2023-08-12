@@ -26,7 +26,7 @@ public class HelpController {
 
         String result = helpService.saveHelpContent(helpContentMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "")
@@ -35,7 +35,7 @@ public class HelpController {
 
         String result = helpService.getHelpContent();
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 

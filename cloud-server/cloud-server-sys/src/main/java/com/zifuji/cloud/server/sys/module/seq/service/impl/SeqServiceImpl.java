@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.base.bean.constant.BaseConstant;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.bean.BaseConstant;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.db.seq.entity.SeqEntity;
 import com.zifuji.cloud.server.sys.db.seq.service.SeqEntityService;
 import com.zifuji.cloud.server.sys.module.seq.qo.SeqPageQo;
@@ -104,7 +104,7 @@ public class SeqServiceImpl implements SeqService {
         queryWrapper.lambda().eq(SeqEntity::getCode, code);
         SeqEntity seqEntity = seqEntityService.getOne(queryWrapper);
         if (ObjectUtil.isNull(seqEntity)) {
-            throw new Exception200("");
+            throw new Exception20000("");
         }
         // 获取流水号num
         String timeCode = "";

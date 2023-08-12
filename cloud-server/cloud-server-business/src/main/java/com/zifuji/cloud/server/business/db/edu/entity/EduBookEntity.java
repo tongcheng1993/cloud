@@ -10,13 +10,13 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_bu_edu_book")
 public class EduBookEntity extends MyBaseEntity {
 
-    private String bName;
+    private String bookName;
 
     private String isbn;
 
-    private String bAuth;
+    private String bookAuth;
 
-    private String bType;
+    private String bookType;
 
-    private Long bImg;
+    private Long bookImg;
 }

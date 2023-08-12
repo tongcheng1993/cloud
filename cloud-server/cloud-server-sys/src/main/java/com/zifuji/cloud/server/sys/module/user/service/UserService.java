@@ -122,6 +122,7 @@ public interface UserService {
 
 
     List<WebRoleComponentMo> selectListRole(WebRolePageQo webRolePageQo);
+
     IPage<WebPermissionComponentMo> selectPagePermission(WebPermissionPageQo webPermissionPageQo);
 
     List<WebPermissionComponentMo> selectListPermission(WebPermissionPageQo webPermissionPageQo);

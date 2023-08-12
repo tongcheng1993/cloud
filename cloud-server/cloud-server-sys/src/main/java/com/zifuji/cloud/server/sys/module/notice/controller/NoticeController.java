@@ -34,7 +34,7 @@ public class NoticeController {
 
         IPage<NoticeVo> result = noticeService.queryPageNotice(noticePageQo);
 
-        return new Result<IPage<NoticeVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
 

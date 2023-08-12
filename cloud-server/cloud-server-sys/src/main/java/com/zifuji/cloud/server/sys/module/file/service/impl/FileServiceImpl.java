@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
-import com.zifuji.cloud.base.bean.FileBo;
+import com.zifuji.cloud.server.sys.module.file.service.bo.FileBo;
 import com.zifuji.cloud.server.base.util.ZfjFileUtil;
 import com.zifuji.cloud.server.sys.module.file.component.MinioComponent;
 import org.apache.commons.fileupload.FileItem;
@@ -16,12 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.db.file.entity.FileEntity;
 import com.zifuji.cloud.server.sys.db.file.service.FileEntityService;
-import com.zifuji.cloud.server.sys.module.file.qo.FilePageQo;
+import com.zifuji.cloud.server.sys.module.file.controller.qo.FilePageQo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
-import com.zifuji.cloud.server.sys.module.file.vo.FileControllerVo;
+import com.zifuji.cloud.server.sys.module.file.controller.vo.FileControllerVo;
 import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -55,7 +54,7 @@ public class FileServiceImpl implements FileService {
     public FileBo downloadFileStream(Long id) {
         FileEntity fileEntity = fileEntityService.getById(id);
         if (ObjectUtil.isNull(fileEntity)) {
-            throw new Exception200("找不到对应的数据");
+            throw new Exception20000("找不到对应的数据");
         }
         InputStream inStream = minioComponent.downloadFile(fileEntity.getFileUrl());
         FileBo bo = new FileBo();

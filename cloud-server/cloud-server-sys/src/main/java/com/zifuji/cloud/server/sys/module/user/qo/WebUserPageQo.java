@@ -2,7 +2,7 @@ package com.zifuji.cloud.server.sys.module.user.qo;
 
 import java.util.List;
 
-import com.zifuji.cloud.base.bean.controller.BaseControllerPageQo;
+import com.zifuji.cloud.server.base.bean.BaseControllerPageQo;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -28,10 +28,8 @@ public class UserApplyController {
     @ApiOperation(value = "获取路由")
     @GetMapping(value = "/getMenu")
     public Result<List<WebMenuControllerVo>> getMenu() {
-
         List<WebMenuControllerVo> result = userService.getMenu();
-
-        return new Result<List<WebMenuControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "根据验证码ID获取图片")
@@ -40,7 +38,7 @@ public class UserApplyController {
 
         WebDrawCaptchaControllerVo result = userService.drawCaptcha();
 
-        return new Result<WebDrawCaptchaControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "账号密码注册")
@@ -49,7 +47,7 @@ public class UserApplyController {
 
         String result = userService.register(registerMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "账号密码登录")
@@ -58,7 +56,7 @@ public class UserApplyController {
 
         String result = userService.login(loginMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "获取自身信息")
@@ -67,7 +65,7 @@ public class UserApplyController {
 
         WebUserControllerVo result = userService.getUserInfo();
 
-        return new Result<WebUserControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -77,7 +75,7 @@ public class UserApplyController {
 
         WebPeopleControllerVo result = userService.savePeopleInfo(savePeopleInfoMo);
 
-        return new Result<WebPeopleControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "获取实名信息")
@@ -86,7 +84,7 @@ public class UserApplyController {
 
         WebPeopleControllerVo result = userService.getPeopleInfo();
 
-        return new Result<WebPeopleControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -96,7 +94,7 @@ public class UserApplyController {
 
         WebCompanyControllerVo result = userService.saveCompanyInfo(saveCompanyInfoMo);
 
-        return new Result<WebCompanyControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -106,7 +104,7 @@ public class UserApplyController {
 
         WebCompanyControllerVo result = userService.getCompanyInfo();
 
-        return new Result<WebCompanyControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "修改密码")
@@ -115,7 +113,7 @@ public class UserApplyController {
 
         String result = userService.changePassWord(changePassWordMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -125,7 +123,7 @@ public class UserApplyController {
 
         String result = userService.sendBindEmailCaptcha(sendBindEmailCaptchaMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "绑定邮箱")
@@ -134,7 +132,7 @@ public class UserApplyController {
 
         Boolean result = userService.saveBindEmail(saveBindEmailMo);
 
-        return new Result<Boolean>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "发送绑定手机号证码")
@@ -143,17 +141,17 @@ public class UserApplyController {
 
         String result = userService.sendBindPhoneCaptcha(sendBindPhoneCaptchaMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
 
     @ApiOperation(value = "绑定手机号")
     @PostMapping(value = "/saveBindPhone")
-    public Result<Boolean> saveBindPhone(@RequestBody @Valid SaveBindPhoneControllerMo saveBindPhoneMo){
+    public Result<Boolean> saveBindPhone(@RequestBody @Valid SaveBindPhoneControllerMo saveBindPhoneMo) {
 
         Boolean result = userService.saveBindPhone(saveBindPhoneMo);
 
-        return new Result<Boolean>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -163,7 +161,7 @@ public class UserApplyController {
 
         String result = userService.sendForgetPassWordCaptcha(sendForgetPassWordCaptchaMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "重置忘记密码")
@@ -172,7 +170,7 @@ public class UserApplyController {
 
         Boolean result = userService.resetForgetPassWord(resetForgetPassWordMo);
 
-        return new Result<Boolean>().setObj(result);
+        return Result.setObj(result);
     }
 
 

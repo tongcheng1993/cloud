@@ -29,7 +29,7 @@ public class ManageUserApplyController {
 
         DrawCaptchaControllerVo result = manageUserService.drawCaptcha();
 
-        return new Result<DrawCaptchaControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "账号密码登录")
@@ -38,7 +38,7 @@ public class ManageUserApplyController {
 
         String result = manageUserService.login(loginMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "获取路由")
@@ -47,7 +47,7 @@ public class ManageUserApplyController {
 
         List<ManageMenuControllerVo> result = manageUserService.getMenu();
 
-        return new Result<List<ManageMenuControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
 

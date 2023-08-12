@@ -6,7 +6,8 @@ import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.base.exception.Exception400;
+import com.zifuji.cloud.base.exception.Exception30000;
+import com.zifuji.cloud.base.exception.Exception40000;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,51 +36,51 @@ public class TokenFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-
+        // ws请求
+        if (request.getRequestURI().startsWith("/ws")) {
+            // 设置session时间无限
+            request.getSession().setMaxInactiveInterval(-1);
+        }
         // 每个请求都带有token
         String token = request.getHeader("X-Access-Token");
         // 没有token的是身份验证有问题，报400 异常
         if (StrUtil.isBlank(token)) {
-            throw new Exception400("验证token失败");
+            throw new Exception30000("验证token失败");
         }
         // 有token的 转成 jwt 对象
         JWT jwt = JWTUtil.parseToken(token);
         // 无法转化成功的是身份验证有问题 报400 异常
         if (ObjectUtil.isNull(jwt)) {
-            throw new Exception400("验证jwt失败");
+            throw new Exception30000("验证jwt失败");
         }
         Object object = jwt.getPayload("userInfo");
         // 无法获得内容的是身份验证有问题 报400 异常
         if (ObjectUtil.isNull(object)) {
-            throw new Exception400("验证Payload失败");
+            throw new Exception30000("验证Payload失败");
         }
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(object);
         // 无法格式化的是身份验证有问题 报400 异常
         if (ObjectUtil.isNull(jsonObject)) {
-            throw new Exception400("验证JSONObject失败");
+            throw new Exception30000("验证JSONObject失败");
         }
         UserInfo userInfo = JSONObject.toJavaObject(jsonObject, UserInfo.class);
         // 无法格式化的是身份验证有问题 报400 异常
         if (ObjectUtil.isNull(userInfo)) {
-            throw new Exception400("验证userInfo格式失败");
+            throw new Exception30000("验证userInfo格式失败");
         }
         // 当前用户的角色信息和权限信息
         List<GrantedAuthority> list = new ArrayList<>();
-        if (ObjectUtil.isNotEmpty(userInfo.getRoleList())) {
-            for (String role : userInfo.getRoleList()) {
+        if (ObjectUtil.isNotEmpty(userInfo.getRoleCodeList())) {
+            for (String role : userInfo.getRoleCodeList()) {
                 list.add(new SimpleGrantedAuthority("ROLE_" + role));
             }
         }
-        if (ObjectUtil.isNotEmpty(userInfo.getPermissionList())) {
-            for (String permiString : userInfo.getPermissionList()) {
+        if (ObjectUtil.isNotEmpty(userInfo.getPermissionCodeList())) {
+            for (String permiString : userInfo.getPermissionCodeList()) {
                 list.add(new SimpleGrantedAuthority(permiString));
             }
         }
         // 在容器中放入身份信息
-        // ws请求设置session时间无限
-        if (request.getRequestURI().startsWith("/ws")) {
-            request.getSession().setMaxInactiveInterval(-1);
-        }
         UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(userInfo.getId(), userInfo.getUserName(), list);
         authResult.setDetails(userInfo);
         SecurityContext securityContext = SecurityContextHolder.getContext();

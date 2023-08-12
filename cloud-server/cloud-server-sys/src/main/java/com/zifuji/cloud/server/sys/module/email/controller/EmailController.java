@@ -38,7 +38,7 @@ public class EmailController {
 
         EmailAccountControllerVo result = emailService.getEmailAccount();
 
-        return new Result<EmailAccountControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "新增邮件模板")
@@ -47,7 +47,7 @@ public class EmailController {
 
         String result = emailService.saveEmailTemplate(saveEmailTemplateMo);
 
-        return new Result<String>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "发送邮件")
@@ -56,7 +56,7 @@ public class EmailController {
 
         EmailRecordControllerVo result = emailService.sendEmailByTemplate(sendEmailTemplateMo);
 
-        return new Result<EmailRecordControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "发送邮件")
@@ -65,7 +65,7 @@ public class EmailController {
 
         EmailRecordControllerVo result = emailService.sendEmail(sendEmailSimpleMo);
 
-        return new Result<EmailRecordControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "分页查询邮件发送记录列表")
@@ -74,7 +74,7 @@ public class EmailController {
 
         IPage<EmailRecordControllerVo> result = emailService.queryPageEmailRecord(emailRecordPageQo);
 
-        return new Result<IPage<EmailRecordControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -84,7 +84,7 @@ public class EmailController {
 
         IPage<EmailTemplateControllerVo> result = emailService.queryPageEmailTemplate(emailTemplatePageQo);
 
-        return new Result<IPage<EmailTemplateControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "查询邮件模板详情")
@@ -93,6 +93,6 @@ public class EmailController {
 
         EmailTemplateControllerVo result = emailService.getEmailTemplateById(id);
 
-        return new Result<EmailTemplateControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 }

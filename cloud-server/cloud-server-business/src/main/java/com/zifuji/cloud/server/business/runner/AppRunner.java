@@ -1,6 +1,5 @@
 package com.zifuji.cloud.server.business.runner;
 
-import com.zifuji.cloud.server.business.module.reservation.service.ReservationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;

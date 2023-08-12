@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlRunner;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.db.useDb.entity.SqlRecordEntity;
 import com.zifuji.cloud.server.sys.db.useDb.service.SqlRecordEntityService;
 import com.zifuji.cloud.server.sys.module.useDb.mapper.UseDbMapper;
@@ -66,7 +66,7 @@ public class UseDbServiceImpl implements UseDbService {
             }
         } else if (StrUtil.equals(executeSqlQo.getType(), "update")) {
             if (strings.length > 1) {
-                throw new Exception200("update 语句只能一句");
+                throw new Exception20000("update 语句只能一句");
             }
             if (ObjectUtil.isNotEmpty(strings)) {
                 for (String str : strings) {
@@ -75,7 +75,7 @@ public class UseDbServiceImpl implements UseDbService {
             }
         } else if (StrUtil.equals(executeSqlQo.getType(), "delete")) {
             if (strings.length > 1) {
-                throw new Exception200("delete 语句只能一句");
+                throw new Exception20000("delete 语句只能一句");
             }
             if (ObjectUtil.isNotEmpty(strings)) {
                 for (String str : strings) {
@@ -84,7 +84,7 @@ public class UseDbServiceImpl implements UseDbService {
             }
         } else if (StrUtil.equals(executeSqlQo.getType(), "select")) {
             if (strings.length > 1) {
-                throw new Exception200("select 语句只能一句");
+                throw new Exception20000("select 语句只能一句");
             }
             if (ObjectUtil.isNotEmpty(strings)) {
                 for (String str : strings) {
@@ -121,7 +121,7 @@ public class UseDbServiceImpl implements UseDbService {
             sqlRecordEntityService.save(sqlRecordEntity);
             return flag;
         } else {
-            throw new Exception200("update 语句需要检查 必须要求where");
+            throw new Exception20000("update 语句需要检查 必须要求where");
         }
     }
 
@@ -137,7 +137,7 @@ public class UseDbServiceImpl implements UseDbService {
             sqlRecordEntityService.save(sqlRecordEntity);
             return flag;
         } else {
-            throw new Exception200("update 语句需要检查 必须要求where");
+            throw new Exception20000("update 语句需要检查 必须要求where");
         }
 
     }

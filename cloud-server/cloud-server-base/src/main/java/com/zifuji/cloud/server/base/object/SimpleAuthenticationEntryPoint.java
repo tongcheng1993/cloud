@@ -16,7 +16,7 @@ public class SimpleAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
-        this.outJson(response, JSONObject.toJSONString(new Result<String>().set400Mes(authException.toString())));
+        this.outJson(response, JSONObject.toJSONString(Result.set40000Mes(authException.toString())));
     }
 
     public void outJson(HttpServletResponse response, String json) {

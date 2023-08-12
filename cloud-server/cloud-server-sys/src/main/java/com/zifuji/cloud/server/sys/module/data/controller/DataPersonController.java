@@ -25,21 +25,19 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class DataPersonController {
 
-	private DataPersonService dataPersonService;
+    private DataPersonService dataPersonService;
 
-	@ApiOperation(value = "上传人员文件")
-	@PostMapping(value = "/uploadPersonListFile")
-	public Result<Boolean> uploadPersonListFile(MultipartFile file) {
-		log.info(JSONObject.toJSONString("文件参数"+file.getOriginalFilename()));
-		Boolean result = dataPersonService.uploadPersonListFile(file);
-		log.info(JSONObject.toJSONString(result));
-		return new Result<Boolean>().setObj(result);
-	}
-
-
+    @ApiOperation(value = "上传人员文件")
+    @PostMapping(value = "/uploadPersonListFile")
+    public Result<Boolean> uploadPersonListFile(MultipartFile file) {
+        log.info(JSONObject.toJSONString("文件参数" + file.getOriginalFilename()));
+        Boolean result = dataPersonService.uploadPersonListFile(file);
+        log.info(JSONObject.toJSONString(result));
+        return Result.setObj(result);
+    }
 
 
-	public Result<IPage<PersonControllerVo>> queryPagePerson(@RequestBody PersonPageQo personPageQo){
-		return new Result<IPage<PersonControllerVo>>().setObj(null);
-	}
+    public Result<IPage<PersonControllerVo>> queryPagePerson(@RequestBody PersonPageQo personPageQo) {
+        return Result.setObj(null);
+    }
 }

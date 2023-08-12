@@ -12,6 +12,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class CloudGatewayManageApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CloudGatewayManageApplication.class, args);
-		log.info("gateway1项目开始");
+		log.info("cloud-gateway-manage");
 	}
 }

@@ -5,7 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.base.exception.Exception200;
+import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.db.area.entity.AreaEntity;
 import com.zifuji.cloud.server.sys.module.area.bo.AreaComponentMo;
 import com.zifuji.cloud.server.sys.module.area.mapper.AreaMapper;
@@ -42,7 +42,7 @@ public class AreaServiceImpl implements AreaService{
 		queryWrapper.lambda().eq(AreaEntity::getRealName,saveAreaMo.getRealName());
 		AreaEntity areaEntity=areaEntityService.getOne(queryWrapper);
 		if(ObjectUtil.isNotNull(areaEntity)){
-			throw new Exception200("");
+			throw new Exception20000("");
 		}
 		areaEntity = new AreaEntity();
 		BeanUtil.copyProperties(saveAreaMo,areaEntity);

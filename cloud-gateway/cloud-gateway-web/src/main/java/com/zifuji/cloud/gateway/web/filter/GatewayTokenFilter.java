@@ -1,10 +1,10 @@
 package com.zifuji.cloud.gateway.web.filter;
 
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -19,7 +19,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zifuji.cloud.base.bean.constant.BaseConstant;
+import com.zifuji.cloud.base.bean.BaseConstant;
 import com.zifuji.cloud.base.bean.Result;
 import com.zifuji.cloud.base.bean.UserInfo;
 
@@ -47,8 +47,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
         // 获取当前请求路径
         String path = request.getURI().getPath();
-        log.info("path:{}" , path);
-
+        log.info("path:{}", path);
         Map<String, Object> map = new HashMap<String, Object>();
         String tc_token = "";
         UserInfo userInfo = null;
@@ -60,17 +59,13 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
             // 所有的websocket 都有token 没有token 就是身份验证有问题
             if (StrUtil.isBlank(tc_token)) {
                 // gateway 没有异常捕捉器 所以直接 return 400
-                Result<String> result = new Result<String>();
-                result.set400Mes("验证token失败");
-                return setResponseInfo(response, result);
+                return setResponseInfo(response, Result.set30000Mes("验证token失败"));
             }
             // token在redis中有对应的身份信息
             String bo = stringRedisTemplate.opsForValue().get(tc_token);
             if (StrUtil.isBlank(bo)) {
                 // gateway 没有异常捕捉器 所以直接 return 400
-                Result<String> result = new Result<String>();
-                result.set400Mes("验证对应身份信息失败");
-                return setResponseInfo(response, result);
+                return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
             }
             // 如果有token和 str 需要 重置token存续时间
             stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
@@ -83,35 +78,34 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
             if (StrUtil.isBlank(tc_token)) {
                 // 设置游客身份信息
                 userInfo = new UserInfo();
+                userInfo.setId(-1L);
+                userInfo.setUserName("游客" + DateUtil.now());
+                userInfo.setType("web");
+                List<String> roleCodeList = new ArrayList<>();
+                roleCodeList.add(BaseConstant.ROLE_VISIT);
+                userInfo.setRoleCodeList(roleCodeList);
+                List<String> permissionCodeList = new ArrayList<>();
+                userInfo.setPermissionCodeList(permissionCodeList);
             } else {
                 // 每个token在redis中有对应的str
                 String bo = stringRedisTemplate.opsForValue().get(tc_token);
                 if (StrUtil.isBlank(bo)) {
                     // gateway 没有异常捕捉器 所以直接 return 400
-                    Result<String> result = new Result<String>();
-                    result.set400Mes("验证对应身份信息失败");
-                    return setResponseInfo(response, result);
+                    return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
                 }
                 // 如果有token和 str 需要 重置token存续时间
                 stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
                 userInfo = JSONObject.parseObject(bo, UserInfo.class);
             }
-        }
-        if (ObjectUtil.isNull(userInfo) || StrUtil.isBlank(userInfo.getUserName())) {
-            // gateway 没有异常捕捉器 所以直接 return 400
-            Result<String> result = new Result<String>();
-            result.set400Mes("验证身份信息格式化失败");
-            return setResponseInfo(response, result);
-        }
 
-        // 获取对应的身份信息
-        log.info("tc_token:{}", tc_token);
-        log.info("userInfo:{}", userInfo);
-
+        }
+        if (ObjectUtil.isNull(userInfo) || ObjectUtil.isNull(userInfo.getId())) {
+            return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
+        }
         map.put("userInfo", userInfo);
         // 网关通过后 在请求中增加 内部token
         String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
-        log.info("token:{}", token);
+        log.info("jwt:{}", token);
         ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
             httpHeaders.add("X-Access-Token", token);
         }).build();
@@ -123,11 +117,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
         byte[] responseByte = new byte[0];
-        try {
-            responseByte = JSONObject.toJSONString(object).getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        responseByte = JSONObject.toJSONString(object).getBytes(StandardCharsets.UTF_8);
         DataBuffer buffer = response.bufferFactory().wrap(responseByte);
         return response.writeWith(Mono.just(buffer));
     }

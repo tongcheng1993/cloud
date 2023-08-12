@@ -15,16 +15,7 @@ public class UserInfo implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    public UserInfo() {
-        this.id = 0L;
-        this.token = "";
-        this.userName = "游客" + DateUtil.now();
-        this.type = "";
-        this.email = "";
-        this.phone = "";
-        this.roleList = Collections.emptyList();
-        this.permissionList = Collections.emptyList();
-    }
+
 
     private Long id;
 
@@ -38,9 +29,9 @@ public class UserInfo implements Serializable {
 
     private String phone;
 
-    private List<String> roleList;
+    private List<String> roleCodeList;
 
-    private List<String> permissionList;
+    private List<String> permissionCodeList;
 
 
 }

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.server.base.db.mapper.MyBaseMapper;
 import com.zifuji.cloud.server.sys.module.area.bo.AreaComponentMo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface AreaMapper extends MyBaseMapper {
+public interface AreaMapper {
 
 	List<AreaComponentMo> selectListArea(@Param(Constants.WRAPPER) Wrapper<AreaComponentMo> ew);
 

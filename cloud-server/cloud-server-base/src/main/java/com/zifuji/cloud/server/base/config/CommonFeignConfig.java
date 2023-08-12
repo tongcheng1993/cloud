@@ -3,7 +3,7 @@ package com.zifuji.cloud.server.base.config;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.jwt.JWTUtil;
 import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.base.bean.constant.BaseConstant;
+import com.zifuji.cloud.base.bean.BaseConstant;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;

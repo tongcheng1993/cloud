@@ -2,7 +2,6 @@ package com.zifuji.cloud.server.sys.module.manageUser.bo;
 
 import java.time.LocalDateTime;
 
-import com.zifuji.cloud.base.bean.component.BaseComponentMo;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -11,30 +10,30 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class ManageUserComponentMo extends BaseComponentMo {
-	
-	/**
-	*
-	*/
-	private static final long serialVersionUID = 1L;
-	
-	private Long id;
-	
-	private Long createBy;
-	
-	private LocalDateTime createTime;
-	
-	private Long updateBy;
-	
-	private LocalDateTime updateTime;
-	
-	private Long sortNum;
-	
-	private Boolean delFlag;
-	
-	private String userName;
+public class ManageUserComponentMo {
 
-	private String passWord;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private String name;
+    private Long id;
+
+    private Long createBy;
+
+    private LocalDateTime createTime;
+
+    private Long updateBy;
+
+    private LocalDateTime updateTime;
+
+    private Long sortNum;
+
+    private Boolean delFlag;
+
+    private String userName;
+
+    private String passWord;
+
+    private String name;
 }

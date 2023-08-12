@@ -29,7 +29,7 @@ public class QuartzManageController {
 
         QuartzRecordControllerVo result = quartzService.saveQuartzRecord(quartzRecordMo);
 
-        return new Result<QuartzRecordControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -39,7 +39,7 @@ public class QuartzManageController {
 
         Boolean result = quartzService.delQuartzRecord(id);
 
-        return new Result<Boolean>().setObj(result);
+        return Result.setObj(result);
     }
 
 
@@ -49,7 +49,7 @@ public class QuartzManageController {
 
         IPage<QuartzRecordControllerVo> result = quartzService.queryPageQuartzRecord(quartzRecordPageQo);
 
-        return new Result<IPage<QuartzRecordControllerVo>>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "")
@@ -58,7 +58,7 @@ public class QuartzManageController {
 
         Boolean result = quartzService.syncQuartzList();
 
-        return new Result<Boolean>().setObj(result);
+        return Result.setObj(result);
     }
 
 

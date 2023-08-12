@@ -14,7 +14,7 @@ public class CloudGatewayWebApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CloudGatewayWebApplication.class, args);
-		log.info("gateway2项目开始");
+		log.info("cloud-gateway-web");
 	}
 	
 }

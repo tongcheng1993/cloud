@@ -29,13 +29,15 @@ public class WebsocketServiceImpl implements WebsocketService {
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @Override
-    public void sendWsAllMessage(SendWsMessageMo sendWsMessageMo) {
+    public Boolean sendWsAllMessage(SendWsMessageMo sendWsMessageMo) {
         simpMessagingTemplate.convertAndSend("/topic/public", sendWsMessageMo);
+        return true;
     }
 
     @Override
-    public void sendWsMessage(SendWsMessageMo sendWsMessageMo) {
-        simpMessagingTemplate.convertAndSendToUser(sendWsMessageMo.getUserId() + "", "/message", JSONObject.toJSONString(sendWsMessageMo));
+    public Boolean sendWsMessage(SendWsMessageMo sendWsMessageMo) {
+        simpMessagingTemplate.convertAndSendToUser(sendWsMessageMo.getUserId(), "/topic/chat", JSONObject.toJSONString(sendWsMessageMo));
+        return true;
     }
 
     @Override

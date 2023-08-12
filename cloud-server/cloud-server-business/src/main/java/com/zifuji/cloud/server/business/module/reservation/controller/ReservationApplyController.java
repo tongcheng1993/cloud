@@ -1,10 +1,10 @@
 package com.zifuji.cloud.server.business.module.reservation.controller;
 
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.business.module.reservation.mo.ReservationApplyMo;
+import com.zifuji.cloud.server.business.module.reservation.controller.mo.ReservationApplyMo;
 import com.zifuji.cloud.server.business.module.reservation.service.ReservationService;
-import com.zifuji.cloud.server.business.module.reservation.vo.ReservationApplyMainControllerVo;
-import com.zifuji.cloud.server.business.module.reservation.vo.ReservationApplyWorkDayControllerVo;
+import com.zifuji.cloud.server.business.module.reservation.controller.vo.ReservationApplyMainControllerVo;
+import com.zifuji.cloud.server.business.module.reservation.controller.vo.ReservationApplyWorkDayControllerVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -27,14 +27,14 @@ public class ReservationApplyController {
     @PostMapping(value = "/getReservationApplyWorkDaySetting")
     public Result<ReservationApplyMainControllerVo> getReservationApplyWorkDaySetting(@RequestBody ReservationApplyMo reservationApplyMo) {
         ReservationApplyMainControllerVo result = reservationService.getReservationApplyWorkDaySetting(reservationApplyMo.getCode());
-        return new Result<ReservationApplyMainControllerVo>().setObj(result);
+        return Result.setObj(result);
     }
 
     @ApiOperation(value = "获取预约时间表")
     @PostMapping(value = "/getReservationApplyWorkTimeSetting")
     public Result<ReservationApplyWorkDayControllerVo> getReservationApplyWorkTimeSetting(@RequestBody ReservationApplyMo reservationApplyMo) {
         ReservationApplyWorkDayControllerVo vo = reservationService.getReservationApplyWorkTimeSetting(reservationApplyMo.getCode(), reservationApplyMo.getDayName());
-        return new Result<ReservationApplyWorkDayControllerVo>().setObj(vo);
+        return Result.setObj(vo);
     }
 
 
