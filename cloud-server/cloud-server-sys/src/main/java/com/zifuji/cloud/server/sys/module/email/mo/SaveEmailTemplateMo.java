@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class SaveEmailTemplateControllerMo extends BaseControllerMo {
+public class SaveEmailTemplateMo {
     /**
      *
      */

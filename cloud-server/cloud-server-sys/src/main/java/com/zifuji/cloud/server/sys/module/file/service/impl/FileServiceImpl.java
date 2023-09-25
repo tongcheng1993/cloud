@@ -21,7 +21,6 @@ import com.zifuji.cloud.server.sys.db.file.service.FileEntityService;
 import com.zifuji.cloud.server.sys.module.file.controller.qo.FilePageQo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
 import com.zifuji.cloud.server.sys.module.file.controller.vo.FileControllerVo;
-import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import cn.hutool.core.bean.BeanUtil;
 import lombok.AllArgsConstructor;
@@ -38,9 +37,8 @@ public class FileServiceImpl implements FileService {
     private FileEntityService fileEntityService;
 
 
-
     @Override
-    public String uploadFile( MultipartFile file) {
+    public String uploadFile(MultipartFile file) {
         String fileUrl = minioComponent.uploadFile(file);
         FileEntity fileEntity = new FileEntity();
         fileEntity.setFileName(file.getOriginalFilename());
@@ -51,7 +49,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public FileBo downloadFileStream(Long id) {
+    public FileBo downloadFileStream(String id) {
         FileEntity fileEntity = fileEntityService.getById(id);
         if (ObjectUtil.isNull(fileEntity)) {
             throw new Exception20000("找不到对应的数据");
@@ -65,7 +63,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public FileControllerVo downloadFile( Long id) throws IOException {
+    public FileControllerVo downloadFile(String id) throws IOException {
         FileControllerVo vo = new FileControllerVo();
         FileBo bo = downloadFileStream(id);
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -82,17 +80,17 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public MultipartFile getFile(Long id) {
+    public MultipartFile getFile(String id) {
         FileBo bo = downloadFileStream(id);
         FileItem fileItem = ZfjFileUtil.createFileItem(bo.getInputStream(), bo.getFileName());
         return new CommonsMultipartFile(fileItem);
     }
 
     @Override
-    public List<MultipartFile> getFileList(List<Long> fileIdList) {
+    public List<MultipartFile> getFileList(List<String> fileIdList) {
         List<MultipartFile> fileList = new ArrayList<>();
         if (ObjectUtil.isNotEmpty(fileIdList)) {
-            for (Long fileId : fileIdList) {
+            for (String fileId : fileIdList) {
                 fileList.add(getFile(fileId));
             }
         }
@@ -100,13 +98,13 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String getFileName(Long id) {
+    public String getFileName(String id) {
         FileEntity fileEntity = fileEntityService.getById(id);
         return fileEntity.getFileName();
     }
 
     @Override
-    public Boolean delFile(Long id) {
+    public Boolean delFile(String id) {
         FileEntity fileEntity = fileEntityService.getById(id);
         fileEntity.setDelFlag(true);
         return fileEntityService.updateById(fileEntity);
@@ -117,7 +115,7 @@ public class FileServiceImpl implements FileService {
     public IPage<FileControllerVo> queryPageFile(FilePageQo filePageQo) {
         Page<FileEntity> page = new Page<FileEntity>(filePageQo.getCurrent(), filePageQo.getSize());
         QueryWrapper<FileEntity> queryWrapper = new QueryWrapper<FileEntity>();
-        MyBatisPlusUtil.orderWrapper(queryWrapper, filePageQo.getOrders());
+
         IPage<FileEntity> fileEntityPage = fileEntityService.page(page, queryWrapper);
         return fileEntityPage.convert(fileEntity -> {
             FileControllerVo fileVo = new FileControllerVo();

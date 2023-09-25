@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class CreateNewBookMo extends BaseControllerMo {
+public class CreateNewBookMo  {
 
     private String bookName;
 

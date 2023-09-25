@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @Slf4j
 public class RedisUtil {
 
-    public static boolean checkCodeAndValue(StringRedisTemplate srt, String code, String value) {
+    public static boolean equalsCodeAndValue(StringRedisTemplate srt, String code, String value) {
         if (ObjectUtil.isNull(srt)) {
             return false;
         }
@@ -19,10 +19,10 @@ public class RedisUtil {
             return false;
         }
         String redisValue = srt.opsForValue().get(code);
-        srt.delete(code);
         if (StrUtil.isBlank(redisValue)) {
             return false;
         }
+        srt.delete(code);
         return StrUtil.equalsIgnoreCase(redisValue, value);
     }
 

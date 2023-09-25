@@ -1,6 +1,7 @@
-package com.zifuji.cloud.server.websocket.module.websocket.config;
+package com.zifuji.cloud.server.websocket.module.websocket.interceptor;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.zifuji.cloud.base.bean.UserInfo;
 import com.zifuji.cloud.server.base.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,8 @@ public class UserHandshakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
         log.info("beforeHandshake");
+        log.info(webSocketHandler.toString());
+        log.info(JSONObject.toJSONString(map));
         return true;
     }
 

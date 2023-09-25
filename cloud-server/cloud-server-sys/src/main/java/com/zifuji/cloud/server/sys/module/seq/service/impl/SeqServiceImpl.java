@@ -9,10 +9,9 @@ import java.util.stream.Collectors;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.server.sys.module.seq.bo.SeqComponentMo;
+import com.zifuji.cloud.server.sys.module.seq.controller.bo.SeqComponentMo;
 import com.zifuji.cloud.server.sys.module.seq.mapper.SeqMapper;
-import com.zifuji.cloud.server.sys.module.seq.mo.SaveSeqControllerMo;
-import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
+import com.zifuji.cloud.server.sys.module.seq.controller.mo.SaveSeqControllerMo;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +21,9 @@ import com.zifuji.cloud.base.bean.BaseConstant;
 import com.zifuji.cloud.base.exception.Exception20000;
 import com.zifuji.cloud.server.sys.db.seq.entity.SeqEntity;
 import com.zifuji.cloud.server.sys.db.seq.service.SeqEntityService;
-import com.zifuji.cloud.server.sys.module.seq.qo.SeqPageQo;
+import com.zifuji.cloud.server.sys.module.seq.controller.qo.SeqPageQo;
 import com.zifuji.cloud.server.sys.module.seq.service.SeqService;
-import com.zifuji.cloud.server.sys.module.seq.vo.SeqControllerVo;
+import com.zifuji.cloud.server.sys.module.seq.controller.vo.SeqControllerVo;
 
 import cn.hutool.core.util.ObjectUtil;
 import lombok.AllArgsConstructor;
@@ -81,7 +80,7 @@ public class SeqServiceImpl implements SeqService {
         } else {
 
         }
-        MyBatisPlusUtil.orderWrapper(queryWrapper, seqPageQo.getOrders());
+
         return seqMapper.selectListSeq(queryWrapper);
     }
 
@@ -93,7 +92,7 @@ public class SeqServiceImpl implements SeqService {
         } else {
 
         }
-        MyBatisPlusUtil.orderWrapper(queryWrapper, seqPageQo.getOrders());
+
         return seqMapper.selectPageSeq(page, queryWrapper);
     }
 
@@ -131,22 +130,23 @@ public class SeqServiceImpl implements SeqService {
         }
         String key = BaseConstant.REDIS_SEQ + timeCode + code;
         Long redisNum = stringRedisTemplate.opsForValue().increment(key);
-        if (redisNum == 1L) {
-            switch (seqEntity.getRebornType()) {
-                case BaseConstant.CODE_REBORN_TYPE_1:
-                    stringRedisTemplate.expire(key, 1, TimeUnit.DAYS);
-                    break;
-                case BaseConstant.CODE_REBORN_TYPE_2:
-                    stringRedisTemplate.expire(key, 31, TimeUnit.DAYS);
-                    break;
-                case BaseConstant.CODE_REBORN_TYPE_3:
-                    stringRedisTemplate.expire(key, 366, TimeUnit.DAYS);
-                    break;
-                default:
-                    break;
+        if(null != redisNum){
+            if (redisNum == 1L) {
+                switch (seqEntity.getRebornType()) {
+                    case BaseConstant.CODE_REBORN_TYPE_1:
+                        stringRedisTemplate.expire(key, 1, TimeUnit.DAYS);
+                        break;
+                    case BaseConstant.CODE_REBORN_TYPE_2:
+                        stringRedisTemplate.expire(key, 31, TimeUnit.DAYS);
+                        break;
+                    case BaseConstant.CODE_REBORN_TYPE_3:
+                        stringRedisTemplate.expire(key, 366, TimeUnit.DAYS);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-
         // 将num补全位数
         String Longformat = "";
         int size = String.valueOf(redisNum).length();

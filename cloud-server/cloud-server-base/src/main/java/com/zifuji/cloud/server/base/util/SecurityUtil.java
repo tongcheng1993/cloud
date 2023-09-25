@@ -46,8 +46,8 @@ public class SecurityUtil {
             }
         }
         if (ObjectUtil.isNotEmpty(userInfo.getPermissionCodeList())) {
-            for (String permiString : userInfo.getPermissionCodeList()) {
-                list.add(new SimpleGrantedAuthority(permiString));
+            for (String permission : userInfo.getPermissionCodeList()) {
+                list.add(new SimpleGrantedAuthority(permission));
             }
         }
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userInfo.getId(), userInfo.getUserName(), list);

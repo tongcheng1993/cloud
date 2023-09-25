@@ -3,6 +3,7 @@ package com.zifuji.cloud.server.sys.module.manageUser.controller.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.zifuji.cloud.server.base.bean.BaseControllerVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -11,41 +12,38 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class GetMenuControllerVo {
+public class GetMenuVo {
+
     @ApiModelProperty("")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private String id;
     @ApiModelProperty("")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long createBy;
+    private String createBy;
     @ApiModelProperty("")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
     @ApiModelProperty("")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long updateBy;
+    private String updateBy;
     @ApiModelProperty("")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
     @ApiModelProperty("")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long sortNum;
+    private String sortNum;
     @ApiModelProperty("")
     private Boolean delFlag;
     @ApiModelProperty("")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long parentId;
-    @ApiModelProperty("")
+    private String parentId;
+
+    private String label;
+
     private String name;
-    @ApiModelProperty("")
+
     private String path;
-    @ApiModelProperty("")
+
     private String component;
-    @ApiModelProperty("")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Integer showFlag;
-    @ApiModelProperty("")
-    private String iconFlag;
+
+    private Boolean showFlag;
+
+    private String icon;
+
 }

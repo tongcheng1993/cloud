@@ -159,7 +159,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Boolean openReservation(ReservationSettingMainControllerMo reservationSettingMainMo) {
-        if (ObjectUtil.isNull(reservationSettingMainMo) || 0 == reservationSettingMainMo.getId()) {
+        if (ObjectUtil.isNull(reservationSettingMainMo) || "0".equals(reservationSettingMainMo.getId())) {
             throw new Exception20000("");
         }
         ReservationSettingMainEntity reservationSettingMainEntity = reservationSettingMainEntityService.getById(reservationSettingMainMo.getId());

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Slf4j
-@Api(value = "help")
+@Api(tags = "帮助控制器")
 @RestController
 @RequestMapping(value = "/help")
 @AllArgsConstructor

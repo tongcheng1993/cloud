@@ -18,7 +18,6 @@ import com.zifuji.cloud.server.sys.module.quartz.mo.QuartzRecordControllerMo;
 import com.zifuji.cloud.server.sys.module.quartz.qo.QuartzRecordPageQo;
 import com.zifuji.cloud.server.sys.module.quartz.service.QuartzService;
 import com.zifuji.cloud.server.sys.module.quartz.vo.QuartzRecordControllerVo;
-import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,13 +58,9 @@ public class QuartzServiceImpl implements QuartzService {
                 throw new Exception20000("类名称不能修改");
             }
 
-
-
             if (!StrUtil.equals(quartzRecordEntity.getCronExpression(), quartzRecordMo.getCronExpression())) {
                 quartzComponent.cronJob(quartzRecordEntity.getJobGroupName(), quartzRecordEntity.getJobClassName(), quartzRecordMo.getCronExpression());
             }
-
-
 
             if (StrUtil.equals(BaseConstant.CODE_START_STOP_TYPE_1, quartzRecordMo.getStatus())) {
                 quartzComponent.resumeJob(quartzRecordEntity.getJobGroupName(), quartzRecordEntity.getJobClassName());
@@ -92,7 +87,11 @@ public class QuartzServiceImpl implements QuartzService {
 
     @Override
     public IPage<QuartzRecordControllerVo> queryPageQuartzRecord(QuartzRecordPageQo quartzRecordPageQo) {
-        IPage<QuartzRecordComponentMo> page = selectPageQuartzRecord(quartzRecordPageQo);
+        Page<QuartzRecordEntity> page = new Page<>(quartzRecordPageQo.getCurrent(),quartzRecordPageQo.getSize());
+
+        QueryWrapper<QuartzRecordEntity> quartzRecordEntityQueryWrapper = new QueryWrapper<>();
+
+        page = quartzRecordEntityService.page(page,quartzRecordEntityQueryWrapper);
         return page.convert(bo -> {
             QuartzRecordControllerVo vo = new QuartzRecordControllerVo();
             BeanUtil.copyProperties(bo, vo);
@@ -122,7 +121,7 @@ public class QuartzServiceImpl implements QuartzService {
         } else {
 
         }
-        MyBatisPlusUtil.orderWrapper(queryWrapper, quartzRecordPageQo.getOrders());
+
         return quartzMapper.selectPageQuartzRecord(page, queryWrapper);
     }
 

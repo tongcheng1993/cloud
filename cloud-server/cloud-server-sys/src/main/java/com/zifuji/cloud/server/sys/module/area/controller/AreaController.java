@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
-@Api(value = "区域管理控制器")
+@Api(tags = "区域管理控制器")
 @RestController
 @RequestMapping(value = "/area")
 @AllArgsConstructor

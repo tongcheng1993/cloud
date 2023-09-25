@@ -1,61 +1,54 @@
 package com.zifuji.cloud.server.sys.module.manageUser.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.sys.module.manageUser.mo.*;
-import com.zifuji.cloud.server.sys.module.manageUser.qo.ManageMenuPageQo;
-import com.zifuji.cloud.server.sys.module.manageUser.qo.ManagePermissionPageQo;
-import com.zifuji.cloud.server.sys.module.manageUser.qo.ManageRolePageQo;
-import com.zifuji.cloud.server.sys.module.manageUser.qo.ManageUserPageQo;
-import com.zifuji.cloud.server.sys.module.manageUser.vo.*;
+
+import com.zifuji.cloud.server.sys.module.manageUser.controller.mo.*;
+import com.zifuji.cloud.server.sys.module.manageUser.controller.qo.*;
+import com.zifuji.cloud.server.sys.module.manageUser.controller.vo.*;
 
 
 import java.util.List;
 
 public interface ManageUserService {
 
-    DrawCaptchaControllerVo drawCaptcha();
+    DrawCaptchaVo drawCaptcha();
 
-    String login(LoginControllerMo loginMo);
+    String login(LoginMo loginMo);
 
-    List<ManageMenuControllerVo> getMenu();
+    List<GetMenuVo> getMenu();
 
-    IPage<ManageUserControllerVo> queryPageUser(ManageUserPageQo manageUserPageQo);
+    IPage<QueryPageManageUserVo> queryPageManageUser(QueryPageManageUserQo queryPageManageUserQo);
 
-    List<ManageUserControllerVo> queryListUser(ManageUserPageQo manageUserPageQo);
+    GetManageUserVo getManageUserById(String id);
 
-    ManageUserControllerVo saveUser(ManageUserControllerMo manageUserMo);
+    GetManageUserVo getManageUserByUserName(String userName);
 
-    ManageUserControllerVo resetPassWord(ResetPassWordControllerMo resetPassWordMo);
+    Boolean addManageUser(AddManageUserMo addManageUserMo);
 
-    IPage<ManageRoleControllerVo> queryPageRole(ManageRolePageQo manageRolePageQo);
+    Boolean resetManageUser(ResetManageUserMo resetManageUserMo);
 
-    String saveRole(ManageRoleControllerMo manageRoleMo);
+    List<QueryListManageRoleVo> queryListManageRole(QueryListManageRoleQo queryListManageRoleQo);
 
-    List<ManageRoleControllerVo> queryListRole(ManageRolePageQo manageRolePageQo);
+    Boolean bindUserAndRoleDelBefore(BindUserAndRoleDelBeforeMo bindUserAndRoleDelBeforeMo);
 
-    List<ManagePermissionControllerVo> queryListPermission(ManagePermissionPageQo managePermissionPageQo);
+    IPage<QueryPageManageRoleVo> queryPageManageRole(QueryPageManageRoleQo queryPageManageRoleQo);
 
-    IPage<ManagePermissionControllerVo> queryPagePermission(ManagePermissionPageQo managePermissionPageQo);
+    GetManageRoleVo getManageRoleById(String id);
 
-    String savePermission(ManagePermissionControllerMo managePermissionMo);
+    GetManageRoleVo getManageRoleByRoleCode(String roleCode);
 
-    List<ManageMenuControllerVo> queryListMenu(ManageMenuPageQo manageMenuPageQo);
+    Boolean addManageRole(AddManageRoleMo addManageRoleMo);
 
-    String saveMenu(ManageMenuControllerMo manageMenuMo);
+    Boolean resetManageRole(ResetManageRoleMo resetManageRoleMo);
 
-    String saveUserAndRole(Long userId, String roleCode);
+    List<QueryListManagePermissionVo> queryListManagePermission(QueryListManagePermissionQo queryListManagePermissionQo);
 
-    String saveUserAndRole(Long userId, Long roleId);
+    List<QueryListManageMenuVo> queryListManageMenu(QueryListManageMenuQo queryListManageMenuQo);
 
-    String saveUserRoleRelation(ManageUserRoleRelationControllerMo manageUserRoleRelationMo);
+    Boolean bindRoleAndPermissionDelBefore(BindRoleAndPermissionDelBeforeMo bindRoleAndPermissionDelBeforeMo);
 
-    String saveRolePermissionRelation(ManageRolePermissionRelationControllerMo manageRolePermissionRelationMo);
+    Boolean bindRoleAndMenuDelBefore(BindRoleAndMenuDelBeforeMo bindRoleAndMenuDelBeforeMo);
 
-    String saveRoleMenuRelation(ManageRoleMenuRelationControllerMo manageRoleMenuRelationMo);
+    IPage<QueryPageManagePermissionVo> queryPageManagePermission(QueryPageManagePermissionQo queryPageManagePermissionQo);
 
-    String saveRoleMenuRelation(Long roleId, Long menuId);
-
-    String saveRoleMenuRelation(String roleCode, Long menuId);
-
-    Boolean initManage();
 }

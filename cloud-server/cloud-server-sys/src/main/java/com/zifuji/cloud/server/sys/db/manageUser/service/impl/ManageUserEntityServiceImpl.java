@@ -11,31 +11,5 @@ import java.io.Serializable;
 @Service
 public class ManageUserEntityServiceImpl extends ServiceImpl<ManageUserEntityMapper, ManageUserEntity> implements ManageUserEntityService {
 
-    @Override
-    public boolean save(ManageUserEntity entity) {
 
-
-        return super.save(entity);
-    }
-
-    @Override
-    public boolean removeById(Serializable id) {
-
-
-        return super.removeById(id);
-    }
-
-    @Override
-    public boolean updateById(ManageUserEntity entity) {
-
-
-        return super.updateById(entity);
-    }
-
-    @Override
-    public ManageUserEntity getById(Serializable id) {
-
-
-        return super.getById(id);
-    }
 }

@@ -14,17 +14,17 @@ public interface FileService {
 
     String uploadFile(MultipartFile file);
 
-    FileBo downloadFileStream(Long id);
+    FileBo downloadFileStream(String id);
 
-    FileControllerVo downloadFile(Long id) throws IOException;
+    FileControllerVo downloadFile(String id) throws IOException;
 
-    MultipartFile getFile(Long id);
+    MultipartFile getFile(String id);
 
-    List<MultipartFile> getFileList(List<Long> fileIdList);
+    List<MultipartFile> getFileList(List<String> fileIdList);
 
-    String getFileName(Long id);
+    String getFileName(String id);
 
-    Boolean delFile(Long id);
+    Boolean delFile(String id);
 
     IPage<FileControllerVo> queryPageFile(FilePageQo filePageQo);
 }

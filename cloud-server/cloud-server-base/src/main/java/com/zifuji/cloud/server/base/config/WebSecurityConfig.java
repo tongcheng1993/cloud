@@ -1,9 +1,9 @@
 package com.zifuji.cloud.server.base.config;
 
 
-import com.zifuji.cloud.server.base.object.SimpleAccessDeniedHandler;
-import com.zifuji.cloud.server.base.object.SimpleAuthenticationEntryPoint;
-import com.zifuji.cloud.server.base.object.TokenFilter;
+import com.zifuji.cloud.server.base.bean.SimpleAccessDeniedHandler;
+import com.zifuji.cloud.server.base.bean.SimpleAuthenticationEntryPoint;
+import com.zifuji.cloud.server.base.bean.TokenFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,13 +19,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    public WebSecurityConfig() {
-        log.info("WebSecurityConfig");
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()

@@ -1,7 +1,7 @@
 package com.zifuji.cloud.server.business.db.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zifuji.cloud.server.base.db.entity.MyBaseEntity;
+import com.zifuji.cloud.server.base.bean.MyBaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_web_role_menu")
 @ApiModel(value = "外网角色路由中间表")
 public class WebRoleMenuEntity extends MyBaseEntity {
-	private Long roleId;
+	private String roleId;
 
-	private Long menuId;
+	private String menuId;
 }

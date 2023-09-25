@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @ApiModel(description = "")
 public class EmailTemplateComponentMo {
 
-    private Long id;
+    private String id;
 
     private LocalDateTime createTime;
 

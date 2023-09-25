@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Slf4j
-@Api(value = "积分/应用")
+@Api(tags = "积分控制器")
 @RestController
-@RequestMapping(value = "/score/apply")
+@RequestMapping(value = "/score")
 @AllArgsConstructor
-public class ScoreApplyController {
+public class ScoreController {
 
 
     private ScoreService scoreService;

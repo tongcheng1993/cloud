@@ -13,16 +13,31 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "")
-public class QueryManageUserVo extends BaseControllerVo {
+public class QueryPageManageUserVo {
 
-
+    @ApiModelProperty("")
+    private String id;
+    @ApiModelProperty("")
+    private String createBy;
+    @ApiModelProperty("")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
+    @ApiModelProperty("")
+    private String updateBy;
+    @ApiModelProperty("")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime updateTime;
+    @ApiModelProperty("")
+    private String sortNum;
+    @ApiModelProperty("")
+    private Boolean delFlag;
+    @ApiModelProperty("")
     private String userName;
-
+    @ApiModelProperty("")
     private String passWord;
-
-    private String name;
+    @ApiModelProperty("")
+    private String shortName;
 
 
 }

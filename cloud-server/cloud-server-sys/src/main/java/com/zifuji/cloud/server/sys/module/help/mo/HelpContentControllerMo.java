@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class HelpContentControllerMo extends BaseControllerMo {
+public class HelpContentControllerMo  {
     @NotBlank(message = "")
     private String content;
     @NotBlank(message = "")

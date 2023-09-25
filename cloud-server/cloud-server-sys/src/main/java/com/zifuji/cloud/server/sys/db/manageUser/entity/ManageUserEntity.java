@@ -1,7 +1,7 @@
 package com.zifuji.cloud.server.sys.db.manageUser.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zifuji.cloud.server.base.db.entity.MyBaseEntity;
+import com.zifuji.cloud.server.base.bean.MyBaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,6 +14,6 @@ public class ManageUserEntity extends MyBaseEntity {
 
     private String passWord;
 
-    private String name;
+    private String shortName;
 
 }

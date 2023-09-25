@@ -1,7 +1,7 @@
 package com.zifuji.cloud.server.sys.db.manageUser.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zifuji.cloud.server.base.db.entity.MyBaseEntity;
+import com.zifuji.cloud.server.base.bean.MyBaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,9 +10,9 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_manage_role")
 public class ManageRoleEntity extends MyBaseEntity {
     // 角色名称
-    private String name;
+    private String roleName;
     // 角色编码
-    private String code;
+    private String roleCode;
     // 描述
-    private String description;
+    private String roleDescription;
 }

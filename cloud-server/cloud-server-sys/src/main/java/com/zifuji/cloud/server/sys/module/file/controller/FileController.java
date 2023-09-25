@@ -1,34 +1,37 @@
 package com.zifuji.cloud.server.sys.module.file.controller;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import cn.hutool.core.io.IoUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zifuji.cloud.base.bean.Result;
 import com.zifuji.cloud.server.sys.module.file.controller.mo.DownloadFileMo;
+import com.zifuji.cloud.server.sys.module.file.controller.qo.FilePageQo;
+import com.zifuji.cloud.server.sys.module.file.service.FileService;
+import com.zifuji.cloud.server.sys.module.file.controller.vo.FileControllerVo;
+
 import com.zifuji.cloud.server.sys.module.file.service.bo.FileBo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.sys.module.file.controller.qo.FilePageQo;
-import com.zifuji.cloud.server.sys.module.file.service.FileService;
-import com.zifuji.cloud.server.sys.module.file.controller.vo.FileControllerVo;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.net.URLEncoder;
 
 @Slf4j
-@Api(value = "file")
+@Api(tags = "文件存储")
 @RestController
 @RequestMapping(value = "/file")
 @AllArgsConstructor
@@ -45,12 +48,8 @@ public class FileController {
 
     @ApiOperation(value = "下载文件")
     @GetMapping(value = "/downloadStreamFile")
-    public void downloadStreamFile(@RequestParam Long id) throws IOException {
-        log.info("" + id);
+    public void downloadStreamFile(@RequestParam String id) throws IOException {
         FileBo result = fileService.downloadFileStream(id);
-
-        log.info(result.getFileName());
-
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
         HttpServletResponse response = servletRequestAttributes.getResponse();
@@ -78,6 +77,14 @@ public class FileController {
         log.info("结束" + id);
     }
 
+    @ApiOperation(value = "仿查看静态资源接口")
+    @GetMapping("/file/{id}/{objectName}")
+    public ResponseEntity<Resource> viewFile(@PathVariable String id, @PathVariable String objectName) {
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(new InputStreamResource(null));
+    }
+
 
     @ApiOperation(value = "下载文件")
     @PostMapping(value = "/downloadFile")
@@ -88,7 +95,7 @@ public class FileController {
 
     @ApiOperation(value = "删除文件")
     @GetMapping(value = "/delFile")
-    public Result<Boolean> delFile(Long id) {
+    public Result<Boolean> delFile(String id) {
         Boolean result = fileService.delFile(id);
         return Result.setObj(result);
     }

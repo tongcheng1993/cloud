@@ -15,20 +15,18 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Slf4j
-@Api(value = "定时器/管理")
+@Api(tags = "定时器控制器")
 @RestController
 @RequestMapping(value = "/quartz/manage")
 @AllArgsConstructor
-public class QuartzManageController {
+public class QuartzController {
 
     private QuartzService quartzService;
 
     @ApiOperation(value = "增加一个定时器")
     @PostMapping(value = "/saveQuartzRecord")
     public Result<QuartzRecordControllerVo> saveQuartzRecord(@RequestBody @Valid QuartzRecordControllerMo quartzRecordMo) throws Exception {
-
         QuartzRecordControllerVo result = quartzService.saveQuartzRecord(quartzRecordMo);
-
         return Result.setObj(result);
     }
 
@@ -36,9 +34,7 @@ public class QuartzManageController {
     @ApiOperation(value = "")
     @GetMapping(value = "/delQuartzRecord")
     public Result<Boolean> delQuartzRecord(Long id) throws Exception {
-
         Boolean result = quartzService.delQuartzRecord(id);
-
         return Result.setObj(result);
     }
 
@@ -46,18 +42,14 @@ public class QuartzManageController {
     @ApiOperation(value = "分页查询定时器")
     @PostMapping(value = "/queryPageQuartzRecord")
     public Result<IPage<QuartzRecordControllerVo>> queryPageQuartzRecord(@RequestBody @Valid QuartzRecordPageQo quartzRecordPageQo) {
-
         IPage<QuartzRecordControllerVo> result = quartzService.queryPageQuartzRecord(quartzRecordPageQo);
-
         return Result.setObj(result);
     }
 
     @ApiOperation(value = "")
     @PostMapping(value = "/syncQuartzList")
     public Result<Boolean> syncQuartzList() {
-
         Boolean result = quartzService.syncQuartzList();
-
         return Result.setObj(result);
     }
 

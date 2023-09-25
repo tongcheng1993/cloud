@@ -1,7 +1,7 @@
 package com.zifuji.cloud.server.business.db.book.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zifuji.cloud.server.business.db.book.entity.EduBookSectionEntity;
+import com.zifuji.cloud.server.business.db.book.entity.BookSectionEntity;
 
-public interface EduBookSectionEntityService extends IService<EduBookSectionEntity> {
+public interface BookSectionEntityService extends IService<BookSectionEntity> {
 }

@@ -5,7 +5,7 @@ import com.zifuji.cloud.server.sys.module.data.qo.PersonPageQo;
 import com.zifuji.cloud.server.sys.module.data.vo.PersonControllerVo;
 import org.springframework.web.multipart.MultipartFile;
 
-public interface DataPersonService {
+public interface DataService {
 
 	Boolean uploadPersonListFile(MultipartFile file);
 

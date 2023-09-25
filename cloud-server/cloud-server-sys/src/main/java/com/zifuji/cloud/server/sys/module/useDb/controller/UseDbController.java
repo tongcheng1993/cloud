@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/useDb")
 @AllArgsConstructor
-public class UseDbManageController {
+public class UseDbController {
 
     private UseDbService useDbService;
 
-    @ApiOperation(value = "执行sql")
-    @PostMapping(value = "/executeSql")
+    @ApiOperation(value = "测试能否打开连接")
+    @PostMapping(value = "/testOpenDb")
     @PreAuthorize(value = "hasAnyAuthority('sys:useDb:testOpenDb')")
     public Result<Boolean> testOpenDb() {
         Boolean flag = useDbService.testOpenDb();

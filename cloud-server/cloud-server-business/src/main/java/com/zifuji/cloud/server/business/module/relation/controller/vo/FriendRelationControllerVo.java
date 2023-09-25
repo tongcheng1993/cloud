@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.business.module.relation.vo;
+package com.zifuji.cloud.server.business.module.relation.controller.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;

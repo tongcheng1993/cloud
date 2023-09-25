@@ -10,9 +10,9 @@ import javax.validation.constraints.NotBlank;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class QuartzRecordControllerMo extends BaseControllerMo {
+public class QuartzRecordControllerMo  {
 
-    private Long id;
+    private String id;
 
     private String name;
 

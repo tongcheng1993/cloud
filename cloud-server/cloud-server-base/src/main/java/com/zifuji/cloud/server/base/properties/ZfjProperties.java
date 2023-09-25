@@ -1,6 +1,7 @@
 package com.zifuji.cloud.server.base.properties;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ public class ZfjProperties {
 
 
     public String getTempDirPath() {
-        String path = temppath + File.separator + UUID.randomUUID().toString();
+        String path = temppath + File.separator + StrUtil.uuid();
         // 先清空临时目录
         FileUtil.del(path);
         File pathFile = new File(path);

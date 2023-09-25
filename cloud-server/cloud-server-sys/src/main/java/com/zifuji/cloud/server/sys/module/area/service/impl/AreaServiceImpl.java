@@ -12,7 +12,6 @@ import com.zifuji.cloud.server.sys.module.area.mapper.AreaMapper;
 import com.zifuji.cloud.server.sys.module.area.mo.SaveAreaControllerMo;
 import com.zifuji.cloud.server.sys.module.area.qo.AreaPageQo;
 import com.zifuji.cloud.server.sys.module.area.vo.AreaControllerVo;
-import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import org.springframework.stereotype.Service;
 
@@ -79,7 +78,7 @@ public class AreaServiceImpl implements AreaService{
 		QueryWrapper<AreaComponentMo> queryWrapper=new QueryWrapper<>();
 		
 		
-		MyBatisPlusUtil.orderWrapper(queryWrapper, areaPageQo.getOrders());
+
 		return areaMapper.selectPageArea(page, queryWrapper);
 	}
 	
@@ -88,7 +87,7 @@ public class AreaServiceImpl implements AreaService{
 		QueryWrapper<AreaComponentMo> queryWrapper=new QueryWrapper<>();
 		
 		
-		MyBatisPlusUtil.orderWrapper(queryWrapper, areaPageQo.getOrders());
+
 		return areaMapper.selectListArea( queryWrapper);
 	}
 }

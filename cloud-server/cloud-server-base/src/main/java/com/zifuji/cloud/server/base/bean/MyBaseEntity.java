@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.base.db.entity;
+package com.zifuji.cloud.server.base.bean;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
@@ -9,24 +9,24 @@ import java.time.LocalDateTime;
 public class MyBaseEntity {
 
     @TableId(type = IdType.ASSIGN_ID)
-    private String id;
+    private Long id;
 
     @TableField(fill = FieldFill.INSERT)
-    private String createBy;
+    private Long createBy = 110L;
 
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateBy;
+    private Long updateBy = 110L;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private LocalDateTime updateTime = LocalDateTime.now();
 
     @TableField(fill = FieldFill.INSERT)
-    private String sortNum;
+    private Integer sortNum = 0;
 
     @TableField(fill = FieldFill.INSERT)
-    private Boolean delFlag;
+    private Boolean delFlag = false;
 
 }

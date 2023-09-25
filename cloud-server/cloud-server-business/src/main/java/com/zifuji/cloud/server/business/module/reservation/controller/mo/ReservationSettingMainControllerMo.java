@@ -11,10 +11,10 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class ReservationSettingMainControllerMo extends BaseControllerMo {
+public class ReservationSettingMainControllerMo  {
 
 
-    private Long id;
+    private String id;
 
     @NotBlank(message = "唯一code不能为空")
     private String code;

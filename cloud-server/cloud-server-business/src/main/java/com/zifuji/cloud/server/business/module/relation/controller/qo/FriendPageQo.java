@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.business.module.relation.qo;
+package com.zifuji.cloud.server.business.module.relation.controller.qo;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiModel;

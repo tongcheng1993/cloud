@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.base.object;
+package com.zifuji.cloud.server.base.bean;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;

@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
-@Api(value = "notice")
+@Api(tags = "通知公告控制器")
 @RestController
 @RequestMapping(value = "/notice")
 @AllArgsConstructor

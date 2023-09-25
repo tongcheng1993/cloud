@@ -12,23 +12,20 @@ public class Result<T> implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    private int code;
-    private boolean success;
-    private String message;
-    private T result;
+    private int code = 20000;
+    private boolean success = true;
+    private String message = "请求成功";
+    private T result = (T)new Object();
     private long timestamp = System.currentTimeMillis();
 
     public static <T> Result<T> setObj(T data) {
         Result<T> r = new Result<>();
-        r.code = 20000;
-        r.success = true;
         r.result = data;
         return r;
     }
 
     public static <T> Result<T> set20000Mes(String mes) {
         Result<T> r = new Result<>();
-        r.code = 20000;
         r.success = false;
         r.message = mes;
         return r;

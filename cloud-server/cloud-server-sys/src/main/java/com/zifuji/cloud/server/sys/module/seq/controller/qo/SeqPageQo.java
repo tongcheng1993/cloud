@@ -1,6 +1,6 @@
-package com.zifuji.cloud.server.sys.module.seq.qo;
+package com.zifuji.cloud.server.sys.module.seq.controller.qo;
 
-import com.zifuji.cloud.server.base.bean.BaseControllerPageQo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -9,13 +9,13 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class SeqPageQo extends BaseControllerPageQo {
+public class SeqPageQo extends Page {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private String name;
-	
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    private String name;
+
 }

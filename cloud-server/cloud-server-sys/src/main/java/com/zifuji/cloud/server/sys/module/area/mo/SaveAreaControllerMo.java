@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class SaveAreaControllerMo extends BaseControllerMo {
+public class SaveAreaControllerMo  {
 	
 	
 	/**

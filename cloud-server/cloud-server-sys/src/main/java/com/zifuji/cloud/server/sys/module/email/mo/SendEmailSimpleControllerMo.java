@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class SendEmailSimpleControllerMo extends BaseControllerMo {
+public class SendEmailSimpleControllerMo  {
 
     /**
      *
@@ -24,9 +24,9 @@ public class SendEmailSimpleControllerMo extends BaseControllerMo {
 
     private String content;
 
-    private List<Long> imgList;
+    private List<String> imgList;
 
-    private List<Long> fileList;
+    private List<String> fileList;
 
 
 }

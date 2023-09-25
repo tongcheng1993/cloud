@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.sys.module.data.service.DataPersonService;
+import com.zifuji.cloud.server.sys.module.data.service.DataService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,15 +23,15 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(value = "/data")
 @AllArgsConstructor
-public class DataPersonController {
+public class DataController {
 
-    private DataPersonService dataPersonService;
+    private DataService dataService;
 
     @ApiOperation(value = "上传人员文件")
     @PostMapping(value = "/uploadPersonListFile")
     public Result<Boolean> uploadPersonListFile(MultipartFile file) {
         log.info(JSONObject.toJSONString("文件参数" + file.getOriginalFilename()));
-        Boolean result = dataPersonService.uploadPersonListFile(file);
+        Boolean result = dataService.uploadPersonListFile(file);
         log.info(JSONObject.toJSONString(result));
         return Result.setObj(result);
     }
@@ -39,7 +39,7 @@ public class DataPersonController {
     @PostMapping(value = "/uploadPhoneListFile")
     public Result<Boolean> uploadPhoneListFile(MultipartFile file) {
 
-        Boolean result = dataPhoneService.uploadPhoneListFile(file);
+        Boolean result = dataService.uploadPhoneListFile(file);
 
         return Result.setObj(result);
     }

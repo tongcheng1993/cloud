@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class ExecuteSqlControllerMo extends BaseControllerMo {
+public class ExecuteSqlControllerMo  {
 
     private String type;
 

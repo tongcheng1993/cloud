@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@Api(value = "工作流")
+@Api(tags = "工作流")
 @RestController
 @RequestMapping(value = "/wf")
 @AllArgsConstructor

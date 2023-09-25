@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.sys.module.seq.bo;
+package com.zifuji.cloud.server.sys.module.seq.controller.bo;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Api(value = "dashboard")
+@Api(tags = "首页控制器")
 @RestController
 @RequestMapping(value = "/dashboard")
 @AllArgsConstructor

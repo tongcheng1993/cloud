@@ -19,9 +19,6 @@ import java.util.Objects;
 @RestControllerAdvice
 public class ResultExceptionHandle {
 
-    public ResultExceptionHandle() {
-        log.info("ResultExceptionHandle");
-    }
 
     // 入参框架报错
     @ExceptionHandler(MethodArgumentNotValidException.class)

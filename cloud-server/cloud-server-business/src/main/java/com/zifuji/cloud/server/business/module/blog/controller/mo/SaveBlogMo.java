@@ -2,6 +2,7 @@ package com.zifuji.cloud.server.business.module.blog.controller.mo;
 
 import com.zifuji.cloud.server.base.bean.BaseControllerMo;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,20 +13,20 @@ import javax.validation.constraints.NotBlank;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class SaveBlogControllerMo extends BaseControllerMo {
+public class SaveBlogMo  {
 
-
-    private Long id;
-
+    @ApiModelProperty("")
+    private String id;
+    @ApiModelProperty("")
     @NotBlank(message = "")
     private String blogName;
-
+    @ApiModelProperty("")
     @NotBlank(message = "")
     private String blogType;
-
+    @ApiModelProperty("")
     @NotBlank(message = "")
     private String blogContent;
-
+    @ApiModelProperty("")
     @NotBlank(message = "")
     private String blogText;
 

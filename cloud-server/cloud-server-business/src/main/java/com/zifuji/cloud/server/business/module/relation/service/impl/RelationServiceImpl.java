@@ -19,12 +19,12 @@ import com.zifuji.cloud.server.business.db.friend.service.FriendApplyEntityServi
 import com.zifuji.cloud.server.business.db.friend.service.FriendInfoEntityService;
 import com.zifuji.cloud.server.business.db.friend.service.FriendRelationEntityService;
 import com.zifuji.cloud.server.business.module.relation.controller.bo.FriendComponentMo;
-import com.zifuji.cloud.server.business.module.relation.mapper.FriendMapper;
+import com.zifuji.cloud.server.business.module.relation.mapper.RelationMapper;
 import com.zifuji.cloud.server.business.module.relation.controller.mo.AuditFriendApplyControllerMo;
 import com.zifuji.cloud.server.business.module.relation.controller.mo.MakeFriendApplyControllerMo;
 import com.zifuji.cloud.server.business.module.relation.controller.mo.FriendInfoControllerMo;
 import com.zifuji.cloud.server.business.module.relation.controller.qo.FriendPageQo;
-import com.zifuji.cloud.server.business.module.relation.service.FriendService;
+import com.zifuji.cloud.server.business.module.relation.service.RelationService;
 import com.zifuji.cloud.server.business.module.relation.controller.vo.FriendInfoControllerVo;
 import com.zifuji.cloud.server.business.module.relation.controller.vo.FriendRelationControllerVo;
 import com.zifuji.cloud.server.business.module.relation.controller.vo.FriendControllerVo;
@@ -40,7 +40,7 @@ import java.util.List;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class FriendServiceImpl implements FriendService {
+public class RelationServiceImpl implements RelationService {
 
     private WebsocketFeignClient websocketFeignClient;
 
@@ -50,12 +50,12 @@ public class FriendServiceImpl implements FriendService {
 
     private FriendRelationEntityService friendRelationEntityService;
 
-    private FriendMapper friendMapper;
+    private RelationMapper relationMapper;
 
     private FileFeignClient fileFeignClient;
 
     @Override
-    public FriendInfoEntity initFriendInfo(String createById) {
+    public FriendInfoEntity initFriendInfo(Long createById) {
         QueryWrapper<FriendInfoEntity> queryWrapper = new QueryWrapper<FriendInfoEntity>();
         queryWrapper.lambda().eq(FriendInfoEntity::getCreateBy, createById);
         FriendInfoEntity friendInfoEntity = friendInfoEntityService.getOne(queryWrapper);
@@ -95,7 +95,7 @@ public class FriendServiceImpl implements FriendService {
 
     }
 
-    private FriendInfoEntity getFriendInfoByCreateBy(String id) {
+    private FriendInfoEntity getFriendInfoByCreateBy(Long id) {
         QueryWrapper<FriendInfoEntity> queryWrapper = new QueryWrapper<FriendInfoEntity>();
         queryWrapper.lambda().eq(FriendInfoEntity::getCreateBy, id);
         FriendInfoEntity friendInfoEntity = friendInfoEntityService.getOne(queryWrapper);
@@ -117,23 +117,15 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public String uploadFriendInfoImgFile(MultipartFile file) {
-        return fileFeignClient.uploadFile( file).getResult();
+        return fileFeignClient.uploadFile(file).getResult();
     }
 
     @Override
     public DownloadFileVo downloadFriendInfoImgFile(String id) throws IOException {
-        return fileFeignClient.downloadFile( id).getResult();
+        return fileFeignClient.downloadFile(id).getResult();
     }
 
 
-    @Override
-    public IPage<FriendControllerVo> queryPageFriend(FriendPageQo friendPageQo) {
-        return selectPageFriend(friendPageQo).convert(friendInfoBo -> {
-            FriendControllerVo friendVo = new FriendControllerVo();
-            BeanUtil.copyProperties(friendInfoBo, friendVo);
-            return friendVo;
-        });
-    }
 
     @Override
     public String makeFriendApply(MakeFriendApplyControllerMo makeFriendApplyMo) {
@@ -163,7 +155,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public String auditFriendApply(AuditFriendApplyControllerMo auditFriendApplyMo) {
-        String id = SecurityUtil.getUserDetails().getId();
+        Long id = SecurityUtil.getUserDetails().getId();
 
         FriendApplyEntity friendApplyEntity = friendApplyEntityService.getById(auditFriendApplyMo.getId());
         if (ObjectUtil.isNull(friendApplyEntity)) {
@@ -202,14 +194,6 @@ public class FriendServiceImpl implements FriendService {
     }
 
 
-    private IPage<FriendComponentMo> selectPageFriend(FriendPageQo friendPageQo) {
-        Page<FriendComponentMo> page = new Page<FriendComponentMo>(friendPageQo.getCurrent(), friendPageQo.getSize());
-        QueryWrapper<FriendComponentMo> queryWrapper = new QueryWrapper<FriendComponentMo>();
-        if (StrUtil.isNotBlank(friendPageQo.getSex())) {
-            queryWrapper.eq("zbfi.sex", friendPageQo.getSex());
-        }
 
-        return friendMapper.selectPageFriend(page, queryWrapper);
-    }
 
 }

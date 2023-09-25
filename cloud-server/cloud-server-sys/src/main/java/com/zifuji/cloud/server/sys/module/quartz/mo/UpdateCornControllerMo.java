@@ -11,9 +11,9 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class UpdateCornControllerMo extends BaseControllerMo {
+public class UpdateCornControllerMo  {
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
     @NotBlank(message = "cron表达式不能为空")
     private String cronExpression;
 }

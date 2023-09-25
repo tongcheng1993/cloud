@@ -1,4 +1,16 @@
 package com.zifuji.cloud.server.sys.module.manageUser.controller.qo;
 
-public class QueryPageManagePermissionQo {
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(description = "")
+public class QueryPageManagePermissionQo extends Page {
+
+    private String roleId;
+
+
 }

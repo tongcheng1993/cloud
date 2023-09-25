@@ -11,9 +11,9 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class UpdateStatusControllerMo extends BaseControllerMo {
+public class UpdateStatusControllerMo  {
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
     @NotBlank(message = "状态不能为空")
     private String status;
 }

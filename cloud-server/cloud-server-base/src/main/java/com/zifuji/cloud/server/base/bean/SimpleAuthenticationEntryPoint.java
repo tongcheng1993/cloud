@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.base.object;
+package com.zifuji.cloud.server.base.bean;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zifuji.cloud.base.bean.Result;

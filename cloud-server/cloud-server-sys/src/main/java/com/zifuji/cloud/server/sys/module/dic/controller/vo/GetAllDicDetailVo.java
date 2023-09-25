@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class DicVo implements Serializable {
+public class GetAllDicDetailVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -14,7 +14,7 @@ public class DicVo implements Serializable {
 
     private String dicCode;
 
-    private List<DicItemVo> children;
+    private List<GetAllDicDetailChildrenVo> children;
 
 
 }

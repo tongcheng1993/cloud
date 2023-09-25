@@ -2,7 +2,7 @@ package com.zifuji.cloud.server.sys.module.email.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.sys.module.email.mo.SaveEmailTemplateControllerMo;
+import com.zifuji.cloud.server.sys.module.email.mo.SaveEmailTemplateMo;
 
 import com.zifuji.cloud.server.sys.module.email.mo.SendEmailSimpleControllerMo;
 import com.zifuji.cloud.server.sys.module.email.mo.SendEmailTemplateControllerMo;
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
 
-@Api(value = "")
+@Api(tags = "email控制器")
 @Slf4j
 @RestController
 @RequestMapping(value = "/email")
@@ -43,7 +43,7 @@ public class EmailController {
 
     @ApiOperation(value = "新增邮件模板")
     @PostMapping(value = "/saveEmailTemplate")
-    public Result<String> saveEmailTemplate(@RequestBody @Valid SaveEmailTemplateControllerMo saveEmailTemplateMo) {
+    public Result<String> saveEmailTemplate(@RequestBody @Valid SaveEmailTemplateMo saveEmailTemplateMo) {
 
         String result = emailService.saveEmailTemplate(saveEmailTemplateMo);
 
@@ -89,7 +89,7 @@ public class EmailController {
 
     @ApiOperation(value = "查询邮件模板详情")
     @GetMapping(value = "/getEmailTemplateById")
-    public Result<EmailTemplateControllerVo> getEmailTemplateById(@RequestParam Long id) {
+    public Result<EmailTemplateControllerVo> getEmailTemplateById(@RequestParam String id) {
 
         EmailTemplateControllerVo result = emailService.getEmailTemplateById(id);
 

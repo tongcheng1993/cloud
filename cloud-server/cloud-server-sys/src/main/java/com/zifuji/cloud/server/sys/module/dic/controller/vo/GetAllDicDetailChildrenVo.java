@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class DicItemVo implements Serializable {
+public class GetAllDicDetailChildrenVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

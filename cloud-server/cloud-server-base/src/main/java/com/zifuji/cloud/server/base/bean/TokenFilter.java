@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.base.object;
+package com.zifuji.cloud.server.base.bean;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -7,15 +7,9 @@ import cn.hutool.jwt.JWTUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.zifuji.cloud.base.bean.UserInfo;
 import com.zifuji.cloud.base.exception.Exception30000;
-import com.zifuji.cloud.base.exception.Exception40000;
 import com.zifuji.cloud.server.base.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -23,8 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 public class TokenFilter extends BasicAuthenticationFilter {
@@ -36,7 +28,7 @@ public class TokenFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-
+        log.info(request.getRequestURI());
         // ws请求
         if (request.getRequestURI().startsWith("/ws")) {
             // 设置session时间无限
@@ -46,7 +38,7 @@ public class TokenFilter extends BasicAuthenticationFilter {
         String token = request.getHeader("X-Access-Token");
         // 没有token的是身份验证有问题，报400 异常
         if (StrUtil.isBlank(token)) {
-            throw new Exception30000("验证token失败");
+            throw new Exception30000("请从正确的系统入口登录");
         }
         // 有token的 转成 jwt 对象
         JWT jwt = JWTUtil.parseToken(token);

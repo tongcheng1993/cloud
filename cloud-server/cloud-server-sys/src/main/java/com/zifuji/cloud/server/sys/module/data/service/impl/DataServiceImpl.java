@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zifuji.cloud.server.sys.db.data.entity.PersonEntity;
-import com.zifuji.cloud.server.sys.module.data.service.DataPersonService;
+import com.zifuji.cloud.server.sys.module.data.service.DataService;
 import com.zifuji.cloud.server.base.properties.ZfjProperties;
 
 import cn.hutool.poi.excel.ExcelReader;
@@ -33,7 +33,7 @@ import java.util.Map;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class DataPersonServiceImpl implements DataPersonService {
+public class DataServiceImpl implements DataService {
 
     private PersonEntityService personEntityService;
 

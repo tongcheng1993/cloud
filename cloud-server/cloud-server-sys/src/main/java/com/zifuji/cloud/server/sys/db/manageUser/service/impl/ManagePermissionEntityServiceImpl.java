@@ -13,20 +13,4 @@ import org.springframework.stereotype.Service;
 public class ManagePermissionEntityServiceImpl extends ServiceImpl<ManagePermissionEntityMapper, ManagePermissionEntity> implements ManagePermissionEntityService {
 
 
-    @Override
-    public boolean save(ManagePermissionEntity entity) {
-        QueryWrapper<ManagePermissionEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda()
-                .eq(ManagePermissionEntity::getCodeSys, entity.getCodeSys())
-                .eq(ManagePermissionEntity::getCodeModule, entity.getCodeModule())
-                .eq(ManagePermissionEntity::getCode, entity.getCode());
-        ManagePermissionEntity temp = getOne(queryWrapper);
-        if(ObjectUtil.isNotNull(temp)){
-            throw new Exception20000("");
-        }
-
-
-
-        return super.save(entity);
-    }
 }

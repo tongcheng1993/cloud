@@ -1,6 +1,6 @@
 package com.zifuji.cloud.server.sys.module.file.controller.qo;
 
-import com.zifuji.cloud.server.base.bean.BaseControllerPageQo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class FilePageQo extends BaseControllerPageQo {
+public class FilePageQo extends Page {
 	/**
 	 * 
 	 */
@@ -17,5 +17,5 @@ public class FilePageQo extends BaseControllerPageQo {
 
 	private String fileName;
 
-	private Long id;
+	private String id;
 }

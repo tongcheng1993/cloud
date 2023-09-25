@@ -2,11 +2,13 @@ package com.zifuji.cloud.gateway.manage.filter;
 
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -50,16 +52,22 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
+        String from = request.getHeaders().getFirst("from");
+        if (StrUtil.isNotBlank(from)) {
+            // gateway 没有异常捕捉器 所以直接 return 400
+            return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
+        }
         // 获取当前请求路径
         String path = request.getURI().getPath();
         log.info("path:{}", path);
-
-
+        Map<String, Object> map = new HashMap<String, Object>();
+        String tc_token = "";
+        UserInfo userInfo = null;
         // 如果是websocket的请求
         if (path.startsWith("/websocket/ws")) {
             // url 地址中的参数 token 每个都必须有
             MultiValueMap<String, String> multiValueMap = request.getQueryParams();
-            String tc_token = multiValueMap.get("token").get(0);
+            tc_token = multiValueMap.get("token").get(0);
             if (StrUtil.isBlank(tc_token)) {
                 // gateway 没有异常捕捉器 所以直接 return 400
                 return setResponseInfo(response, Result.set30000Mes("验证token失败"));
@@ -71,28 +79,10 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                 return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
             }
             // 如果有token和 str 需要 重置token存续时间
-            stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
-            UserInfo userInfo = JSONObject.parseObject(bo, UserInfo.class);
-            if (ObjectUtil.isNull(userInfo) || StrUtil.isBlank(userInfo.getUserName())) {
-                // gateway 没有异常捕捉器 所以直接 return 400
-                return setResponseInfo(response, Result.set30000Mes("验证身份信息格式化失败"));
-            }
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("userInfo", userInfo);
-            // 网关通过后 在请求中增加 内部token
-            String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
-            log.info("token:{}", token);
-            ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
-                httpHeaders.add("X-Access-Token", token);
-            }).build();
-            ServerWebExchange build = exchange.mutate().request(host).build();
-            return chain.filter(build);
+            stringRedisTemplate.expire(tc_token, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
+            userInfo = JSONObject.parseObject(bo, UserInfo.class);
             // 如果是其他的请求
         } else {
-            String tc_token = "";
-            UserInfo userInfo = null;
-
-            Map<String, Object> map = new HashMap<String, Object>();
             // 获取当前请求中的token
             tc_token = request.getHeaders().getFirst("Tc-Token");
             // 如果没有token  就是登录
@@ -107,12 +97,20 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                         break;
                     }
                 }
-                if(path.endsWith("/v2/api-docs")){
+                if (path.endsWith("/v2/api-docs")) {
                     pathFlag = true;
                 }
                 // 如果是登录按钮 给与游客身份
                 if (pathFlag) {
                     userInfo = new UserInfo();
+                    userInfo.setId(1L);
+                    userInfo.setUserName("登录" + DateUtil.now());
+                    userInfo.setType("manage");
+                    List<String> roleCodeList = new ArrayList<>();
+                    roleCodeList.add(BaseConstant.ROLE_VISIT);
+                    userInfo.setRoleCodeList(roleCodeList);
+                    List<String> permissionCodeList = new ArrayList<>();
+                    userInfo.setPermissionCodeList(permissionCodeList);
                     //  如果不是直接
                 } else {
                     // gateway 没有异常捕捉器 所以直接 return 400
@@ -126,24 +124,22 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                     // gateway 没有异常捕捉器 所以直接 return 400
                     return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
                 }
-                stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
+                stringRedisTemplate.expire(tc_token, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
                 userInfo = JSONObject.parseObject(bo, UserInfo.class);
             }
-            if (ObjectUtil.isNull(userInfo) || StrUtil.isBlank(userInfo.getUserName())) {
-                // gateway 没有异常捕捉器 所以直接 return 400
-                return setResponseInfo(response, Result.set30000Mes("验证身份信息格式化失败"));
-            }
-            map.put("userInfo", userInfo);
-            // 网关通过后 在请求中增加 内部token
-            String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
-            log.info("token:{}", token);
-            ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
-                httpHeaders.add("X-Access-Token", token);
-            }).build();
-            ServerWebExchange build = exchange.mutate().request(host).build();
-            return chain.filter(build);
         }
-
+        if (ObjectUtil.isNull(userInfo) || ObjectUtil.isNull(userInfo.getId())) {
+            return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
+        }
+        map.put("userInfo", userInfo);
+        // 网关通过后 在请求中增加 内部token
+        String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
+        log.info("token:{}", token);
+        ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
+            httpHeaders.add("X-Access-Token", token);
+        }).build();
+        ServerWebExchange build = exchange.mutate().request(host).build();
+        return chain.filter(build);
     }
 
 

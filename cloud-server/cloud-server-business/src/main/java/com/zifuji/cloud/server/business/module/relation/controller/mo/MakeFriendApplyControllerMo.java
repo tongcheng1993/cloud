@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.business.module.relation.mo;
+package com.zifuji.cloud.server.business.module.relation.controller.mo;
 
 import com.zifuji.cloud.server.base.bean.BaseControllerMo;
 import io.swagger.annotations.ApiModel;

@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 public class NoticeVo {
 
-	@JsonSerialize(using = ToStringSerializer.class)
-	private Long id;
-	@JsonSerialize(using = ToStringSerializer.class)
-	private Long createBy;
+
+	private String id;
+
+	private String createBy;
 
 	
 	private String title;

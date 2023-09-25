@@ -1,6 +1,6 @@
 package com.zifuji.cloud.server.business.module.visit.qo;
 
-import com.zifuji.cloud.server.base.bean.BaseControllerPageQo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class VisitGroupPageQo extends BaseControllerPageQo {
+public class VisitGroupPageQo extends Page {
     /**
      *
      */

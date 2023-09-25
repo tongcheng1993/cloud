@@ -1,4 +1,6 @@
 package com.zifuji.cloud.server.business.db.user.entity;
 
-public class WebUserPeopleEntity {
+import com.zifuji.cloud.server.base.bean.MyBaseEntity;
+
+public class WebUserPeopleEntity extends MyBaseEntity {
 }

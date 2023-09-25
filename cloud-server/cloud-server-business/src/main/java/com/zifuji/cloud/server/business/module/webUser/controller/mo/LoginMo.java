@@ -9,10 +9,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Valid
 @ApiModel
-public class LoginControllerMo {
+public class LoginMo {
 
     @ApiModelProperty()
     @NotBlank(message = "")

@@ -1,7 +1,7 @@
 package com.zifuji.cloud.server.sys.module.email.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.sys.module.email.mo.SaveEmailTemplateControllerMo;
+import com.zifuji.cloud.server.sys.module.email.mo.SaveEmailTemplateMo;
 
 import com.zifuji.cloud.server.sys.module.email.mo.SendEmailSimpleControllerMo;
 import com.zifuji.cloud.server.sys.module.email.mo.SendEmailTemplateControllerMo;
@@ -19,7 +19,7 @@ public interface EmailService {
 
     EmailAccountControllerVo getEmailAccount();
 
-    String saveEmailTemplate(SaveEmailTemplateControllerMo saveEmailTemplateMo);
+    String saveEmailTemplate(SaveEmailTemplateMo saveEmailTemplateMo);
 
     EmailRecordControllerVo sendEmailByTemplate(SendEmailTemplateControllerMo sendEmailTemplateMo);
 
@@ -29,11 +29,11 @@ public interface EmailService {
 
     IPage<EmailTemplateControllerVo> queryPageEmailTemplate(EmailTemplatePageQo emailTemplatePageQo);
 
-    EmailTemplateControllerVo getEmailTemplateById(Long id);
+    EmailTemplateControllerVo getEmailTemplateById(String id);
 
 
 
-    EmailRecordControllerVo sendEmailTemplateById(String to, Long id, Map<String, Object> map, List<MultipartFile> imgList, List<MultipartFile> fileList);
+    EmailRecordControllerVo sendEmailTemplateById(String to, String id, Map<String, Object> map, List<MultipartFile> imgList, List<MultipartFile> fileList);
 
     EmailRecordControllerVo sendEmailTemplateByName(String to, String name, Map<String, Object> map, List<MultipartFile> imgList, List<MultipartFile> fileList);
 

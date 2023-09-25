@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class DrawCaptchaControllerVo {
+public class DrawCaptchaVo {
 
     private String redisUuid;
 

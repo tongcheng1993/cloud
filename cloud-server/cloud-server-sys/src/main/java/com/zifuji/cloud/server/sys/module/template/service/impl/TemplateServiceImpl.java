@@ -21,7 +21,6 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public TemplateEntity save(TemplateEntity templateEntity) {
-
         templateEntityService.save(templateEntity);
         return templateEntity;
     }

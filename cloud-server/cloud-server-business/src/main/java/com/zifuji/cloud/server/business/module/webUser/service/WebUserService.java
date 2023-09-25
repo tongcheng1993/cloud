@@ -1,28 +1,32 @@
 package com.zifuji.cloud.server.business.module.webUser.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.business.module.webUser.service.mo.LoginServiceMo;
-import com.zifuji.cloud.server.business.module.webUser.service.vo.DrawCaptchaServiceVo;
-import com.zifuji.cloud.server.business.module.webUser.service.vo.WebMenuServiceVo;
-import com.zifuji.cloud.server.business.module.webUser.service.vo.WebUserServiceVo;
-import com.zifuji.cloud.server.business.module.webUser.service.mo.RegisterServiceMo;
+import com.zifuji.cloud.server.business.module.webUser.controller.mo.LoginMo;
+import com.zifuji.cloud.server.business.module.webUser.controller.mo.RegisterMo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryListWebMenuQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryPageWebRoleQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryPageWebUserQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.vo.*;
 
 import java.util.List;
 
-public interface UserService {
+public interface WebUserService {
 
-    List<WebMenuServiceVo> getMenu();
+    List<GetMenuVo> getMenu();
 
-    DrawCaptchaServiceVo drawCaptcha();
+    DrawCaptchaVo drawCaptcha();
 
-    String login(LoginServiceMo loginServiceMo);
+    String login(LoginMo loginMo);
+
+    String register(RegisterMo registerMo);
+
+    GetMyselfInfoVo getMyselfInfo();
 
     Boolean logout();
 
-    String register(RegisterServiceMo registerServiceMo);
+    IPage<QueryPageWebUserVo> queryPageWebUser(QueryPageWebUserQo queryPageWebUserQo);
 
-    IPage<WebUserServiceVo> queryPageWebUser();
+    IPage<QueryPageWebRoleVo> queryPageWebRole(QueryPageWebRoleQo queryPageWebRoleQo);
 
-    IPage<WebMenuServiceVo> queryPageWebMenu();
-
+    List<QueryListWebMenuVo> queryListWebMenu(QueryListWebMenuQo queryListWebMenuQo);
 }

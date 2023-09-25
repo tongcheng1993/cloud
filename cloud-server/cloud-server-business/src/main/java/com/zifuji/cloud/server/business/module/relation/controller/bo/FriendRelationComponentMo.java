@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.business.module.relation.bo;
+package com.zifuji.cloud.server.business.module.relation.controller.bo;
 
 
 import io.swagger.annotations.ApiModel;

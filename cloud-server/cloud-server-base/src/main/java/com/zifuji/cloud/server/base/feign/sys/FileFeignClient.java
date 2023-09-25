@@ -14,9 +14,9 @@ import java.io.IOException;
 @FeignClient(name = "cloud-server-sys", contextId = "file", path = "/file")
 public interface FileFeignClient {
 
-    @PostMapping(value = "/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,headers = "from=Y")
     Result<String> uploadFile(@RequestPart(value = "file", required = true) MultipartFile file);
 
     @PostMapping(value = "/downloadFile")
-    Result<DownloadFileVo> downloadFile(@RequestBody Long id) throws IOException;
+    Result<DownloadFileVo> downloadFile(@RequestBody String id) throws IOException;
 }

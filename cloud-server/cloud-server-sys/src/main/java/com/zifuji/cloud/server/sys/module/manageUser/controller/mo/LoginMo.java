@@ -9,9 +9,8 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotBlank;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class LoginControllerMo {
+public class LoginMo {
 
     @ApiModelProperty("")
     @NotBlank(message = "")
@@ -24,6 +23,6 @@ public class LoginControllerMo {
     private String redisUuid;
     @ApiModelProperty("")
     @NotBlank(message = "")
-    private String value;
+    private String redisValue;
 
 }

@@ -19,7 +19,7 @@ import com.zifuji.cloud.server.sys.module.email.bo.EmailRecordComponentMo;
 import com.zifuji.cloud.server.sys.module.email.bo.EmailTemplateComponentMo;
 import com.zifuji.cloud.server.sys.module.email.component.EmailComponent;
 import com.zifuji.cloud.server.sys.module.email.mapper.EmailMapper;
-import com.zifuji.cloud.server.sys.module.email.mo.SaveEmailTemplateControllerMo;
+import com.zifuji.cloud.server.sys.module.email.mo.SaveEmailTemplateMo;
 import com.zifuji.cloud.server.sys.module.email.mo.SendEmailSimpleControllerMo;
 import com.zifuji.cloud.server.sys.module.email.mo.SendEmailTemplateControllerMo;
 import com.zifuji.cloud.server.sys.module.email.properties.EmailProperties;
@@ -31,8 +31,6 @@ import com.zifuji.cloud.server.sys.module.email.vo.EmailRecordControllerVo;
 import com.zifuji.cloud.server.sys.module.email.vo.EmailTemplateControllerVo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
 import com.zifuji.cloud.server.sys.module.template.service.TemplateService;
-
-import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -74,7 +72,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public String saveEmailTemplate(SaveEmailTemplateControllerMo saveEmailTemplateMo) {
+    public String saveEmailTemplate(SaveEmailTemplateMo saveEmailTemplateMo) {
         if (ObjectUtil.isNull(saveEmailTemplateMo.getId())) {
             TemplateEntity templateEntity = new TemplateEntity();
             templateEntity.setContent(saveEmailTemplateMo.getContent());
@@ -138,7 +136,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public EmailTemplateControllerVo getEmailTemplateById(Long id) {
+    public EmailTemplateControllerVo getEmailTemplateById(String id) {
         EmailTemplateControllerVo vo = new EmailTemplateControllerVo();
         EmailTemplateEntity emailTemplateEntity = emailTemplateEntityService.getById(id);
         BeanUtil.copyProperties(emailTemplateEntity, vo);
@@ -149,7 +147,7 @@ public class EmailServiceImpl implements EmailService {
 
 
     @Override
-    public EmailRecordControllerVo sendEmailTemplateById(String to, Long id, Map<String, Object> map, List<MultipartFile> imgList, List<MultipartFile> fileList) {
+    public EmailRecordControllerVo sendEmailTemplateById(String to, String id, Map<String, Object> map, List<MultipartFile> imgList, List<MultipartFile> fileList) {
         EmailTemplateEntity emailTemplateEntity = emailTemplateEntityService.getById(id);
         String subject = emailTemplateEntity.getSubject();
         Long templateId = emailTemplateEntity.getTemplateId();
@@ -193,7 +191,7 @@ public class EmailServiceImpl implements EmailService {
         Page<EmailRecordComponentMo> page = new Page<EmailRecordComponentMo>(emailRecordPageQo.getCurrent(), emailRecordPageQo.getSize());
         QueryWrapper<EmailRecordComponentMo> ew = new QueryWrapper<>();
 
-        MyBatisPlusUtil.orderWrapper(ew, emailRecordPageQo.getOrders());
+
 
         ew.eq(StrUtil.isNotBlank(emailRecordPageQo.getAddrTo()), "zser.addr_to", emailRecordPageQo.getAddrTo());
         return emailMapper.selectPageEmailRecord(page, ew);
@@ -204,7 +202,7 @@ public class EmailServiceImpl implements EmailService {
         Page<EmailTemplateComponentMo> page = new Page<EmailTemplateComponentMo>(emailTemplatePageQo.getCurrent(), emailTemplatePageQo.getSize());
         QueryWrapper<EmailTemplateComponentMo> ew = new QueryWrapper<>();
 
-        MyBatisPlusUtil.orderWrapper(ew, emailTemplatePageQo.getOrders());
+
 
         return emailMapper.selectPageEmailTemplate(page, ew);
     }

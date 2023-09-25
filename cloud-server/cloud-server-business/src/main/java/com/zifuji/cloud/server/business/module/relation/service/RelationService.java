@@ -15,12 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-public interface FriendService {
+public interface RelationService {
 
-    FriendInfoEntity initFriendInfo(String createById);
+    FriendInfoEntity initFriendInfo(Long createById);
 
-    // 找朋友列表分页查询交友信息 有查询条件
-    IPage<FriendControllerVo> queryPageFriend(FriendPageQo friendPageQo);
 
     // 查看他人账号交友信息
     FriendInfoControllerVo getFriendInfoById(String userId);

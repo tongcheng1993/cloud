@@ -1,7 +1,7 @@
 package com.zifuji.cloud.server.sys.db.manageUser.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zifuji.cloud.server.base.db.entity.MyBaseEntity;
+import com.zifuji.cloud.server.base.bean.MyBaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,7 +10,9 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_manage_menu")
 public class ManageMenuEntity extends MyBaseEntity {
 
-    private Long parentId;
+    private String parentId;
+
+    private String label;
 
     private String name;
 
@@ -18,9 +20,9 @@ public class ManageMenuEntity extends MyBaseEntity {
 
     private String component;
 
-    private Integer showFlag;
+    private Boolean showFlag;
 
-    private String iconFlag;
+    private String icon;
 
 
 }

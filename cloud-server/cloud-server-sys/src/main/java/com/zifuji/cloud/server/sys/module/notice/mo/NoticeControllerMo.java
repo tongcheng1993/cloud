@@ -9,14 +9,14 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class NoticeControllerMo extends BaseControllerMo {
+public class NoticeControllerMo  {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private String id;
 
 	private String title;
 

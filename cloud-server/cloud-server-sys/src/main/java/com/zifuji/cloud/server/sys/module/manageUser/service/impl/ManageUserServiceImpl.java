@@ -1,5 +1,8 @@
 package com.zifuji.cloud.server.sys.module.manageUser.service.impl;
 
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.LineCaptcha;
+import cn.hutool.captcha.generator.RandomGenerator;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -10,24 +13,18 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.base.bean.BaseConstant;
 import com.zifuji.cloud.base.bean.UserInfo;
 import com.zifuji.cloud.base.exception.Exception20000;
+import com.zifuji.cloud.server.base.util.RedisUtil;
 import com.zifuji.cloud.server.sys.db.manageUser.entity.*;
 import com.zifuji.cloud.server.sys.db.manageUser.service.*;
-import com.zifuji.cloud.server.sys.module.captcha.bo.DrawCaptchaComponentMo;
-import com.zifuji.cloud.server.sys.module.captcha.service.CaptchaService;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageMenuComponentMo;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManagePermissionComponentMo;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageRoleComponentMo;
-import com.zifuji.cloud.server.sys.module.manageUser.bo.ManageUserComponentMo;
+
+import com.zifuji.cloud.server.sys.module.manageUser.controller.mo.*;
+import com.zifuji.cloud.server.sys.module.manageUser.controller.qo.*;
+import com.zifuji.cloud.server.sys.module.manageUser.controller.vo.*;
 import com.zifuji.cloud.server.sys.module.manageUser.mapper.ManageUserMapper;
-import com.zifuji.cloud.server.sys.module.manageUser.mo.*;
-import com.zifuji.cloud.server.sys.module.manageUser.qo.ManageMenuPageQo;
-import com.zifuji.cloud.server.sys.module.manageUser.qo.ManagePermissionPageQo;
-import com.zifuji.cloud.server.sys.module.manageUser.qo.ManageRolePageQo;
-import com.zifuji.cloud.server.sys.module.manageUser.qo.ManageUserPageQo;
+
+
 import com.zifuji.cloud.server.sys.module.manageUser.service.ManageUserService;
-import com.zifuji.cloud.server.sys.module.manageUser.vo.*;
 import com.zifuji.cloud.server.base.util.SecurityUtil;
-import com.zifuji.cloud.server.base.util.MyBatisPlusUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,484 +51,369 @@ public class ManageUserServiceImpl implements ManageUserService {
     private ManageUserRoleEntityService manageUserRoleEntityService;
     private ManageRoleMenuEntityService manageRoleMenuEntityService;
     private ManageRolePermissionEntityService manageRolePermissionEntityService;
-    private CaptchaService captchaService;
 
     @Override
-    public DrawCaptchaControllerVo drawCaptcha() {
-        DrawCaptchaControllerVo drawCaptchaVo = new DrawCaptchaControllerVo();
-        DrawCaptchaComponentMo drawCaptchaBo = captchaService.drawCaptcha(BaseConstant.BUSINESS_TYPE_MANAGE, "img");
-        BeanUtil.copyProperties(drawCaptchaBo, drawCaptchaVo);
-        return drawCaptchaVo;
-    }
-
-    @Override
-    public String login(LoginControllerMo loginMo) {
-
-        captchaService.checkCodeAndValue(BaseConstant.BUSINESS_TYPE_MANAGE, "img", loginMo.getRedisUuid(), loginMo.getValue());
-
-        // 通过用户名查询数据库记录
-        QueryWrapper<ManageUserEntity> manageUserEntityQueryWrapper = new QueryWrapper<>();
-        manageUserEntityQueryWrapper.lambda().eq(ManageUserEntity::getUserName, loginMo.getUserName());
-        ManageUserEntity manageUserEntity = manageUserEntityService.getOne(manageUserEntityQueryWrapper);
-        if (ObjectUtil.isNull(manageUserEntity)) {
-            throw new Exception20000("用户名密码错误");
-        }
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        if (!bCryptPasswordEncoder.matches(loginMo.getPassWord(), manageUserEntity.getPassWord())) {
-            throw new Exception20000("用户名密码错误");
-        }
-        return getLoginToken(manageUserEntity);
-    }
-
-    @Override
-    public List<ManageMenuControllerVo> getMenu() {
-        UserInfo userInfo = SecurityUtil.getUserDetails();
-        List<String> roleList = new ArrayList<String>();
-        for (int i = 0; i < userInfo.getRoleCodeList().size(); i++) {
-            roleList.add(userInfo.getRoleCodeList().get(i).replace("ROLE_", ""));
-        }
-        ManageMenuPageQo manageMenuPageQo = new ManageMenuPageQo();
-        manageMenuPageQo.setRoleCode(roleList);
-        List<ManageMenuComponentMo> manageMenuBoList = selectListMenu(manageMenuPageQo);
-        List<ManageMenuControllerVo> manageMenuVoList = new ArrayList<ManageMenuControllerVo>();
-        for (int i = 0; i < manageMenuBoList.size(); i++) {
-            ManageMenuComponentMo menuBo = manageMenuBoList.get(i);
-            ManageMenuControllerVo manageMenuVo = new ManageMenuControllerVo();
-            BeanUtil.copyProperties(menuBo, manageMenuVo);
-            manageMenuVoList.add(manageMenuVo);
-        }
-        return manageMenuVoList;
-    }
-
-    @Override
-    public IPage<ManageUserControllerVo> queryPageUser(ManageUserPageQo manageUserPageQo) {
-        IPage<ManageUserComponentMo> page = selectPageUser(manageUserPageQo);
-        return page.convert(manageUserBo -> {
-            ManageUserControllerVo manageUserVo = new ManageUserControllerVo();
-            BeanUtil.copyProperties(manageUserBo, manageUserVo);
-            return manageUserVo;
-        });
-    }
-
-    @Override
-    public List<ManageUserControllerVo> queryListUser(ManageUserPageQo manageUserPageQo) {
-        return null;
-    }
-
-    @Override
-    public ManageUserControllerVo saveUser(ManageUserControllerMo manageUserMo) {
-        ManageUserControllerVo vo = new ManageUserControllerVo();
-        if (ObjectUtil.isNull(manageUserMo.getId())) {
-            // 通过用户名查询数据库记录
-            QueryWrapper<ManageUserEntity> manageUserEntityQueryWrapper = new QueryWrapper<>();
-            manageUserEntityQueryWrapper.lambda().eq(ManageUserEntity::getUserName, manageUserMo.getUserName());
-            ManageUserEntity manageUserEntity = this.manageUserEntityService.getOne(manageUserEntityQueryWrapper);
-            if (ObjectUtil.isNotNull(manageUserEntity)) {
-                throw new Exception20000("用户名重复");
-            }
-            manageUserEntity = new ManageUserEntity();
-
-            // 密码加密
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-            manageUserEntity.setUserName(manageUserMo.getUserName());
-            manageUserEntity.setPassWord(bCryptPasswordEncoder.encode(manageUserMo.getPassWord()));
-            manageUserEntity.setName(manageUserMo.getName());
-
-            manageUserEntityService.save(manageUserEntity);
-            this.saveUserAndRole(manageUserEntity.getId(), BaseConstant.ROLE_BASE);
-            BeanUtil.copyProperties(manageUserEntity, vo);
-            return vo;
-        } else {
-            ManageUserEntity manageUserEntity = manageUserEntityService.getById(manageUserMo.getId());
-            if (ObjectUtil.isNull(manageUserEntity)) {
-                throw new Exception20000("编辑数据错误");
-            }
-            manageUserEntity.setUserName(manageUserMo.getUserName());
-            manageUserEntity.setName(manageUserMo.getName());
-            manageUserEntityService.updateById(manageUserEntity);
-            BeanUtil.copyProperties(manageUserEntity, vo);
-            return vo;
-        }
-
-
-    }
-
-    @Override
-    public ManageUserControllerVo resetPassWord(ResetPassWordControllerMo resetPassWordMo) {
-        ManageUserControllerVo vo = new ManageUserControllerVo();
-        ManageUserEntity manageUserEntity = this.manageUserEntityService.getById(resetPassWordMo.getId());
-        if (ObjectUtil.isNull(manageUserEntity)) {
-            throw new Exception20000("编辑数据错误");
-        }
-        // 密码加密
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        manageUserEntity.setPassWord(bCryptPasswordEncoder.encode(resetPassWordMo.getPassWord()));
-        manageUserEntityService.updateById(manageUserEntity);
-        BeanUtil.copyProperties(manageUserEntity, vo);
+    public DrawCaptchaVo drawCaptcha() {
+        DrawCaptchaVo vo = new DrawCaptchaVo();
+        String redisUuid = StrUtil.uuid();
+        vo.setRedisUuid(redisUuid);
+        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);
+        RandomGenerator randomGenerator = new RandomGenerator(BaseConstant.STRING_C, 4);
+        lineCaptcha.setGenerator(randomGenerator);
+        lineCaptcha.createCode();
+        vo.setImgBytes(lineCaptcha.getImageBytes());
+        stringRedisTemplate.opsForValue().set(redisUuid, lineCaptcha.getCode(), 60 * 30, TimeUnit.SECONDS);
         return vo;
     }
 
     @Override
-    public IPage<ManageRoleControllerVo> queryPageRole(ManageRolePageQo manageRolePageQo) {
-        IPage<ManageRoleComponentMo> page = selectPageRole(manageRolePageQo);
-        return page.convert(manageRoleBo -> {
-            ManageRoleControllerVo manageRoleVo = new ManageRoleControllerVo();
-            BeanUtil.copyProperties(manageRoleBo, manageRoleVo);
-            return manageRoleVo;
-        });
-    }
-
-    @Override
-    public String saveRole(ManageRoleControllerMo manageRoleMo) {
-        if (ObjectUtil.isNull(manageRoleMo.getId())) {
-            QueryWrapper<ManageRoleEntity> queryWrapper = new QueryWrapper<>();
-            queryWrapper.lambda().eq(ManageRoleEntity::getCode,manageRoleMo.getCode());
-            ManageRoleEntity manageRoleEntity = manageRoleEntityService.getOne(queryWrapper);
-            if(ObjectUtil.isNull(manageRoleEntity)){
-                manageRoleEntity= new ManageRoleEntity();
-                BeanUtil.copyProperties(manageRoleMo,manageRoleEntity);
-                manageRoleEntityService.save(manageRoleEntity);
-            }else{
-
-            }
-        } else {
-
-        }
-        return null;
-    }
-
-
-
-    @Override
-    public List<ManageRoleControllerVo> queryListRole(ManageRolePageQo manageRolePageQo) {
-        List<ManageRoleComponentMo> list = selectListRole(manageRolePageQo);
-        return list.stream().map(manageRoleBo -> {
-            ManageRoleControllerVo manageRoleVo = new ManageRoleControllerVo();
-            BeanUtil.copyProperties(manageRoleBo, manageRoleVo);
-            return manageRoleVo;
-        }).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ManagePermissionControllerVo> queryListPermission(ManagePermissionPageQo managePermissionPageQo) {
-        List<ManagePermissionComponentMo> list = selectListPermission(managePermissionPageQo);
-        return list.stream().map(managePermissionBo -> {
-            ManagePermissionControllerVo managePermissionVo = new ManagePermissionControllerVo();
-            BeanUtil.copyProperties(managePermissionBo, managePermissionVo);
-            return managePermissionVo;
-        }).collect(Collectors.toList());
-    }
-
-    @Override
-    public IPage<ManagePermissionControllerVo> queryPagePermission(ManagePermissionPageQo managePermissionPageQo) {
-
-        IPage<ManagePermissionComponentMo> page = selectPagePermission(managePermissionPageQo);
-        return page.convert(managePermissionBo -> {
-            ManagePermissionControllerVo managePermissionVo = new ManagePermissionControllerVo();
-            BeanUtil.copyProperties(managePermissionBo, managePermissionVo);
-            return managePermissionVo;
-        });
-    }
-
-    @Override
-    public String savePermission(ManagePermissionControllerMo managePermissionMo) {
-        if (ObjectUtil.isNull(managePermissionMo.getId())) {
-            ManagePermissionEntity managePermissionEntity = new ManagePermissionEntity();
-            BeanUtil.copyProperties(managePermissionMo, managePermissionEntity);
-            managePermissionEntityService.save(managePermissionEntity);
-            return managePermissionEntity.getId() + "";
-        } else {
-            return managePermissionMo.getId() + "";
-        }
-    }
-
-    ;
-
-    @Override
-    public List<ManageMenuControllerVo> queryListMenu(ManageMenuPageQo manageMenuPageQo) {
-        List<ManageMenuComponentMo> list = selectListMenu(manageMenuPageQo);
-
-        return list.stream().map(manageMenuBo -> {
-            ManageMenuControllerVo manageMenuVo = new ManageMenuControllerVo();
-            BeanUtil.copyProperties(manageMenuBo, manageMenuVo);
-            return manageMenuVo;
-        }).collect(Collectors.toList());
-
-    }
-
-
-    @Override
-    public String saveMenu(ManageMenuControllerMo manageMenuMo) {
-        ManageMenuEntity manageMenuEntity = null;
-        if (ObjectUtil.isNull(manageMenuMo.getId())) {
-            QueryWrapper<ManageMenuEntity> queryWrapper = new QueryWrapper<ManageMenuEntity>();
-            queryWrapper.lambda().eq(ManageMenuEntity::getPath, manageMenuMo.getPath());
-            manageMenuEntity = manageMenuEntityService.getOne(queryWrapper);
-            if (ObjectUtil.isNotNull(manageMenuEntity)) {
-                throw new Exception20000("当前路径重复");
-            } else {
-                manageMenuEntity = new ManageMenuEntity();
-            }
-            BeanUtil.copyProperties(manageMenuMo, manageMenuEntity);
-            manageMenuEntityService.save(manageMenuEntity);
-        } else {
-            manageMenuEntity = manageMenuEntityService.getById(manageMenuMo.getId());
-            if (ObjectUtil.isNull(manageMenuEntity)) {
-                throw new Exception20000("编辑数据错误");
-            } else {
-                QueryWrapper<ManageMenuEntity> queryWrapper = new QueryWrapper<ManageMenuEntity>();
-                queryWrapper.lambda().eq(ManageMenuEntity::getPath, manageMenuMo.getPath());
-                List<ManageMenuEntity> manageMenuEntityList = manageMenuEntityService.list(queryWrapper);
-                if (ObjectUtil.isEmpty(manageMenuEntityList)) {
-                    BeanUtil.copyProperties(manageMenuMo, manageMenuEntity);
-                    manageMenuEntityService.updateById(manageMenuEntity);
+    public String login(LoginMo loginMo) {
+        // 先校验验证码
+        if (RedisUtil.equalsCodeAndValue(stringRedisTemplate, loginMo.getRedisUuid(), loginMo.getRedisValue())) {
+            // 通过用户名查询数据库记录
+            QueryWrapper<ManageUserEntity> manageUserEntityQueryWrapper = new QueryWrapper<>();
+            manageUserEntityQueryWrapper.lambda().eq(ManageUserEntity::getUserName, loginMo.getUserName());
+            ManageUserEntity manageUserEntity = manageUserEntityService.getOne(manageUserEntityQueryWrapper);
+            if (ObjectUtil.isNotNull(manageUserEntity)) {
+                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+                if (bCryptPasswordEncoder.matches(loginMo.getPassWord(), manageUserEntity.getPassWord())) {
+                    return getLoginToken(manageUserEntity);
                 } else {
-                    if (manageMenuEntityList.size() == 1) {
-                        if (manageMenuEntityList.get(0).getId().equals(manageMenuMo.getId())) {
-                            BeanUtil.copyProperties(manageMenuMo, manageMenuEntity);
-                            manageMenuEntityService.updateById(manageMenuEntity);
-                        } else {
-                            throw new Exception20000("当前路径重复");
-                        }
-                    }
+                    throw new Exception20000("用户名密码错误");
                 }
-
+            } else {
+                throw new Exception20000("用户名密码错误");
             }
-        }
-
-
-        return manageMenuMo.getId() + "";
-    }
-
-    @Override
-    public String saveUserAndRole(Long userId, String roleCode) {
-        QueryWrapper<ManageRoleEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ManageRoleEntity::getCode, roleCode);
-        ManageRoleEntity manageRoleEntity = manageRoleEntityService.getOne(queryWrapper);
-        return this.saveUserAndRole(userId, manageRoleEntity.getId());
-    }
-
-    @Override
-    public String saveUserAndRole(Long userId, Long roleId) {
-        QueryWrapper<ManageUserRoleEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ManageUserRoleEntity::getUserId, userId).eq(ManageUserRoleEntity::getRoleId, roleId);
-        ManageUserRoleEntity manageUserRoleEntity = manageUserRoleEntityService.getOne(queryWrapper);
-        if (ObjectUtil.isNull(manageUserRoleEntity)) {
-            manageUserRoleEntity = new ManageUserRoleEntity();
-            manageUserRoleEntity.setUserId(userId);
-            manageUserRoleEntity.setRoleId(roleId);
-            manageUserRoleEntityService.save(manageUserRoleEntity);
-        }
-        return manageUserRoleEntity.getId() + "";
-    }
-
-    @Override
-    public String saveUserRoleRelation(ManageUserRoleRelationControllerMo manageUserRoleRelationMo) {
-        QueryWrapper<ManageUserRoleEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ManageUserRoleEntity::getUserId, manageUserRoleRelationMo.getUserId());
-        manageUserRoleEntityService.remove(queryWrapper);
-        List<ManageUserRoleEntity> list = new ArrayList<>();
-        if (ObjectUtil.isNotEmpty(manageUserRoleRelationMo.getRoleIdList())) {
-            for (Long roleId : manageUserRoleRelationMo.getRoleIdList()) {
-                ManageUserRoleEntity manageUserRoleEntity = new ManageUserRoleEntity();
-                manageUserRoleEntity.setUserId(manageUserRoleRelationMo.getUserId());
-                manageUserRoleEntity.setRoleId(roleId);
-                list.add(manageUserRoleEntity);
-            }
-        }
-        manageUserRoleEntityService.saveBatch(list);
-        return manageUserRoleRelationMo.getUserId() + "";
-    }
-
-    @Override
-    public String saveRolePermissionRelation(ManageRolePermissionRelationControllerMo manageRolePermissionRelationMo) {
-        QueryWrapper<ManageRolePermissionEntity> queryWrapper = new QueryWrapper<ManageRolePermissionEntity>();
-        queryWrapper.lambda().eq(ManageRolePermissionEntity::getRoleId, manageRolePermissionRelationMo.getRoleId());
-        manageRolePermissionEntityService.remove(queryWrapper);
-        List<ManageRolePermissionEntity> list = new ArrayList<ManageRolePermissionEntity>();
-        if (ObjectUtil.isNotEmpty(manageRolePermissionRelationMo.getPermissionIdList())) {
-            for (Long permissionId : manageRolePermissionRelationMo.getPermissionIdList()) {
-                ManageRolePermissionEntity manageRolePermissionEntity = new ManageRolePermissionEntity();
-                manageRolePermissionEntity.setRoleId(manageRolePermissionRelationMo.getRoleId());
-                manageRolePermissionEntity.setPermissionId(permissionId);
-                list.add(manageRolePermissionEntity);
-            }
-        }
-        manageRolePermissionEntityService.saveBatch(list);
-        return manageRolePermissionRelationMo.getRoleId() + "";
-    }
-
-    @Override
-    public String saveRoleMenuRelation(ManageRoleMenuRelationControllerMo manageRoleMenuRelationMo) {
-        if (ObjectUtil.isNull(manageRoleMenuRelationMo.getRoleId()) || manageRoleMenuRelationMo.getRoleId().equals(0L)) {
-            throw new Exception20000("");
-        }
-        if (ObjectUtil.isEmpty(manageRoleMenuRelationMo.getMenuIdList())) {
-            QueryWrapper<ManageRoleMenuEntity> queryWrapper = new QueryWrapper<ManageRoleMenuEntity>();
-            queryWrapper.lambda().eq(ManageRoleMenuEntity::getRoleId, manageRoleMenuRelationMo.getRoleId());
-            manageRoleMenuEntityService.remove(queryWrapper);
         } else {
-            for (Long menuId : manageRoleMenuRelationMo.getMenuIdList()) {
-                saveRoleMenuRelation(manageRoleMenuRelationMo.getRoleId(), menuId);
-            }
+            throw new Exception20000("请输入正确的验证码");
         }
-        return manageRoleMenuRelationMo.getRoleId() + "";
     }
-
-    @Override
-    public String saveRoleMenuRelation(Long roleId, Long menuId) {
-        QueryWrapper<ManageRoleMenuEntity> queryWrapper = new QueryWrapper<ManageRoleMenuEntity>();
-        queryWrapper.lambda()
-                .eq(ManageRoleMenuEntity::getRoleId, roleId)
-                .eq(ManageRoleMenuEntity::getMenuId, menuId);
-        ManageRoleMenuEntity manageRoleMenuEntity = manageRoleMenuEntityService.getOne(queryWrapper);
-        if (ObjectUtil.isNull(manageRoleMenuEntity)) {
-            manageRoleMenuEntity = new ManageRoleMenuEntity();
-            manageRoleMenuEntity.setRoleId(roleId);
-            manageRoleMenuEntity.setMenuId(menuId);
-            manageRoleMenuEntityService.save(manageRoleMenuEntity);
-        }
-        return manageRoleMenuEntity.getId() + "";
-    }
-
-    @Override
-    public String saveRoleMenuRelation(String roleCode, Long menuId) {
-
-
-        return null;
-    }
-
-    @Override
-    public Boolean initManage() {
-
-
-        return null;
-    }
-
 
     private String getLoginToken(ManageUserEntity manageUserEntity) {
+        String token = StrUtil.uuid();
         UserInfo userInfo = new UserInfo();
         BeanUtil.copyProperties(manageUserEntity, userInfo);
         List<String> roleCodeList = new ArrayList<>();
         List<String> permissionCodeList = new ArrayList<>();
-
-        ManageRolePageQo manageRolePageQo = new ManageRolePageQo();
-        manageRolePageQo.setUserId(new ArrayList<Long>());
-        manageRolePageQo.getUserId().add(userInfo.getId());
-        List<ManageRoleComponentMo> manageRoleBoList = selectListRole(manageRolePageQo);
-        for (ManageRoleComponentMo manageRoleBo : manageRoleBoList) {
-            roleCodeList.add(manageRoleBo.getCode());
+        QueryWrapper<ManageUserRoleEntity> manageUserRoleEntityQueryWrapper = new QueryWrapper<>();
+        manageUserRoleEntityQueryWrapper.lambda().eq(ManageUserRoleEntity::getUserId, userInfo.getId());
+        List<ManageUserRoleEntity> manageUserRoleEntityList = manageUserRoleEntityService.list(manageUserRoleEntityQueryWrapper);
+        if (ObjectUtil.isNotEmpty(manageUserRoleEntityList)) {
+            List<ManageRoleEntity> manageRoleEntityList = manageRoleEntityService.listByIds(manageUserRoleEntityList.stream().map(ManageUserRoleEntity::getRoleId).collect(Collectors.toList()));
+            if (ObjectUtil.isNotEmpty(manageRoleEntityList)) {
+                roleCodeList = manageRoleEntityList.stream().map(ManageRoleEntity::getRoleCode).collect(Collectors.toList());
+                QueryWrapper<ManageRolePermissionEntity> manageRolePermissionEntityQueryWrapper = new QueryWrapper<>();
+                manageRolePermissionEntityQueryWrapper.lambda().in(ManageRolePermissionEntity::getRoleId, manageRoleEntityList.stream().map(ManageRoleEntity::getId).collect(Collectors.toList()));
+                List<ManageRolePermissionEntity> manageRolePermissionEntityList = manageRolePermissionEntityService.list(manageRolePermissionEntityQueryWrapper);
+                if (ObjectUtil.isNotEmpty(manageRolePermissionEntityList)) {
+                    List<ManagePermissionEntity> managePermissionEntityList = managePermissionEntityService.listByIds(manageRolePermissionEntityList.stream().map(ManageRolePermissionEntity::getPermissionId).collect(Collectors.toList()));
+                    if (ObjectUtil.isNotEmpty(managePermissionEntityList)) {
+                        permissionCodeList = managePermissionEntityList.stream().map(managePermissionEntity -> {
+                            return managePermissionEntity.getCodeSys() + ":" + managePermissionEntity.getCodeModule() + ":" + managePermissionEntity.getCodeMethod();
+                        }).collect(Collectors.toList());
+                    }
+                }
+            }
         }
-
-        ManagePermissionPageQo managePermissionPageQo = new ManagePermissionPageQo();
-        managePermissionPageQo.setUserId(new ArrayList<Long>());
-        managePermissionPageQo.getUserId().add(userInfo.getId());
-        List<ManagePermissionComponentMo> managePermissionBoList = selectListPermission(managePermissionPageQo);
-        for (ManagePermissionComponentMo managePermissionBo : managePermissionBoList) {
-            permissionCodeList.add(managePermissionBo.getCodeSys() + ":" + managePermissionBo.getCodeModule() + ":" + managePermissionBo.getCode());
-        }
-
-
         userInfo.setRoleCodeList(roleCodeList);
         userInfo.setPermissionCodeList(permissionCodeList);
-        return getLoginToken(userInfo);
-    }
-
-    private String getLoginToken(UserInfo userInfo) {
-        // 将用户信息json化，放入redis 获取redis key
-        String token = StrUtil.uuid();
-
         userInfo.setToken(token);
-
         stringRedisTemplate.opsForValue().set(token, JSONObject.toJSONString(userInfo), 60 * 30, TimeUnit.SECONDS);
-        // 返回key
         return token;
     }
 
 
-    private QueryWrapper<ManageUserComponentMo> getManageUserBoQueryWrapper(ManageUserPageQo manageUserPageQo) {
-        QueryWrapper<ManageUserComponentMo> queryWrapper = new QueryWrapper<ManageUserComponentMo>();
-        if (StrUtil.isNotBlank(manageUserPageQo.getUserName())) {
-            queryWrapper.like("zmu.user_name", manageUserPageQo.getUserName());
+    @Override
+    public List<GetMenuVo> getMenu() {
+        List<GetMenuVo> manageMenuServiceVoList = new ArrayList<>();
+        UserInfo userInfo = SecurityUtil.getUserDetails();
+        if (ObjectUtil.isNotEmpty(userInfo.getRoleCodeList())) {
+            QueryWrapper<ManageRoleEntity> manageRoleEntityQueryWrapper = new QueryWrapper<>();
+            manageRoleEntityQueryWrapper.lambda().in(ManageRoleEntity::getRoleCode, userInfo.getRoleCodeList());
+            List<ManageRoleEntity> manageRoleEntityList = manageRoleEntityService.list(manageRoleEntityQueryWrapper);
+            if (ObjectUtil.isNotEmpty(manageRoleEntityList)) {
+                QueryWrapper<ManageRoleMenuEntity> manageRoleMenuEntityQueryWrapper = new QueryWrapper<>();
+                manageRoleMenuEntityQueryWrapper.lambda().in(ManageRoleMenuEntity::getRoleId, manageRoleEntityList.stream().map(ManageRoleEntity::getId).collect(Collectors.toList()));
+                List<ManageRoleMenuEntity> manageRoleMenuEntityList = manageRoleMenuEntityService.list(manageRoleMenuEntityQueryWrapper);
+                if (ObjectUtil.isNotEmpty(manageRoleMenuEntityList)) {
+                    QueryWrapper<ManageMenuEntity> manageMenuEntityQueryWrapper = new QueryWrapper<>();
+                    manageMenuEntityQueryWrapper.lambda()
+                            .in(ManageMenuEntity::getId, manageRoleMenuEntityList.stream().map(ManageRoleMenuEntity::getMenuId).collect(Collectors.toList()))
+                            .orderByAsc(ManageMenuEntity::getSortNum)
+                            .orderByDesc(ManageMenuEntity::getCreateTime);
+                    List<ManageMenuEntity> manageMenuEntityList = manageMenuEntityService.list(manageMenuEntityQueryWrapper);
+                    if (ObjectUtil.isNotEmpty(manageMenuEntityList)) {
+                        manageMenuServiceVoList = manageMenuEntityList.stream().map(manageMenuEntity -> {
+                            GetMenuVo vo = new GetMenuVo();
+                            BeanUtil.copyProperties(manageMenuEntity, vo);
+                            return vo;
+                        }).collect(Collectors.toList());
+                    }
+                }
+            }
         }
-        if (StrUtil.isNotBlank(manageUserPageQo.getName())) {
-            queryWrapper.like("zmu.name", manageUserPageQo.getName());
+        return manageMenuServiceVoList;
+    }
+
+    @Override
+    public IPage<QueryPageManageUserVo> queryPageManageUser(QueryPageManageUserQo queryPageManageUserQo) {
+        Page<ManageUserEntity> page = new Page<>(queryPageManageUserQo.getCurrent(), queryPageManageUserQo.getSize());
+        QueryWrapper<ManageUserEntity> manageUserEntityQueryWrapper = new QueryWrapper<>();
+        if (StrUtil.isNotBlank(queryPageManageUserQo.getUserName())) {
+            manageUserEntityQueryWrapper.lambda().like(ManageUserEntity::getUserName, queryPageManageUserQo.getUserName());
         }
-        if (ObjectUtil.isNotEmpty(manageUserPageQo.getRoleName())) {
-            queryWrapper.in("zmr.name", manageUserPageQo.getRoleName());
+        if(StrUtil.isNotBlank(queryPageManageUserQo.getShortName())){
+            manageUserEntityQueryWrapper.lambda().like(ManageUserEntity::getShortName, queryPageManageUserQo.getShortName());
         }
-        MyBatisPlusUtil.orderWrapper(queryWrapper, manageUserPageQo.getOrders());
-        queryWrapper.groupBy("id");
-        return queryWrapper;
+        page = manageUserEntityService.page(page, manageUserEntityQueryWrapper);
+        return page.convert(manageUserEntity -> {
+            QueryPageManageUserVo queryPageManageUserVo = new QueryPageManageUserVo();
+            BeanUtil.copyProperties(manageUserEntity, queryPageManageUserVo);
+            return queryPageManageUserVo;
+        });
     }
 
-    private List<ManageUserComponentMo> selectListUser(ManageUserPageQo manageUserPageQo) {
-        return manageUserMapper.selectListUser(getManageUserBoQueryWrapper(manageUserPageQo));
+    @Override
+    public GetManageUserVo getManageUserById(String id) {
+        ManageUserEntity manageUserEntity = manageUserEntityService.getById(id);
+        GetManageUserVo getManageUserVo = new GetManageUserVo();
+        BeanUtil.copyProperties(manageUserEntity, getManageUserVo);
+        return getManageUserVo;
     }
 
-    private IPage<ManageUserComponentMo> selectPageUser(ManageUserPageQo manageUserPageQo) {
-        Page<ManageUserComponentMo> page = new Page<ManageUserComponentMo>(manageUserPageQo.getCurrent(), manageUserPageQo.getSize());
-        return manageUserMapper.selectPageUser(page, getManageUserBoQueryWrapper(manageUserPageQo));
+    @Override
+    public GetManageUserVo getManageUserByUserName(String userName) {
+        QueryWrapper<ManageUserEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ManageUserEntity::getUserName, userName);
+        ManageUserEntity manageUserEntity = manageUserEntityService.getOne(queryWrapper);
+        GetManageUserVo getManageUserVo = new GetManageUserVo();
+        BeanUtil.copyProperties(manageUserEntity, getManageUserVo);
+        return getManageUserVo;
     }
 
-    private QueryWrapper<ManageRoleComponentMo> getManageRoleBoQueryWrapper(ManageRolePageQo manageRolePageQo) {
-        QueryWrapper<ManageRoleComponentMo> queryWrapper = new QueryWrapper<>();
-        if (ObjectUtil.isNotEmpty(manageRolePageQo.getUserId())) {
-            queryWrapper.in("zmu.id", manageRolePageQo.getUserId());
+    @Override
+    public Boolean addManageUser(AddManageUserMo addManageUserMo) {
+        QueryWrapper<ManageUserEntity> manageUserEntityQueryWrapper = new QueryWrapper<>();
+        manageUserEntityQueryWrapper.lambda().eq(ManageUserEntity::getUserName, addManageUserMo.getUserName());
+        ManageUserEntity manageUserEntity = this.manageUserEntityService.getOne(manageUserEntityQueryWrapper);
+        if (ObjectUtil.isNotNull(manageUserEntity)) {
+            throw new Exception20000("用户名重复");
         }
-        MyBatisPlusUtil.orderWrapper(queryWrapper, manageRolePageQo.getOrders());
-        queryWrapper.groupBy("id");
-        return queryWrapper;
+        manageUserEntity = new ManageUserEntity();
+        manageUserEntity.setUserName(addManageUserMo.getUserName());
+        // 密码加密
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        manageUserEntity.setPassWord(bCryptPasswordEncoder.encode(addManageUserMo.getPassWord()));
+        manageUserEntity.setShortName(addManageUserMo.getShortName());
+        return manageUserEntityService.save(manageUserEntity);
     }
 
-    private List<ManageRoleComponentMo> selectListRole(ManageRolePageQo manageRolePageQo) {
-        return manageUserMapper.selectListRole(getManageRoleBoQueryWrapper(manageRolePageQo));
-    }
-
-
-    private IPage<ManageRoleComponentMo> selectPageRole(ManageRolePageQo manageRolePageQo) {
-        Page<ManageRoleComponentMo> page = new Page<ManageRoleComponentMo>(manageRolePageQo.getCurrent(), manageRolePageQo.getSize());
-        return manageUserMapper.selectPageRole(page, getManageRoleBoQueryWrapper(manageRolePageQo));
-    }
-
-    private QueryWrapper<ManagePermissionComponentMo> getManagePermissionBoQueryWrapper(ManagePermissionPageQo managePermissionPageQo) {
-        QueryWrapper<ManagePermissionComponentMo> queryWrapper = new QueryWrapper<>();
-        if (ObjectUtil.isNotEmpty(managePermissionPageQo.getUserId())) {
-            queryWrapper.in("zmu.id", managePermissionPageQo.getUserId());
+    @Override
+    public Boolean resetManageUser(ResetManageUserMo resetManageUserMo) {
+        ManageUserEntity manageUserEntity = manageUserEntityService.getById(resetManageUserMo.getId());
+        if (ObjectUtil.isNull(manageUserEntity)) {
+            throw new Exception20000("编辑数据错误");
         }
-        if (ObjectUtil.isNotEmpty(managePermissionPageQo.getRoleCode())) {
-            queryWrapper.in("zmr.code", managePermissionPageQo.getRoleCode());
+        manageUserEntity.setUserName(resetManageUserMo.getUserName());
+        manageUserEntity.setShortName(resetManageUserMo.getShortName());
+        return manageUserEntityService.updateById(manageUserEntity);
+    }
+
+    @Override
+    public List<QueryListManageRoleVo> queryListManageRole(QueryListManageRoleQo queryListManageRoleQo) {
+        QueryWrapper<ManageRoleEntity> manageRoleEntityQueryWrapper = new QueryWrapper<>();
+        if (ObjectUtil.isNotNull(queryListManageRoleQo.getUserId())) {
+            QueryWrapper<ManageUserRoleEntity> manageUserRoleEntityQueryWrapper = new QueryWrapper<>();
+            manageUserRoleEntityQueryWrapper.lambda().eq(ManageUserRoleEntity::getUserId, queryListManageRoleQo.getUserId());
+            List<ManageUserRoleEntity> manageUserRoleEntityList = manageUserRoleEntityService.list(manageUserRoleEntityQueryWrapper);
+            if (ObjectUtil.isNotEmpty(manageUserRoleEntityList)) {
+                manageRoleEntityQueryWrapper.lambda().in(ManageRoleEntity::getId, manageUserRoleEntityList.stream().map(ManageUserRoleEntity::getRoleId).collect(Collectors.toList()));
+            } else {
+                return new ArrayList<>();
+            }
         }
-        queryWrapper.groupBy("id");
-        MyBatisPlusUtil.orderWrapper(queryWrapper, managePermissionPageQo.getOrders());
-        return queryWrapper;
-    }
-
-    private List<ManagePermissionComponentMo> selectListPermission(ManagePermissionPageQo managePermissionPageQo) {
-        return manageUserMapper.selectListPermission(getManagePermissionBoQueryWrapper(managePermissionPageQo));
-    }
-
-    private IPage<ManagePermissionComponentMo> selectPagePermission(ManagePermissionPageQo managePermissionPageQo) {
-        Page<ManagePermissionComponentMo> page = new Page<ManagePermissionComponentMo>(managePermissionPageQo.getCurrent(), managePermissionPageQo.getSize());
-        return manageUserMapper.selectPagePermission(page, getManagePermissionBoQueryWrapper(managePermissionPageQo));
-    }
-
-    private QueryWrapper<ManageMenuComponentMo> getManageMenuBoQueryWrapper(ManageMenuPageQo manageMenuPageQo) {
-        QueryWrapper<ManageMenuComponentMo> queryWrapper = new QueryWrapper<>();
-        if (ObjectUtil.isNotEmpty(manageMenuPageQo.getUserName())) {
-            queryWrapper.in("zmu.user_name", manageMenuPageQo.getUserName());
+        if (StrUtil.isNotBlank(queryListManageRoleQo.getRoleCode())) {
+            manageRoleEntityQueryWrapper.lambda().eq(ManageRoleEntity::getRoleCode, queryListManageRoleQo.getRoleCode());
         }
-        if (ObjectUtil.isNotEmpty(manageMenuPageQo.getRoleCode())) {
-            queryWrapper.in("zmr.code", manageMenuPageQo.getRoleCode());
-        }
-        queryWrapper.groupBy("id");
-        MyBatisPlusUtil.orderWrapper(queryWrapper, manageMenuPageQo.getOrders());
-        return queryWrapper;
+        manageRoleEntityQueryWrapper.lambda()
+                .orderByAsc(ManageRoleEntity::getSortNum)
+                .orderByDesc(ManageRoleEntity::getCreateTime);
+        List<ManageRoleEntity> manageRoleEntityList = manageRoleEntityService.list(manageRoleEntityQueryWrapper);
+        return manageRoleEntityList.stream().map(manageRoleEntity -> {
+            QueryListManageRoleVo vo = new QueryListManageRoleVo();
+            BeanUtil.copyProperties(manageRoleEntity, vo);
+            return vo;
+        }).collect(Collectors.toList());
     }
 
-    private List<ManageMenuComponentMo> selectListMenu(ManageMenuPageQo manageMenuPageQo) {
-        return manageUserMapper.selectListMenu(getManageMenuBoQueryWrapper(manageMenuPageQo));
+
+    @Override
+    public Boolean bindUserAndRoleDelBefore(BindUserAndRoleDelBeforeMo bindUserAndRoleDelBeforeMo) {
+        QueryWrapper<ManageUserRoleEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ManageUserRoleEntity::getUserId, bindUserAndRoleDelBeforeMo.getUserId());
+        manageUserRoleEntityService.remove(queryWrapper);
+        if (ObjectUtil.isNotEmpty(bindUserAndRoleDelBeforeMo.getRoleIdList())) {
+            List<ManageUserRoleEntity> list = bindUserAndRoleDelBeforeMo.getRoleIdList().stream().map(s -> {
+                ManageUserRoleEntity manageUserRoleEntity = new ManageUserRoleEntity();
+                manageUserRoleEntity.setUserId(bindUserAndRoleDelBeforeMo.getUserId());
+                manageUserRoleEntity.setRoleId(s);
+                return manageUserRoleEntity;
+            }).collect(Collectors.toList());
+            manageUserRoleEntityService.saveBatch(list);
+        }
+        return true;
     }
+
+    @Override
+    public IPage<QueryPageManageRoleVo> queryPageManageRole(QueryPageManageRoleQo queryPageManageRoleQo) {
+        Page<ManageRoleEntity> page = new Page<>(queryPageManageRoleQo.getCurrent(), queryPageManageRoleQo.getSize());
+        QueryWrapper<ManageRoleEntity> manageRoleEntityQueryWrapper = new QueryWrapper<>();
+
+        page = manageRoleEntityService.page(page, manageRoleEntityQueryWrapper);
+        return page.convert(manageRoleEntity -> {
+            QueryPageManageRoleVo vo = new QueryPageManageRoleVo();
+            BeanUtil.copyProperties(manageRoleEntity, vo);
+            return vo;
+        });
+    }
+
+    @Override
+    public GetManageRoleVo getManageRoleById(String id) {
+        ManageRoleEntity manageRoleEntity = manageRoleEntityService.getById(id);
+        GetManageRoleVo vo = new GetManageRoleVo();
+        BeanUtil.copyProperties(manageRoleEntity, vo);
+        return vo;
+    }
+
+    @Override
+    public GetManageRoleVo getManageRoleByRoleCode(String roleCode) {
+        QueryWrapper<ManageRoleEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ManageRoleEntity::getRoleCode, roleCode);
+        ManageRoleEntity manageRoleEntity = manageRoleEntityService.getOne(queryWrapper);
+        GetManageRoleVo vo = new GetManageRoleVo();
+        BeanUtil.copyProperties(manageRoleEntity, vo);
+        return vo;
+    }
+
+    @Override
+    public Boolean addManageRole(AddManageRoleMo addManageRoleMo) {
+        QueryWrapper<ManageRoleEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ManageRoleEntity::getRoleCode, addManageRoleMo.getRoleCode());
+        ManageRoleEntity manageRoleEntity = manageRoleEntityService.getOne(queryWrapper);
+        if (ObjectUtil.isNotNull(manageRoleEntity)) {
+            throw new Exception20000("");
+        }
+        manageRoleEntity = new ManageRoleEntity();
+        manageRoleEntity.setRoleName(addManageRoleMo.getRoleName());
+        manageRoleEntity.setRoleCode(addManageRoleMo.getRoleCode());
+        manageRoleEntity.setRoleDescription(addManageRoleMo.getRoleDescription());
+        manageRoleEntityService.save(manageRoleEntity);
+        return true;
+    }
+
+    @Override
+    public Boolean resetManageRole(ResetManageRoleMo resetManageRoleMo) {
+        ManageRoleEntity manageRoleEntity = manageRoleEntityService.getById(resetManageRoleMo.getId());
+        if (ObjectUtil.isNull(manageRoleEntity)) {
+            throw new Exception20000("");
+        }
+        if (!StrUtil.equals(manageRoleEntity.getRoleCode(), resetManageRoleMo.getRoleCode())) {
+            throw new Exception20000("");
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public List<QueryListManagePermissionVo> queryListManagePermission(QueryListManagePermissionQo queryListManagePermissionQo) {
+        QueryWrapper<ManagePermissionEntity> managePermissionEntityQueryWrapper = new QueryWrapper<>();
+        if (StrUtil.isNotBlank(queryListManagePermissionQo.getRoleId())) {
+            QueryWrapper<ManageRolePermissionEntity> manageRolePermissionEntityQueryWrapper = new QueryWrapper<>();
+            manageRolePermissionEntityQueryWrapper.lambda().eq(ManageRolePermissionEntity::getRoleId, queryListManagePermissionQo.getRoleId());
+            List<ManageRolePermissionEntity> manageRolePermissionEntityList = manageRolePermissionEntityService.list(manageRolePermissionEntityQueryWrapper);
+            if (ObjectUtil.isNotEmpty(manageRolePermissionEntityList)) {
+                managePermissionEntityQueryWrapper.lambda().in(ManagePermissionEntity::getId, manageRolePermissionEntityList.stream().map(ManageRolePermissionEntity::getPermissionId).collect(Collectors.toList()));
+            }
+        }
+        List<ManagePermissionEntity> managePermissionEntityList = managePermissionEntityService.list(managePermissionEntityQueryWrapper);
+        return managePermissionEntityList.stream().map(managePermissionEntity -> {
+            QueryListManagePermissionVo vo = new QueryListManagePermissionVo();
+            BeanUtil.copyProperties(managePermissionEntity, vo);
+            return vo;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<QueryListManageMenuVo> queryListManageMenu(QueryListManageMenuQo queryListManageMenuQo) {
+        QueryWrapper<ManageMenuEntity> manageMenuEntityQueryWrapper = new QueryWrapper<>();
+        if (StrUtil.isNotBlank(queryListManageMenuQo.getRoleId())) {
+            QueryWrapper<ManageRoleMenuEntity> manageRoleMenuEntityQueryWrapper = new QueryWrapper<>();
+            manageRoleMenuEntityQueryWrapper.lambda().eq(ManageRoleMenuEntity::getRoleId, queryListManageMenuQo.getRoleId());
+            List<ManageRoleMenuEntity> manageRoleMenuEntityList = manageRoleMenuEntityService.list(manageRoleMenuEntityQueryWrapper);
+            if (ObjectUtil.isNotEmpty(manageRoleMenuEntityList)) {
+                manageMenuEntityQueryWrapper.lambda().in(ManageMenuEntity::getId, manageRoleMenuEntityList.stream().map(ManageRoleMenuEntity::getMenuId).collect(Collectors.toList()));
+            } else {
+                return new ArrayList<>();
+            }
+        }
+        manageMenuEntityQueryWrapper.lambda().orderByAsc(ManageMenuEntity::getSortNum).orderByDesc(ManageMenuEntity::getId);
+        List<ManageMenuEntity> manageMenuEntityList = manageMenuEntityService.list(manageMenuEntityQueryWrapper);
+        return manageMenuEntityList.stream().map(manageMenuEntity -> {
+            QueryListManageMenuVo vo = new QueryListManageMenuVo();
+            BeanUtil.copyProperties(manageMenuEntity, vo);
+            return vo;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Boolean bindRoleAndPermissionDelBefore(BindRoleAndPermissionDelBeforeMo bindRoleAndPermissionDelBeforeMo) {
+        QueryWrapper<ManageRolePermissionEntity> manageRolePermissionEntityQueryWrapper = new QueryWrapper<>();
+        manageRolePermissionEntityQueryWrapper.lambda().eq(ManageRolePermissionEntity::getRoleId, bindRoleAndPermissionDelBeforeMo.getRoleId());
+        manageRolePermissionEntityService.remove(manageRolePermissionEntityQueryWrapper);
+        if (ObjectUtil.isNotEmpty(bindRoleAndPermissionDelBeforeMo.getPermissionIdList())) {
+            List<ManageRolePermissionEntity> list = bindRoleAndPermissionDelBeforeMo.getPermissionIdList().stream().map(s -> {
+                ManageRolePermissionEntity manageRolePermissionEntity = new ManageRolePermissionEntity();
+                manageRolePermissionEntity.setRoleId(bindRoleAndPermissionDelBeforeMo.getRoleId());
+                manageRolePermissionEntity.setPermissionId(s);
+                return manageRolePermissionEntity;
+            }).collect(Collectors.toList());
+            manageRolePermissionEntityService.saveBatch(list);
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean bindRoleAndMenuDelBefore(BindRoleAndMenuDelBeforeMo bindRoleAndMenuDelBeforeMo) {
+        QueryWrapper<ManageRoleMenuEntity> manageRoleMenuEntityQueryWrapper = new QueryWrapper<>();
+        manageRoleMenuEntityQueryWrapper.lambda().eq(ManageRoleMenuEntity::getRoleId, bindRoleAndMenuDelBeforeMo.getRoleId());
+        manageRoleMenuEntityService.remove(manageRoleMenuEntityQueryWrapper);
+        if (ObjectUtil.isNotEmpty(bindRoleAndMenuDelBeforeMo.getMenuIdList())) {
+            List<ManageRoleMenuEntity> list = bindRoleAndMenuDelBeforeMo.getMenuIdList().stream().map(s -> {
+                ManageRoleMenuEntity manageRoleMenuEntity = new ManageRoleMenuEntity();
+                manageRoleMenuEntity.setRoleId(bindRoleAndMenuDelBeforeMo.getRoleId());
+                manageRoleMenuEntity.setMenuId(s);
+                return manageRoleMenuEntity;
+            }).collect(Collectors.toList());
+            manageRoleMenuEntityService.saveBatch(list);
+        }
+        return true;
+    }
+
+    @Override
+    public IPage<QueryPageManagePermissionVo> queryPageManagePermission(QueryPageManagePermissionQo queryPageManagePermissionQo) {
+
+        Page<ManagePermissionEntity> page = new Page<>(queryPageManagePermissionQo.getCurrent(), queryPageManagePermissionQo.getSize());
+
+        QueryWrapper<ManagePermissionEntity> managePermissionEntityQueryWrapper = new QueryWrapper<>();
+
+        page = managePermissionEntityService.page(page, managePermissionEntityQueryWrapper);
+        return page.convert(managePermissionEntity -> {
+            QueryPageManagePermissionVo vo = new QueryPageManagePermissionVo();
+            BeanUtil.copyProperties(managePermissionEntity, vo);
+            return vo;
+        });
+    }
+
 
 }

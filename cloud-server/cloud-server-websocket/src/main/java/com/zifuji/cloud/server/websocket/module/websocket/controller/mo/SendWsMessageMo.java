@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.websocket.module.websocket.mo;
+package com.zifuji.cloud.server.websocket.module.websocket.controller.mo;
 
 import lombok.Data;
 

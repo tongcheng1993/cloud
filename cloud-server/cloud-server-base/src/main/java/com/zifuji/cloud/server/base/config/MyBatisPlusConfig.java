@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Snowflake;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.zifuji.cloud.server.base.object.MetaHandler;
+import com.zifuji.cloud.server.base.bean.MetaHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,25 +13,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MyBatisPlusConfig {
 
-	public MyBatisPlusConfig() {
-		log.info("MyBatisPlusConfig");
-	}
 
-	@Bean
-	public MetaObjectHandler getMetaObjectHandler() {
-		return new MetaHandler();
-	}
+    @Bean
+    public MetaObjectHandler getMetaObjectHandler() {
+        return new MetaHandler();
+    }
 
-	@Bean
-	public PaginationInterceptor getPaginationInterceptor() {
-		PaginationInterceptor page = new PaginationInterceptor();
-		page.setDbType(DbType.MYSQL);
-		return page;
-	}
+    @Bean
+    public PaginationInterceptor getPaginationInterceptor() {
+        PaginationInterceptor page = new PaginationInterceptor();
+        page.setDbType(DbType.MYSQL);
+        return page;
+    }
 
-	@Bean
-	public Snowflake getSnowflake(){
-		return new Snowflake();
-	}
+    @Bean
+    public Snowflake getSnowflake() {
+        return new Snowflake();
+    }
 
 }

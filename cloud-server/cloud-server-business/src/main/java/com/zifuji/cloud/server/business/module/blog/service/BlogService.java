@@ -1,18 +1,13 @@
 package com.zifuji.cloud.server.business.module.blog.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.business.module.blog.mo.SaveBlogControllerMo;
-import com.zifuji.cloud.server.business.module.blog.qo.BlogPageQo;
-import com.zifuji.cloud.server.business.module.blog.vo.BlogControllerVo;
+import com.zifuji.cloud.server.business.module.blog.controller.mo.SaveBlogMo;
+import com.zifuji.cloud.server.business.module.blog.controller.qo.BlogPageQo;
+import com.zifuji.cloud.server.business.module.blog.controller.vo.SaveBlogVo;
 
 public interface BlogService {
 
-    BlogControllerVo saveBlogMo(SaveBlogControllerMo saveBlogMo);
+    SaveBlogVo saveBlog(SaveBlogMo saveBlogMo);
 
-    BlogControllerVo getBlogById(Long id );
-
-    IPage<BlogControllerVo> queryPageWebBlog(BlogPageQo blogPageQo);
-
-    IPage<BlogControllerVo> queryPageMyBlog(BlogPageQo blogPageQo);
 
 }

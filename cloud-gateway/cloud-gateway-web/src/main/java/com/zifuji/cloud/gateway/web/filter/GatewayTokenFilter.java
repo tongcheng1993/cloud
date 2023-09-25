@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.zifuji.cloud.gateway.web.properties.WebIgnoreProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -36,6 +37,8 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
 
     private StringRedisTemplate stringRedisTemplate;
 
+    private WebIgnoreProperties webIgnoreProperties;
+
     @Override
     public int getOrder() {
         return 0;
@@ -45,6 +48,11 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
+        String from = request.getHeaders().getFirst("from");
+        if (StrUtil.isNotBlank(from)) {
+            // gateway 没有异常捕捉器 所以直接 return 400
+            return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
+        }
         // 获取当前请求路径
         String path = request.getURI().getPath();
         log.info("path:{}", path);
@@ -68,7 +76,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                 return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
             }
             // 如果有token和 str 需要 重置token存续时间
-            stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
+            stringRedisTemplate.expire(tc_token, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
             userInfo = JSONObject.parseObject(bo, UserInfo.class);
             // 如果是其他的请求
         } else {
@@ -76,16 +84,37 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
             tc_token = request.getHeaders().getFirst("Tc-Token");
             // 如果没有token  就是游客
             if (StrUtil.isBlank(tc_token)) {
-                // 设置游客身份信息
-                userInfo = new UserInfo();
-                userInfo.setId(-1L);
-                userInfo.setUserName("游客" + DateUtil.now());
-                userInfo.setType("web");
-                List<String> roleCodeList = new ArrayList<>();
-                roleCodeList.add(BaseConstant.ROLE_VISIT);
-                userInfo.setRoleCodeList(roleCodeList);
-                List<String> permissionCodeList = new ArrayList<>();
-                userInfo.setPermissionCodeList(permissionCodeList);
+                // 对于白名单的url 设置游客信息 不是白名单的全部拦截
+                // 检查路径是不是放行的路径
+                boolean pathFlag = false;
+                List<String> ignoreUrl = webIgnoreProperties.getUri();
+                for (String ignore : ignoreUrl) {
+                    if (ignore.equals(path)
+                            || ((ignore.endsWith("**") && path.startsWith(ignore.substring(0, ignore.length() - 2))))) {
+                        pathFlag = true;
+                        break;
+                    }
+                }
+                if (path.endsWith("/v2/api-docs")) {
+                    pathFlag = true;
+                }
+                // 如果是登录按钮 给与游客身份
+                if (pathFlag) {
+                    // 设置游客身份信息
+                    userInfo = new UserInfo();
+                    userInfo.setId(1L);
+                    userInfo.setUserName("游客" + DateUtil.now());
+                    userInfo.setType("web");
+                    List<String> roleCodeList = new ArrayList<>();
+                    roleCodeList.add(BaseConstant.ROLE_VISIT);
+                    userInfo.setRoleCodeList(roleCodeList);
+                    List<String> permissionCodeList = new ArrayList<>();
+                    userInfo.setPermissionCodeList(permissionCodeList);
+                    //  如果不是直接
+                } else {
+                    // gateway 没有异常捕捉器 所以直接 return 400
+                    return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
+                }
             } else {
                 // 每个token在redis中有对应的str
                 String bo = stringRedisTemplate.opsForValue().get(tc_token);
@@ -94,7 +123,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                     return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
                 }
                 // 如果有token和 str 需要 重置token存续时间
-                stringRedisTemplate.opsForValue().set(tc_token, bo, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
+                stringRedisTemplate.expire(tc_token, 1000 * 60 * 30, TimeUnit.MILLISECONDS);
                 userInfo = JSONObject.parseObject(bo, UserInfo.class);
             }
 

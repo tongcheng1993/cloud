@@ -11,7 +11,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class ExecuteSqlVo extends BaseControllerMo {
+public class ExecuteSqlVo  {
 
     private Integer sqlCount;
 

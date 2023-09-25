@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class DownloadFileMo {
 
-    private Long id;
+    private String id;
 
 }

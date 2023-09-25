@@ -15,7 +15,7 @@ public class AreaComponentMo  {
 	*/
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private String id;
 	private Long parentId;
 	private String type;
 	private String name;

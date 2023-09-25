@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.sys.module.seq.mo;
+package com.zifuji.cloud.server.sys.module.seq.controller.mo;
 
 import com.zifuji.cloud.server.base.bean.BaseControllerMo;
 import io.swagger.annotations.ApiModel;
@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class SaveSeqControllerMo extends BaseControllerMo {
+public class SaveSeqControllerMo  {
     // 描述
     private String description;
     // 流水号更新规则   日流水 月流水 年流水 永久流水

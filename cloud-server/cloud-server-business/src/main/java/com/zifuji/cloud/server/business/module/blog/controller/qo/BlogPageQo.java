@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.business.module.blog.qo;
+package com.zifuji.cloud.server.business.module.blog.controller.qo;
 
 public class BlogPageQo {
 }
