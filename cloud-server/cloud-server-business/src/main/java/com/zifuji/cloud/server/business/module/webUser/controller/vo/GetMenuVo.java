@@ -1,0 +1,27 @@
+package com.zifuji.cloud.server.business.module.webUser.controller.vo;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.zifuji.cloud.server.base.bean.BaseControllerVo;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+@ApiModel
+public class GetMenuVo extends BaseControllerVo {
+
+    private String name;
+
+    private String path;
+
+    private String component;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Integer showFlag;
+
+    private String iconFlag;
+
+
+}
