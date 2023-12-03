@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zifuji.cloud.server.base.config.ElasticSearchConfig,\
   com.zifuji.cloud.server.base.config.ResultExceptionHandle,\
   com.zifuji.cloud.server.base.properties.ZfjProperties,\
   com.zifuji.cloud.server.base.config.WebSecurityConfig,\
