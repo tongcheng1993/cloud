@@ -1,7 +1,7 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zifuji.cloud.server.base.config.ResultExceptionHandle,\
   com.zifuji.cloud.server.base.properties.ZfjProperties,\
   com.zifuji.cloud.server.base.config.WebSecurityConfig,\
   com.zifuji.cloud.server.base.config.MyBatisPlusConfig,\
   com.zifuji.cloud.server.base.config.Swagger2Config,\
-  com.zifuji.cloud.server.base.config.ResultExceptionHandle,\
   com.zifuji.cloud.server.base.config.CommonFeignConfig

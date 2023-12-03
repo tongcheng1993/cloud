@@ -15,7 +15,7 @@ public class Result<T> implements Serializable {
     private int code = 20000;
     private boolean success = true;
     private String message = "请求成功";
-    private T result = (T)new Object();
+    private T result;
     private long timestamp = System.currentTimeMillis();
 
     public static <T> Result<T> setObj(T data) {

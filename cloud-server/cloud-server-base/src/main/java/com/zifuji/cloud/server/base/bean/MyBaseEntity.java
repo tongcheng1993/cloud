@@ -12,21 +12,21 @@ public class MyBaseEntity {
     private Long id;
 
     @TableField(fill = FieldFill.INSERT)
-    private Long createBy = 110L;
+    private Long createBy;
 
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime = LocalDateTime.now();
+    private LocalDateTime createTime;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long updateBy = 110L;
+    private Long updateBy;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime = LocalDateTime.now();
+    private LocalDateTime updateTime;
 
     @TableField(fill = FieldFill.INSERT)
-    private Integer sortNum = 0;
+    private Integer sortNum;
 
     @TableField(fill = FieldFill.INSERT)
-    private Boolean delFlag = false;
+    private Boolean delFlag;
 
 }

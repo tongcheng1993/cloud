@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.Objects;
 
 @Slf4j
+@Component
 @RestControllerAdvice
 public class ResultExceptionHandle {
 
@@ -25,6 +27,7 @@ public class ResultExceptionHandle {
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(MethodArgumentNotValidException e) {
         String err = Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage();
+        log.error("MethodArgumentNotValidException业务异常：" + e.getMessage(), e);
         return Result.set20000Mes(err);
     }
 

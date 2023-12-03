@@ -24,6 +24,7 @@
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
         </dependency>
+
         <!--email -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -34,8 +35,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
-
-
         <!--webmagic网络爬虫框架 -->
         <dependency>
             <groupId>us.codecraft</groupId>

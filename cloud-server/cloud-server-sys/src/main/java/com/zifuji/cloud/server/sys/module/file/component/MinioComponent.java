@@ -3,33 +3,29 @@ package com.zifuji.cloud.server.sys.module.file.component;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.StrUtil;
 import com.zifuji.cloud.base.exception.Exception20000;
-import com.zifuji.cloud.server.sys.module.file.properties.MinioProperties;
 import io.minio.*;
-import io.minio.errors.*;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import javax.annotation.Resource;
 import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 @Slf4j
 @Component
-@AllArgsConstructor
 public class MinioComponent {
 
-    private MinioProperties minioProperties;
-
+    @Value("${minio.defaultBucketName}")
+    private String defaultBucketName;
+    @Resource
     private MinioClient minioClient;
-
+    @Resource
     private Snowflake snowflake;
 
     // 上传文件到一个文件桶中
     public String uploadFile(MultipartFile file) {
-        return uploadFile(minioProperties.getDefaultBucketName(), file);
+        return uploadFile(defaultBucketName, file);
     }
 
     // 上传文件到一个文件桶中
@@ -40,7 +36,7 @@ public class MinioComponent {
         log.info(file.getContentType());
         String fileUuid = snowflake.nextIdStr() + file.getOriginalFilename();
         try {
-            ObjectWriteResponse response =  minioClient.putObject(PutObjectArgs.builder()
+            ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
                     .bucket(bucketName)
                     .stream(file.getInputStream(), file.getSize(), -1)
                     .object(fileUuid)
@@ -54,7 +50,7 @@ public class MinioComponent {
 
     // 从一个文件桶中下载文件
     public InputStream downloadFile(String fileUuid) {
-        return downloadFile(minioProperties.getDefaultBucketName(), fileUuid);
+        return downloadFile(defaultBucketName, fileUuid);
     }
 
     // 从一个文件桶中下载文件

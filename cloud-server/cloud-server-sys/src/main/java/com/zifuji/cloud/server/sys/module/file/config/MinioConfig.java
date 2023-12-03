@@ -1,30 +1,38 @@
 package com.zifuji.cloud.server.sys.module.file.config;
 
-import com.zifuji.cloud.server.sys.module.file.properties.MinioProperties;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
-
 @Slf4j
 @Configuration
-@AllArgsConstructor
 public class MinioConfig {
 
-    private MinioProperties minioProperties;
+    @Value("${minio.endpoint}")
+    private String endpoint;
+    @Value("${minio.port}")
+    private Integer port;
+    @Value("${minio.accessKey}")
+    private String accessKey;
+    @Value("${minio.secretKey}")
+    private String secretKey;
+    @Value("${minio.secure}")
+    private Boolean secure;
+    @Value("${minio.defaultBucketName}")
+    private String defaultBucketName;
 
     @Bean
     public MinioClient getMinioClient() {
         MinioClient minioClient = MinioClient.builder()
-                .endpoint(minioProperties.getEndpoint(), minioProperties.getPort(), minioProperties.getSecure())
-                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .endpoint(endpoint, port, secure)
+                .credentials(accessKey, secretKey)
                 .build();
-        String bucketName = minioProperties.getDefaultBucketName();
+        String bucketName = defaultBucketName;
         // 判断默认桶是否存在
         try {
             boolean flag = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());

@@ -28,7 +28,7 @@ public class MetaHandler implements MetaObjectHandler {
 			this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
 		}
 		if (ObjectUtil.isNull(getFieldValByName("sortNum", metaObject))) {
-			this.setFieldValByName("sortNum", "0", metaObject);
+			this.setFieldValByName("sortNum", 0, metaObject);
 		}
 		if (ObjectUtil.isNull(getFieldValByName("delFlag", metaObject))) {
 			this.setFieldValByName("delFlag", false, metaObject);
