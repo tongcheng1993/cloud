@@ -44,15 +44,14 @@ public class ResultExceptionHandle {
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(Exception30000 e) {
         log.error("Exception300业务异常：" + e.getMessage(), e);
-        return Result.set30000Mes("权限不足，请联系管理员" + e.getMessage());
+        return Result.set30000Mes("身份凭证异常，请联系管理员" + e.getMessage());
     }
 
-    // spring security 抛出的权限不足异常
-    @ExceptionHandler(AccessDeniedException.class)
+    @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(value = HttpStatus.OK)
-    public Result<Object> handleException(AccessDeniedException e) {
-        log.error("AccessDeniedException业务异常：" + e.getMessage(), e);
-        return Result.set30000Mes("权限不足，请联系管理员" + e.getMessage());
+    public Result<Object> handleException(AuthenticationException e) {
+        log.error("AuthenticationException业务异常：" + e.getMessage(), e);
+        return Result.set40000Mes("身份凭证异常，请联系管理员" + e.getMessage());
     }
 
     // 业务中自主抛出的400异常
@@ -60,16 +59,17 @@ public class ResultExceptionHandle {
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(Exception40000 e) {
         log.error("Exception400业务异常：" + e.getMessage(), e);
-        return Result.set40000Mes("身份凭证异常，请联系管理员" + e.getMessage());
+        return Result.set40000Mes("权限不足，请联系管理员" + e.getMessage());
+    }
+    // spring security 抛出的权限不足异常
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(value = HttpStatus.OK)
+    public Result<Object> handleException(AccessDeniedException e) {
+        log.error("AccessDeniedException业务异常：" + e.getMessage(), e);
+        return Result.set40000Mes("权限不足，请联系管理员" + e.getMessage());
     }
 
-    // 业务中自主抛出的400异常
-    @ExceptionHandler(AuthenticationException.class)
-    @ResponseStatus(value = HttpStatus.OK)
-    public Result<Object> handleException(AuthenticationException e) {
-        log.error("AuthenticationException业务异常：" + e.getMessage(), e);
-        return Result.set40000Mes("身份凭证异常，请联系管理员" + e.getMessage());
-    }
+
 
 
     @ExceptionHandler(Exception.class)

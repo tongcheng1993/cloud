@@ -50,7 +50,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
         String from = request.getHeaders().getFirst("from");
         if (StrUtil.isNotBlank(from)) {
-            // gateway 没有异常捕捉器 所以直接 return 400
+            // gateway 没有异常捕捉器 所以直接 return
             return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
         }
         // 获取当前请求路径
@@ -66,13 +66,13 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
             tc_token = multiValueMap.get("token").get(0);
             // 所有的websocket 都有token 没有token 就是身份验证有问题
             if (StrUtil.isBlank(tc_token)) {
-                // gateway 没有异常捕捉器 所以直接 return 400
+                // gateway 没有异常捕捉器 所以直接 return
                 return setResponseInfo(response, Result.set30000Mes("验证token失败"));
             }
             // token在redis中有对应的身份信息
             String bo = stringRedisTemplate.opsForValue().get(tc_token);
             if (StrUtil.isBlank(bo)) {
-                // gateway 没有异常捕捉器 所以直接 return 400
+                // gateway 没有异常捕捉器 所以直接 return
                 return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
             }
             // 如果有token和 str 需要 重置token存续时间
@@ -112,14 +112,14 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                     userInfo.setPermissionCodeList(permissionCodeList);
                     //  如果不是直接
                 } else {
-                    // gateway 没有异常捕捉器 所以直接 return 400
+                    // gateway 没有异常捕捉器 所以直接 return
                     return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
                 }
             } else {
                 // 每个token在redis中有对应的str
                 String bo = stringRedisTemplate.opsForValue().get(tc_token);
                 if (StrUtil.isBlank(bo)) {
-                    // gateway 没有异常捕捉器 所以直接 return 400
+                    // gateway 没有异常捕捉器 所以直接 return
                     return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
                 }
                 // 如果有token和 str 需要 重置token存续时间

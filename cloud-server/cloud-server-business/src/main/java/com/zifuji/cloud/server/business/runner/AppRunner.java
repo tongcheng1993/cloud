@@ -13,8 +13,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class AppRunner implements ApplicationRunner {
 
-
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info("当系统启动时，会自动执行此方法，用来初始化系统数据--start");
@@ -22,7 +20,6 @@ public class AppRunner implements ApplicationRunner {
         set.forEach(name -> {
             log.info("{}:{}", name, args.getOptionValues(name));
         });
-
         log.info("当系统启动时，会自动执行此方法，用来初始化系统数据--end");
     }
 }

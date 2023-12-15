@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.LoginMo;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.RegisterMo;
-import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryListWebMenuQo;
-import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryPageWebRoleQo;
-import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryPageWebUserQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebMenuQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebRoleQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebUserQo;
 import com.zifuji.cloud.server.business.module.webUser.controller.vo.*;
 import com.zifuji.cloud.server.business.module.webUser.service.WebUserService;
 import io.swagger.annotations.Api;
@@ -59,8 +59,8 @@ public class WebUserController {
     @ApiOperation(value = "获取自身信息")
     @PostMapping(value = "/getMyselfInfo")
     @PreAuthorize(value = "hasAnyAuthority('ROLE_register')")
-    public Result<GetMyselfInfoVo> getMyselfInfo() {
-        GetMyselfInfoVo vo = webUserService.getMyselfInfo();
+    public Result<WebUserVo> getMyselfInfo() {
+        WebUserVo vo = webUserService.getMyselfInfo();
         return Result.setObj(vo);
     }
 
@@ -74,34 +74,34 @@ public class WebUserController {
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-    @ApiOperation(value = "重置后端心跳")
-    @PostMapping(value = "/refreshHeartbeat")
+    @ApiOperation(value = "获取页面")
+    @PostMapping(value = "/getVipMenu")
     @PreAuthorize(value = "hasAnyAuthority('ROLE_register')")
-    public void refreshHeartbeat() {
+    public void getVipMenu() {
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "分页申报端用户")
     @PostMapping(value = "/queryPageWebUser")
     @PreAuthorize(value = "hasAnyAuthority('business:webUser:queryPageWebUser')")
-    public Result<IPage<QueryPageWebUserVo>> queryPageWebUser(@RequestBody @Valid QueryPageWebUserQo queryPageWebUserQo) {
-        return Result.setObj(webUserService.queryPageWebUser(queryPageWebUserQo));
+    public Result<IPage<WebUserVo>> queryPageWebUser(@RequestBody @Valid QueryWebUserQo queryWebUserQo) {
+        return Result.setObj(webUserService.queryPageWebUser(queryWebUserQo));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "分页申报端角色")
     @PostMapping(value = "/queryPageWebRole")
     @PreAuthorize(value = "hasAnyAuthority('business:webUser:queryPageWebRole')")
-    public Result<IPage<QueryPageWebRoleVo>> queryPageWebRole(@RequestBody @Valid QueryPageWebRoleQo queryPageWebRoleQo) {
-        return Result.setObj(webUserService.queryPageWebRole(queryPageWebRoleQo));
+    public Result<IPage<WebRoleVo>> queryPageWebRole(@RequestBody @Valid QueryWebRoleQo queryWebRoleQo) {
+        return Result.setObj(webUserService.queryPageWebRole(queryWebRoleQo));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "全部申报端路由")
     @PostMapping(value = "/queryListWebMenu")
     @PreAuthorize(value = "hasAnyAuthority('business:webUser:queryListWebMenu')")
-    public Result<List<QueryListWebMenuVo>> queryListWebMenu(@RequestBody @Valid QueryListWebMenuQo queryListWebMenuQo) {
-        return Result.setObj(webUserService.queryListWebMenu(queryListWebMenuQo));
+    public Result<List<WebMenuVo>> queryListWebMenu(@RequestBody @Valid QueryWebMenuQo queryWebMenuQo) {
+        return Result.setObj(webUserService.queryListWebMenu(queryWebMenuQo));
     }
 
 

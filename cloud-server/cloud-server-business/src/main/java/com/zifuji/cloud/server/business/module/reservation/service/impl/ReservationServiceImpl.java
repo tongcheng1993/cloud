@@ -14,8 +14,8 @@ import com.zifuji.cloud.server.business.module.reservation.controller.mo.Reserva
 import com.zifuji.cloud.server.business.module.reservation.controller.mo.ReservationSettingSpeDayMo;
 import com.zifuji.cloud.server.business.module.reservation.controller.mo.ReservationSettingWorkDayMo;
 import com.zifuji.cloud.server.business.module.reservation.controller.mo.ReservationSettingWorkTimeMo;
-import com.zifuji.cloud.server.business.module.reservation.bo.ReservationDayBo;
-import com.zifuji.cloud.server.business.module.reservation.bo.ReservationTimeBo;
+import com.zifuji.cloud.server.business.module.reservation.controller.bo.ReservationDayBo;
+import com.zifuji.cloud.server.business.module.reservation.controller.bo.ReservationTimeBo;
 import com.zifuji.cloud.server.business.module.reservation.service.ReservationService;
 import com.zifuji.cloud.server.business.module.reservation.controller.vo.ReservationApplyMainControllerVo;
 import com.zifuji.cloud.server.business.module.reservation.controller.vo.ReservationApplyWorkDayControllerVo;

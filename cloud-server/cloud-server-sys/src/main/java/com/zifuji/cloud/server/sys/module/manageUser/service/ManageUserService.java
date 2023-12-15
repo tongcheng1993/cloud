@@ -15,40 +15,42 @@ public interface ManageUserService {
 
     String login(LoginMo loginMo);
 
-    List<GetMenuVo> getMenu();
+    List<ManageMenuVo> getMenu();
 
-    IPage<QueryPageManageUserVo> queryPageManageUser(QueryPageManageUserQo queryPageManageUserQo);
+    IPage<ManageUserVo> queryPageManageUser(QueryPageManageUserQo queryPageManageUserQo);
 
-    GetManageUserVo getManageUserById(String id);
+    ManageUserVo getManageUserById(String id);
 
-    GetManageUserVo getManageUserByUserName(String userName);
+    ManageUserVo getManageUserByUserName(String userName);
 
     Boolean addManageUser(AddManageUserMo addManageUserMo);
 
     Boolean resetManageUser(ResetManageUserMo resetManageUserMo);
 
-    List<QueryListManageRoleVo> queryListManageRole(QueryListManageRoleQo queryListManageRoleQo);
+    List<ManageRoleVo> queryListManageRole(QueryListManageRoleQo queryListManageRoleQo);
 
     Boolean bindUserAndRoleDelBefore(BindUserAndRoleDelBeforeMo bindUserAndRoleDelBeforeMo);
 
-    IPage<QueryPageManageRoleVo> queryPageManageRole(QueryPageManageRoleQo queryPageManageRoleQo);
+    IPage<ManageRoleVo> queryPageManageRole(QueryPageManageRoleQo queryPageManageRoleQo);
 
-    GetManageRoleVo getManageRoleById(String id);
+    ManageRoleVo getManageRoleById(String id);
 
-    GetManageRoleVo getManageRoleByRoleCode(String roleCode);
+    ManageRoleVo getManageRoleByRoleCode(String roleCode);
 
     Boolean addManageRole(AddManageRoleMo addManageRoleMo);
 
     Boolean resetManageRole(ResetManageRoleMo resetManageRoleMo);
 
-    List<QueryListManagePermissionVo> queryListManagePermission(QueryListManagePermissionQo queryListManagePermissionQo);
+    List<ManagePermissionVo> queryListManagePermission(QueryManagePermissionQo queryManagePermissionQo);
 
-    List<QueryListManageMenuVo> queryListManageMenu(QueryListManageMenuQo queryListManageMenuQo);
+    List<ManageMenuVo> queryListManageMenu(QueryListManageMenuQo queryListManageMenuQo);
 
     Boolean bindRoleAndPermissionDelBefore(BindRoleAndPermissionDelBeforeMo bindRoleAndPermissionDelBeforeMo);
 
     Boolean bindRoleAndMenuDelBefore(BindRoleAndMenuDelBeforeMo bindRoleAndMenuDelBeforeMo);
 
-    IPage<QueryPageManagePermissionVo> queryPageManagePermission(QueryPageManagePermissionQo queryPageManagePermissionQo);
+    IPage<ManagePermissionVo> queryPageManagePermission(QueryManagePermissionQo queryManagePermissionQo);
+
+    ManagePermissionVo addManagePermission(AddManagePermissionMo addManagePermissionMo);
 
 }

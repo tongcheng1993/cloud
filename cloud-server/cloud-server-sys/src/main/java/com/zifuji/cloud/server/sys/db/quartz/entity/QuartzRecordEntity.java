@@ -9,16 +9,16 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName(value = "z_sys_quartz_record")
 public class QuartzRecordEntity extends MyBaseEntity {
-
+    // 名称
     private String name;
-
+    // 描述
     private String description;
-
+    // 定时任务类
     private String jobClassName;
-
+    // 定时任务组
     private String jobGroupName;
-
+    // cron表达式
     private String cronExpression;
-
-    private String status;
+    // 定时任务当前状态
+    private Boolean status;
 }

@@ -2,8 +2,6 @@ package com.zifuji.cloud.server.websocket.module.websocket.interceptor;
 
 
 import cn.hutool.core.util.ObjectUtil;
-import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.server.base.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

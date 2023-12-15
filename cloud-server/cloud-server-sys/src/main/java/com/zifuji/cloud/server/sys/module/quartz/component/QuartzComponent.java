@@ -1,6 +1,6 @@
 package com.zifuji.cloud.server.sys.module.quartz.component;
 
-import com.zifuji.cloud.server.sys.module.quartz.bo.QuartzRecordComponentMo;
+import com.zifuji.cloud.server.sys.module.quartz.controller.bo.QuartzRecordComponentMo;
 import lombok.AllArgsConstructor;
 
 import org.quartz.*;
@@ -32,12 +32,9 @@ public class QuartzComponent {
      * @param jobClassName
      * @param cronExpression
      * @return
-     * @throws SchedulerException
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     * @throws ClassNotFoundException
+     * @throws Exception
      */
-    public Boolean  addAndStartQuartzJob(String jobGroupName, String jobClassName, String cronExpression) throws SchedulerException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+    public Boolean  addAndStartQuartzJob(String jobGroupName, String jobClassName, String cronExpression) throws Exception {
         // 启动调度器
         scheduler.start();
         // 构建Job信息

@@ -10,7 +10,10 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_bu_edu_book_section")
 public class BookSectionEntity extends MyBaseEntity {
 
+
     private Long bookId;
+
+    private Integer sectionNo;
 
     private String sectionName;
 

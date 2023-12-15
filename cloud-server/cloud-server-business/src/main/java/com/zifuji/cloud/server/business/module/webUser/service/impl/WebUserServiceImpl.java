@@ -19,9 +19,9 @@ import com.zifuji.cloud.server.business.db.user.entity.*;
 import com.zifuji.cloud.server.business.db.user.service.*;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.LoginMo;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.RegisterMo;
-import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryListWebMenuQo;
-import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryPageWebRoleQo;
-import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryPageWebUserQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebMenuQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebRoleQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebUserQo;
 import com.zifuji.cloud.server.business.module.webUser.controller.vo.*;
 import com.zifuji.cloud.server.business.module.webUser.mapper.WebUserMapper;
 import com.zifuji.cloud.server.business.module.webUser.service.WebUserService;
@@ -56,8 +56,8 @@ public class WebUserServiceImpl implements WebUserService {
 
 
     @Override
-    public List<GetMenuVo> getMenu() {
-        List<GetMenuVo> webMenuServiceVoList = new ArrayList<>();
+    public List<WebMenuVo> getMenu() {
+        List<WebMenuVo> webMenuServiceVoList = new ArrayList<>();
         UserInfo userInfo = SecurityUtil.getUserDetails();
         if (ObjectUtil.isNotEmpty(userInfo.getRoleCodeList())) {
             QueryWrapper<WebRoleEntity> webRoleEntityQueryWrapper = new QueryWrapper<>();
@@ -78,9 +78,9 @@ public class WebUserServiceImpl implements WebUserService {
                     List<WebMenuEntity> webMenuEntityList = webMenuEntityService.list(webMenuEntityQueryWrapper);
                     if (ObjectUtil.isNotEmpty(webMenuEntityList)) {
                         webMenuServiceVoList = webMenuEntityList.stream().map(webMenuEntity -> {
-                            GetMenuVo bo = new GetMenuVo();
-                            BeanUtil.copyProperties(webMenuEntity, bo);
-                            return bo;
+                            WebMenuVo vo = new WebMenuVo();
+                            BeanUtil.copyProperties(webMenuEntity, vo);
+                            return vo;
                         }).collect(Collectors.toList());
                     }
                 }
@@ -151,12 +151,12 @@ public class WebUserServiceImpl implements WebUserService {
     }
 
     @Override
-    public GetMyselfInfoVo getMyselfInfo() {
+    public WebUserVo getMyselfInfo() {
         UserInfo userInfo = SecurityUtil.getUserDetails();
         WebUserEntity webUserEntity = webUserEntityService.getById(userInfo.getId());
-        GetMyselfInfoVo v0 = new GetMyselfInfoVo();
-        BeanUtil.copyProperties(webUserEntity,v0);
-        return v0;
+        WebUserVo vo = new WebUserVo();
+        BeanUtil.copyProperties(webUserEntity,vo);
+        return vo;
     }
 
     @Override
@@ -169,38 +169,38 @@ public class WebUserServiceImpl implements WebUserService {
     }
 
     @Override
-    public IPage<QueryPageWebUserVo> queryPageWebUser(QueryPageWebUserQo queryPageWebUserQo) {
-        Page<WebUserEntity> page = new Page<>(queryPageWebUserQo.getCurrent(), queryPageWebUserQo.getSize());
+    public IPage<WebUserVo> queryPageWebUser(QueryWebUserQo queryWebUserQo) {
+        Page<WebUserEntity> page = new Page<>(queryWebUserQo.getCurrent(), queryWebUserQo.getSize());
         QueryWrapper<WebUserEntity> webUserEntityQueryWrapper = new QueryWrapper<>();
         page = webUserEntityService.page(page, webUserEntityQueryWrapper);
         return page.convert(webUserEntity -> {
-            QueryPageWebUserVo queryPageWebUserVo = new QueryPageWebUserVo();
-            BeanUtil.copyProperties(webUserEntity, queryPageWebUserVo);
-            return queryPageWebUserVo;
+            WebUserVo webUserVo = new WebUserVo();
+            BeanUtil.copyProperties(webUserEntity, webUserVo);
+            return webUserVo;
         });
     }
 
     @Override
-    public IPage<QueryPageWebRoleVo> queryPageWebRole(QueryPageWebRoleQo queryPageWebRoleQo) {
-        Page<WebRoleEntity> page = new Page<>(queryPageWebRoleQo.getCurrent(), queryPageWebRoleQo.getSize());
+    public IPage<WebRoleVo> queryPageWebRole(QueryWebRoleQo queryWebRoleQo) {
+        Page<WebRoleEntity> page = new Page<>(queryWebRoleQo.getCurrent(), queryWebRoleQo.getSize());
 
         QueryWrapper<WebRoleEntity> webRoleEntityQueryWrapper = new QueryWrapper<>();
         page = webRoleEntityService.page(page, webRoleEntityQueryWrapper);
 
         return page.convert(webRoleEntity -> {
-            QueryPageWebRoleVo vo = new QueryPageWebRoleVo();
+            WebRoleVo vo = new WebRoleVo();
             BeanUtil.copyProperties(webRoleEntity, vo);
             return vo;
         });
     }
 
     @Override
-    public List<QueryListWebMenuVo> queryListWebMenu(QueryListWebMenuQo queryListWebMenuQo) {
+    public List<WebMenuVo> queryListWebMenu(QueryWebMenuQo queryWebMenuQo) {
 
         QueryWrapper<WebMenuEntity> webMenuEntityQueryWrapper = new QueryWrapper<>();
-        if (StrUtil.isNotBlank(queryListWebMenuQo.getRoleId())) {
+        if (StrUtil.isNotBlank(queryWebMenuQo.getRoleId())) {
             QueryWrapper<WebRoleMenuEntity> webRoleMenuEntityQueryWrapper = new QueryWrapper<>();
-            webRoleMenuEntityQueryWrapper.lambda().eq(WebRoleMenuEntity::getRoleId, queryListWebMenuQo.getRoleId());
+            webRoleMenuEntityQueryWrapper.lambda().eq(WebRoleMenuEntity::getRoleId, queryWebMenuQo.getRoleId());
             List<WebRoleMenuEntity> webRoleMenuEntityList = webRoleMenuEntityService.list(webRoleMenuEntityQueryWrapper);
             if (ObjectUtil.isNotEmpty(webRoleMenuEntityList)) {
                 webMenuEntityQueryWrapper.lambda().in(WebMenuEntity::getId, webRoleMenuEntityList.stream().map(WebRoleMenuEntity::getMenuId).collect(Collectors.toList()));
@@ -211,7 +211,7 @@ public class WebUserServiceImpl implements WebUserService {
         List<WebMenuEntity> webMenuEntityList = webMenuEntityService.list(webMenuEntityQueryWrapper);
 
         return webMenuEntityList.stream().map(webMenuEntity -> {
-            QueryListWebMenuVo vo = new QueryListWebMenuVo();
+            WebMenuVo vo = new WebMenuVo();
             BeanUtil.copyProperties(webMenuEntity, vo);
             return vo;
         }).collect(Collectors.toList());

@@ -54,7 +54,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
         String from = request.getHeaders().getFirst("from");
         if (StrUtil.isNotBlank(from)) {
-            // gateway 没有异常捕捉器 所以直接 return 400
+            // gateway 没有异常捕捉器 所以直接 return
             return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
         }
         // 获取当前请求路径
@@ -69,13 +69,13 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
             MultiValueMap<String, String> multiValueMap = request.getQueryParams();
             tc_token = multiValueMap.get("token").get(0);
             if (StrUtil.isBlank(tc_token)) {
-                // gateway 没有异常捕捉器 所以直接 return 400
+                // gateway 没有异常捕捉器 所以直接 return
                 return setResponseInfo(response, Result.set30000Mes("验证token失败"));
             }
             // token在redis中有对应的身份信息
             String bo = stringRedisTemplate.opsForValue().get(tc_token);
             if (StrUtil.isBlank(bo)) {
-                // gateway 没有异常捕捉器 所以直接 return 400
+                // gateway 没有异常捕捉器 所以直接 return
                 return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
             }
             // 如果有token和 str 需要 重置token存续时间
@@ -100,7 +100,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                 if (path.endsWith("/v2/api-docs")) {
                     pathFlag = true;
                 }
-                // 如果是登录按钮 给与游客身份
+                // 如果是放心接口 api 给与游客身份
                 if (pathFlag) {
                     userInfo = new UserInfo();
                     userInfo.setId(1L);
@@ -113,7 +113,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                     userInfo.setPermissionCodeList(permissionCodeList);
                     //  如果不是直接
                 } else {
-                    // gateway 没有异常捕捉器 所以直接 return 400
+                    // gateway 没有异常捕捉器 所以直接 return
                     return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
                 }
                 // 如果有token
@@ -121,7 +121,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                 // token在redis中有对应的身份信息
                 String bo = stringRedisTemplate.opsForValue().get(tc_token);
                 if (StrUtil.isBlank(bo)) {
-                    // gateway 没有异常捕捉器 所以直接 return 400
+                    // gateway 没有异常捕捉器 所以直接 return
                     return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
                 }
                 stringRedisTemplate.expire(tc_token, 1000 * 60 * 30, TimeUnit.MILLISECONDS);

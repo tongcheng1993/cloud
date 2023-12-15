@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_sys_dic_item")
 public class DicItemEntity extends MyBaseEntity {
 
-    private String dicId;
+    private Long dicId;
     // 字典编码
     private String itemCode = "";
     // 字典值

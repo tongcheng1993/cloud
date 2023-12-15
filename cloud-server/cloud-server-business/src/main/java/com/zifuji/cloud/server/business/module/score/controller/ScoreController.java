@@ -2,10 +2,10 @@ package com.zifuji.cloud.server.business.module.score.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.business.module.score.qo.ScoreRecordPageQo;
+import com.zifuji.cloud.server.business.module.score.controller.qo.ScoreRecordPageQo;
 import com.zifuji.cloud.server.business.module.score.service.ScoreService;
-import com.zifuji.cloud.server.business.module.score.vo.ScoreAccountControllerVo;
-import com.zifuji.cloud.server.business.module.score.vo.ScoreRecordControllerVo;
+import com.zifuji.cloud.server.business.module.score.controller.vo.ScoreAccountControllerVo;
+import com.zifuji.cloud.server.business.module.score.controller.vo.ScoreRecordControllerVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

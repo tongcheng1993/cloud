@@ -3,6 +3,7 @@ package com.zifuji.cloud.server.sys.module.dic.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.server.sys.module.dic.controller.mo.AddDicMo;
 import com.zifuji.cloud.server.sys.module.dic.controller.qo.QueryPageDicQo;
+import com.zifuji.cloud.server.sys.module.dic.controller.vo.DicVO;
 import com.zifuji.cloud.server.sys.module.dic.controller.vo.GetAllDicDetailVo;
 import com.zifuji.cloud.server.sys.module.dic.controller.vo.QueryPageDicVo;
 
@@ -14,5 +15,5 @@ public interface DicService {
 
     IPage<QueryPageDicVo> queryPageDic(QueryPageDicQo queryPageDicQo);
 
-    Boolean addDic(AddDicMo addDicMo);
+    DicVO addDic(AddDicMo addDicMo);
 }

@@ -2,10 +2,7 @@ package com.zifuji.cloud.server.websocket.module.websocket.interceptor;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.server.base.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.socket.WebSocketHandler;

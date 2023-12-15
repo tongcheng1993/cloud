@@ -1,3 +1,5 @@
+server:
+  port: 15001
 spring:
   application:
     name: cloud-server-sys

@@ -3,16 +3,16 @@ package com.zifuji.cloud.server.business.module.webUser.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.LoginMo;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.RegisterMo;
-import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryListWebMenuQo;
-import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryPageWebRoleQo;
-import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryPageWebUserQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebMenuQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebRoleQo;
+import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebUserQo;
 import com.zifuji.cloud.server.business.module.webUser.controller.vo.*;
 
 import java.util.List;
 
 public interface WebUserService {
 
-    List<GetMenuVo> getMenu();
+    List<WebMenuVo> getMenu();
 
     DrawCaptchaVo drawCaptcha();
 
@@ -20,13 +20,13 @@ public interface WebUserService {
 
     String register(RegisterMo registerMo);
 
-    GetMyselfInfoVo getMyselfInfo();
+    WebUserVo getMyselfInfo();
 
     Boolean logout();
 
-    IPage<QueryPageWebUserVo> queryPageWebUser(QueryPageWebUserQo queryPageWebUserQo);
+    IPage<WebUserVo> queryPageWebUser(QueryWebUserQo queryWebUserQo);
 
-    IPage<QueryPageWebRoleVo> queryPageWebRole(QueryPageWebRoleQo queryPageWebRoleQo);
+    IPage<WebRoleVo> queryPageWebRole(QueryWebRoleQo queryWebRoleQo);
 
-    List<QueryListWebMenuVo> queryListWebMenu(QueryListWebMenuQo queryListWebMenuQo);
+    List<WebMenuVo> queryListWebMenu(QueryWebMenuQo queryWebMenuQo);
 }

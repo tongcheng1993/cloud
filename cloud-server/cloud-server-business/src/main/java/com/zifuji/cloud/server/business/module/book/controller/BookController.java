@@ -1,16 +1,15 @@
 package com.zifuji.cloud.server.business.module.book.controller;
 
 
-import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.business.module.book.controller.mo.CreateNewBookMo;
+import com.zifuji.cloud.server.business.db.book.entity.BookEntity;
+import com.zifuji.cloud.server.business.db.book.entity.BookSectionEntity;
+import com.zifuji.cloud.server.business.module.book.controller.mo.AddBookMo;
+import com.zifuji.cloud.server.business.module.book.controller.mo.AddBookSectionMo;
 import com.zifuji.cloud.server.business.module.book.controller.qo.*;
 import com.zifuji.cloud.server.business.module.book.controller.vo.*;
 import com.zifuji.cloud.server.business.module.book.service.BookService;
-import com.zifuji.cloud.server.business.module.book.service.bo.BookBo;
-import com.zifuji.cloud.server.business.module.book.service.bo.BookSectionBo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -18,9 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -33,66 +30,73 @@ public class BookController {
 
     private BookService bookService;
 
-
     @ApiOperation(value = "")
-    @PostMapping(value = "/getMyUploadBook")
-    public Result<IPage<GetMyUploadBookControllerVo>> getMyUploadBook(@RequestBody @Valid GetMyUploadBookControllerQo getMyUploadBookControllerQo) {
-        IPage<BookBo> page = bookService.getMyUploadBook(getMyUploadBookControllerQo);
-        return Result.setObj(page.convert(bookBo -> {
-            GetMyUploadBookControllerVo vo = new GetMyUploadBookControllerVo();
-            BeanUtil.copyProperties(bookBo, vo);
-            return vo;
-        }));
+    @PostMapping(value = "/addBook")
+    public Result<BookVo> addBook(@RequestBody @Valid AddBookMo addBookMo) {
+        return Result.setObj(bookService.addBook(addBookMo));
+    }
+
+    public Result<BookVo> resetBook(){
+        return Result.setObj(null);
+    }
+
+    public Result<Boolean> delBook(){
+        return Result.setObj(null);
     }
 
     @ApiOperation(value = "")
-    @PostMapping(value = "/createNewBook")
-    public Result<CreateNewBookVo> createNewBook(@RequestBody @Valid CreateNewBookMo createNewBookMo) {
-        return Result.setObj(bookService.createNewBook(createNewBookMo));
-    }
-
-    @ApiOperation(value = "")
-    @PostMapping(value = "/getBookDetail")
-    public Result<GetBookDetailControllerVo> getBookDetail(@RequestBody @Valid GetBookDetailControllerQo getBookDetailControllerQo) {
-        GetBookDetailControllerVo getBookDetailControllerVo = new GetBookDetailControllerVo();
-        BookBo bookBo = bookService.getBookDetail(getBookDetailControllerQo.getId());
-        BeanUtil.copyProperties(bookBo, getBookDetailControllerVo);
-        return Result.setObj(getBookDetailControllerVo);
-    }
-
-    @ApiOperation(value = "")
-    @PostMapping(value = "/getBookSectionList")
-    public Result<List<GetBookSectionListControllerVo>> getBookSectionList(@RequestBody @Valid GetBookSectionListControllerQo getBookSectionListControllerQo) {
-        List<GetBookSectionListControllerVo> getBookSectionListControllerVoList = new ArrayList<>();
-        List<BookSectionBo> bookSectionBoList = bookService.getBookSectionList(getBookSectionListControllerQo.getId());
-        getBookSectionListControllerVoList = bookSectionBoList.stream().map(bookSectionBo -> {
-            GetBookSectionListControllerVo vo = new GetBookSectionListControllerVo();
-            BeanUtil.copyProperties(bookSectionBo, vo);
-            return vo;
-        }).collect(Collectors.toList());
-        return Result.setObj(getBookSectionListControllerVoList);
-    }
-
-    @ApiOperation(value = "")
-    @PostMapping(value = "/getBookSectionDetail")
-    public Result<GetBookSectionDetailControllerVo> getBookSectionDetail(@RequestBody @Valid GetBookSectionDetailControllerQo getBookSectionDetailControllerQo) {
-        GetBookSectionDetailControllerVo getBookSectionDetailControllerVo = new GetBookSectionDetailControllerVo();
-        BookSectionBo bookSectionBo = bookService.getBookSectionDetail(getBookSectionDetailControllerQo.getId());
-        BeanUtil.copyProperties(bookSectionBo, getBookSectionDetailControllerVo);
-        return Result.setObj(getBookSectionDetailControllerVo);
+    @PostMapping(value = "/queryOneBookById")
+    public Result<BookVo> queryOneBookById(@RequestBody @Valid QueryBookQo<BookEntity> queryBookQo){
+        return Result.setObj(bookService.queryOneBookById(queryBookQo));
     }
 
 
     @ApiOperation(value = "")
     @PostMapping(value = "/queryPageBook")
-    public Result<IPage<QueryPageBookVo>> queryPageBook(@RequestBody @Valid QueryPageBookQo queryPageBookQo) {
-        return Result.setObj(bookService.queryPageBook(queryPageBookQo));
+    public Result<IPage<BookVo>> queryPageBook(@RequestBody @Valid QueryBookQo<BookEntity> queryBookQo) {
+        return Result.setObj(bookService.queryPageBook(queryBookQo));
     }
 
+    @ApiOperation(value = "")
+    @PostMapping(value = "/queryListBook")
+    public Result<List<BookVo>> queryListBook(@RequestBody @Valid QueryBookQo<BookEntity> queryBookQo) {
+        return Result.setObj(bookService.queryListBook(queryBookQo));
+    }
 
-    @GetMapping(value = "/job")
-    public Result<Boolean> job() {
-        return Result.setObj(bookService.job());
+    @ApiOperation(value = "")
+    @PostMapping(value = "/addBookSection")
+    public Result<BookSectionVo> addBookSection(@RequestBody @Valid AddBookSectionMo addBookSectionMo){
+        return Result.setObj(bookService.addBookSection(addBookSectionMo));
+    }
+
+    @ApiOperation(value = "")
+    @PostMapping(value = "/queryOneBookSectionById")
+    public Result<BookSectionVo> queryOneBookSectionById(@RequestBody @Valid  QueryBookSectionQo<BookSectionEntity> queryBookSectionQo){
+        return Result.setObj(bookService.queryOneBookSectionById(queryBookSectionQo));
+    }
+
+    @ApiOperation(value = "")
+    @PostMapping(value = "/queryPageBookSection")
+    public Result<IPage<BookSectionVo>> queryPageBookSection() {
+        return null;
+    }
+
+    @ApiOperation(value = "")
+    @PostMapping(value = "/queryListBookSection")
+    public Result<List<BookSectionVo>> queryListBookSection(@RequestBody @Valid  QueryBookSectionQo<BookSectionEntity> queryBookSectionQo) {
+        return Result.setObj(bookService.queryListBookSection(queryBookSectionQo));
+    }
+
+    @ApiOperation(value = "")
+    @PostMapping(value = "/queryPageBookSectionContent")
+    public Result<IPage<BookSectionContentVo>> queryPageBookSectionContent() {
+        return null;
+    }
+
+    @ApiOperation(value = "")
+    @PostMapping(value = "/queryListBookSectionContent")
+    public Result<IPage<BookSectionContentVo>> queryListBookSectionContent() {
+        return null;
     }
 
 }

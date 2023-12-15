@@ -7,10 +7,6 @@ import com.zifuji.cloud.server.business.module.reservation.controller.vo.Reserva
 
 public interface ReservationService {
 
-
-
-
-
     ReservationApplyMainControllerVo saveReservationSettingMain(ReservationSettingMainControllerMo reservationSettingMainMo);
 
     Boolean saveSpeDayAndTime(ReservationSettingSpeDayMo reservationSettingSpeDayMo);

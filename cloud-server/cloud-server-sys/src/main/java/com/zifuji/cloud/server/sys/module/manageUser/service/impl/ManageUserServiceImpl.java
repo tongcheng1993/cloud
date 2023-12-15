@@ -124,8 +124,8 @@ public class ManageUserServiceImpl implements ManageUserService {
 
 
     @Override
-    public List<GetMenuVo> getMenu() {
-        List<GetMenuVo> manageMenuServiceVoList = new ArrayList<>();
+    public List<ManageMenuVo> getMenu() {
+        List<ManageMenuVo> manageMenuServiceVoList = new ArrayList<>();
         UserInfo userInfo = SecurityUtil.getUserDetails();
         if (ObjectUtil.isNotEmpty(userInfo.getRoleCodeList())) {
             QueryWrapper<ManageRoleEntity> manageRoleEntityQueryWrapper = new QueryWrapper<>();
@@ -144,7 +144,7 @@ public class ManageUserServiceImpl implements ManageUserService {
                     List<ManageMenuEntity> manageMenuEntityList = manageMenuEntityService.list(manageMenuEntityQueryWrapper);
                     if (ObjectUtil.isNotEmpty(manageMenuEntityList)) {
                         manageMenuServiceVoList = manageMenuEntityList.stream().map(manageMenuEntity -> {
-                            GetMenuVo vo = new GetMenuVo();
+                            ManageMenuVo vo = new ManageMenuVo();
                             BeanUtil.copyProperties(manageMenuEntity, vo);
                             return vo;
                         }).collect(Collectors.toList());
@@ -156,39 +156,39 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public IPage<QueryPageManageUserVo> queryPageManageUser(QueryPageManageUserQo queryPageManageUserQo) {
+    public IPage<ManageUserVo> queryPageManageUser(QueryPageManageUserQo queryPageManageUserQo) {
         Page<ManageUserEntity> page = new Page<>(queryPageManageUserQo.getCurrent(), queryPageManageUserQo.getSize());
         QueryWrapper<ManageUserEntity> manageUserEntityQueryWrapper = new QueryWrapper<>();
         if (StrUtil.isNotBlank(queryPageManageUserQo.getUserName())) {
             manageUserEntityQueryWrapper.lambda().like(ManageUserEntity::getUserName, queryPageManageUserQo.getUserName());
         }
-        if(StrUtil.isNotBlank(queryPageManageUserQo.getShortName())){
+        if (StrUtil.isNotBlank(queryPageManageUserQo.getShortName())) {
             manageUserEntityQueryWrapper.lambda().like(ManageUserEntity::getShortName, queryPageManageUserQo.getShortName());
         }
         page = manageUserEntityService.page(page, manageUserEntityQueryWrapper);
         return page.convert(manageUserEntity -> {
-            QueryPageManageUserVo queryPageManageUserVo = new QueryPageManageUserVo();
+            ManageUserVo queryPageManageUserVo = new ManageUserVo();
             BeanUtil.copyProperties(manageUserEntity, queryPageManageUserVo);
             return queryPageManageUserVo;
         });
     }
 
     @Override
-    public GetManageUserVo getManageUserById(String id) {
+    public ManageUserVo getManageUserById(String id) {
         ManageUserEntity manageUserEntity = manageUserEntityService.getById(id);
-        GetManageUserVo getManageUserVo = new GetManageUserVo();
-        BeanUtil.copyProperties(manageUserEntity, getManageUserVo);
-        return getManageUserVo;
+        ManageUserVo ManageUserVo = new ManageUserVo();
+        BeanUtil.copyProperties(manageUserEntity, ManageUserVo);
+        return ManageUserVo;
     }
 
     @Override
-    public GetManageUserVo getManageUserByUserName(String userName) {
+    public ManageUserVo getManageUserByUserName(String userName) {
         QueryWrapper<ManageUserEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ManageUserEntity::getUserName, userName);
         ManageUserEntity manageUserEntity = manageUserEntityService.getOne(queryWrapper);
-        GetManageUserVo getManageUserVo = new GetManageUserVo();
-        BeanUtil.copyProperties(manageUserEntity, getManageUserVo);
-        return getManageUserVo;
+        ManageUserVo ManageUserVo = new ManageUserVo();
+        BeanUtil.copyProperties(manageUserEntity, ManageUserVo);
+        return ManageUserVo;
     }
 
     @Override
@@ -220,7 +220,7 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public List<QueryListManageRoleVo> queryListManageRole(QueryListManageRoleQo queryListManageRoleQo) {
+    public List<ManageRoleVo> queryListManageRole(QueryListManageRoleQo queryListManageRoleQo) {
         QueryWrapper<ManageRoleEntity> manageRoleEntityQueryWrapper = new QueryWrapper<>();
         if (ObjectUtil.isNotNull(queryListManageRoleQo.getUserId())) {
             QueryWrapper<ManageUserRoleEntity> manageUserRoleEntityQueryWrapper = new QueryWrapper<>();
@@ -240,7 +240,7 @@ public class ManageUserServiceImpl implements ManageUserService {
                 .orderByDesc(ManageRoleEntity::getCreateTime);
         List<ManageRoleEntity> manageRoleEntityList = manageRoleEntityService.list(manageRoleEntityQueryWrapper);
         return manageRoleEntityList.stream().map(manageRoleEntity -> {
-            QueryListManageRoleVo vo = new QueryListManageRoleVo();
+            ManageRoleVo vo = new ManageRoleVo();
             BeanUtil.copyProperties(manageRoleEntity, vo);
             return vo;
         }).collect(Collectors.toList());
@@ -265,32 +265,32 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public IPage<QueryPageManageRoleVo> queryPageManageRole(QueryPageManageRoleQo queryPageManageRoleQo) {
+    public IPage<ManageRoleVo> queryPageManageRole(QueryPageManageRoleQo queryPageManageRoleQo) {
         Page<ManageRoleEntity> page = new Page<>(queryPageManageRoleQo.getCurrent(), queryPageManageRoleQo.getSize());
         QueryWrapper<ManageRoleEntity> manageRoleEntityQueryWrapper = new QueryWrapper<>();
 
         page = manageRoleEntityService.page(page, manageRoleEntityQueryWrapper);
         return page.convert(manageRoleEntity -> {
-            QueryPageManageRoleVo vo = new QueryPageManageRoleVo();
+            ManageRoleVo vo = new ManageRoleVo();
             BeanUtil.copyProperties(manageRoleEntity, vo);
             return vo;
         });
     }
 
     @Override
-    public GetManageRoleVo getManageRoleById(String id) {
+    public ManageRoleVo getManageRoleById(String id) {
         ManageRoleEntity manageRoleEntity = manageRoleEntityService.getById(id);
-        GetManageRoleVo vo = new GetManageRoleVo();
+        ManageRoleVo vo = new ManageRoleVo();
         BeanUtil.copyProperties(manageRoleEntity, vo);
         return vo;
     }
 
     @Override
-    public GetManageRoleVo getManageRoleByRoleCode(String roleCode) {
+    public ManageRoleVo getManageRoleByRoleCode(String roleCode) {
         QueryWrapper<ManageRoleEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ManageRoleEntity::getRoleCode, roleCode);
         ManageRoleEntity manageRoleEntity = manageRoleEntityService.getOne(queryWrapper);
-        GetManageRoleVo vo = new GetManageRoleVo();
+        ManageRoleVo vo = new ManageRoleVo();
         BeanUtil.copyProperties(manageRoleEntity, vo);
         return vo;
     }
@@ -326,41 +326,45 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public List<QueryListManagePermissionVo> queryListManagePermission(QueryListManagePermissionQo queryListManagePermissionQo) {
+    public List<ManagePermissionVo> queryListManagePermission(QueryManagePermissionQo queryManagePermissionQo) {
         QueryWrapper<ManagePermissionEntity> managePermissionEntityQueryWrapper = new QueryWrapper<>();
-        if (StrUtil.isNotBlank(queryListManagePermissionQo.getRoleId())) {
+        if (ObjectUtil.isNotNull(queryManagePermissionQo.getRoleId())) {
             QueryWrapper<ManageRolePermissionEntity> manageRolePermissionEntityQueryWrapper = new QueryWrapper<>();
-            manageRolePermissionEntityQueryWrapper.lambda().eq(ManageRolePermissionEntity::getRoleId, queryListManagePermissionQo.getRoleId());
+            manageRolePermissionEntityQueryWrapper.lambda()
+                    .eq(ManageRolePermissionEntity::getRoleId, queryManagePermissionQo.getRoleId());
             List<ManageRolePermissionEntity> manageRolePermissionEntityList = manageRolePermissionEntityService.list(manageRolePermissionEntityQueryWrapper);
             if (ObjectUtil.isNotEmpty(manageRolePermissionEntityList)) {
-                managePermissionEntityQueryWrapper.lambda().in(ManagePermissionEntity::getId, manageRolePermissionEntityList.stream().map(ManageRolePermissionEntity::getPermissionId).collect(Collectors.toList()));
+                managePermissionEntityQueryWrapper.lambda().in(ManagePermissionEntity::getId,manageRolePermissionEntityList.stream().map(ManageRolePermissionEntity::getPermissionId).collect(Collectors.toList()));
+            }else{
+                return new ArrayList<>();
             }
         }
         List<ManagePermissionEntity> managePermissionEntityList = managePermissionEntityService.list(managePermissionEntityQueryWrapper);
         return managePermissionEntityList.stream().map(managePermissionEntity -> {
-            QueryListManagePermissionVo vo = new QueryListManagePermissionVo();
+            ManagePermissionVo vo = new ManagePermissionVo();
             BeanUtil.copyProperties(managePermissionEntity, vo);
             return vo;
         }).collect(Collectors.toList());
     }
 
     @Override
-    public List<QueryListManageMenuVo> queryListManageMenu(QueryListManageMenuQo queryListManageMenuQo) {
+    public List<ManageMenuVo> queryListManageMenu(QueryListManageMenuQo queryListManageMenuQo) {
         QueryWrapper<ManageMenuEntity> manageMenuEntityQueryWrapper = new QueryWrapper<>();
         if (StrUtil.isNotBlank(queryListManageMenuQo.getRoleId())) {
             QueryWrapper<ManageRoleMenuEntity> manageRoleMenuEntityQueryWrapper = new QueryWrapper<>();
-            manageRoleMenuEntityQueryWrapper.lambda().eq(ManageRoleMenuEntity::getRoleId, queryListManageMenuQo.getRoleId());
+            manageRoleMenuEntityQueryWrapper.lambda()
+                    .eq(ManageRoleMenuEntity::getRoleId, queryListManageMenuQo.getRoleId());
             List<ManageRoleMenuEntity> manageRoleMenuEntityList = manageRoleMenuEntityService.list(manageRoleMenuEntityQueryWrapper);
             if (ObjectUtil.isNotEmpty(manageRoleMenuEntityList)) {
                 manageMenuEntityQueryWrapper.lambda().in(ManageMenuEntity::getId, manageRoleMenuEntityList.stream().map(ManageRoleMenuEntity::getMenuId).collect(Collectors.toList()));
             } else {
-                return new ArrayList<>();
+               return new ArrayList<>();
             }
         }
         manageMenuEntityQueryWrapper.lambda().orderByAsc(ManageMenuEntity::getSortNum).orderByDesc(ManageMenuEntity::getId);
         List<ManageMenuEntity> manageMenuEntityList = manageMenuEntityService.list(manageMenuEntityQueryWrapper);
         return manageMenuEntityList.stream().map(manageMenuEntity -> {
-            QueryListManageMenuVo vo = new QueryListManageMenuVo();
+            ManageMenuVo vo = new ManageMenuVo();
             BeanUtil.copyProperties(manageMenuEntity, vo);
             return vo;
         }).collect(Collectors.toList());
@@ -369,7 +373,8 @@ public class ManageUserServiceImpl implements ManageUserService {
     @Override
     public Boolean bindRoleAndPermissionDelBefore(BindRoleAndPermissionDelBeforeMo bindRoleAndPermissionDelBeforeMo) {
         QueryWrapper<ManageRolePermissionEntity> manageRolePermissionEntityQueryWrapper = new QueryWrapper<>();
-        manageRolePermissionEntityQueryWrapper.lambda().eq(ManageRolePermissionEntity::getRoleId, bindRoleAndPermissionDelBeforeMo.getRoleId());
+        manageRolePermissionEntityQueryWrapper.lambda()
+                .eq(ManageRolePermissionEntity::getRoleId, bindRoleAndPermissionDelBeforeMo.getRoleId());
         manageRolePermissionEntityService.remove(manageRolePermissionEntityQueryWrapper);
         if (ObjectUtil.isNotEmpty(bindRoleAndPermissionDelBeforeMo.getPermissionIdList())) {
             List<ManageRolePermissionEntity> list = bindRoleAndPermissionDelBeforeMo.getPermissionIdList().stream().map(s -> {
@@ -401,18 +406,38 @@ public class ManageUserServiceImpl implements ManageUserService {
     }
 
     @Override
-    public IPage<QueryPageManagePermissionVo> queryPageManagePermission(QueryPageManagePermissionQo queryPageManagePermissionQo) {
+    public IPage<ManagePermissionVo> queryPageManagePermission(QueryManagePermissionQo queryManagePermissionQo) {
 
-        Page<ManagePermissionEntity> page = new Page<>(queryPageManagePermissionQo.getCurrent(), queryPageManagePermissionQo.getSize());
+        Page<ManagePermissionEntity> page = new Page<>(queryManagePermissionQo.getCurrent(), queryManagePermissionQo.getSize());
 
         QueryWrapper<ManagePermissionEntity> managePermissionEntityQueryWrapper = new QueryWrapper<>();
 
         page = managePermissionEntityService.page(page, managePermissionEntityQueryWrapper);
         return page.convert(managePermissionEntity -> {
-            QueryPageManagePermissionVo vo = new QueryPageManagePermissionVo();
+            ManagePermissionVo vo = new ManagePermissionVo();
             BeanUtil.copyProperties(managePermissionEntity, vo);
             return vo;
         });
+    }
+
+    @Override
+    public ManagePermissionVo addManagePermission(AddManagePermissionMo addManagePermissionMo) {
+        QueryWrapper<ManagePermissionEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda()
+                .eq(ManagePermissionEntity::getCodeSys, addManagePermissionMo.getCodeSys())
+                .eq(ManagePermissionEntity::getCodeModule, addManagePermissionMo.getCodeModule())
+                .eq(ManagePermissionEntity::getCodeMethod, addManagePermissionMo.getCodeMethod());
+        ManagePermissionEntity entity = managePermissionEntityService.getOne(queryWrapper);
+        if (ObjectUtil.isNull(entity)) {
+            entity = new ManagePermissionEntity();
+            BeanUtil.copyProperties(addManagePermissionMo, entity);
+            managePermissionEntityService.save(entity);
+        } else {
+            throw new Exception20000("有问题");
+        }
+        ManagePermissionVo vo = new ManagePermissionVo();
+        BeanUtil.copyProperties(entity, vo);
+        return vo;
     }
 
 

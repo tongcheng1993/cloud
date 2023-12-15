@@ -1,8 +1,5 @@
 package com.zifuji.cloud.server.websocket.module.websocket.interceptor;
 
-import com.alibaba.fastjson.JSONObject;
-import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.server.base.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;

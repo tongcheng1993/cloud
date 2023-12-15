@@ -39,10 +39,16 @@ public class ManageUserController {
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
+    @ApiOperation(value = "登出")
+    @PostMapping(value = "/logout")
+    public Result<Boolean> logout() {
+        return Result.setObj(true);
+    }
+
+    @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "获取路由")
     @PostMapping(value = "/getMenu")
-    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:getMenu')")
-    public Result<List<GetMenuVo>> getMenu() {
+    public Result<List<ManageMenuVo>> getMenu() {
         return Result.setObj(manageUserService.getMenu());
     }
 
@@ -50,23 +56,23 @@ public class ManageUserController {
     @ApiOperation(value = "查询内网账号")
     @PostMapping(value = "/queryPageManageUser")
     @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:queryPageManageUser')")
-    public Result<IPage<QueryPageManageUserVo>> queryPageManageUser(@RequestBody @Valid QueryPageManageUserQo queryPageManageUserQo) {
+    public Result<IPage<ManageUserVo>> queryPageManageUser(@RequestBody @Valid QueryPageManageUserQo queryPageManageUserQo) {
         return Result.setObj(manageUserService.queryPageManageUser(queryPageManageUserQo));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "查询内网账号")
     @GetMapping(value = "/getManageUserById")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:getManageUserById')")
-    public Result<GetManageUserVo> getManageUserById(@RequestParam String id) {
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:getManageUserById')")
+    public Result<ManageUserVo> getManageUserById(@RequestParam String id) {
         return Result.setObj(manageUserService.getManageUserById(id));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "查询内网账号")
     @GetMapping(value = "/getManageUserByUserName")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:getManageUserByUserName')")
-    public Result<GetManageUserVo> getManageUserByUserName(@RequestParam String userName) {
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:getManageUserByUserName')")
+    public Result<ManageUserVo> getManageUserByUserName(@RequestParam String userName) {
         return Result.setObj(manageUserService.getManageUserByUserName(userName));
     }
 
@@ -74,7 +80,7 @@ public class ManageUserController {
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "保存内网账号")
     @PostMapping(value = "/addManageUser")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:addManageUser')")
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:addManageUser')")
     public Result<Boolean> addManageUser(@RequestBody @Valid AddManageUserMo addManageUserMo) {
         return Result.setObj(manageUserService.addManageUser(addManageUserMo));
     }
@@ -82,7 +88,7 @@ public class ManageUserController {
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "修改内网账号")
     @PostMapping(value = "/resetManageUser")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:resetManageUser')")
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:resetManageUser')")
     public Result<Boolean> resetManageUser(@RequestBody @Valid ResetManageUserMo resetManageUserMo) {
         return Result.setObj(manageUserService.resetManageUser(resetManageUserMo));
     }
@@ -90,98 +96,113 @@ public class ManageUserController {
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "查询内网角色")
     @PostMapping(value = "/queryListManageRole")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:queryListManageRole')")
-    public Result<List<QueryListManageRoleVo>> queryListManageRole(@RequestBody @Valid QueryListManageRoleQo queryListManageRoleQo) {
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:queryListManageRole')")
+    public Result<List<ManageRoleVo>> queryListManageRole(@RequestBody @Valid QueryListManageRoleQo queryListManageRoleQo) {
         return Result.setObj(manageUserService.queryListManageRole(queryListManageRoleQo));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-    @ApiOperation(value = "查询内网角色")
+    @ApiOperation(value = "绑定用户和角色")
     @PostMapping(value = "/bindUserAndRoleDelBefore")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:bindUserAndRoleDelBefore')")
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:bindUserAndRoleDelBefore')")
     public Result<Boolean> bindUserAndRoleDelBefore(@RequestBody @Valid BindUserAndRoleDelBeforeMo bindUserAndRoleDelBeforeMo) {
         return Result.setObj(manageUserService.bindUserAndRoleDelBefore(bindUserAndRoleDelBeforeMo));
     }
 
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-    @ApiOperation(value = "查询内网角色")
+    @ApiOperation(value = "分页查询内网角色")
     @PostMapping(value = "/queryPageManageRole")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:queryPageManageRole')")
-    public Result<IPage<QueryPageManageRoleVo>> queryPageManageRole(@RequestBody @Valid QueryPageManageRoleQo queryPageManageRoleQo) {
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:queryPageManageRole')")
+    public Result<IPage<ManageRoleVo>> queryPageManageRole(@RequestBody @Valid QueryPageManageRoleQo queryPageManageRoleQo) {
         return Result.setObj(manageUserService.queryPageManageRole(queryPageManageRoleQo));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "查询内网角色")
     @PostMapping(value = "/getManageRoleById")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:getManageRoleById')")
-    public Result<GetManageRoleVo> getManageRoleById(@RequestParam String id) {
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:getManageRoleById')")
+    public Result<ManageRoleVo> getManageRoleById(@RequestParam String id) {
         return Result.setObj(manageUserService.getManageRoleById(id));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "查询内网角色")
     @PostMapping(value = "/getManageRoleByRoleCode")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:getManageRoleByRoleCode')")
-    public Result<GetManageRoleVo> getManageRoleByRoleCode(@RequestParam String roleCode) {
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:getManageRoleByRoleCode')")
+    public Result<ManageRoleVo> getManageRoleByRoleCode(@RequestParam String roleCode) {
         return Result.setObj(manageUserService.getManageRoleByRoleCode(roleCode));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-    @ApiOperation(value = "")
+    @ApiOperation(value = "新增管理端角色")
     @PostMapping(value = "/addManageRole")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:addManageRole')")
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:addManageRole')")
     public Result<Boolean> addManageRole(@RequestBody @Valid AddManageRoleMo addManageRoleMo) {
         return Result.setObj(manageUserService.addManageRole(addManageRoleMo));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-    @ApiOperation(value = "")
+    @ApiOperation(value = "编辑管理端角色")
     @PostMapping(value = "/resetManageRole")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:resetManageRole')")
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:resetManageRole')")
     public Result<Boolean> resetManageRole(@RequestBody @Valid ResetManageRoleMo resetManageRoleMo) {
         return Result.setObj(manageUserService.resetManageRole(resetManageRoleMo));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-    @ApiOperation(value = "")
+    @ApiOperation(value = "查询管理端接口权限")
     @PostMapping(value = "/queryListManagePermission")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:queryListManagePermission')")
-    public Result<List<QueryListManagePermissionVo>> queryListManagePermission(@RequestBody @Valid QueryListManagePermissionQo queryListManagePermissionQo) {
-        return Result.setObj(manageUserService.queryListManagePermission(queryListManagePermissionQo));
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:queryListManagePermission')")
+    public Result<List<ManagePermissionVo>> queryListManagePermission(@RequestBody @Valid QueryManagePermissionQo queryManagePermissionQo) {
+        return Result.setObj(manageUserService.queryListManagePermission(queryManagePermissionQo));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-    @ApiOperation(value = "")
+    @ApiOperation(value = "查询管理端页面路由")
     @PostMapping(value = "/queryListManageMenu")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:queryListManageMenu')")
-    public Result<List<QueryListManageMenuVo>> queryListManageMenu(@RequestBody @Valid QueryListManageMenuQo queryListManageMenuQo) {
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:queryListManageMenu')")
+    public Result<List<ManageMenuVo>> queryListManageMenu(@RequestBody @Valid QueryListManageMenuQo queryListManageMenuQo) {
         return Result.setObj(manageUserService.queryListManageMenu(queryListManageMenuQo));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-    @ApiOperation(value = "")
+    @ApiOperation(value = "绑定角色和接口权限")
     @PostMapping(value = "/bindRoleAndPermissionDelBefore")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:bindRoleAndPermissionDelBefore')")
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:bindRoleAndPermissionDelBefore')")
     public Result<Boolean> bindRoleAndPermissionDelBefore(@RequestBody @Valid BindRoleAndPermissionDelBeforeMo bindRoleAndPermissionDelBeforeMo) {
         return Result.setObj(manageUserService.bindRoleAndPermissionDelBefore(bindRoleAndPermissionDelBeforeMo));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-    @ApiOperation(value = "")
+    @ApiOperation(value = "绑定角色和页面路由")
     @PostMapping(value = "/bindRoleAndMenuDelBefore")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:bindRoleAndMenuDelBefore')")
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:bindRoleAndMenuDelBefore')")
     public Result<Boolean> bindRoleAndMenuDelBefore(@RequestBody @Valid BindRoleAndMenuDelBeforeMo bindRoleAndMenuDelBeforeMo) {
         return Result.setObj(manageUserService.bindRoleAndMenuDelBefore(bindRoleAndMenuDelBeforeMo));
     }
 
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-    @ApiOperation(value = "")
+    @ApiOperation(value = "分页查询管理端接口权限")
     @PostMapping(value = "/queryPageManagePermission")
-//    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:queryPageManagePermission')")
-    public Result<IPage<QueryPageManagePermissionVo>> queryPageManagePermission(@RequestBody @Valid QueryPageManagePermissionQo queryPageManagePermissionQo) {
-        return Result.setObj(manageUserService.queryPageManagePermission(queryPageManagePermissionQo));
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:queryPageManagePermission')")
+    public Result<IPage<ManagePermissionVo>> queryPageManagePermission(@RequestBody @Valid QueryManagePermissionQo queryManagePermissionQo) {
+        return Result.setObj(manageUserService.queryPageManagePermission(queryManagePermissionQo));
+    }
+
+    @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
+    @ApiOperation(value = "增加管理端接口权限标识接口")
+    @PostMapping(value = "/addManagePermission")
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:addManagePermission')")
+    public Result<ManagePermissionVo> addManagePermission(@RequestBody @Valid AddManagePermissionMo addManagePermissionMo) {
+        return Result.setObj(manageUserService.addManagePermission(addManagePermissionMo));
+    }
+    @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
+    @ApiOperation(value = "修改管理端接口权限标识接口")
+    @PostMapping(value = "/resetManagePermission")
+    @PreAuthorize(value = "hasAnyAuthority('sys:manageUser:resetManagePermission')")
+    public Result<ManagePermissionVo> resetManagePermission(@RequestBody @Valid ResetManagePermissionMo resetManagePermissionMo) {
+        return null;
     }
 
 

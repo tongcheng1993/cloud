@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName(value = "z_manage_role_permission")
 public class ManageRolePermissionEntity extends MyBaseEntity {
-    private String roleId;
+    private Long roleId;
 
-    private String permissionId;
+    private Long permissionId;
 }

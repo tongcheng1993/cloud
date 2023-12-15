@@ -2,9 +2,9 @@ package com.zifuji.cloud.server.business.module.visit.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.business.module.visit.qo.VisitGroupPageQo;
+import com.zifuji.cloud.server.business.module.visit.controller.qo.VisitGroupPageQo;
 import com.zifuji.cloud.server.business.module.visit.service.VisitService;
-import com.zifuji.cloud.server.business.module.visit.vo.VisitGroupControllerVo;
+import com.zifuji.cloud.server.business.module.visit.controller.vo.VisitGroupControllerVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

@@ -1,30 +1,39 @@
 package com.zifuji.cloud.server.business.module.book.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.business.module.book.controller.mo.CreateNewBookMo;
-import com.zifuji.cloud.server.business.module.book.controller.qo.GetMyUploadBookControllerQo;
-import com.zifuji.cloud.server.business.module.book.controller.qo.QueryPageBookQo;
-import com.zifuji.cloud.server.business.module.book.controller.vo.CreateNewBookVo;
-import com.zifuji.cloud.server.business.module.book.controller.vo.QueryPageBookVo;
-import com.zifuji.cloud.server.business.module.book.service.bo.BookBo;
-import com.zifuji.cloud.server.business.module.book.service.bo.BookSectionBo;
+import com.zifuji.cloud.server.business.db.book.entity.BookEntity;
+import com.zifuji.cloud.server.business.db.book.entity.BookSectionEntity;
+import com.zifuji.cloud.server.business.module.book.controller.mo.AddBookMo;
+import com.zifuji.cloud.server.business.module.book.controller.mo.AddBookSectionMo;
+import com.zifuji.cloud.server.business.module.book.controller.qo.QueryBookQo;
+import com.zifuji.cloud.server.business.module.book.controller.qo.QueryBookSectionQo;
+import com.zifuji.cloud.server.business.module.book.controller.vo.BookSectionVo;
+import com.zifuji.cloud.server.business.module.book.controller.vo.BookVo;
 
 import java.util.List;
 
 public interface BookService {
 
 
-    CreateNewBookVo createNewBook(CreateNewBookMo createNewBookMo);
+    BookVo addBook(AddBookMo addBookMo);
 
-    IPage<QueryPageBookVo> queryPageBook(QueryPageBookQo queryPageBookQo);
+    BookVo resetBook();
 
-    Boolean job();
+    Boolean delBook();
 
-    IPage<BookBo> getMyUploadBook(GetMyUploadBookControllerQo getMyUploadBookControllerQo);
+    BookSectionVo addBookSection(AddBookSectionMo addBookSectionMo);
 
-    BookBo getBookDetail(String id);
+    BookVo queryOneBookById(QueryBookQo<BookEntity> queryBookQo);
 
-    List<BookSectionBo> getBookSectionList(String id);
+    IPage<BookVo> queryPageBook(QueryBookQo<BookEntity> queryBookQo);
 
-    BookSectionBo getBookSectionDetail(String id);
+    List<BookVo> queryListBook(QueryBookQo<BookEntity> queryBookQo);
+
+    BookSectionVo queryOneBookSectionById(QueryBookSectionQo<BookSectionEntity> queryBookSectionQo);
+
+    IPage<BookSectionVo> queryPageBookSection();
+
+    List<BookSectionVo> queryListBookSection(QueryBookSectionQo<BookSectionEntity> queryBookSectionQo);
+
+
 }

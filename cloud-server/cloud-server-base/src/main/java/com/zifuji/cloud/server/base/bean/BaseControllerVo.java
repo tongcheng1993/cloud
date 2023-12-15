@@ -8,12 +8,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class BaseControllerVo {
-
+public class BaseControllerVo implements Serializable {
+    private static final long serialVersionUID = 1L;
     @ApiModelProperty("")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;

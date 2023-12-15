@@ -11,6 +11,7 @@ import com.zifuji.cloud.server.sys.db.dic.entity.DicEntity;
 import com.zifuji.cloud.server.sys.module.dic.cache.DciCache;
 import com.zifuji.cloud.server.sys.module.dic.controller.mo.AddDicMo;
 import com.zifuji.cloud.server.sys.module.dic.controller.qo.QueryPageDicQo;
+import com.zifuji.cloud.server.sys.module.dic.controller.vo.DicVO;
 import com.zifuji.cloud.server.sys.module.dic.controller.vo.GetAllDicDetailVo;
 import com.zifuji.cloud.server.sys.module.dic.controller.vo.QueryPageDicVo;
 import org.springframework.stereotype.Service;
@@ -62,19 +63,19 @@ public class DicServiceImpl implements DicService {
     }
 
     @Override
-    public Boolean addDic(AddDicMo addDicMo) {
+    public DicVO addDic(AddDicMo addDicMo) {
         QueryWrapper<DicEntity> dicEntityQueryWrapper = new QueryWrapper<>();
         dicEntityQueryWrapper.lambda().eq(DicEntity::getDicCode, addDicMo.getDicCode());
         DicEntity dicEntity = dicEntityService.getOne(dicEntityQueryWrapper);
         if (ObjectUtil.isNotNull(dicEntity)) {
-            throw new Exception20000("");
+            throw new Exception20000("已经存在" + addDicMo.getDicCode());
         }
         dicEntity = new DicEntity();
-        dicEntity.setDicName(addDicMo.getDicName());
-        dicEntity.setDicCode(addDicMo.getDicCode());
-        dicEntity.setDicDescription(addDicMo.getDicDescription());
+        BeanUtil.copyProperties(addDicMo, dicEntity);
         dicEntityService.save(dicEntity);
-        return true;
+        DicVO dicVO = new DicVO();
+        BeanUtil.copyProperties(dicEntity, dicVO);
+        return dicVO;
     }
 
 

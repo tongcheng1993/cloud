@@ -1,7 +1,7 @@
 package com.zifuji.cloud.server.business.module.reservation.controller.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.zifuji.cloud.server.business.module.reservation.bo.ReservationTimeBo;
+import com.zifuji.cloud.server.business.module.reservation.controller.bo.ReservationTimeBo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

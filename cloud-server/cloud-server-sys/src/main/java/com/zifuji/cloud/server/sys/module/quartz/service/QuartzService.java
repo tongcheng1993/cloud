@@ -1,19 +1,22 @@
 package com.zifuji.cloud.server.sys.module.quartz.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.sys.module.quartz.mo.QuartzRecordControllerMo;
-import com.zifuji.cloud.server.sys.module.quartz.qo.QuartzRecordPageQo;
-import com.zifuji.cloud.server.sys.module.quartz.vo.QuartzRecordControllerVo;
+import com.zifuji.cloud.server.sys.module.quartz.controller.mo.AddQuartzRecordMo;
+import com.zifuji.cloud.server.sys.module.quartz.controller.mo.ResetQuartzRecordMo;
+import com.zifuji.cloud.server.sys.module.quartz.controller.qo.QuartzRecordQo;
+import com.zifuji.cloud.server.sys.module.quartz.controller.vo.QuartzRecordVo;
 
 
 public interface QuartzService {
 
 
-    QuartzRecordControllerVo saveQuartzRecord(QuartzRecordControllerMo quartzRecordMo) throws Exception;
+    QuartzRecordVo addQuartzRecord(AddQuartzRecordMo quartzRecordMo);
 
-    Boolean delQuartzRecord(Long id) throws Exception;
+    QuartzRecordVo resetQuartzRecord(ResetQuartzRecordMo quartzRecordMo);
 
-    IPage<QuartzRecordControllerVo> queryPageQuartzRecord(QuartzRecordPageQo quartzRecordPageQo);
+    Boolean delQuartzRecord(Long id) ;
+
+    IPage<QuartzRecordVo> queryPageQuartzRecord(QuartzRecordQo quartzRecordQo);
 
     Boolean syncQuartzList();
 }
