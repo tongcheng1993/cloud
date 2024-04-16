@@ -5,6 +5,12 @@ public class BaseConstant {
     // 系统安全参数
     public static final String KEY = "makeFun";
     public static final Long TTL = 1800000L;
+    // ws 消息类型
+    public static final String WS_TYPE_TOPIC = "topic";
+    public static final String WS_TYPE_TOPIC_PATH_PUBLIC = "/topic/public";
+    public static final String WS_TYPE_PEOPLE = "people";
+    public static final String WS_TYPE_PEOPLE_PATH = "/chat";
+
 
     //------------------------角色code
 

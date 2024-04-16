@@ -74,9 +74,7 @@ management:
   endpoint:
     health:
       show-details: always
-web:
-  ignore:
-    uri:
-      - /sys/manageUser/login
-      - /sys/manageUser/drawCaptcha
-temppath: D:\tmp
+my:
+  web-url:
+    - /business/webUser/login
+    - /business/webUser/drawCaptcha

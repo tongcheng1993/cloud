@@ -50,7 +50,7 @@ public class WebsocketController {
     @PostMapping(value = "/sendWsOneMessage")
     @PreAuthorize("hasAnyAuthority('ROLE_register')")
     public Result<Boolean> sendWsOneMessage(@RequestBody @Valid SendWsMessageMo sendWsMessageMo) {
-        websocketService.sendWsMessage(sendWsMessageMo);
+        websocketService.sendWsOneMessage(sendWsMessageMo);
         return Result.setObj(true);
     }
 

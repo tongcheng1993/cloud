@@ -22,37 +22,15 @@ public class WebSocketMessageBrokerConfig implements WebSocketMessageBrokerConfi
 
     private RabbitProperties rabbitProperties;
 
-
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-
-        if(registry instanceof WebMvcStompEndpointRegistry){
-            log.info("WebMvcStompEndpointRegistry");
-            WebMvcStompEndpointRegistry webMvcStompEndpointRegistry = (WebMvcStompEndpointRegistry)registry;
-            StompWebSocketEndpointRegistration stompWebSocketEndpointRegistration = webMvcStompEndpointRegistry.addEndpoint("/ws");
-            stompWebSocketEndpointRegistration.setAllowedOrigins("*");
-            stompWebSocketEndpointRegistration.addInterceptors(new UserHandshakeInterceptor());
-            stompWebSocketEndpointRegistration.setHandshakeHandler(new UserSockJSTransportHandler());
-            stompWebSocketEndpointRegistration.withSockJS();
-
-        }else{
-            StompWebSocketEndpointRegistration stompWebSocketEndpointRegistration = registry.addEndpoint("/ws");
-            stompWebSocketEndpointRegistration.setAllowedOrigins("*");
-            stompWebSocketEndpointRegistration.addInterceptors(new UserHandshakeInterceptor());
-            stompWebSocketEndpointRegistration.setHandshakeHandler(new UserSockJSTransportHandler());
-            stompWebSocketEndpointRegistration.withSockJS();
-        }
-
+        StompWebSocketEndpointRegistration stompWebSocketEndpointRegistration = registry.addEndpoint("/ws");
+        stompWebSocketEndpointRegistration.setAllowedOrigins("*");
+        stompWebSocketEndpointRegistration.addInterceptors(new UserHandshakeInterceptor());
+        stompWebSocketEndpointRegistration.setHandshakeHandler(new UserSockJSTransportHandler());
+        stompWebSocketEndpointRegistration.withSockJS();
     }
 
-    @Override
-    public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
-
-//        registry.addDecoratorFactory(new UserWebSocketHandlerDecoratorFactory(stringRedisTemplate))
-//                .setMessageSizeLimit(64 * 1024)
-//                .setSendBufferSizeLimit(1024 * 1024 * 10)
-//                .setSendTimeLimit(1000 * 10 * 6);
-    }
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
@@ -66,14 +44,6 @@ public class WebSocketMessageBrokerConfig implements WebSocketMessageBrokerConfi
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-
-//        // 前端绑定个人通道
-//        registry.setUserDestinationPrefix("/user/");
-//        // 前端使用ws发送消息的时候
-//        registry.setApplicationDestinationPrefixes("/app/");
-//        // 简单cache广播
-//        registry.enableSimpleBroker("/topic", "/queue", "/user");
-
 
         // 前端绑定个人通道
         registry.setUserDestinationPrefix("/user");

@@ -8,20 +8,23 @@ import javax.validation.constraints.NotNull;
 @Data
 public class SendWsMessageMo {
 
-
-	private Long fromUserId;
-
-	private String fromName;
-
-	@NotBlank(message = "userId不能为空")
-	private String userId;
-
-	private String userName;
-
 	@NotBlank(message = "businessType不能为空")
 	private String businessType;
 
-	@NotNull(message = "obj不能为空")
-	private Object obj;
+    private Long fromUserId;
+
+    private String fromUserName;
+
+    private Long toUserId;
+
+    private String toUserName;
+
+
+    private String typePath;
+
+
+
+    @NotNull(message = "obj不能为空")
+    private String obj;
 
 }

@@ -8,6 +8,8 @@ public interface WebsocketService {
 
     Boolean sendWsAllMessage(SendWsMessageMo sendWsMessageMo);
 
+    Boolean sendWsOneMessage(SendWsMessageMo sendWsMessageMo);
+
     Boolean sendWsMessage(SendWsMessageMo sendWsMessageMo);
 
     Integer info();
