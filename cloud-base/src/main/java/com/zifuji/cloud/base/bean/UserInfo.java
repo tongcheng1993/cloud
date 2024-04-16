@@ -1,10 +1,8 @@
 package com.zifuji.cloud.base.bean;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
-import cn.hutool.core.date.DateUtil;
 import lombok.Data;
 
 @Data

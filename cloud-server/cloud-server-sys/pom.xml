@@ -24,7 +24,6 @@
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
         </dependency>
-
         <!--email -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -52,7 +51,6 @@
             <artifactId>webmagic-extension</artifactId>
             <version>${webmagic.version}</version>
         </dependency>
-
         <!--minio -->
         <dependency>
             <groupId>io.minio</groupId>

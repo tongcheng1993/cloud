@@ -1,6 +1,6 @@
 package com.zifuji.cloud.server.business.module.book.controller.mo;
 
-import com.zifuji.cloud.server.base.bean.BaseControllerMo;
+import com.zifuji.cloud.server.base.db.BaseControllerMo;
 import lombok.Data;
 
 @Data

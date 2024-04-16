@@ -1,11 +1,9 @@
 package com.zifuji.cloud.server.business.module.webUser.controller.vo;
 
-import com.zifuji.cloud.server.base.bean.BaseControllerVo;
+import com.zifuji.cloud.server.base.db.BaseControllerVo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = false)

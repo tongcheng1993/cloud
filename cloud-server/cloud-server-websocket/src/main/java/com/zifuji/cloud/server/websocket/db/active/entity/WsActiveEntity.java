@@ -1,7 +1,7 @@
 package com.zifuji.cloud.server.websocket.db.active.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zifuji.cloud.server.base.bean.MyBaseEntity;
+import com.zifuji.cloud.server.base.module.mybatis.bean.MyBaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

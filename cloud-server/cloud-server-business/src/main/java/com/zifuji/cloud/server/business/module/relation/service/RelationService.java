@@ -1,15 +1,12 @@
 package com.zifuji.cloud.server.business.module.relation.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.base.feign.sys.vo.DownloadFileVo;
+import com.zifuji.cloud.server.base.module.feign.client.sys.file.vo.DownloadFileVo;
 import com.zifuji.cloud.server.business.db.friend.entity.FriendInfoEntity;
 import com.zifuji.cloud.server.business.module.relation.controller.mo.AuditFriendApplyControllerMo;
 import com.zifuji.cloud.server.business.module.relation.controller.mo.MakeFriendApplyControllerMo;
 import com.zifuji.cloud.server.business.module.relation.controller.mo.FriendInfoControllerMo;
-import com.zifuji.cloud.server.business.module.relation.controller.qo.FriendPageQo;
 import com.zifuji.cloud.server.business.module.relation.controller.vo.FriendInfoControllerVo;
 import com.zifuji.cloud.server.business.module.relation.controller.vo.FriendRelationControllerVo;
-import com.zifuji.cloud.server.business.module.relation.controller.vo.FriendControllerVo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

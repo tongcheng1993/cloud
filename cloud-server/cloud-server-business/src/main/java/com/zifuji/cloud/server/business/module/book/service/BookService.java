@@ -31,7 +31,7 @@ public interface BookService {
 
     BookSectionVo queryOneBookSectionById(QueryBookSectionQo<BookSectionEntity> queryBookSectionQo);
 
-    IPage<BookSectionVo> queryPageBookSection();
+    IPage<BookSectionVo> queryPageBookSection(QueryBookSectionQo<BookSectionEntity> queryBookSectionQo);
 
     List<BookSectionVo> queryListBookSection(QueryBookSectionQo<BookSectionEntity> queryBookSectionQo);
 

@@ -6,7 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.base.exception.Exception20000;
+import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
 import com.zifuji.cloud.server.business.db.book.entity.BookEntity;
 import com.zifuji.cloud.server.business.db.book.entity.BookSectionContentEntity;
 import com.zifuji.cloud.server.business.db.book.entity.BookSectionEntity;
@@ -166,7 +166,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public IPage<BookSectionVo> queryPageBookSection() {
+    public IPage<BookSectionVo> queryPageBookSection(QueryBookSectionQo<BookSectionEntity> queryBookSectionQo) {
+        QueryWrapper<BookSectionEntity> queryWrapper = new QueryWrapper<>();
+        if(ObjectUtil.isNotNull(queryBookSectionQo.getBookId())){
+            queryWrapper.lambda().eq(BookSectionEntity::getBookId,queryBookSectionQo.getBookId());
+        }
+        if (StrUtil.isNotBlank(queryBookSectionQo.getSectionName())) {
+            queryWrapper.lambda().eq(BookSectionEntity::getSectionName, queryBookSectionQo.getSectionName());
+        }
+        IPage<BookSectionEntity> page =  bookSectionEntityService.page(queryBookSectionQo,queryWrapper);
         return null;
     }
 

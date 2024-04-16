@@ -1,7 +1,7 @@
 package com.zifuji.cloud.server.business.db.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zifuji.cloud.server.base.bean.MyBaseEntity;
+import com.zifuji.cloud.server.base.module.mybatis.bean.MyBaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

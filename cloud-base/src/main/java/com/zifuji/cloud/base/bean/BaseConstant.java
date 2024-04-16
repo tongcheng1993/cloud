@@ -7,7 +7,6 @@ public class BaseConstant {
     public static final Long TTL = 1800000L;
 
     //------------------------角色code
-    public static final String ROLE_VISIT = "visit";
 
     public static final String ROLE_REGISTER = "register";
 

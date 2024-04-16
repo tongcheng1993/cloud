@@ -108,11 +108,15 @@ management:
   endpoint:
     health:
       show-details: always
-minio:
-  endpoint: 192.168.84.150
-  port: 9000
-  accessKey: minioadmin
-  secretKey: minioadmin
-  secure: false
-  defaultBucketName: mytc
-temppath: D:\tmp
+zfj:
+  tmp:
+    path: D:\tmp
+  es:
+    url: http://192.168.84.150:9200
+  minio:
+    endpoint: 192.168.84.150
+    port: 9000
+    accessKey: minioadmin
+    secretKey: minioadmin
+    secure: false
+    defaultBucketName: mytc

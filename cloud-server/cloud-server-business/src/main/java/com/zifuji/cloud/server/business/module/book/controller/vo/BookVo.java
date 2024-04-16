@@ -2,7 +2,7 @@ package com.zifuji.cloud.server.business.module.book.controller.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.zifuji.cloud.server.base.bean.BaseControllerVo;
+import com.zifuji.cloud.server.base.db.BaseControllerVo;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

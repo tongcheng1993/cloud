@@ -3,12 +3,5 @@
 <mapper
         namespace="com.zifuji.cloud.server.sys.module.quartz.mapper.QuartzMapper">
 
-    <select id="selectPageQuartzRecord"
-            resultType="com.zifuji.cloud.server.sys.module.quartz.controller.bo.QuartzRecordComponentMo">
-        SELECT
-            zsqr.*
-        FROM
-                z_sys_quartz_record zsqr
-        ${ew.customSqlSegment}
-    </select>
+
 </mapper>

@@ -74,10 +74,4 @@ management:
   endpoint:
     health:
       show-details: always
-web:
-  ignore:
-    uri:
-      - /business/webUser/login
-      - /business/webUser/drawCaptcha
-      - /sys/file/download**
 temppath: /tmp/zfj

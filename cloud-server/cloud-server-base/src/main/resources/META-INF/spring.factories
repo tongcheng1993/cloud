@@ -1,8 +1,10 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zifuji.cloud.server.base.config.ElasticSearchConfig,\
-  com.zifuji.cloud.server.base.config.ResultExceptionHandle,\
-  com.zifuji.cloud.server.base.properties.ZfjProperties,\
-  com.zifuji.cloud.server.base.config.WebSecurityConfig,\
-  com.zifuji.cloud.server.base.config.MyBatisPlusConfig,\
-  com.zifuji.cloud.server.base.config.Swagger2Config,\
-  com.zifuji.cloud.server.base.config.CommonFeignConfig
+  com.zifuji.cloud.server.base.module.es.config.ElasticSearchConfig,\
+  com.zifuji.cloud.server.base.module.es.properties.ZfjEsProperties,\
+  com.zifuji.cloud.server.base.module.exception.config.ResultExceptionHandle,\
+  com.zifuji.cloud.server.base.module.file.properties.ZfjTmpProperties,\
+  com.zifuji.cloud.server.base.module.file.config.ZfjFileConfig,\
+  com.zifuji.cloud.server.base.module.security.config.WebSecurityConfig,\
+  com.zifuji.cloud.server.base.module.mybatis.config.MyBatisPlusConfig,\
+  com.zifuji.cloud.server.base.module.swagger2.config.Swagger2Config,\
+  com.zifuji.cloud.server.base.module.feign.config.CommonFeignConfig

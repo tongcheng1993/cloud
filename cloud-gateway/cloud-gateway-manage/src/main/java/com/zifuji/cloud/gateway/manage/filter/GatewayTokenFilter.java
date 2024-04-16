@@ -103,11 +103,10 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                 // 如果是放心接口 api 给与游客身份
                 if (pathFlag) {
                     userInfo = new UserInfo();
-                    userInfo.setId(1L);
+                    userInfo.setId(0L);
                     userInfo.setUserName("登录" + DateUtil.now());
                     userInfo.setType("manage");
                     List<String> roleCodeList = new ArrayList<>();
-                    roleCodeList.add(BaseConstant.ROLE_VISIT);
                     userInfo.setRoleCodeList(roleCodeList);
                     List<String> permissionCodeList = new ArrayList<>();
                     userInfo.setPermissionCodeList(permissionCodeList);

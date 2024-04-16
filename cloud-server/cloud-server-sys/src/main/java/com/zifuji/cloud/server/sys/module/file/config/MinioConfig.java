@@ -13,17 +13,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MinioConfig {
 
-    @Value("${minio.endpoint}")
+    @Value("${zfj.minio.endpoint}")
     private String endpoint;
-    @Value("${minio.port}")
+    @Value("${zfj.minio.port}")
     private Integer port;
-    @Value("${minio.accessKey}")
+    @Value("${zfj.minio.accessKey}")
     private String accessKey;
-    @Value("${minio.secretKey}")
+    @Value("${zfj.minio.secretKey}")
     private String secretKey;
-    @Value("${minio.secure}")
+    @Value("${zfj.minio.secure}")
     private Boolean secure;
-    @Value("${minio.defaultBucketName}")
+    @Value("${zfj.minio.defaultBucketName}")
     private String defaultBucketName;
 
     @Bean

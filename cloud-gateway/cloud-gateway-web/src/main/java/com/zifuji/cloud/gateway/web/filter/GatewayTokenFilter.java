@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.zifuji.cloud.gateway.web.properties.WebIgnoreProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -37,7 +36,6 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
 
     private StringRedisTemplate stringRedisTemplate;
 
-    private WebIgnoreProperties webIgnoreProperties;
 
     @Override
     public int getOrder() {
@@ -84,37 +82,15 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
             tc_token = request.getHeaders().getFirst("Tc-Token");
             // 如果没有token  就是游客
             if (StrUtil.isBlank(tc_token)) {
-                // 对于白名单的url 设置游客信息 不是白名单的全部拦截
-                // 检查路径是不是放行的路径
-                boolean pathFlag = false;
-                List<String> ignoreUrl = webIgnoreProperties.getUri();
-                for (String ignore : ignoreUrl) {
-                    if (ignore.equals(path)
-                            || ((ignore.endsWith("**") && path.startsWith(ignore.substring(0, ignore.length() - 2))))) {
-                        pathFlag = true;
-                        break;
-                    }
-                }
-                if (path.endsWith("/v2/api-docs")) {
-                    pathFlag = true;
-                }
-                // 如果是登录按钮 给与游客身份
-                if (pathFlag) {
-                    // 设置游客身份信息
-                    userInfo = new UserInfo();
-                    userInfo.setId(1L);
-                    userInfo.setUserName("游客" + DateUtil.now());
-                    userInfo.setType("web");
-                    List<String> roleCodeList = new ArrayList<>();
-                    roleCodeList.add(BaseConstant.ROLE_VISIT);
-                    userInfo.setRoleCodeList(roleCodeList);
-                    List<String> permissionCodeList = new ArrayList<>();
-                    userInfo.setPermissionCodeList(permissionCodeList);
-                    //  如果不是直接
-                } else {
-                    // gateway 没有异常捕捉器 所以直接 return
-                    return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
-                }
+                // 设置游客身份信息
+                userInfo = new UserInfo();
+                userInfo.setId(0L);
+                userInfo.setUserName("游客" + DateUtil.now());
+                userInfo.setType("web");
+                List<String> roleCodeList = new ArrayList<>();
+                userInfo.setRoleCodeList(roleCodeList);
+                List<String> permissionCodeList = new ArrayList<>();
+                userInfo.setPermissionCodeList(permissionCodeList);
             } else {
                 // 每个token在redis中有对应的str
                 String bo = stringRedisTemplate.opsForValue().get(tc_token);

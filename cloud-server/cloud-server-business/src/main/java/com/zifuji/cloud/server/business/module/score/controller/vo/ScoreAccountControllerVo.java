@@ -1,7 +1,6 @@
 package com.zifuji.cloud.server.business.module.score.controller.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.zifuji.cloud.server.base.bean.BaseControllerVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

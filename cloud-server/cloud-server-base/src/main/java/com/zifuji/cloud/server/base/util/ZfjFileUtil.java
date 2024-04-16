@@ -2,24 +2,21 @@ package com.zifuji.cloud.server.base.util;
 
 
 import cn.hutool.core.io.IoUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.springframework.http.MediaType;
-import org.springframework.http.MediaTypeFactory;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.activation.MimeType;
 import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
+@Slf4j
 public class ZfjFileUtil {
 
     public static FileItem createFileItem(InputStream inputStream, String fileName) {
@@ -67,8 +64,9 @@ public class ZfjFileUtil {
                 , getMimeType(file.getName())
                 , true
                 , file.getName());
-        try (InputStream input = new FileInputStream(file);
-             OutputStream os = item.getOutputStream()) {
+        try {
+            InputStream input = new FileInputStream(file);
+            OutputStream os = item.getOutputStream();
             // 流转移
             IoUtil.copy(input, os);
         } catch (Exception e) {

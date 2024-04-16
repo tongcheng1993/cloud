@@ -1,6 +1,6 @@
 package com.zifuji.cloud.server.business.module.webUser.controller.vo;
 
-import com.zifuji.cloud.server.base.bean.BaseControllerVo;
+import com.zifuji.cloud.server.base.db.BaseControllerVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

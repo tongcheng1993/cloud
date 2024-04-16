@@ -2,7 +2,8 @@ package com.zifuji.cloud.server.base.util;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.base.exception.Exception20000;
+import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class SecurityUtil {
 
     public static UserInfo getUserDetails() {

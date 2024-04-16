@@ -1,9 +1,10 @@
 package com.zifuji.cloud.server.sys.module.area.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.sys.module.area.mo.SaveAreaControllerMo;
-import com.zifuji.cloud.server.sys.module.area.qo.AreaPageQo;
-import com.zifuji.cloud.server.sys.module.area.vo.AreaControllerVo;
+import com.zifuji.cloud.server.sys.db.area.entity.AreaEntity;
+import com.zifuji.cloud.server.sys.module.area.controller.mo.AddAreaMo;
+import com.zifuji.cloud.server.sys.module.area.controller.qo.AreaQo;
+import com.zifuji.cloud.server.sys.module.area.controller.vo.AreaVo;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,34 +34,28 @@ public class AreaController {
 
     //增加
     @ApiOperation(value = "")
-    @PostMapping(value = "/saveArea")
-    public Result<String> saveArea(@RequestBody @Valid SaveAreaControllerMo saveAreaMo) {
+    @PostMapping(value = "/addArea")
+    public Result<AreaVo> addArea(@RequestBody @Valid AddAreaMo addAreaMo) {
 
-        String result = areaService.saveArea(saveAreaMo);
-
-        return Result.setObj(result);
+        return Result.setObj(null);
     }
     //删除
 
     //修改
 
     //查询
-    @PostMapping(value = "/queryPageArea")
-    public Result<IPage<AreaControllerVo>> queryPageArea(@RequestBody @Valid AreaPageQo areaPageQo) {
-
-        IPage<AreaControllerVo> result = areaService.queryPageArea(areaPageQo);
-
-        return Result.setObj(result);
-    }
-
-
     @PostMapping(value = "/queryListArea")
-    public Result<List<AreaControllerVo>> queryListArea(@RequestBody @Valid AreaPageQo areaPageQo) {
-
-        List<AreaControllerVo> result = areaService.queryListArea(areaPageQo);
-
-        return Result.setObj(areaService.queryListArea(areaPageQo));
+    public Result<List<AreaVo>> queryListArea(@RequestBody @Valid AreaQo<AreaEntity> areaQo) {
+        return Result.setObj(null);
     }
+
+    @PostMapping(value = "/queryPageArea")
+    public Result<IPage<AreaVo>> queryPageArea(@RequestBody @Valid AreaQo<AreaEntity> areaQo) {
+        return Result.setObj(null);
+    }
+
+
+
 
 
 }

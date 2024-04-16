@@ -12,13 +12,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.server.sys.module.seq.controller.bo.SeqComponentMo;
 import com.zifuji.cloud.server.sys.module.seq.mapper.SeqMapper;
 import com.zifuji.cloud.server.sys.module.seq.controller.mo.SaveSeqControllerMo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.BaseConstant;
-import com.zifuji.cloud.base.exception.Exception20000;
+import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
 import com.zifuji.cloud.server.sys.db.seq.entity.SeqEntity;
 import com.zifuji.cloud.server.sys.db.seq.service.SeqEntityService;
 import com.zifuji.cloud.server.sys.module.seq.controller.qo.SeqPageQo;
@@ -28,6 +29,7 @@ import com.zifuji.cloud.server.sys.module.seq.controller.vo.SeqControllerVo;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.AllArgsConstructor;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class SeqServiceImpl implements SeqService {

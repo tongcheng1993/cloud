@@ -1,6 +1,5 @@
 package com.zifuji.cloud.server.business.module.blog.controller.mo;
 
-import com.zifuji.cloud.server.base.bean.BaseControllerMo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -77,7 +77,7 @@ public class BookController {
 
     @ApiOperation(value = "")
     @PostMapping(value = "/queryPageBookSection")
-    public Result<IPage<BookSectionVo>> queryPageBookSection() {
+    public Result<IPage<BookSectionVo>> queryPageBookSection(@RequestBody @Valid  QueryBookSectionQo<BookSectionEntity> queryBookSectionQo) {
         return null;
     }
 
