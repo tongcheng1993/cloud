@@ -17,8 +17,6 @@ public class UserHandshakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
         log.info("beforeHandshake");
-        log.info(webSocketHandler.toString());
-        log.info(JSONObject.toJSONString(map));
         return true;
     }
 

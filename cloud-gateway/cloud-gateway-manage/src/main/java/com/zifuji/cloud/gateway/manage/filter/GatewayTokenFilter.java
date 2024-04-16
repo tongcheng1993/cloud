@@ -89,7 +89,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
             if (StrUtil.isBlank(tc_token)) {
                 // 检查路径是不是放行的路径
                 boolean pathFlag = false;
-                List<String> ignoreUrl = webIgnoreProperties.getUri();
+                List<String> ignoreUrl = webIgnoreProperties.getWebUrl();
                 for (String ignore : ignoreUrl) {
                     if (ignore.equals(path)
                             || ((ignore.endsWith("**") && path.startsWith(ignore.substring(0, ignore.length() - 2))))) {

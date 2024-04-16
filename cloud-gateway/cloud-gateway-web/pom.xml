@@ -22,43 +22,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.13</version>
-				<configuration>
-					<imageName>${project.artifactId}:${project.version}</imageName>
-					<baseImage>docker.io/openjdk:8u121-jre</baseImage>
-					<entryPoint>["java","-jar","/${project.build.finalName}.jar"]</entryPoint>
-					<dockerHost>http://127.0.0.1:2375</dockerHost>
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.jar</include>
-						</resource>
-					</resources>
-				</configuration>
-			</plugin>
 		</plugins>
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>
 				<includes>
-					<include>**/*.yml</include>
-					<include>**/*.properties</include>
 					<include>**/*.xml</include>
 				</includes>
-				<filtering>true</filtering>
 			</resource>
 			<resource>
 				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*.yml</include>
-					<include>**/*.properties</include>
-					<include>**/*.xml</include>
-				</includes>
-				<filtering>true</filtering>
 			</resource>
 		</resources>
 	</build>

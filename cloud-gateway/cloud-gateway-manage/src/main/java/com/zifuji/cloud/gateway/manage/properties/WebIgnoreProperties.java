@@ -10,9 +10,9 @@ import lombok.Data;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "web.ignore")
+@ConfigurationProperties(prefix = "my")
 public class WebIgnoreProperties {
 
 	
-	private List<String> uri;
+	private List<String> webUrl;
 }

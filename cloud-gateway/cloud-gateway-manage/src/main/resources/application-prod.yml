@@ -57,11 +57,6 @@ spring:
         max-wait: 1
         max-idle: 8
         min-idle: 0
-web:
-  ignore:
-    uri:
-      - /sys/manageUser/login
-      - /sys/manageUser/drawCaptcha
 mybatis-plus:
   mapper-locations: classpath*:com/zifuji/**/*.xml
   configuration:
@@ -81,4 +76,7 @@ management:
   endpoint:
     health:
       show-details: always
-temppath: /tmp/zfj
+my:
+  web-url:
+    - /business/webUser/login
+    - /business/webUser/drawCaptcha
