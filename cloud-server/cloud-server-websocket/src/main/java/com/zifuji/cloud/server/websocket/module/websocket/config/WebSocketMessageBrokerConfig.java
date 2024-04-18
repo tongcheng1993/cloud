@@ -1,15 +1,13 @@
 package com.zifuji.cloud.server.websocket.module.websocket.config;
 
 
-import com.zifuji.cloud.server.websocket.module.websocket.interceptor.ClientInboundChannelInterceptor;
-import com.zifuji.cloud.server.websocket.module.websocket.interceptor.ClientOutboundChannelInterceptor;
-import com.zifuji.cloud.server.websocket.module.websocket.interceptor.UserHandshakeInterceptor;
-import com.zifuji.cloud.server.websocket.module.websocket.interceptor.UserSockJSTransportHandler;
+import com.zifuji.cloud.server.websocket.module.websocket.interceptor.MyClientChannelInterceptor;
+import com.zifuji.cloud.server.websocket.module.websocket.interceptor.MyHandshakeInterceptor;
+import com.zifuji.cloud.server.websocket.module.websocket.interceptor.MyTransportHandler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.*;
@@ -26,20 +24,20 @@ public class WebSocketMessageBrokerConfig implements WebSocketMessageBrokerConfi
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         StompWebSocketEndpointRegistration stompWebSocketEndpointRegistration = registry.addEndpoint("/ws");
         stompWebSocketEndpointRegistration.setAllowedOrigins("*");
-        stompWebSocketEndpointRegistration.addInterceptors(new UserHandshakeInterceptor());
-        stompWebSocketEndpointRegistration.setHandshakeHandler(new UserSockJSTransportHandler());
+        stompWebSocketEndpointRegistration.addInterceptors(new MyHandshakeInterceptor());
+        stompWebSocketEndpointRegistration.setHandshakeHandler(new MyTransportHandler());
         stompWebSocketEndpointRegistration.withSockJS();
     }
 
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new ClientInboundChannelInterceptor());
+        registration.interceptors(new MyClientChannelInterceptor());
     }
 
     @Override
     public void configureClientOutboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new ClientOutboundChannelInterceptor());
+        registration.interceptors(new MyClientChannelInterceptor());
     }
 
     @Override

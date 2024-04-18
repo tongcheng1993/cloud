@@ -74,7 +74,8 @@ management:
   endpoint:
     health:
       show-details: always
-my:
-  web-url:
-    - /business/webUser/login
-    - /business/webUser/drawCaptcha
+web:
+  ignore:
+    uri:
+      - /sys/manageUser/login
+      - /sys/manageUser/drawCaptcha

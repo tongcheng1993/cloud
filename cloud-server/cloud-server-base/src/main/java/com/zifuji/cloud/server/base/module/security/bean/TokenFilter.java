@@ -28,7 +28,7 @@ public class TokenFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        log.info(request.getRequestURI());
+
         // ws请求
         if (request.getRequestURI().startsWith("/ws")) {
             // 设置session时间无限
@@ -63,6 +63,9 @@ public class TokenFilter extends BasicAuthenticationFilter {
         }
         // 当前用户的角色信息和权限信息
         SecurityUtil.setUserDetails(userInfo);
+
+        log.info("当前请求：" + request.getRequestURI());
+        log.info("当前登陆人：" + JSONObject.toJSONString(userInfo));
         // 放行请求
         chain.doFilter(request, response);
     }

@@ -9,7 +9,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -23,7 +26,8 @@ public class WebSocketStompController {
 
     @ApiOperation(value = "发送消息")
     @MessageMapping(value = "/sendWsMessage")
-    public Result<Boolean> sendWsMessage(SendWsMessageMo sendWsMessageMo) {
+    public Result<Boolean> sendWsMessage(@Payload SendWsMessageMo sendWsMessageMo, Authentication authentication) {
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         websocketService.sendWsMessage(sendWsMessageMo);
         return Result.setObj(true);
     }

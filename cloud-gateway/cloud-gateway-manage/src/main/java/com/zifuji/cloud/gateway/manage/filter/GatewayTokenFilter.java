@@ -50,16 +50,22 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
-        String from = request.getHeaders().getFirst("from");
-        if (StrUtil.isNotBlank(from)) {
-            // gateway 没有异常捕捉器 所以直接 return
-            return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
-        }
+
+
         // 获取当前请求路径
         String path = request.getURI().getPath();
         log.info("path:{}", path);
+
+
+        // 网关请求不允许有from 请求头
+        String from = request.getHeaders().getFirst("From");
+        if (StrUtil.isNotBlank(from)) {
+            return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
+        }
+
         Map<String, Object> map = new HashMap<String, Object>();
         String tc_token = "";
         UserInfo userInfo = null;
@@ -89,16 +95,13 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
             if (StrUtil.isBlank(tc_token)) {
                 // 检查路径是不是放行的路径
                 boolean pathFlag = false;
-                List<String> ignoreUrl = webIgnoreProperties.getWebUrl();
+                List<String> ignoreUrl = webIgnoreProperties.getUri();
                 for (String ignore : ignoreUrl) {
                     if (ignore.equals(path)
                             || ((ignore.endsWith("**") && path.startsWith(ignore.substring(0, ignore.length() - 2))))) {
                         pathFlag = true;
                         break;
                     }
-                }
-                if (path.endsWith("/v2/api-docs")) {
-                    pathFlag = true;
                 }
                 // 如果是放心接口 api 给与游客身份
                 if (pathFlag) {
@@ -143,6 +146,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
 
 
     private Mono<Void> setResponseInfo(ServerHttpResponse response, Object object) {
+        log.info("异常："+JSONObject.toJSONString(object));
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
         byte[] responseByte = new byte[0];

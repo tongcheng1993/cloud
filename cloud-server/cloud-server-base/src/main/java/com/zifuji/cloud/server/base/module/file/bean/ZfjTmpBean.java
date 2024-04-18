@@ -2,6 +2,7 @@ package com.zifuji.cloud.server.base.module.file.bean;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import com.zifuji.cloud.base.util.MyUtil;
 import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +14,7 @@ import java.io.File;
 public class ZfjTmpBean {
 
     public String getTempDirPath() {
-        String tmpdir = System.getProperty("java.io.tmpdir");
-        String parentPath = tmpdir + File.separator + StrUtil.uuid();
-        // 先清空临时目录
+        String parentPath = MyUtil.getPropertiesTmpdir() + File.separator + StrUtil.uuid();
         FileUtil.del(parentPath);
         File pathFile = new File(parentPath);
         if (!pathFile.exists()) {

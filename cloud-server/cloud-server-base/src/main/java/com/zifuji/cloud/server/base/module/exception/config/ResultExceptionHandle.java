@@ -26,47 +26,65 @@ public class ResultExceptionHandle {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(MethodArgumentNotValidException e) {
-        String err = Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage();
-        return Result.set20000Mes(err);
+        return setErrorCode(20000, e);
     }
 
     // 业务中自主抛出的异常
     @ExceptionHandler(Exception20000.class)
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(Exception20000 e) {
-        return Result.set20000Mes(e.getMessage());
+        return setErrorCode(20000, e);
     }
 
     // 业务中自主抛出的300异常
     @ExceptionHandler(Exception30000.class)
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(Exception30000 e) {
-        return Result.set30000Mes("身份凭证异常，请联系管理员" + e.getMessage());
+        return setErrorCode(30000, e);
     }
 
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(AuthenticationException e) {
-        return Result.set40000Mes("身份凭证异常，请联系管理员" + e.getMessage());
+        return setErrorCode(30000, e);
     }
 
     // 业务中自主抛出的400异常
     @ExceptionHandler(Exception40000.class)
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(Exception40000 e) {
-        return Result.set40000Mes("权限不足，请联系管理员" + e.getMessage());
+        return setErrorCode(40000, e);
     }
+
     // spring security 抛出的权限不足异常
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(AccessDeniedException e) {
-        return Result.set40000Mes("权限不足，请联系管理员" + e.getMessage());
+        return setErrorCode(40000, e);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.OK)
     public Result<Object> handleException(Exception e) {
-        log.error("不可预知的异常：" + e.getMessage(), e);
-        return Result.set50000Mes("服务器网络错误，请向管理员求助" + e.getMessage());
+
+        return setErrorCode(50000, e);
     }
+
+
+    private Result<Object> setErrorCode(Integer code, Exception e) {
+        log.info("异常：", e);
+        if (20000 == code) {
+            return Result.set20000Mes(e.getMessage());
+        } else if (30000 == code) {
+            return Result.set30000Mes(e.getMessage());
+        } else if (40000 == code) {
+            return Result.set40000Mes(e.getMessage());
+        } else if (50000 == code) {
+            return Result.set50000Mes(e.getMessage());
+        } else {
+            return Result.set50000Mes(e.getMessage());
+        }
+    }
+
+
 }

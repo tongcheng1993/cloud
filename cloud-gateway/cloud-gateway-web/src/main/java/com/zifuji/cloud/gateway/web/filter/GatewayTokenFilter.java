@@ -36,7 +36,6 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
 
     private StringRedisTemplate stringRedisTemplate;
 
-
     @Override
     public int getOrder() {
         return 0;

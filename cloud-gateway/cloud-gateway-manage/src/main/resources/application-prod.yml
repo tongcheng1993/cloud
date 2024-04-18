@@ -81,4 +81,3 @@ web:
     uri:
       - /sys/manageUser/login
       - /sys/manageUser/drawCaptcha
-temppath: /tmp/zfj

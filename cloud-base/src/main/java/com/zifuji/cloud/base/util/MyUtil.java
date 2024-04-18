@@ -7,11 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyUtil {
 
-    public static void getProperties() {
+    public static String getPropertiesTmpdir() {
 
         String tmpdir = System.getProperty("java.io.tmpdir");
-        log.info("java.io.tmpdir:" + tmpdir);
-
+        return tmpdir;
 
     }
 

@@ -11,7 +11,7 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 import java.util.Map;
 
 @Slf4j
-public class UserHandshakeInterceptor implements HandshakeInterceptor {
+public class MyHandshakeInterceptor implements HandshakeInterceptor {
 
 
     @Override
