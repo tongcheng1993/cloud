@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.2.RELEASE</version>
+        <relativePath/>
+    </parent>
+    <groupId>com.zifuji</groupId>
+    <artifactId>cloud</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <lombok.version>1.18.12</lombok.version>
+        <fastjson.version>1.2.83</fastjson.version>
+        <hutool-all.version>5.7.15</hutool-all.version>
+        <poi.version>5.0.0</poi.version>
+        <webmagic.version>0.7.3</webmagic.version>
+        <freemarker.version>2.3.29</freemarker.version>
+        <swagger2.version>2.9.2</swagger2.version>
+        <mybatis-plus.version>3.3.1</mybatis-plus.version>
+        <druid.version>1.1.21</druid.version>
+        <mysql-connector-java.version>8.0.19</mysql-connector-java.version>
+        <easyexcel.version>1.1.2-beat1</easyexcel.version>
+        <fastdfs.version>1.26.5</fastdfs.version>
+        <camunda.version>3.2.0</camunda.version>
+        <cloud.version>0.0.1-SNAPSHOT</cloud.version>
+        <aspose-words.version>19.5</aspose-words.version>
+        <aspose-cells.version>8.5.2</aspose-cells.version>
+        <aspose-pdf.version>19.5</aspose-pdf.version>
+        <elasticsearch.version>7.12.1</elasticsearch.version>
+    </properties>
+
+    <dependencies>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Hoxton.SR9</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2.2.6.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- cloud-base -->
+            <dependency>
+                <groupId>com.zifuji</groupId>
+                <artifactId>cloud-base</artifactId>
+                <version>${cloud.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>cloud-base</module>
+        <module>cloud-gateway</module>
+        <module>cloud-server</module>
+    </modules>
+
+</project>

@@ -1,0 +1,76 @@
+server:
+  port: 9092
+spring:
+  application:
+    name: cloud-gateway-web
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      server-addr: 192.168.84.99:8848
+      discovery:
+        namespace: 50d5e158-b7d1-4375-81eb-46dddaaddf8c
+        group: gateway
+    gateway:
+      routes:
+        - id: cloud-server-sys
+          uri: lb://cloud-server-sys
+          predicates:
+            - Path=/sys/**
+          filters:
+            - StripPrefix=1
+        - id: cloud-server-websocket
+          uri: lb://cloud-server-websocket
+          predicates:
+            - Path=/websocket/**
+          filters:
+            - StripPrefix=1
+        - id: cloud-server-business
+          uri: lb://cloud-server-business
+          predicates:
+            - Path=/business/**
+          filters:
+            - StripPrefix=1
+  datasource:
+    url: jdbc:mysql://192.168.84.99:3306/zifuji?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: zs
+    password: Zs!12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+  output:
+    ansi:
+      enabled: always
+  redis:
+    host: 192.168.84.99
+    port: 6379
+    password: Zs!12345
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 200
+        max-wait: 1
+        max-idle: 8
+        min-idle: 0
+mybatis-plus:
+  mapper-locations: classpath*:com/zifuji/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    root: INFO
+  pattern:
+    console: '%d{yyyy/MM/dd-HH:mm:ss} [%thread] %clr(%-5level) %clr(%logger:%line{36}){cyan} %clr(%msg%n){green}'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

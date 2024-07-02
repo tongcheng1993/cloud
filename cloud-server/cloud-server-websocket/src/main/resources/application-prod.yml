@@ -1,0 +1,80 @@
+server:
+  port: 15002
+spring:
+  application:
+    name: cloud-server-websocket
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      server-addr: 192.168.84.150:8848
+      discovery:
+        namespace: de91ae65-2d3a-42bb-ae2f-8226361035e7
+        group: DEFAULT_GROUP
+  task:
+    execution:
+      pool:
+        core-size: 3
+        queue-capacity: 5
+        max-size: 5
+  servlet:
+    multipart:
+      max-request-size: 1000MB
+      max-file-size: 1000MB
+  datasource:
+    url: jdbc:mysql://192.168.84.150:3306/zifuji?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+  output:
+    ansi:
+      enabled: always
+  redis:
+    host: 192.168.84.150
+    port: 6379
+    password: 123456
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 200
+        max-wait: 1
+        max-idle: 8
+        min-idle: 0
+  rabbitmq:
+    host: 192.168.84.150
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: zifuji
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+mybatis-plus:
+  mapper-locations: classpath*:com/zifuji/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  file:
+    name: ./logs/${spring.application.name}/out.log
+  level:
+    root: INFO
+  pattern:
+    console: '%d{yyyy/MM/dd-HH:mm:ss} [%thread] %clr(%-5level) %clr(%logger:%line{36}){cyan} %clr(%msg%n){green}'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
