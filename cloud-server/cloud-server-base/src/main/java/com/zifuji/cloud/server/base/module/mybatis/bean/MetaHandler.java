@@ -16,13 +16,13 @@ public class MetaHandler implements MetaObjectHandler {
 		// 获取登录用户id
 		UserInfo userInfo = SecurityUtil.getUserDetails();
 		if (ObjectUtil.isNull(getFieldValByName("createBy", metaObject))) {
-			this.setFieldValByName("createBy", userInfo.getId(), metaObject);
+			this.setFieldValByName("createBy", userInfo.getTableId(), metaObject);
 		}
 		if (ObjectUtil.isNull(getFieldValByName("createTime", metaObject))) {
 			this.setFieldValByName("createTime", LocalDateTime.now(), metaObject);
 		}
 		if (ObjectUtil.isNull(getFieldValByName("updateBy", metaObject))) {
-			this.setFieldValByName("updateBy", userInfo.getId(), metaObject);
+			this.setFieldValByName("updateBy", userInfo.getTableId(), metaObject);
 		}
 		if (ObjectUtil.isNull(getFieldValByName("updateTime", metaObject))) {
 			this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
@@ -40,7 +40,7 @@ public class MetaHandler implements MetaObjectHandler {
 		// 获取登录用户id
 		UserInfo userInfo = SecurityUtil.getUserDetails();
 		if (ObjectUtil.isNull(getFieldValByName("updateBy", metaObject))) {
-			this.setFieldValByName("updateBy", userInfo.getId(), metaObject);
+			this.setFieldValByName("updateBy", userInfo.getTableId(), metaObject);
 		}
 		if (ObjectUtil.isNull(getFieldValByName("updateTime", metaObject))) {
 			this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);

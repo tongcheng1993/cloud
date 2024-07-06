@@ -66,7 +66,7 @@ public class RelationServiceImpl implements RelationService {
     public String saveFriendInfo(FriendInfoControllerMo friendInfoMo) {
         UserInfo userInfo = SecurityUtil.getUserDetails();
         QueryWrapper<FriendInfoEntity> queryWrapper = new QueryWrapper<FriendInfoEntity>();
-        queryWrapper.lambda().eq(FriendInfoEntity::getCreateBy, userInfo.getId());
+        queryWrapper.lambda().eq(FriendInfoEntity::getCreateBy, userInfo.getTableId());
         FriendInfoEntity friendInfoEntity = friendInfoEntityService.getOne(queryWrapper);
         if (ObjectUtil.isNull(friendInfoEntity)) {
             friendInfoEntity = new FriendInfoEntity();
@@ -76,14 +76,14 @@ public class RelationServiceImpl implements RelationService {
             BeanUtil.copyProperties(friendInfoMo, friendInfoEntity);
             friendInfoEntityService.updateById(friendInfoEntity);
         }
-        return friendInfoEntity.getId() + "";
+        return friendInfoEntity.getTableId() + "";
     }
 
 
     @Override
     public FriendInfoControllerVo getFriendInfoByMyself() {
         UserInfo userInfo = SecurityUtil.getUserDetails();
-        FriendInfoEntity friendInfoEntity = getFriendInfoByCreateBy(userInfo.getId());
+        FriendInfoEntity friendInfoEntity = getFriendInfoByCreateBy(userInfo.getTableId());
         FriendInfoControllerVo friendInfoVo = new FriendInfoControllerVo();
         BeanUtil.copyProperties(friendInfoEntity, friendInfoVo);
         return friendInfoVo;
@@ -103,7 +103,7 @@ public class RelationServiceImpl implements RelationService {
     @Override
     public FriendInfoControllerVo getFriendInfoById(String friendId) {
         QueryWrapper<FriendInfoEntity> queryWrapper = new QueryWrapper<FriendInfoEntity>();
-        queryWrapper.lambda().eq(FriendInfoEntity::getId, friendId);
+        queryWrapper.lambda().eq(FriendInfoEntity::getTableId, friendId);
         FriendInfoEntity friendInfoEntity = friendInfoEntityService.getOne(queryWrapper);
         FriendInfoControllerVo friendInfoVo = new FriendInfoControllerVo();
         BeanUtil.copyProperties(friendInfoEntity, friendInfoVo);
@@ -126,7 +126,7 @@ public class RelationServiceImpl implements RelationService {
     public String makeFriendApply(MakeFriendApplyControllerMo makeFriendApplyMo) {
         UserInfo userInfo = SecurityUtil.getUserDetails();
         QueryWrapper<FriendInfoEntity> queryWrapper = new QueryWrapper<FriendInfoEntity>();
-        queryWrapper.lambda().eq(FriendInfoEntity::getCreateBy, userInfo.getId());
+        queryWrapper.lambda().eq(FriendInfoEntity::getCreateBy, userInfo.getTableId());
         FriendInfoEntity myFriendInfoEntity = friendInfoEntityService.getOne(queryWrapper);
         if (ObjectUtil.isNull(myFriendInfoEntity)) {
             throw new Exception20000("请完善自身交友信息");
@@ -145,14 +145,14 @@ public class RelationServiceImpl implements RelationService {
         friendApplyEntity.setShowFlag(true);
         friendApplyEntityService.save(friendApplyEntity);
 
-        return friendApplyEntity.getId() + "";
+        return friendApplyEntity.getTableId() + "";
     }
 
     @Override
     public String auditFriendApply(AuditFriendApplyControllerMo auditFriendApplyMo) {
-        Long id = SecurityUtil.getUserDetails().getId();
+        Long id = SecurityUtil.getUserDetails().getTableId();
 
-        FriendApplyEntity friendApplyEntity = friendApplyEntityService.getById(auditFriendApplyMo.getId());
+        FriendApplyEntity friendApplyEntity = friendApplyEntityService.getById(auditFriendApplyMo.getTableId());
         if (ObjectUtil.isNull(friendApplyEntity)) {
             throw new Exception20000("数据错误");
         }
@@ -180,7 +180,7 @@ public class RelationServiceImpl implements RelationService {
         friendApplyEntity.setAuditStatus(auditFriendApplyMo.getAuditStatus());
         friendApplyEntityService.updateById(friendApplyEntity);
 
-        return auditFriendApplyMo.getId() + "";
+        return auditFriendApplyMo.getTableId() + "";
     }
 
     @Override

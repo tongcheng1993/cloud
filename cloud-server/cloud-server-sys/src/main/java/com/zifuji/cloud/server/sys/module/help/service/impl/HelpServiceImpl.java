@@ -15,35 +15,35 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class HelpServiceImpl implements HelpService {
 
-    private HelpEntityService helpEntityService;
+	private HelpEntityService helpEntityService;
 
-    @Override
-    public String saveHelpContent(HelpContentControllerMo helpContentMo) {
-        QueryWrapper<HelpEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(HelpEntity::getName, helpContentMo.getName());
-        HelpEntity helpEntity = helpEntityService.getOne(queryWrapper);
-        if (ObjectUtil.isNull(helpEntity)) {
-            helpEntity = new HelpEntity();
-            helpEntity.setName(helpContentMo.getName());
-            helpEntity.setContent(helpContentMo.getContent());
-            helpEntityService.save(helpEntity);
-        } else {
-            helpEntity.setContent(helpContentMo.getContent());
-            helpEntityService.updateById(helpEntity);
-        }
-        return helpEntity.getId() + "";
-    }
+	@Override
+	public String saveHelpContent(HelpContentControllerMo helpContentMo) {
+		QueryWrapper<HelpEntity> queryWrapper = new QueryWrapper<>();
+		queryWrapper.lambda().eq(HelpEntity::getName, helpContentMo.getName());
+		HelpEntity helpEntity = helpEntityService.getOne(queryWrapper);
+		if (ObjectUtil.isNull(helpEntity)) {
+			helpEntity = new HelpEntity();
+			helpEntity.setName(helpContentMo.getName());
+			helpEntity.setContent(helpContentMo.getContent());
+			helpEntityService.save(helpEntity);
+		} else {
+			helpEntity.setContent(helpContentMo.getContent());
+			helpEntityService.updateById(helpEntity);
+		}
+		return helpEntity.getTableId() + "";
+	}
 
-    @Override
-    public String getHelpContent() {
-        QueryWrapper<HelpEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(HelpEntity::getName, "help");
-        HelpEntity helpEntity = helpEntityService.getOne(queryWrapper);
-        if (ObjectUtil.isNull(helpEntity)) {
-            return "";
-        }else{
-            return helpEntity.getContent();
-        }
+	@Override
+	public String getHelpContent() {
+		QueryWrapper<HelpEntity> queryWrapper = new QueryWrapper<>();
+		queryWrapper.lambda().eq(HelpEntity::getName, "help");
+		HelpEntity helpEntity = helpEntityService.getOne(queryWrapper);
+		if (ObjectUtil.isNull(helpEntity)) {
+			return "";
+		} else {
+			return helpEntity.getContent();
+		}
 
-    }
+	}
 }

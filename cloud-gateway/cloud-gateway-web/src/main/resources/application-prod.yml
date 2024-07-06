@@ -7,10 +7,10 @@ spring:
     nacos:
       username: nacos
       password: nacos
-      server-addr: 192.168.84.150:8848
+      server-addr: 192.168.84.99:8848
       discovery:
         namespace: de91ae65-2d3a-42bb-ae2f-8226361035e7
-        group: DEFAULT_GROUP
+        group: gateway
     gateway:
       routes:
         - id: cloud-server-sys
@@ -32,9 +32,9 @@ spring:
           filters:
             - StripPrefix=1
   datasource:
-    url: jdbc:mysql://192.168.84.150:3306/zifuji?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
-    password: 123456
+    url: jdbc:mysql://192.168.84.99:3306/zifuji?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: zs
+    password: Zs!12345
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -47,9 +47,9 @@ spring:
     ansi:
       enabled: always
   redis:
-    host: 192.168.84.150
+    host: 192.168.84.99
     port: 6379
-    password: 123456
+    password: Zs!12345
     timeout: 10000
     jedis:
       pool:
@@ -76,4 +76,3 @@ management:
   endpoint:
     health:
       show-details: always
-temppath: /tmp/zfj

@@ -6,23 +6,23 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 
+import com.zifuji.cloud.server.base.db.BaseControllerMo;
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class AuditFriendApplyControllerMo  {
+public class AuditFriendApplyControllerMo extends BaseControllerMo {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    private String id;
+	private String groupName;
 
-    private String groupName;
+	private String noteName;
 
-    private String noteName;
-
-
-
-    @NotBlank(message = "")
-    private String auditStatus;
-
-
+	@NotBlank(message = "")
+	private String auditStatus;
 
 }

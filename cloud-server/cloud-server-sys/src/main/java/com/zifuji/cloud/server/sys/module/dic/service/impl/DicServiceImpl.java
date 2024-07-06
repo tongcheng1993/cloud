@@ -33,198 +33,193 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class DicServiceImpl implements DicService {
 
-    private DicEntityService dicEntityService;
+	private DicEntityService dicEntityService;
 
-    private DicItemEntityService dicItemEntityService;
+	private DicItemEntityService dicItemEntityService;
 
-    private DicMapper dicMapper;
+	private DicMapper dicMapper;
 
-    private DicCache dicCache;
+	private DicCache dicCache;
 
+	@Override
+	public DicVo addDic(AddDicMo addDicMo) {
+		QueryWrapper<DicEntity> dicEntityQueryWrapper = new QueryWrapper<>();
+		dicEntityQueryWrapper.lambda().eq(DicEntity::getDicCode, addDicMo.getDicCode());
+		DicEntity dicEntity = dicEntityService.getOne(dicEntityQueryWrapper);
+		if (ObjectUtil.isNotNull(dicEntity)) {
+			throw new Exception20000("已经存在" + addDicMo.getDicCode());
+		}
+		dicEntity = new DicEntity();
+		BeanUtil.copyProperties(addDicMo, dicEntity);
+		boolean addFlag = dicEntityService.save(dicEntity);
+		if (addFlag) {
+			flushGetAllDicDetailCache();
+			DicVo dicVO = new DicVo();
+			BeanUtil.copyProperties(dicEntity, dicVO);
+			return dicVO;
+		} else {
+			throw new Exception20000("新增dic失败");
+		}
 
-    @Override
-    public DicVo addDic(AddDicMo addDicMo) {
-        QueryWrapper<DicEntity> dicEntityQueryWrapper = new QueryWrapper<>();
-        dicEntityQueryWrapper.lambda().eq(DicEntity::getDicCode, addDicMo.getDicCode());
-        DicEntity dicEntity = dicEntityService.getOne(dicEntityQueryWrapper);
-        if (ObjectUtil.isNotNull(dicEntity)) {
-            throw new Exception20000("已经存在" + addDicMo.getDicCode());
-        }
-        dicEntity = new DicEntity();
-        BeanUtil.copyProperties(addDicMo, dicEntity);
-        boolean addFlag = dicEntityService.save(dicEntity);
-        if (addFlag) {
-            flushGetAllDicDetailCache();
-            DicVo dicVO = new DicVo();
-            BeanUtil.copyProperties(dicEntity, dicVO);
-            return dicVO;
-        } else {
-            throw new Exception20000("新增dic失败");
-        }
+	}
 
-    }
+	@Override
+	public Boolean delDic(Long id) {
+		flushGetAllDicDetailCache();
+		return null;
+	}
 
-    @Override
-    public Boolean delDic(Long id) {
-        flushGetAllDicDetailCache();
-        return null;
-    }
+	@Override
+	public DicVo resetDic(ResetDicMo resetDicMo) {
+		flushGetAllDicDetailCache();
+		return null;
+	}
 
-    @Override
-    public DicVo resetDic(ResetDicMo resetDicMo) {
-        flushGetAllDicDetailCache();
-        return null;
-    }
+	@Override
+	public List<DicVo> queryListDic(DicQo<DicEntity> dicQo) {
+		QueryWrapper<DicEntity> dicEntityQueryWrapper = changeDicQuery(dicQo);
+		List<DicEntity> list = dicEntityService.list(dicEntityQueryWrapper);
+		return list.stream().map(dicEntity -> {
+			DicVo vo = new DicVo();
+			BeanUtil.copyProperties(dicEntity, vo);
+			return vo;
+		}).collect(Collectors.toList());
+	}
 
-    @Override
-    public List<DicVo> queryListDic(DicQo<DicEntity> dicQo) {
-        QueryWrapper<DicEntity> dicEntityQueryWrapper = changeDicQuery(dicQo);
-        List<DicEntity> list = dicEntityService.list(dicEntityQueryWrapper);
-        return list.stream().map(dicEntity -> {
-            DicVo vo = new DicVo();
-            BeanUtil.copyProperties(dicEntity, vo);
-            return vo;
-        }).collect(Collectors.toList());
-    }
+	@Override
+	public IPage<DicVo> queryPageDic(DicQo<DicEntity> dicQo) {
+		QueryWrapper<DicEntity> dicEntityQueryWrapper = changeDicQuery(dicQo);
 
-    @Override
-    public IPage<DicVo> queryPageDic(DicQo<DicEntity> dicQo) {
-        QueryWrapper<DicEntity> dicEntityQueryWrapper = changeDicQuery(dicQo);
+		IPage<DicEntity> page = dicEntityService.page(dicQo, dicEntityQueryWrapper);
 
-        IPage<DicEntity> page = dicEntityService.page(dicQo, dicEntityQueryWrapper);
+		return page.convert(dicEntity -> {
+			DicVo vo = new DicVo();
+			BeanUtil.copyProperties(dicEntity, vo);
+			return vo;
+		});
+	}
 
-        return page.convert(dicEntity -> {
-            DicVo vo = new DicVo();
-            BeanUtil.copyProperties(dicEntity, vo);
-            return vo;
-        });
-    }
+	@Override
+	public DicVo getDicById(Long id) {
+		DicEntity dicEntity = dicEntityService.getById(id);
+		if (ObjectUtil.isNotNull(dicEntity)) {
+			DicVo vo = new DicVo();
+			BeanUtil.copyProperties(dicEntity, vo);
+			return vo;
+		} else {
+			throw new Exception20000("无法找到数据");
+		}
+	}
 
-    @Override
-    public DicVo getDicById(Long id) {
-        DicEntity dicEntity = dicEntityService.getById(id);
-        if (ObjectUtil.isNotNull(dicEntity)) {
-            DicVo vo = new DicVo();
-            BeanUtil.copyProperties(dicEntity, vo);
-            return vo;
-        } else {
-            throw new Exception20000("无法找到数据");
-        }
-    }
+	@Override
+	public DicItemVo addDicItem(AddDicItemMo addDicItemMo) {
 
-    @Override
-    public DicItemVo addDicItem(AddDicItemMo addDicItemMo) {
+		DicEntity dicEntity = dicEntityService.getById(addDicItemMo.getDicId());
+		if (ObjectUtil.isNotNull(dicEntity)) {
+			QueryWrapper<DicItemEntity> queryWrapper = new QueryWrapper<>();
+			queryWrapper.lambda().eq(DicItemEntity::getDicId, dicEntity.getTableId()).eq(DicItemEntity::getItemCode,
+					addDicItemMo.getItemCode());
+			DicItemEntity dicItemEntity = dicItemEntityService.getOne(queryWrapper);
+			if (ObjectUtil.isNotNull(dicItemEntity)) {
+				throw new Exception20000(dicEntity.getDicCode() + "下" + dicItemEntity.getItemCode() + "已经存在");
+			} else {
+				dicItemEntity = new DicItemEntity();
+				BeanUtil.copyProperties(addDicItemMo, dicItemEntity);
+				boolean flag = dicItemEntityService.save(dicItemEntity);
+				if (flag) {
+					flushGetAllDicDetailCache();
+					DicItemVo vo = new DicItemVo();
+					BeanUtil.copyProperties(dicItemEntity, vo);
+					return vo;
+				} else {
+					throw new Exception20000("");
+				}
+			}
 
-        DicEntity dicEntity = dicEntityService.getById(addDicItemMo.getDicId());
-        if (ObjectUtil.isNotNull(dicEntity)) {
-            QueryWrapper<DicItemEntity> queryWrapper = new QueryWrapper<>();
-            queryWrapper.lambda().eq(DicItemEntity::getDicId, dicEntity.getId())
-                    .eq(DicItemEntity::getItemCode, addDicItemMo.getItemCode());
-            DicItemEntity dicItemEntity = dicItemEntityService.getOne(queryWrapper);
-            if (ObjectUtil.isNotNull(dicItemEntity)) {
-                throw new Exception20000(dicEntity.getDicCode() + "下" + dicItemEntity.getItemCode() + "已经存在");
-            } else {
-                dicItemEntity = new DicItemEntity();
-                BeanUtil.copyProperties(addDicItemMo, dicItemEntity);
-                boolean flag = dicItemEntityService.save(dicItemEntity);
-                if (flag) {
-                    flushGetAllDicDetailCache();
-                    DicItemVo vo = new DicItemVo();
-                    BeanUtil.copyProperties(dicItemEntity, vo);
-                    return vo;
-                } else {
-                    throw new Exception20000("");
-                }
-            }
+		} else {
+			throw new Exception20000("");
+		}
+	}
 
-        } else {
-            throw new Exception20000("");
-        }
-    }
+	@Override
+	public Boolean delDicItem(Long id) {
+		flushGetAllDicDetailCache();
+		return null;
+	}
 
-    @Override
-    public Boolean delDicItem(Long id) {
-        flushGetAllDicDetailCache();
-        return null;
-    }
+	@Override
+	public DicItemVo resetDicItem(ResetDicItemMo resetDicItemMo) {
+		flushGetAllDicDetailCache();
+		return null;
+	}
 
-    @Override
-    public DicItemVo resetDicItem(ResetDicItemMo resetDicItemMo) {
-        flushGetAllDicDetailCache();
-        return null;
-    }
+	@Override
+	public List<DicItemVo> queryListDicItem(DicItemQo<DicItemEntity> dicItemQo) {
+		QueryWrapper<DicItemEntity> dicItemEntityQueryWrapper = changeDicItemQuery(dicItemQo);
 
-    @Override
-    public List<DicItemVo> queryListDicItem(DicItemQo<DicItemEntity> dicItemQo) {
-        QueryWrapper<DicItemEntity> dicItemEntityQueryWrapper = changeDicItemQuery(dicItemQo);
+		List<DicItemEntity> list = dicItemEntityService.list(dicItemEntityQueryWrapper);
 
-        List<DicItemEntity> list = dicItemEntityService.list(dicItemEntityQueryWrapper);
+		return list.stream().map(dicItemEntity -> {
+			DicItemVo vo = new DicItemVo();
+			BeanUtil.copyProperties(dicItemEntity, vo);
+			return vo;
+		}).collect(Collectors.toList());
 
-        return list.stream().map(dicItemEntity -> {
-            DicItemVo vo = new DicItemVo();
-            BeanUtil.copyProperties(dicItemEntity, vo);
-            return vo;
-        }).collect(Collectors.toList());
+	}
 
+	private QueryWrapper<DicItemEntity> changeDicItemQuery(DicItemQo<DicItemEntity> dicItemQo) {
+		QueryWrapper<DicItemEntity> dicItemEntityQueryWrapper = new QueryWrapper<>();
+		if (ObjectUtil.isNotNull(dicItemQo.getDicId())) {
+			dicItemEntityQueryWrapper.lambda().eq(DicItemEntity::getDicId, dicItemQo.getDicId());
+		}
+		return dicItemEntityQueryWrapper;
+	}
 
-    }
+	private QueryWrapper<DicEntity> changeDicQuery(DicQo<DicEntity> dicQo) {
+		QueryWrapper<DicEntity> dicEntityQueryWrapper = new QueryWrapper<>();
+		if (StrUtil.isNotBlank(dicQo.getDicName())) {
+			dicEntityQueryWrapper.lambda().like(DicEntity::getDicName, dicQo.getDicName());
+		}
+		if (StrUtil.isNotBlank(dicQo.getDicCode())) {
+			dicEntityQueryWrapper.lambda().like(DicEntity::getDicCode, dicQo.getDicCode());
+		}
 
-    private QueryWrapper<DicItemEntity> changeDicItemQuery(DicItemQo<DicItemEntity> dicItemQo) {
-        QueryWrapper<DicItemEntity> dicItemEntityQueryWrapper = new QueryWrapper<>();
-        if (ObjectUtil.isNotNull(dicItemQo.getDicId())) {
-            dicItemEntityQueryWrapper.lambda().eq(DicItemEntity::getDicId, dicItemQo.getDicId());
-        }
-        return dicItemEntityQueryWrapper;
-    }
+		return dicEntityQueryWrapper;
+	}
 
-    private QueryWrapper<DicEntity> changeDicQuery(DicQo<DicEntity> dicQo) {
-        QueryWrapper<DicEntity> dicEntityQueryWrapper = new QueryWrapper<>();
-        if (StrUtil.isNotBlank(dicQo.getDicName())) {
-            dicEntityQueryWrapper.lambda().like(DicEntity::getDicName, dicQo.getDicName());
-        }
-        if (StrUtil.isNotBlank(dicQo.getDicCode())) {
-            dicEntityQueryWrapper.lambda().like(DicEntity::getDicCode, dicQo.getDicCode());
-        }
+	@Override
+	public List<DicVo> getAllDicDetail() {
+		return dicCache.getAllDicDetail();
+	}
 
-        return dicEntityQueryWrapper;
-    }
+	@Override
+	public DicVo getDicByCode(String dicCode) {
+		List<DicVo> list = getAllDicDetail();
+		if (ObjectUtil.isNotEmpty(list)) {
+			for (DicVo dicVo : list) {
+				if (StrUtil.equals(dicVo.getDicCode(), dicCode)) {
+					return dicVo;
+				}
+			}
+		}
+		throw new Exception20000("");
+	}
 
-    @Override
-    public List<DicVo> getAllDicDetail() {
-        return dicCache.getAllDicDetail();
-    }
+	@Override
+	public String getValueByCode(String dicCode, String itemCode) {
+		DicVo vo = getDicByCode(dicCode);
+		if (ObjectUtil.isNotEmpty(vo.getDicItemVoList())) {
+			for (DicItemVo itemVo : vo.getDicItemVoList()) {
+				if (StrUtil.equals(itemVo.getItemCode(), itemCode)) {
+					return itemVo.getItemValue();
+				}
+			}
+		}
+		throw new Exception20000("");
+	}
 
-    @Override
-    public DicVo getDicByCode(String dicCode) {
-        List<DicVo> list =  getAllDicDetail();
-        if(ObjectUtil.isNotEmpty(list)){
-            for(DicVo dicVo: list){
-                if(StrUtil.equals(dicVo.getDicCode(),dicCode)){
-                    return dicVo;
-                }
-            }
-        }
-        throw new Exception20000("");
-    }
-
-    @Override
-    public String getValueByCode(String dicCode, String itemCode) {
-        DicVo vo = getDicByCode(dicCode);
-        if(ObjectUtil.isNotEmpty(vo.getDicItemVoList())){
-            for(DicItemVo itemVo : vo.getDicItemVoList()){
-                if(StrUtil.equals(itemVo.getItemCode(),itemCode)){
-                    return itemVo.getItemValue();
-                }
-            }
-        }
-        throw new Exception20000("");
-    }
-
-
-
-
-    private void flushGetAllDicDetailCache() {
-        dicCache.delGetAllDicDetailCache();
-        dicCache.getAllDicDetail();
-    }
+	private void flushGetAllDicDetailCache() {
+		dicCache.delGetAllDicDetailCache();
+		dicCache.getAllDicDetail();
+	}
 }

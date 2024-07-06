@@ -17,46 +17,54 @@ import java.util.List;
 @Slf4j
 public class SecurityUtil {
 
-    public static UserInfo getUserDetails() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        if (ObjectUtil.isNotNull(securityContext)) {
-            Authentication authentication = securityContext.getAuthentication();
-            if (ObjectUtil.isNotNull(authentication)) {
-                Object object = authentication.getDetails();
-                if (ObjectUtil.isNotNull(object)) {
-                    if (object instanceof UserInfo) {
-                        return (UserInfo) object;
-                    } else {
-                        throw new Exception20000("请从正确的入口进入系统");
-                    }
-                } else {
-                    throw new Exception20000("请从正确的入口进入系统");
-                }
-            } else {
-                throw new Exception20000("请从正确的入口进入系统");
-            }
-        } else {
-            throw new Exception20000("请从正确的入口进入系统");
-        }
-    }
+	public static UserInfo getUserDetails() {
+		boolean flag = false;
+		SecurityContext securityContext = SecurityContextHolder.getContext();
+		if (ObjectUtil.isNotNull(securityContext)) {
+			Authentication authentication = securityContext.getAuthentication();
+			if (ObjectUtil.isNotNull(authentication)) {
+				Object object = authentication.getDetails();
+				if (ObjectUtil.isNotNull(object)) {
+					if (object instanceof UserInfo) {
+						return (UserInfo) object;
+					} else {
+						flag = true;
+					}
+				} else {
+					flag = true;
+				}
+			} else {
+				flag = true;
+			}
+		} else {
+			flag = true;
+		}
+		if (flag) {
+			UserInfo userInfo = new UserInfo();
+			userInfo.setTableId(-1L);
+			return userInfo;
+		} else {
+			throw new Exception20000("请从正确的入口进入系统");
+		}
+	}
 
-    public static void setUserDetails(UserInfo userInfo) {
-        List<GrantedAuthority> list = new ArrayList<>();
-        if (ObjectUtil.isNotEmpty(userInfo.getRoleCodeList())) {
-            for (String role : userInfo.getRoleCodeList()) {
-                list.add(new SimpleGrantedAuthority("ROLE_" + role));
-            }
-        }
-        if (ObjectUtil.isNotEmpty(userInfo.getPermissionCodeList())) {
-            for (String permission : userInfo.getPermissionCodeList()) {
-                list.add(new SimpleGrantedAuthority(permission));
-            }
-        }
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userInfo.getId(), userInfo.getUserName(), list);
-        usernamePasswordAuthenticationToken.setDetails(userInfo);
-        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+	public static void setUserDetails(UserInfo userInfo) {
+		List<GrantedAuthority> list = new ArrayList<>();
+		if (ObjectUtil.isNotEmpty(userInfo.getRoleCodeList())) {
+			for (String role : userInfo.getRoleCodeList()) {
+				list.add(new SimpleGrantedAuthority("ROLE_" + role));
+			}
+		}
+		if (ObjectUtil.isNotEmpty(userInfo.getPermissionCodeList())) {
+			for (String permission : userInfo.getPermissionCodeList()) {
+				list.add(new SimpleGrantedAuthority(permission));
+			}
+		}
+		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+				userInfo.getTableId(), userInfo.getUserName(), list);
+		usernamePasswordAuthenticationToken.setDetails(userInfo);
+		SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
-
-    }
+	}
 
 }

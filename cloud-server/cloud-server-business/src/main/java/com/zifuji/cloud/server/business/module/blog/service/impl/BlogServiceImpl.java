@@ -38,7 +38,7 @@ public class BlogServiceImpl implements BlogService {
             blogEntity.setBlogText(saveBlogMo.getBlogText());
             blogEntityService.save(blogEntity);
             SaveBlogVo vo = new SaveBlogVo();
-            vo.setId(blogEntity.getId());
+            vo.setId(blogEntity.getTableId());
             vo.setBlogName(blogEntity.getBlogName());
             return vo;
         } else {
@@ -46,7 +46,7 @@ public class BlogServiceImpl implements BlogService {
             if (ObjectUtil.isNull(blogEntity)) {
                 throw new Exception20000("数据错误");
             }
-            if (StrUtil.equals(blogEntity.getCreateBy() + "", SecurityUtil.getUserDetails().getId() + "")) {
+            if (StrUtil.equals(blogEntity.getCreateBy() + "", SecurityUtil.getUserDetails().getTableId() + "")) {
                 throw new Exception20000("数据错误");
             }
             blogEntity.setBlogName(saveBlogMo.getBlogName());
@@ -55,7 +55,7 @@ public class BlogServiceImpl implements BlogService {
             blogEntity.setBlogText(saveBlogMo.getBlogText());
             blogEntityService.updateById(blogEntity);
             SaveBlogVo vo = new SaveBlogVo();
-            vo.setId(blogEntity.getId());
+            vo.setId(blogEntity.getTableId());
             vo.setBlogName(blogEntity.getBlogName());
             return vo;
         }

@@ -17,7 +17,7 @@ public class BaseControllerVo implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty("")
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private Long tableId;
     @ApiModelProperty("")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long createBy;

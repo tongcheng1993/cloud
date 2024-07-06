@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class MyBaseEntity {
 
     @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private Long tableId;
 
     @TableField(fill = FieldFill.INSERT)
     private Long createBy;
