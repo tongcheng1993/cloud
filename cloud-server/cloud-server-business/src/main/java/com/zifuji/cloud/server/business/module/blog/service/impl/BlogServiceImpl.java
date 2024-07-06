@@ -4,7 +4,7 @@ package com.zifuji.cloud.server.business.module.blog.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.business.db.blog.entity.BlogEntity;
 import com.zifuji.cloud.server.business.db.blog.service.BlogEntityService;
 import com.zifuji.cloud.server.business.module.blog.controller.vo.SaveBlogVo;

@@ -6,7 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.business.db.book.entity.BookEntity;
 import com.zifuji.cloud.server.business.db.book.entity.BookSectionContentEntity;
 import com.zifuji.cloud.server.business.db.book.entity.BookSectionEntity;

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.BaseConstant;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.sys.db.seq.entity.SeqEntity;
 import com.zifuji.cloud.server.sys.db.seq.service.SeqEntityService;
 import com.zifuji.cloud.server.sys.module.seq.controller.qo.SeqPageQo;

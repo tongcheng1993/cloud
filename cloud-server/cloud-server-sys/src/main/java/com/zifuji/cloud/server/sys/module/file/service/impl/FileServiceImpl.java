@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.sys.db.file.entity.FileEntity;
 import com.zifuji.cloud.server.sys.db.file.service.FileEntityService;
 import com.zifuji.cloud.server.sys.module.file.controller.qo.FilePageQo;

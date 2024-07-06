@@ -2,7 +2,7 @@ package com.zifuji.cloud.server.sys.module.file.component;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.StrUtil;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception20000;
 import io.minio.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

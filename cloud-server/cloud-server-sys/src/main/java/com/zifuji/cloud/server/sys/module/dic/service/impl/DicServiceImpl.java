@@ -5,7 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.sys.db.dic.entity.DicEntity;
 import com.zifuji.cloud.server.sys.db.dic.entity.DicItemEntity;
 import com.zifuji.cloud.server.sys.module.dic.cache.DicCache;

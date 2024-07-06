@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.base.module.exception.bean;
+package com.zifuji.cloud.base.bean;
 
 public class Exception40000 extends RuntimeException {
 

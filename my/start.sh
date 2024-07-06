@@ -14,4 +14,5 @@ sh bin/startup.sh -m standalone
 
 
 cd /home/java
+
 nohup java -jar xxx.jar >/dev/null 2>&1 & 

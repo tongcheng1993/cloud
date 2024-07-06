@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlRunner;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.sys.db.useDb.entity.SqlRecordEntity;
 import com.zifuji.cloud.server.sys.db.useDb.service.SqlRecordEntityService;
 import com.zifuji.cloud.server.sys.module.useDb.mapper.UseDbMapper;

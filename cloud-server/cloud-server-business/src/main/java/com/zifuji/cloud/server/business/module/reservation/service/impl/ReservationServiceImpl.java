@@ -7,7 +7,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.business.db.reservation.entity.*;
 import com.zifuji.cloud.server.business.db.reservation.service.*;
 import com.zifuji.cloud.server.business.module.reservation.controller.mo.ReservationSettingMainControllerMo;

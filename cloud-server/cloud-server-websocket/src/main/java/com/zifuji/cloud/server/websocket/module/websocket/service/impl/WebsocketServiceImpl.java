@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 
 
 import com.zifuji.cloud.base.bean.BaseConstant;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.websocket.db.wsMessage.entity.WsMessageEntity;
 import com.zifuji.cloud.server.websocket.db.wsMessage.service.WsMessageEntityService;
 import com.zifuji.cloud.server.websocket.module.websocket.controller.mo.SendWsMessageMo;

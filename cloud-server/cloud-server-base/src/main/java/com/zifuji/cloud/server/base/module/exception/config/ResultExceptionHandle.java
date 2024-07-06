@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.zifuji.cloud.base.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception30000;
+import com.zifuji.cloud.base.bean.Exception40000;
 import com.zifuji.cloud.base.bean.Result;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception30000;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception40000;
 
 import java.util.Objects;
 

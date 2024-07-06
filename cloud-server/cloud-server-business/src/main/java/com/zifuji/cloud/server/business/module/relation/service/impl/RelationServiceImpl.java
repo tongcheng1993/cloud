@@ -6,7 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zifuji.cloud.base.bean.BaseConstant;
 import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.base.module.feign.client.sys.file.FileFeignClient;
 import com.zifuji.cloud.server.base.module.feign.client.sys.file.vo.DownloadFileVo;
 import com.zifuji.cloud.server.base.module.feign.client.websocket.websocket.WebsocketFeignClient;

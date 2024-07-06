@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.base.bean.BaseConstant;
 import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.server.base.module.exception.bean.Exception20000;
+import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.base.util.RedisUtil;
 import com.zifuji.cloud.server.sys.db.manageUser.entity.*;
 import com.zifuji.cloud.server.sys.db.manageUser.service.*;
