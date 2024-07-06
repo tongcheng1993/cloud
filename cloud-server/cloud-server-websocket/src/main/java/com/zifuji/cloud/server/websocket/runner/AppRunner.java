@@ -13,12 +13,19 @@ import java.util.Set;
 @AllArgsConstructor
 public class AppRunner implements ApplicationRunner {
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        log.debug("当系统启动时，会自动执行此方法，用来初始化系统数据");
-        Set<String> set = args.getOptionNames();
-        set.forEach(name -> {
-            log.debug("{}:{}", name, args.getOptionValues(name));
-        });
-    }
+	@Override
+	public void run(ApplicationArguments args) throws Exception {
+		this.method1(args);
+	}
+	/**
+	 * 循环参数
+	 * @param args
+	 */
+	public void method1(ApplicationArguments args) {
+
+		Set<String> set = args.getOptionNames();
+		set.forEach(name -> {
+
+		});
+	}
 }

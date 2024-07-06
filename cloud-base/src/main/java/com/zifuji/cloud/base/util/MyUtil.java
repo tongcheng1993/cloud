@@ -11,7 +11,6 @@ public class MyUtil {
 	 * @return
 	 */
     public static String getPropertiesTmpdir() {
-
         String tmpdir = System.getProperty("java.io.tmpdir");
         return tmpdir;
 

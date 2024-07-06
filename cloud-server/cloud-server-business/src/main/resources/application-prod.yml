@@ -10,7 +10,7 @@ spring:
       server-addr: 192.168.84.150:8848
       discovery:
         namespace: de91ae65-2d3a-42bb-ae2f-8226361035e7
-        group: DEFAULT_GROUP
+        group: server
   task:
     execution:
       pool:
@@ -77,11 +77,3 @@ management:
   endpoint:
     health:
       show-details: always
-minio:
-  endpoint: 192.168.84.150
-  port: 9000
-  accessKey: minioadmin
-  secretKey: minioadmin
-  secure: false
-  defaultBucketName: mytc
-temppath: /tmp/zfj

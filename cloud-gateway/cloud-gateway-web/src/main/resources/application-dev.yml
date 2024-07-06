@@ -10,7 +10,7 @@ spring:
       server-addr: 192.168.84.99:8848
       discovery:
         namespace: 50d5e158-b7d1-4375-81eb-46dddaaddf8c
-        group: gateway
+        group: group
     gateway:
       routes:
         - id: cloud-server-sys

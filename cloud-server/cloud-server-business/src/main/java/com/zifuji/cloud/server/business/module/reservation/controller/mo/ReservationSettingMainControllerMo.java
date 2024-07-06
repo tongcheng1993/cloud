@@ -5,29 +5,34 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+
+import com.zifuji.cloud.server.base.db.BaseControllerMo;
+
 import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class ReservationSettingMainControllerMo  {
+public class ReservationSettingMainControllerMo extends BaseControllerMo {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    private String id;
+	@NotBlank(message = "唯一code不能为空")
+	private String code;
 
-    @NotBlank(message = "唯一code不能为空")
-    private String code;
+	private String status;
 
-    private String status;
+	private Integer openDays;
 
-    private Integer openDays;
+	private String openAddr;
 
-    private String openAddr;
-
-    private String description;
-    // 星期工作日设置
-    private List<ReservationSettingWorkDayMo> reservationSettingWorkDayMoList;
-    // 开放时间设置
-    private List<ReservationSettingWorkTimeMo> reservationSettingWorkTimeMoList;
+	private String description;
+	// 星期工作日设置
+	private List<ReservationSettingWorkDayMo> reservationSettingWorkDayMoList;
+	// 开放时间设置
+	private List<ReservationSettingWorkTimeMo> reservationSettingWorkTimeMoList;
 
 }

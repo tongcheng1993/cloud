@@ -23,51 +23,49 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ScoreServiceImpl implements ScoreService {
 
-    private ScoreMapper scoreMapper;
+	private ScoreMapper scoreMapper;
 
-    private ScoreAccountEntityService scoreAccountEntityService;
+	private ScoreAccountEntityService scoreAccountEntityService;
 
-    private ScoreRecordEntityService scoreRecordEntityService;
+	private ScoreRecordEntityService scoreRecordEntityService;
 
+	@Override
+	public ScoreAccountEntity initScoreAccount(Long createById) {
+		QueryWrapper<ScoreAccountEntity> queryWrapper = new QueryWrapper<ScoreAccountEntity>();
+		queryWrapper.lambda().eq(ScoreAccountEntity::getCreateBy, createById);
+		ScoreAccountEntity scoreAccountEntity = scoreAccountEntityService.getOne(queryWrapper);
+		if (ObjectUtil.isNull(scoreAccountEntity)) {
+			Integer i = 0;
+			scoreAccountEntity = new ScoreAccountEntity();
+			scoreAccountEntity.setCreateBy(createById);
+			scoreAccountEntity.setScoreNum(i);
+			scoreAccountEntityService.save(scoreAccountEntity);
+		}
+		return scoreAccountEntity;
+	}
 
-    @Override
-    public ScoreAccountEntity initScoreAccount(Long createById) {
-        QueryWrapper<ScoreAccountEntity> queryWrapper = new QueryWrapper<ScoreAccountEntity>();
-        queryWrapper.lambda().eq(ScoreAccountEntity::getCreateBy, createById);
-        ScoreAccountEntity scoreAccountEntity = scoreAccountEntityService.getOne(queryWrapper);
-        if (ObjectUtil.isNull(scoreAccountEntity)) {
-            Integer i = 0;
-            scoreAccountEntity = new ScoreAccountEntity();
-            scoreAccountEntity.setCreateBy(createById);
-            scoreAccountEntity.setScoreNum(i);
-            scoreAccountEntityService.save(scoreAccountEntity);
-        }
-        return scoreAccountEntity;
-    }
+	@Override
+	public ScoreAccountControllerVo getScoreAccountVoById(Long id) {
+		ScoreAccountControllerVo vo = new ScoreAccountControllerVo();
+		QueryWrapper<ScoreAccountEntity> queryWrapper = new QueryWrapper<ScoreAccountEntity>();
+		queryWrapper.lambda().eq(ScoreAccountEntity::getCreateBy, id);
+		ScoreAccountEntity scoreAccountEntity = scoreAccountEntityService.getOne(queryWrapper);
+		if (ObjectUtil.isNull(scoreAccountEntity)) {
+			scoreAccountEntity = initScoreAccount(id);
+		}
+		BeanUtil.copyProperties(scoreAccountEntity, vo);
+		return vo;
+	}
 
-    @Override
-    public ScoreAccountControllerVo getScoreAccountVoById(Long id) {
-        ScoreAccountControllerVo vo = new ScoreAccountControllerVo();
-        QueryWrapper<ScoreAccountEntity> queryWrapper = new QueryWrapper<ScoreAccountEntity>();
-        queryWrapper.lambda().eq(ScoreAccountEntity::getCreateBy, id);
-        ScoreAccountEntity scoreAccountEntity = scoreAccountEntityService.getOne(queryWrapper);
-        if (ObjectUtil.isNull(scoreAccountEntity)) {
-            scoreAccountEntity = initScoreAccount(id);
-        }
-        BeanUtil.copyProperties(scoreAccountEntity,vo);
-        return vo;
-    }
+	@Override
+	public ScoreAccountControllerVo getScoreAccountVoByMyself() {
+		Long userId = SecurityUtil.getUserDetails().getTableId();
+		return getScoreAccountVoById(userId);
+	}
 
-    @Override
-    public ScoreAccountControllerVo getScoreAccountVoByMyself() {
-        Long userId = SecurityUtil.getUserDetails().getId();
-        return getScoreAccountVoById(userId);
-    }
-
-    @Override
-    public IPage<ScoreRecordControllerVo> queryPageScoreRecord(ScoreRecordPageQo scoreRecordPageQo) {
-        return null;
-    }
-
+	@Override
+	public IPage<ScoreRecordControllerVo> queryPageScoreRecord(ScoreRecordPageQo scoreRecordPageQo) {
+		return null;
+	}
 
 }

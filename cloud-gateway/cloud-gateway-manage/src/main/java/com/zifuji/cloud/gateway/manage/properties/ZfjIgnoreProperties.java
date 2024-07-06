@@ -10,8 +10,8 @@ import lombok.Data;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "web.ignore")
-public class WebIgnoreProperties {
+@ConfigurationProperties(prefix = "zfj.ignore")
+public class ZfjIgnoreProperties {
 
 	
 	private List<String> uri;

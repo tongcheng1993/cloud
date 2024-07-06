@@ -26,7 +26,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zifuji.cloud.base.bean.BaseConstant;
 import com.zifuji.cloud.base.bean.Result;
 import com.zifuji.cloud.base.bean.UserInfo;
-import com.zifuji.cloud.gateway.manage.properties.WebIgnoreProperties;
+import com.zifuji.cloud.gateway.manage.properties.ZfjIgnoreProperties;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWTUtil;
@@ -39,7 +39,7 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class GatewayTokenFilter implements GlobalFilter, Ordered {
 
-    private WebIgnoreProperties webIgnoreProperties;
+    private ZfjIgnoreProperties zfjIgnoreProperties;
 
     private StringRedisTemplate stringRedisTemplate;
 
@@ -95,7 +95,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
             if (StrUtil.isBlank(tc_token)) {
                 // 检查路径是不是放行的路径
                 boolean pathFlag = false;
-                List<String> ignoreUrl = webIgnoreProperties.getUri();
+                List<String> ignoreUrl = zfjIgnoreProperties.getUri();
                 for (String ignore : ignoreUrl) {
                     if (ignore.equals(path)
                             || ((ignore.endsWith("**") && path.startsWith(ignore.substring(0, ignore.length() - 2))))) {
@@ -106,7 +106,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                 // 如果是放心接口 api 给与游客身份
                 if (pathFlag) {
                     userInfo = new UserInfo();
-                    userInfo.setId(0L);
+                    userInfo.setTableId(0L);
                     userInfo.setUserName("登录" + DateUtil.now());
                     userInfo.setType("manage");
                     List<String> roleCodeList = new ArrayList<>();
@@ -130,7 +130,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
                 userInfo = JSONObject.parseObject(bo, UserInfo.class);
             }
         }
-        if (ObjectUtil.isNull(userInfo) || ObjectUtil.isNull(userInfo.getId())) {
+        if (ObjectUtil.isNull(userInfo) || ObjectUtil.isNull(userInfo.getTableId())) {
             return setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
         }
         map.put("userInfo", userInfo);

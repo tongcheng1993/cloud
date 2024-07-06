@@ -109,10 +109,6 @@ management:
     health:
       show-details: always
 zfj:
-  tmp:
-    path: D:\tmp
-  es:
-    url: http://192.168.84.99:9200
   minio:
     endpoint: 192.168.84.99
     port: 9000
