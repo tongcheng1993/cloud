@@ -17,15 +17,13 @@ public class AppRunner implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		this.method1(args);
 	}
+
 	/**
 	 * 循环参数
+	 * 
 	 * @param args
 	 */
 	public void method1(ApplicationArguments args) {
 
-		Set<String> set = args.getOptionNames();
-		set.forEach(name -> {
-
-		});
 	}
 }

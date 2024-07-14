@@ -1,18 +1,11 @@
 
 #!/bin/bash
 
-echo "hello zs  "
+echo "nohup java -jar -Dspring.profiles.active=prod -Djasypt.encryptor.password=mytc"
 
 
-
-cd /etc/minio
-MINIO_ROOT_USER=minioadmin MINIO_ROOT_PASSWORD=minioadmin nohup ./minio server /mnt/data --console-address ":9001" >/dev/null 2>&1 &
-
-
-cd /etc/nacos
-sh bin/startup.sh -m standalone
-
-
-cd /home/java
-
-nohup java -jar xxx.jar >/dev/null 2>&1 & 
+nohup java -jar -Dspring.profiles.active=prod cloud-gateway-web-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &
+nohup java -jar -Dspring.profiles.active=prod cloud-gateway-manage-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &
+nohup java -jar -Dspring.profiles.active=prod cloud-server-sys-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &
+nohup java -jar -Dspring.profiles.active=prod cloud-server-websocket-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &
+nohup java -jar -Dspring.profiles.active=prod cloud-server-business-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &

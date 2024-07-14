@@ -48,8 +48,8 @@ public class AreaServiceImpl implements AreaService {
 
     private QueryWrapper<AreaEntity> changeAreaQuery(AreaQo<AreaEntity> areaQo) {
         QueryWrapper<AreaEntity> areaEntityQueryWrapper = new QueryWrapper<>();
-        if (ObjectUtil.isNotNull(areaQo.getParentId())) {
-            areaEntityQueryWrapper.lambda().eq(AreaEntity::getParentId, areaQo.getParentId());
+        if (ObjectUtil.isNotNull(areaQo.getParentIdEq())) {
+            areaEntityQueryWrapper.lambda().eq(AreaEntity::getParentId, areaQo.getParentIdEq());
         }
 
 

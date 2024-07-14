@@ -1,6 +1,5 @@
 package com.zifuji.cloud.server.websocket.module.websocket.config;
 
-
 import com.zifuji.cloud.server.websocket.module.websocket.interceptor.MyClientChannelInterceptor;
 import com.zifuji.cloud.server.websocket.module.websocket.interceptor.MyHandshakeInterceptor;
 import com.zifuji.cloud.server.websocket.module.websocket.interceptor.MyTransportHandler;
@@ -18,46 +17,41 @@ import org.springframework.web.socket.config.annotation.*;
 @EnableWebSocketMessageBroker
 public class WebSocketMessageBrokerConfig implements WebSocketMessageBrokerConfigurer {
 
-    private RabbitProperties rabbitProperties;
+	private RabbitProperties rabbitProperties;
 
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        StompWebSocketEndpointRegistration stompWebSocketEndpointRegistration = registry.addEndpoint("/ws");
-        stompWebSocketEndpointRegistration.setAllowedOrigins("*");
-        stompWebSocketEndpointRegistration.addInterceptors(new MyHandshakeInterceptor());
-        stompWebSocketEndpointRegistration.setHandshakeHandler(new MyTransportHandler());
-        stompWebSocketEndpointRegistration.withSockJS();
-    }
+	@Override
+	public void registerStompEndpoints(StompEndpointRegistry registry) {
+		StompWebSocketEndpointRegistration stompWebSocketEndpointRegistration = registry.addEndpoint("/ws");
+		stompWebSocketEndpointRegistration.setAllowedOrigins("*");
+		stompWebSocketEndpointRegistration.addInterceptors(new MyHandshakeInterceptor());
+		stompWebSocketEndpointRegistration.setHandshakeHandler(new MyTransportHandler());
+		stompWebSocketEndpointRegistration.withSockJS();
+	}
 
+	@Override
+	public void configureClientInboundChannel(ChannelRegistration registration) {
+		registration.interceptors(new MyClientChannelInterceptor());
+	}
 
-    @Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new MyClientChannelInterceptor());
-    }
+	@Override
+	public void configureClientOutboundChannel(ChannelRegistration registration) {
+		registration.interceptors(new MyClientChannelInterceptor());
+	}
 
-    @Override
-    public void configureClientOutboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new MyClientChannelInterceptor());
-    }
+	@Override
+	public void configureMessageBroker(MessageBrokerRegistry registry) {
 
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
+		// 前端绑定个人通道
+		registry.setUserDestinationPrefix("/user");
+		// 前端使用ws发送消息的时候
+		registry.setApplicationDestinationPrefixes("/app");
+		// 前端绑定stomp广播路径
+		registry.enableStompBrokerRelay("/topic").setVirtualHost(rabbitProperties.getVirtualHost())
+				.setRelayHost(rabbitProperties.getHost()).setClientLogin(rabbitProperties.getUsername())
+				.setClientPasscode(rabbitProperties.getPassword()).setSystemLogin(rabbitProperties.getUsername())
+				.setSystemPasscode(rabbitProperties.getPassword()).setSystemHeartbeatSendInterval(5000)
+				.setSystemHeartbeatReceiveInterval(5000);
 
-        // 前端绑定个人通道
-        registry.setUserDestinationPrefix("/user");
-        // 前端使用ws发送消息的时候
-        registry.setApplicationDestinationPrefixes("/app");
-        // 前端绑定stomp广播路径
-        registry.enableStompBrokerRelay("/topic")
-                .setVirtualHost(rabbitProperties.getVirtualHost())
-                .setRelayHost(rabbitProperties.getHost())
-                .setClientLogin(rabbitProperties.getUsername())
-                .setClientPasscode(rabbitProperties.getPassword())
-                .setSystemLogin(rabbitProperties.getUsername())
-                .setSystemPasscode(rabbitProperties.getPassword())
-                .setSystemHeartbeatSendInterval(5000)
-                .setSystemHeartbeatReceiveInterval(5000);
-
-    }
+	}
 
 }

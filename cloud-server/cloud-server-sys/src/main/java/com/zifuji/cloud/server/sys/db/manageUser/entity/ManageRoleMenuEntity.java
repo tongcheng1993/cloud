@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName(value = "z_manage_role_menu")
 public class ManageRoleMenuEntity extends MyBaseEntity {
-    private String roleId;
+    private Long roleId;
 
-    private String menuId;
+    private Long menuId;
 }

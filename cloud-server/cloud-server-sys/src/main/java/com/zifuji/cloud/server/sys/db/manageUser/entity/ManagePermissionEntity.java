@@ -10,13 +10,13 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_manage_permission")
 public class ManagePermissionEntity extends MyBaseEntity {
 
-    private String perName;
+	private String perName = "";
 
-    private String codeSys;
+	private String codeSys;
 
-    private String codeModule;
+	private String codeModule;
 
-    private String codeMethod;
+	private String codeMethod;
 
-    private String perDescription;
+	private String perDescription = "";
 }

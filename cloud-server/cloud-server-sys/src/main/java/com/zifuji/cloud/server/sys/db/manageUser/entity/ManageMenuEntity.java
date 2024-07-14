@@ -10,19 +10,18 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_manage_menu")
 public class ManageMenuEntity extends MyBaseEntity {
 
-    private String parentId;
+	private Long parentId = 0L;
 
-    private String label;
+	private String label = "";
 
-    private String name;
+	private String name = "";
 
-    private String path;
+	private String path = "";
 
-    private String component;
+	private String component = "";
 
-    private Boolean showFlag;
+	private Boolean showFlag = false;
 
-    private String icon;
-
+	private String icon = "";
 
 }

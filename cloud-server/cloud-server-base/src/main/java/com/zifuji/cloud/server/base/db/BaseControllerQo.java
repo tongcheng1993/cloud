@@ -1,6 +1,5 @@
 package com.zifuji.cloud.server.base.db;
 
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,28 +7,30 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class BaseControllerQo<T> extends Page<T> implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private Long tableId;
+	private Long tableIdEq;
 
-    private Long createBy;
+	private Long createByEq;
 
-    private LocalDateTime createTime;
+	private LocalDateTime createTimeLe;
+	
+	private LocalDateTime createTimeGe;
+	
+	private Long updateByEq;
 
-    private Long updateBy;
+	private LocalDateTime updateTimeLe;
+	
+	private LocalDateTime updateTimeGe;
+	
+	private Integer sortNumEq;
 
-    private LocalDateTime updateTime;
+	private Boolean delFlagEq;
 
-    private Integer sortNum;
-
-    private Boolean delFlag;
-
-    private Long parentId;
-
+	private Long parentIdEq;
 
 }

@@ -82,11 +82,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookVo queryOneBookById(QueryBookQo<BookEntity> queryBookQo) {
-        if(ObjectUtil.isNull(queryBookQo.getTableId())){
+        if(ObjectUtil.isNull(queryBookQo.getTableIdEq())){
             throw new Exception20000("");
         }
         QueryWrapper<BookEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(BookEntity::getTableId,queryBookQo.getTableId());
+        queryWrapper.lambda().eq(BookEntity::getTableId,queryBookQo.getTableIdEq());
         BookEntity bookEntity =  bookEntityService.getOne(queryWrapper);
         BookVo vo = new BookVo();
         BeanUtil.copyProperties(bookEntity,vo);
@@ -120,14 +120,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookSectionVo queryOneBookSectionById(QueryBookSectionQo<BookSectionEntity> queryBookSectionQo) {
-        if(ObjectUtil.isNull(queryBookSectionQo.getTableId())){
+        if(ObjectUtil.isNull(queryBookSectionQo.getTableIdEq())){
             throw new Exception20000("");
         }
-        if(0 == queryBookSectionQo.getTableId()){
+        if(0 == queryBookSectionQo.getTableIdEq()){
             throw new Exception20000("");
         }
         QueryWrapper<BookSectionEntity> bookSectionEntityQueryWrapper = new QueryWrapper<>();
-        bookSectionEntityQueryWrapper.lambda().eq(BookSectionEntity::getTableId,queryBookSectionQo.getTableId());
+        bookSectionEntityQueryWrapper.lambda().eq(BookSectionEntity::getTableId,queryBookSectionQo.getTableIdEq());
         BookSectionEntity bookSectionEntity = bookSectionEntityService.getOne(bookSectionEntityQueryWrapper);
 
         QueryWrapper<BookSectionContentEntity> bookSectionContentEntityQueryWrapper = new QueryWrapper<>();

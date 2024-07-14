@@ -39,7 +39,7 @@ spring:
   redis:
     host: 192.168.84.99
     port: 6379
-    password: 123456
+    password: Zs!12345
     timeout: 10000
     jedis:
       pool:
@@ -52,7 +52,6 @@ spring:
     port: 5672
     username: guest
     password: guest
-    virtual-host: 
 feign:
   client:
     config:

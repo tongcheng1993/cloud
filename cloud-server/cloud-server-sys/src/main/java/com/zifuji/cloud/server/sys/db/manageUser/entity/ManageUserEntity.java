@@ -10,10 +10,10 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_manage_user")
 public class ManageUserEntity extends MyBaseEntity {
 
-    private String userName;
+	private String userName;
 
-    private String passWord;
+	private String passWord;
 
-    private String shortName;
+	private String shortName;
 
 }

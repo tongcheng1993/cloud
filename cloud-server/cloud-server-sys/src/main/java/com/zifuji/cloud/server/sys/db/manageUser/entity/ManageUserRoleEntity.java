@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_manage_user_role")
 public class ManageUserRoleEntity extends MyBaseEntity {
 
-    private String userId;
+    private Long userId;
 
-    private String roleId;
+    private Long roleId;
 }

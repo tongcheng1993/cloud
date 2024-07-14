@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class BindUserAndRoleDelBeforeMo {
     @NotBlank(message = "")
-    private String userId;
+    private Long userId;
 
-    private List<String> roleIdList;
+    private List<Long> roleIdList;
 }

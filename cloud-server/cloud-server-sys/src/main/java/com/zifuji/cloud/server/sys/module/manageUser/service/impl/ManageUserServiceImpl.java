@@ -104,9 +104,17 @@ public class ManageUserServiceImpl implements ManageUserService {
 			if (ObjectUtil.isNotEmpty(manageRoleEntityList)) {
 				roleCodeList = manageRoleEntityList.stream().map(ManageRoleEntity::getRoleCode)
 						.collect(Collectors.toList());
+
 				QueryWrapper<ManageRolePermissionEntity> manageRolePermissionEntityQueryWrapper = new QueryWrapper<>();
-				manageRolePermissionEntityQueryWrapper.lambda().in(ManageRolePermissionEntity::getRoleId,
-						manageRoleEntityList.stream().map(ManageRoleEntity::getTableId).collect(Collectors.toList()));
+
+				if (roleCodeList.size() > 0 && roleCodeList.contains("root")) {
+
+				} else {
+					manageRolePermissionEntityQueryWrapper.lambda().in(ManageRolePermissionEntity::getRoleId,
+							manageRoleEntityList.stream().map(ManageRoleEntity::getTableId)
+									.collect(Collectors.toList()));
+
+				}
 				List<ManageRolePermissionEntity> manageRolePermissionEntityList = manageRolePermissionEntityService
 						.list(manageRolePermissionEntityQueryWrapper);
 				if (ObjectUtil.isNotEmpty(manageRolePermissionEntityList)) {

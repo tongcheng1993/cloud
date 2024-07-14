@@ -9,7 +9,7 @@ import java.util.List;
 public class BindRoleAndMenuDelBeforeMo {
 
     @NotBlank(message = "")
-    private String roleId;
+    private Long roleId;
 
-    private List<String> menuIdList;
+    private List<Long> menuIdList;
 }
