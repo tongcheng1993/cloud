@@ -9,6 +9,6 @@ import lombok.EqualsAndHashCode;
 @ApiModel(description = "")
 public class SearchVo {
 
-	
+	private String name;
 	
 }

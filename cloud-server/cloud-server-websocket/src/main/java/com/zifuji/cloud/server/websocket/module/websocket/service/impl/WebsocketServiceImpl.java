@@ -2,9 +2,10 @@ package com.zifuji.cloud.server.websocket.module.websocket.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 
-
 import com.zifuji.cloud.base.bean.BaseConstant;
 import com.zifuji.cloud.base.bean.Exception20000;
+import com.zifuji.cloud.base.bean.UserInfo;
+import com.zifuji.cloud.server.base.util.SecurityUtil;
 import com.zifuji.cloud.server.websocket.db.wsMessage.entity.WsMessageEntity;
 import com.zifuji.cloud.server.websocket.db.wsMessage.service.WsMessageEntityService;
 import com.zifuji.cloud.server.websocket.module.websocket.controller.mo.SendWsMessageMo;
@@ -43,19 +44,19 @@ public class WebsocketServiceImpl implements WebsocketService {
 
     @Override
     public Boolean sendWsMessage(SendWsMessageMo sendWsMessageMo) {
-
+    	UserInfo user = SecurityUtil.getUserDetails();
+    	sendWsMessageMo.setFromUserId(user.getTableId());
+    	sendWsMessageMo.setFromUserName(user.getShortName());
+    	 WsMessageEntity wsMessageEntity = new WsMessageEntity();
+         BeanUtil.copyProperties(sendWsMessageMo,wsMessageEntity);
+         wsMessageEntityService.save(wsMessageEntity);
         if(StringUtils.equals(BaseConstant.WS_TYPE_TOPIC,sendWsMessageMo.getBusinessType())){
-            simpMessagingTemplate.convertAndSend(sendWsMessageMo.getTypePath(), sendWsMessageMo);
+            simpMessagingTemplate.convertAndSend(wsMessageEntity.getTypePath(), wsMessageEntity);
         }else if(StringUtils.equals(BaseConstant.WS_TYPE_PEOPLE,sendWsMessageMo.getBusinessType())){
-            simpMessagingTemplate.convertAndSendToUser(""+sendWsMessageMo.getToUserId(), sendWsMessageMo.getTypePath(), sendWsMessageMo);
+            simpMessagingTemplate.convertAndSendToUser(""+wsMessageEntity.getToUserId(), wsMessageEntity.getTypePath(), wsMessageEntity);
         }else{
             throw new Exception20000("没有找到对应的ws消息类型");
         }
-        WsMessageEntity wsMessageEntity = new WsMessageEntity();
-        BeanUtil.copyProperties(sendWsMessageMo,wsMessageEntity);
-        wsMessageEntityService.save(wsMessageEntity);
-
-
         return true;
     }
 

@@ -12,7 +12,7 @@ spring:
         namespace: 50d5e158-b7d1-4375-81eb-46dddaaddf8c
         group: group
     gateway:
-      routes:
+      routes:   
         - id: cloud-server-sys
           uri: lb://cloud-server-sys
           predicates:

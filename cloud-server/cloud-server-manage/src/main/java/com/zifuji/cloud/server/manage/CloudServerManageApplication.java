@@ -1,0 +1,23 @@
+package com.zifuji.cloud.server.manage;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@Slf4j
+@SpringBootApplication
+@EnableDiscoveryClient
+@EnableScheduling
+@EnableTransactionManagement
+@EnableCaching
+public class CloudServerManageApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CloudServerManageApplication.class, args);
+        log.info("网站框架manage项目开始");
+    }
+}

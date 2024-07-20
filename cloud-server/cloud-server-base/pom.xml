@@ -41,6 +41,11 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
 		</dependency>
+		<dependency>
+			<!-- netty 依赖 -->
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+		</dependency>
 		<!-- redis驱动 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

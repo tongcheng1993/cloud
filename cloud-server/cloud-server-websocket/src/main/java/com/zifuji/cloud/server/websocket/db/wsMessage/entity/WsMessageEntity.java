@@ -10,25 +10,18 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "z_sys_ws_message")
 public class WsMessageEntity extends MyBaseEntity {
 
+	private String businessType = "";
 
-    private String businessType;
+	private Long fromUserId = -1L;
 
-    private Long fromUserId;
+	private String fromUserName = "";
 
-    private String fromUserName;
+	private Long toUserId = -1L;
 
-    private Long toUserId;
+	private String toUserName = "";
 
-    private String toUserName;
+	private String typePath = "";
 
-    private String typePath;
-
-    private String obj;
-
-
-
-
-
-
+	private String obj = "";
 
 }

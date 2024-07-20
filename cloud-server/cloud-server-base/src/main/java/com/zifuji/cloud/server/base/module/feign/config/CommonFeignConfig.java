@@ -20,6 +20,7 @@ public class CommonFeignConfig implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate template) {
+    	template.header("From", "Y");
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (ObjectUtil.isNotNull(attributes)) {
             assert attributes != null;

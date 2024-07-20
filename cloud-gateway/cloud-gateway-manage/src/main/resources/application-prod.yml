@@ -13,6 +13,12 @@ spring:
         group: group
     gateway:
       routes:
+        - id: cloud-server-manage
+          uri: lb://cloud-server-manage
+          predicates:
+            - Path=/manage/**
+          filters:
+            - StripPrefix=1
         - id: cloud-server-sys
           uri: lb://cloud-server-sys
           predicates:
@@ -79,5 +85,5 @@ management:
 zfj:
   ignore:
     uri:
-      - /sys/manageUser/login
-      - /sys/manageUser/drawCaptcha
+      - /manage/manageUser/login
+      - /manage/manageUser/drawCaptcha

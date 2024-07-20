@@ -1,6 +1,5 @@
 package com.zifuji.cloud.gateway.manage.filter;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,9 +11,7 @@ import cn.hutool.core.util.ObjectUtil;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -56,7 +53,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
 
 		// 获取当前请求路径
 		String path = request.getURI().getPath();
-		log.info("path:{}", path);
+		
 
 		// 网关请求不允许有from 请求头
 		String from = request.getHeaders().getFirst("From");
@@ -106,6 +103,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
 					userInfo = new UserInfo();
 					userInfo.setTableId(0L);
 					userInfo.setUserName("登录" + DateUtil.now());
+					userInfo.setShortName("登录");
 					userInfo.setType("manage");
 					List<String> roleCodeList = new ArrayList<>();
 					userInfo.setRoleCodeList(roleCodeList);
@@ -134,7 +132,6 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
 		map.put("userInfo", userInfo);
 		// 网关通过后 在请求中增加 内部token
 		String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
-		log.info("token:{}", token);
 		ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
 			httpHeaders.add("X-Access-Token", token);
 		}).build();

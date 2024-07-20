@@ -44,9 +44,8 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
 
 		// 获取当前请求路径
 		String path = request.getURI().getPath();
-		log.info("path:{}", path);
 
-		String from = request.getHeaders().getFirst("from");
+		String from = request.getHeaders().getFirst("From");
 		if (StrUtil.isNotBlank(from)) {
 			// gateway 没有异常捕捉器 所以直接 return
 			return ResponseUtil.setResponseInfo(response, Result.set30000Mes("验证对应身份信息失败"));
@@ -84,6 +83,7 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
 				userInfo = new UserInfo();
 				userInfo.setTableId(-2L);
 				userInfo.setUserName("游客");
+				userInfo.setShortName("游客");
 				userInfo.setType("web");
 				List<String> roleCodeList = new ArrayList<>();
 				userInfo.setRoleCodeList(roleCodeList);
@@ -108,7 +108,6 @@ public class GatewayTokenFilter implements GlobalFilter, Ordered {
 		map.put("userInfo", userInfo);
 		// 网关通过后 在请求中增加 内部token
 		String token = JWTUtil.createToken(map, BaseConstant.KEY.getBytes());
-		log.info("jwt:{}", token);
 		ServerHttpRequest host = request.mutate().headers(httpHeaders -> {
 			httpHeaders.add("X-Access-Token", token);
 		}).build();

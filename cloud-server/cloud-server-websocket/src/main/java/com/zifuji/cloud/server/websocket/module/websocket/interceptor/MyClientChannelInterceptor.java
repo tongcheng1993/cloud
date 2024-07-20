@@ -15,28 +15,22 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-
 @Slf4j
 public class MyClientChannelInterceptor implements ChannelInterceptor {
 
-    @Override
-    public void postSend(Message<?> message, MessageChannel channel, boolean sent) {
-
-        StompHeaderAccessor stompHeaderAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-        if (ObjectUtil.isNotNull(stompHeaderAccessor)) {
-            log.info("postSend:" + JSONObject.toJSONString(stompHeaderAccessor));
-            StompCommand command = stompHeaderAccessor.getCommand();
-            if (ObjectUtil.isNotNull(command)) {
-                if (StompCommand.SEND.equals(command)) {
+	@Override
+	public void postSend(Message<?> message, MessageChannel channel, boolean sent) {
+		StompHeaderAccessor stompHeaderAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+		if (ObjectUtil.isNotNull(stompHeaderAccessor)) {
+			StompCommand command = stompHeaderAccessor.getCommand();
+			if (ObjectUtil.isNotNull(command)) {
+				if (StompCommand.SEND.equals(command)) {
+					log.info("postSend:" + JSONObject.toJSONString(stompHeaderAccessor));
 //                    UsernamePasswordAuthenticationToken token = stompHeaderAccessor.getMessageHeaders().get("simpUser", UsernamePasswordAuthenticationToken.class);
 //                    UserInfo userInfo = (UserInfo) token.getDetails();
 //                    SecurityUtil.setUserDetails(userInfo);
-                }
-
-            }
-
-        }
-
-
-    }
+				}
+			}
+		}
+	}
 }

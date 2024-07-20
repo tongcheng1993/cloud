@@ -18,6 +18,8 @@ public class UserInfo implements Serializable {
     private String token;
 
     private String userName;
+    
+    private String shortName;
 
     private String type;
 

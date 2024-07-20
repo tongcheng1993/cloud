@@ -9,22 +9,21 @@ import javax.validation.constraints.NotNull;
 public class SendWsMessageMo {
 
 	@NotBlank(message = "businessType不能为空")
-	private String businessType;
+	private String businessType = "";
 
-    private Long fromUserId;
+	private Long fromUserId = -1L;
 
-    private String fromUserName;
+	private String fromUserName = "";
 
-    private Long toUserId;
+	private Long toUserId = -1L;
 
-    private String toUserName;
+	private String toUserName = "";
 
+	private String typePath = "";
 
-    private String typePath;
+	@NotBlank(message = "obj不能为空")
+	private String obj = "";
 
-
-
-    @NotNull(message = "obj不能为空")
-    private String obj;
-
+	private Long snowflakeId;
+	
 }
