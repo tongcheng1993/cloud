@@ -14,16 +14,16 @@ public class RegisterMo {
 
 
     @ApiModelProperty()
-    @NotBlank(message = "")
+    @NotBlank(message = "请从正确的入口注册")
     private String redisUuid;
     @ApiModelProperty()
-    @NotBlank(message = "")
+    @NotBlank(message = "请输入验证码")
     private String redisValue;
     @ApiModelProperty()
-    @NotBlank(message = "")
+    @NotBlank(message = "请输入用户名")
     private String userName;
     @ApiModelProperty()
-    @NotBlank(message = "")
+    @NotBlank(message = "请输入密码")
     private String passWord;
 
 

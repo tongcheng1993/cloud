@@ -15,8 +15,8 @@ import com.zifuji.cloud.base.bean.UserInfo;
 import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.base.util.RedisUtil;
 import com.zifuji.cloud.server.base.util.SecurityUtil;
-import com.zifuji.cloud.server.business.db.user.entity.*;
-import com.zifuji.cloud.server.business.db.user.service.*;
+import com.zifuji.cloud.server.business.db.webUser.entity.*;
+import com.zifuji.cloud.server.business.db.webUser.service.*;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.LoginMo;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.RegisterMo;
 import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebMenuQo;
@@ -137,6 +137,7 @@ public class WebUserServiceImpl implements WebUserService {
 				webUserEntity.setUserName(registerMo.getUserName());
 				BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 				webUserEntity.setPassWord(bCryptPasswordEncoder.encode(registerMo.getPassWord()));
+				webUserEntity.setShortName(registerMo.getUserName());
 				webUserEntityService.save(webUserEntity);
 				List<String> roleCodeList = Collections.singletonList("register");
 				bindUserAndRoleByUserIdAndRoleCodeDelBefore(webUserEntity.getTableId(), roleCodeList);
@@ -244,7 +245,7 @@ public class WebUserServiceImpl implements WebUserService {
 					if (ObjectUtil.isNotEmpty(webPermissionEntityList)) {
 						permissionCodeList = webPermissionEntityList.stream().map(webPermissionEntity -> {
 							return webPermissionEntity.getCodeSys() + ":" + webPermissionEntity.getCodeModule() + ":"
-									+ webPermissionEntity.getCode();
+									+ webPermissionEntity.getCodeMethod();
 						}).collect(Collectors.toList());
 					}
 				}
