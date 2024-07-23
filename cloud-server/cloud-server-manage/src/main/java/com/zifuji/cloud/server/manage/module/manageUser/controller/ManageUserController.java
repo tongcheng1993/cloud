@@ -85,7 +85,7 @@ public class ManageUserController {
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
 	@ApiOperation(value = "查询内网账号")
-	@GetMapping(value = "/getManageUserById")
+	@PostMapping(value = "/getManageUserById")
 	@PreAuthorize(value = "hasAnyAuthority('sys:manageUser:getManageUserById')")
 	public Result<ManageUserVo> getManageUserById(@RequestParam Long id) {
 		return Result.setObj(manageUserService.getManageUserById(id));
