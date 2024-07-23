@@ -28,34 +28,28 @@ import java.util.List;
 @AllArgsConstructor
 public class AreaController {
 
+	private AreaService areaService;
 
-    private AreaService areaService;
+	// 增加
+	@ApiOperation(value = "")
+	@PostMapping(value = "/addArea")
+	public Result<AreaVo> addArea(@RequestBody @Valid AddAreaMo addAreaMo) {
 
+		return Result.setObj(null);
+	}
+	// 删除
 
-    //增加
-    @ApiOperation(value = "")
-    @PostMapping(value = "/addArea")
-    public Result<AreaVo> addArea(@RequestBody @Valid AddAreaMo addAreaMo) {
+	// 修改
 
-        return Result.setObj(null);
-    }
-    //删除
+	// 查询
+	@PostMapping(value = "/queryListArea")
+	public Result<List<AreaVo>> queryListArea(@RequestBody @Valid AreaQo areaQo) {
+		return Result.setObj(null);
+	}
 
-    //修改
-
-    //查询
-    @PostMapping(value = "/queryListArea")
-    public Result<List<AreaVo>> queryListArea(@RequestBody @Valid AreaQo<AreaEntity> areaQo) {
-        return Result.setObj(null);
-    }
-
-    @PostMapping(value = "/queryPageArea")
-    public Result<IPage<AreaVo>> queryPageArea(@RequestBody @Valid AreaQo<AreaEntity> areaQo) {
-        return Result.setObj(null);
-    }
-
-
-
-
+	@PostMapping(value = "/queryPageArea")
+	public Result<IPage<AreaVo>> queryPageArea(@RequestBody @Valid AreaQo areaQo) {
+		return Result.setObj(null);
+	}
 
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @ApiModel(description = "")
-public class ResetManageRoleMo extends BaseControllerMo {
+public class UpdateManageRoleMo extends BaseControllerMo {
 
 	// 角色名称
 	private String roleName;

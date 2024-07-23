@@ -8,47 +8,204 @@ import com.zifuji.cloud.server.manage.module.manageUser.controller.vo.*;
 import java.util.List;
 
 public interface ManageUserService {
+	/**
+	 * 获取验证码
+	 * 
+	 * @return
+	 */
+	DrawCaptchaVo drawCaptcha();
 
-    DrawCaptchaVo drawCaptcha();
+	/**
+	 * 
+	 * @param loginMo
+	 * @return
+	 */
+	String login(LoginMo loginMo);
 
-    String login(LoginMo loginMo);
+	/**
+	 * 
+	 * @return
+	 */
+	Boolean logout();
 
-    List<ManageMenuVo> getMenu();
+	/**
+	 * 
+	 * @return
+	 */
+	List<ManageMenuVo> getMenu();
 
-    IPage<ManageUserVo> queryPageManageUser(QueryPageManageUserQo queryPageManageUserQo);
+	/**
+	 * 
+	 * @param addManageUserMo
+	 * @return
+	 */
+	ManageUserVo addManageUser(AddManageUserMo addManageUserMo);
 
-    ManageUserVo getManageUserById(Long id);
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Boolean delManageUser(Long id);
 
-    ManageUserVo getManageUserByUserName(String userName);
+	/**
+	 * 
+	 * @param updateManageUserMo
+	 * @return
+	 */
+	ManageUserVo updateManageUser(UpdateManageUserMo updateManageUserMo);
 
-    Boolean addManageUser(AddManageUserMo addManageUserMo);
+	/**
+	 * 
+	 * @param queryPageManageUserQo
+	 * @return
+	 */
+	List<ManageUserVo> queryListManageUser(QueryPageManageUserQo queryPageManageUserQo);
 
-    Boolean resetManageUser(ResetManageUserMo resetManageUserMo);
+	/**
+	 * 
+	 * @param queryPageManageUserQo
+	 * @return
+	 */
+	IPage<ManageUserVo> queryPageManageUser(QueryPageManageUserQo queryPageManageUserQo);
 
-    List<ManageRoleVo> queryListManageRole(QueryListManageRoleQo queryListManageRoleQo);
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	ManageUserVo getManageUserById(Long id);
 
-    Boolean bindUserAndRoleDelBefore(BindUserAndRoleDelBeforeMo bindUserAndRoleDelBeforeMo);
+	/**
+	 * 
+	 * @param addManageRoleMo
+	 * @return
+	 */
+	ManageRoleVo addManageRole(AddManageRoleMo addManageRoleMo);
 
-    IPage<ManageRoleVo> queryPageManageRole(QueryPageManageRoleQo queryPageManageRoleQo);
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Boolean delManageRole(Long id);
 
-    ManageRoleVo getManageRoleById(String id);
+	/**
+	 * 
+	 * @param manageRoleMo
+	 * @return
+	 */
+	ManageRoleVo updateManageRole(UpdateManageRoleMo manageRoleMo);
 
-    ManageRoleVo getManageRoleByRoleCode(String roleCode);
+	/**
+	 * 
+	 * @param queryPageManageRoleQo
+	 * @return
+	 */
+	List<ManageRoleVo> queryListManageRole(QueryPageManageRoleQo queryPageManageRoleQo);
 
-    Boolean addManageRole(AddManageRoleMo addManageRoleMo);
+	/**
+	 * 
+	 * @param queryPageManageRoleQo
+	 * @return
+	 */
+	IPage<ManageRoleVo> queryPageManageRole(QueryPageManageRoleQo queryPageManageRoleQo);
 
-    Boolean resetManageRole(ResetManageRoleMo resetManageRoleMo);
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	ManageRoleVo getManageRoleById(Long id);
 
-    List<ManagePermissionVo> queryListManagePermission(QueryManagePermissionQo queryManagePermissionQo);
+	/**
+	 * 
+	 * @param addManagePermissionMo
+	 * @return
+	 */
+	ManagePermissionVo addManagePermission(AddManagePermissionMo addManagePermissionMo);
 
-    List<ManageMenuVo> queryListManageMenu(QueryListManageMenuQo queryListManageMenuQo);
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Boolean delManagePermission(Long id);
 
-    Boolean bindRoleAndPermissionDelBefore(BindRoleAndPermissionDelBeforeMo bindRoleAndPermissionDelBeforeMo);
+	/**
+	 * 
+	 * @param updateManagePermissionMo
+	 * @return
+	 */
+	ManagePermissionVo updateManagePermission(UpdateManagePermissionMo updateManagePermissionMo);
 
-    Boolean bindRoleAndMenuDelBefore(BindRoleAndMenuDelBeforeMo bindRoleAndMenuDelBeforeMo);
+	/**
+	 * 
+	 * @param queryPageManagePermissionQo
+	 * @return
+	 */
+	List<ManagePermissionVo> queryListManagePermission(QueryPageManagePermissionQo queryPageManagePermissionQo);
 
-    IPage<ManagePermissionVo> queryPageManagePermission(QueryManagePermissionQo queryManagePermissionQo);
+	/**
+	 * 
+	 * @param queryPageManagePermissionQo
+	 * @return
+	 */
+	IPage<ManagePermissionVo> queryPageManagePermission(QueryPageManagePermissionQo queryPageManagePermissionQo);
 
-    ManagePermissionVo addManagePermission(AddManagePermissionMo addManagePermissionMo);
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	ManagePermissionVo getManagePermissionById(Long id);
+
+	/**
+	 * 
+	 * @param addManageMenuMo
+	 * @return
+	 */
+	ManageMenuVo addManageMenu(AddManageMenuMo addManageMenuMo);
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Boolean delManageMenu(Long id);
+
+	/**
+	 * 
+	 * @param updateManageMenuMo
+	 * @return
+	 */
+	ManageMenuVo updateManageMenu(UpdateManageMenuMo updateManageMenuMo);
+
+	/**
+	 * 
+	 * @param queryPageManageMenuQo
+	 * @return
+	 */
+	List<ManageMenuVo> queryListManageMenu(QueryPageManageMenuQo queryPageManageMenuQo);
+
+	/**
+	 * 
+	 * @param queryPageManageMenuQo
+	 * @return
+	 */
+	IPage<ManageMenuVo> queryPageManageMenu(QueryPageManageMenuQo queryPageManageMenuQo);
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	ManageMenuVo getManageMenuById(Long id);
+
+	Boolean bindUserAndRoleDelBefore(BindUserAndRoleDelBeforeMo bindUserAndRoleDelBeforeMo);
+
+	Boolean bindRoleAndPermissionDelBefore(BindRoleAndPermissionDelBeforeMo bindRoleAndPermissionDelBeforeMo);
+
+	Boolean bindRoleAndMenuDelBefore(BindRoleAndMenuDelBeforeMo bindRoleAndMenuDelBeforeMo);
 
 }

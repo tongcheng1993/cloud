@@ -6,11 +6,11 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class QueryBookQo<T> extends BaseControllerQo<T> {
+public class QueryBookQo extends BaseControllerQo {
 
-    private String bookName;
+	private String bookName;
 
-    private String bookAuth;
+	private String bookAuth;
 
-    private String bookType;
+	private String bookType;
 }

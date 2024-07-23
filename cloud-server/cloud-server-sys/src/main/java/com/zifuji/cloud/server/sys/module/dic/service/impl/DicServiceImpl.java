@@ -5,6 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.server.sys.db.dic.entity.DicEntity;
 import com.zifuji.cloud.server.sys.db.dic.entity.DicItemEntity;
@@ -76,7 +77,7 @@ public class DicServiceImpl implements DicService {
 	}
 
 	@Override
-	public List<DicVo> queryListDic(DicQo<DicEntity> dicQo) {
+	public List<DicVo> queryListDic(DicQo dicQo) {
 		QueryWrapper<DicEntity> dicEntityQueryWrapper = changeDicQuery(dicQo);
 		List<DicEntity> list = dicEntityService.list(dicEntityQueryWrapper);
 		return list.stream().map(dicEntity -> {
@@ -87,10 +88,11 @@ public class DicServiceImpl implements DicService {
 	}
 
 	@Override
-	public IPage<DicVo> queryPageDic(DicQo<DicEntity> dicQo) {
+	public IPage<DicVo> queryPageDic(DicQo dicQo) {
+		Page<DicEntity> page = new Page<>(dicQo.getCurrent(), dicQo.getSize());
 		QueryWrapper<DicEntity> dicEntityQueryWrapper = changeDicQuery(dicQo);
 
-		IPage<DicEntity> page = dicEntityService.page(dicQo, dicEntityQueryWrapper);
+		page = dicEntityService.page(page, dicEntityQueryWrapper);
 
 		return page.convert(dicEntity -> {
 			DicVo vo = new DicVo();
@@ -154,7 +156,7 @@ public class DicServiceImpl implements DicService {
 	}
 
 	@Override
-	public List<DicItemVo> queryListDicItem(DicItemQo<DicItemEntity> dicItemQo) {
+	public List<DicItemVo> queryListDicItem(DicItemQo dicItemQo) {
 		QueryWrapper<DicItemEntity> dicItemEntityQueryWrapper = changeDicItemQuery(dicItemQo);
 
 		List<DicItemEntity> list = dicItemEntityService.list(dicItemEntityQueryWrapper);
@@ -167,7 +169,7 @@ public class DicServiceImpl implements DicService {
 
 	}
 
-	private QueryWrapper<DicItemEntity> changeDicItemQuery(DicItemQo<DicItemEntity> dicItemQo) {
+	private QueryWrapper<DicItemEntity> changeDicItemQuery(DicItemQo dicItemQo) {
 		QueryWrapper<DicItemEntity> dicItemEntityQueryWrapper = new QueryWrapper<>();
 		if (ObjectUtil.isNotNull(dicItemQo.getDicId())) {
 			dicItemEntityQueryWrapper.lambda().eq(DicItemEntity::getDicId, dicItemQo.getDicId());
@@ -175,7 +177,7 @@ public class DicServiceImpl implements DicService {
 		return dicItemEntityQueryWrapper;
 	}
 
-	private QueryWrapper<DicEntity> changeDicQuery(DicQo<DicEntity> dicQo) {
+	private QueryWrapper<DicEntity> changeDicQuery(DicQo dicQo) {
 		QueryWrapper<DicEntity> dicEntityQueryWrapper = new QueryWrapper<>();
 		if (StrUtil.isNotBlank(dicQo.getDicName())) {
 			dicEntityQueryWrapper.lambda().like(DicEntity::getDicName, dicQo.getDicName());

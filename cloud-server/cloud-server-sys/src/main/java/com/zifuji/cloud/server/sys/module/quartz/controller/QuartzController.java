@@ -30,7 +30,7 @@ public class QuartzController {
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "查询定时任务")
     @PostMapping(value = "/queryPageJobDetail")
-    public Result<IPage<JobDetailVo>> queryPageJobDetail(@RequestBody @Valid QueryJobDetailQo<JobDetailVo> queryJobDetailQo){
+    public Result<IPage<JobDetailVo>> queryPageJobDetail(@RequestBody @Valid QueryJobDetailQo queryJobDetailQo){
         return Result.setObj(quartzService.queryPageJobDetail(queryJobDetailQo));
     }
 

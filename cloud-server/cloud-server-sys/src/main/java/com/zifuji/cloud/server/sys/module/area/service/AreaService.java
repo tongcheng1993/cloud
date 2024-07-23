@@ -10,6 +10,6 @@ import java.util.List;
 public interface AreaService {
 
 
-   List<AreaVo> queryListArea( AreaQo<AreaEntity> areaQo);
+   List<AreaVo> queryListArea( AreaQo areaQo);
 
 }

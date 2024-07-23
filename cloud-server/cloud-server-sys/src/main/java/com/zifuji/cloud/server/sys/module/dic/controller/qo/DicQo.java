@@ -8,11 +8,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "")
-public class DicQo<T> extends BaseControllerQo<T> {
+public class DicQo extends BaseControllerQo {
 
-    private String dicName;
+	private String dicName;
 
-    private String dicCode;
-
+	private String dicCode;
 
 }

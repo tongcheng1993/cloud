@@ -14,26 +14,24 @@ import java.util.List;
 
 public interface BookService {
 
+	BookVo addBook(AddBookMo addBookMo);
 
-    BookVo addBook(AddBookMo addBookMo);
+	BookVo resetBook();
 
-    BookVo resetBook();
+	Boolean delBook();
 
-    Boolean delBook();
+	BookSectionVo addBookSection(AddBookSectionMo addBookSectionMo);
 
-    BookSectionVo addBookSection(AddBookSectionMo addBookSectionMo);
+	BookVo queryOneBookById(QueryBookQo queryBookQo);
 
-    BookVo queryOneBookById(QueryBookQo<BookEntity> queryBookQo);
+	IPage<BookVo> queryPageBook(QueryBookQo queryBookQo);
 
-    IPage<BookVo> queryPageBook(QueryBookQo<BookEntity> queryBookQo);
+	List<BookVo> queryListBook(QueryBookQo queryBookQo);
 
-    List<BookVo> queryListBook(QueryBookQo<BookEntity> queryBookQo);
+	BookSectionVo queryOneBookSectionById(QueryBookSectionQo queryBookSectionQo);
 
-    BookSectionVo queryOneBookSectionById(QueryBookSectionQo<BookSectionEntity> queryBookSectionQo);
+	IPage<BookSectionVo> queryPageBookSection(QueryBookSectionQo queryBookSectionQo);
 
-    IPage<BookSectionVo> queryPageBookSection(QueryBookSectionQo<BookSectionEntity> queryBookSectionQo);
-
-    List<BookSectionVo> queryListBookSection(QueryBookSectionQo<BookSectionEntity> queryBookSectionQo);
-
+	List<BookSectionVo> queryListBookSection(QueryBookSectionQo queryBookSectionQo);
 
 }

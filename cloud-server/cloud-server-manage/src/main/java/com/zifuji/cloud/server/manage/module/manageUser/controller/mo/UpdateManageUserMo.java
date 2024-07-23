@@ -10,7 +10,7 @@ import com.zifuji.cloud.server.base.db.BaseControllerMo;
 
 @Data
 @ApiModel(description = "")
-public class ResetManageUserMo extends BaseControllerMo {
+public class UpdateManageUserMo extends BaseControllerMo {
 
 	private String userName;
 

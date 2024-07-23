@@ -10,10 +10,10 @@ import javax.validation.constraints.NotBlank;
 @ApiModel(description = "")
 public class AddManageUserMo {
 
-    @NotBlank(message = "")
-    private String userName;
-    @NotBlank(message = "")
-    private String shortName;
-
-    private String passWord;
+	@NotBlank(message = "用户名不能为空")
+	private String userName;
+	@NotBlank(message = "昵称不能为空")
+	private String shortName;
+	@NotBlank(message = "密码不能为空")
+	private String passWord;
 }

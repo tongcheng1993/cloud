@@ -8,9 +8,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel
-public class QueryWebMenuQo<T> extends BaseControllerQo<T> {
+public class QueryWebMenuQo extends BaseControllerQo {
 
-    private String roleId;
-
+	private String roleId;
 
 }

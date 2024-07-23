@@ -8,12 +8,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class QueryBookSectionQo<T> extends BaseControllerQo<T> {
+public class QueryBookSectionQo extends BaseControllerQo {
 
+	private Long bookId;
 
-    private Long bookId;
-
-    private String sectionName;
-
+	private String sectionName;
 
 }

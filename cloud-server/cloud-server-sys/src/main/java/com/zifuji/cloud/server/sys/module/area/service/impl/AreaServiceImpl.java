@@ -1,6 +1,5 @@
 package com.zifuji.cloud.server.sys.module.area.service.impl;
 
-
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -20,41 +19,37 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Slf4j
 @Service
 @AllArgsConstructor
 public class AreaServiceImpl implements AreaService {
 
+	private AreaEntityService areaEntityService;
 
-    private AreaEntityService areaEntityService;
+	private AreaMapper areaMapper;
 
-    private AreaMapper areaMapper;
+	@Override
+	public List<AreaVo> queryListArea(AreaQo areaQo) {
+		QueryWrapper<AreaEntity> queryWrapper = changeAreaQuery(areaQo);
 
+		List<AreaEntity> list = areaEntityService.list(queryWrapper);
 
-    @Override
-    public List<AreaVo> queryListArea(AreaQo<AreaEntity> areaQo) {
-        QueryWrapper<AreaEntity> queryWrapper = changeAreaQuery(areaQo);
+		return list.stream().map(areaEntity -> {
+			AreaVo vo = new AreaVo();
 
-        List<AreaEntity> list = areaEntityService.list(queryWrapper);
+			BeanUtil.copyProperties(areaEntity, vo);
+			return vo;
+		}).collect(Collectors.toList());
+	}
 
-        return list.stream().map(areaEntity -> {
-            AreaVo vo = new AreaVo();
+	private QueryWrapper<AreaEntity> changeAreaQuery(AreaQo areaQo) {
+		QueryWrapper<AreaEntity> areaEntityQueryWrapper = new QueryWrapper<>();
+		if (ObjectUtil.isNotNull(areaQo.getParentIdEq())) {
+			areaEntityQueryWrapper.lambda().eq(AreaEntity::getParentId, areaQo.getParentIdEq());
+		}
 
-            BeanUtil.copyProperties(areaEntity, vo);
-            return vo;
-        }).collect(Collectors.toList());
-    }
+		return areaEntityQueryWrapper;
 
-    private QueryWrapper<AreaEntity> changeAreaQuery(AreaQo<AreaEntity> areaQo) {
-        QueryWrapper<AreaEntity> areaEntityQueryWrapper = new QueryWrapper<>();
-        if (ObjectUtil.isNotNull(areaQo.getParentIdEq())) {
-            areaEntityQueryWrapper.lambda().eq(AreaEntity::getParentId, areaQo.getParentIdEq());
-        }
-
-
-        return areaEntityQueryWrapper;
-
-    }
+	}
 
 }

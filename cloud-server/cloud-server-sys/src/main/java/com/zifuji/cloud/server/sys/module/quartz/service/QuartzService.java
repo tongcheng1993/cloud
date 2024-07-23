@@ -7,5 +7,5 @@ import com.zifuji.cloud.server.sys.module.quartz.controller.vo.JobDetailVo;
 
 public interface QuartzService {
 
-   IPage<JobDetailVo> queryPageJobDetail(QueryJobDetailQo<JobDetailVo> queryJobDetailQo);
+   IPage<JobDetailVo> queryPageJobDetail(QueryJobDetailQo queryJobDetailQo);
 }

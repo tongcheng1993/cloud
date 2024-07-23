@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @ApiModel(description = "")
-public class ResetManagePermissionMo {
+public class UpdateManagePermissionMo {
     @NotNull(message = "id")
-    private Long id;
+    private Long tableId;
 
     private String perName;
 

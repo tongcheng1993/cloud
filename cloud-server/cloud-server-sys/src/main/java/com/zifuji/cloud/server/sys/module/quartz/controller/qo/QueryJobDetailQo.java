@@ -8,5 +8,5 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "")
-public class QueryJobDetailQo<T> extends BaseControllerQo<T> {
+public class QueryJobDetailQo extends BaseControllerQo{
 }

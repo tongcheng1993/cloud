@@ -8,14 +8,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class AreaQo<T> extends BaseControllerQo<T> {
+public class AreaQo extends BaseControllerQo {
 
+	private String type;
 
-
-
-    private String type;
-
-    private String name;
-
+	private String name;
 
 }

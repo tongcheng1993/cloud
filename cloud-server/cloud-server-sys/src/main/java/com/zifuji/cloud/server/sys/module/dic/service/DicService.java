@@ -16,29 +16,29 @@ import java.util.List;
 
 public interface DicService {
 
-    DicVo addDic(AddDicMo addDicMo);
+	DicVo addDic(AddDicMo addDicMo);
 
-    Boolean delDic(Long id);
+	Boolean delDic(Long id);
 
-    DicVo resetDic(ResetDicMo resetDicMo);
+	DicVo resetDic(ResetDicMo resetDicMo);
 
-    List<DicVo> queryListDic(DicQo<DicEntity> dicQo);
+	List<DicVo> queryListDic(DicQo dicQo);
 
-    IPage<DicVo> queryPageDic(DicQo<DicEntity> dicQo);
+	IPage<DicVo> queryPageDic(DicQo dicQo);
 
-    DicVo getDicById(Long id);
+	DicVo getDicById(Long id);
 
-    DicItemVo addDicItem(AddDicItemMo addDicItemMo);
+	DicItemVo addDicItem(AddDicItemMo addDicItemMo);
 
-    Boolean delDicItem(Long id);
+	Boolean delDicItem(Long id);
 
-    DicItemVo resetDicItem(ResetDicItemMo resetDicItemMo);
+	DicItemVo resetDicItem(ResetDicItemMo resetDicItemMo);
 
-    List<DicItemVo> queryListDicItem( DicItemQo<DicItemEntity> dicItemQo);
+	List<DicItemVo> queryListDicItem(DicItemQo dicItemQo);
 
-    List<DicVo> getAllDicDetail();
+	List<DicVo> getAllDicDetail();
 
-    DicVo getDicByCode(String dicCode);
+	DicVo getDicByCode(String dicCode);
 
-    String getValueByCode(String dicCode,String itemCode);
+	String getValueByCode(String dicCode, String itemCode);
 }
