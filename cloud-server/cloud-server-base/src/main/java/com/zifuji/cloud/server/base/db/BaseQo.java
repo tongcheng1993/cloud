@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class BaseControllerQo implements Serializable {
+public class BaseQo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

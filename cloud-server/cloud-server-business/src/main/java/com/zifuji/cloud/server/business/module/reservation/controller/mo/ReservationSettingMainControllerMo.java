@@ -6,14 +6,14 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 
-import com.zifuji.cloud.server.base.db.BaseControllerMo;
+import com.zifuji.cloud.server.base.db.BaseMo;
 
 import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class ReservationSettingMainControllerMo extends BaseControllerMo {
+public class ReservationSettingMainControllerMo extends BaseMo {
 
 	/**
 	 * 

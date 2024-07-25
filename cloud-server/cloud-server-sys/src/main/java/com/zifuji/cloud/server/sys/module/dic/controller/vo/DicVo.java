@@ -1,13 +1,13 @@
 package com.zifuji.cloud.server.sys.module.dic.controller.vo;
 
-import com.zifuji.cloud.server.base.db.BaseControllerVo;
+import com.zifuji.cloud.server.base.db.BaseVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class DicVo extends BaseControllerVo {
+public class DicVo extends BaseVo {
 
     // 字典名字
     private String dicName = "";

@@ -1,12 +1,12 @@
 package com.zifuji.cloud.server.sys.module.dic.controller.mo;
 
-import com.zifuji.cloud.server.base.db.BaseControllerMo;
+import com.zifuji.cloud.server.base.db.BaseMo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ResetDicItemMo extends BaseControllerMo {
+public class UpdateDicItemMo extends BaseMo {
 
 
     private String itemValue;

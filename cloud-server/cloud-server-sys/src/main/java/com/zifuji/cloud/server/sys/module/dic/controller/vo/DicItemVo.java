@@ -2,13 +2,13 @@ package com.zifuji.cloud.server.sys.module.dic.controller.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.zifuji.cloud.server.base.db.BaseControllerVo;
+import com.zifuji.cloud.server.base.db.BaseVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class DicItemVo extends BaseControllerVo {
+public class DicItemVo extends BaseVo {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long dicId;
     // 字典编码

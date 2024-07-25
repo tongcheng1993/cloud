@@ -43,7 +43,7 @@ CREATE TABLE `z_manage_menu` (
   KEY `index_update_by` (`update_by`) USING BTREE,
   KEY `index_update_time` (`update_time`) USING BTREE,
   KEY `index_sort_num` (`sort_num`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='z_manage_menu';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_bin COMMENT='z_manage_menu';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +72,7 @@ CREATE TABLE `z_manage_permission` (
   KEY `index_update_time` (`update_time`) USING BTREE,
   KEY `index_create_by` (`create_by`) USING BTREE,
   KEY `index_update_by` (`update_by`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='z_manage_permission';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_bin COMMENT='z_manage_permission';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `z_manage_role` (
   KEY `index_sort_num` (`sort_num`) USING BTREE,
   KEY `index_update_by` (`update_by`) USING BTREE,
   KEY `index_update_time` (`update_time`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='这是';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_bin COMMENT='这是';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `z_manage_role_menu` (
   KEY `index_update_by` (`update_by`) USING BTREE,
   KEY `index_update_time` (`update_time`) USING BTREE,
   KEY `index_sort_num` (`sort_num`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='z_manage_role_menu';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_bin COMMENT='z_manage_role_menu';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +151,7 @@ CREATE TABLE `z_manage_role_permission` (
   KEY `index_update_time` (`update_time`) USING BTREE,
   KEY `index_create_by` (`create_by`) USING BTREE,
   KEY `index_update_by` (`update_by`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='z_manage_role_permission';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_bin COMMENT='z_manage_role_permission';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +179,7 @@ CREATE TABLE `z_manage_user` (
   KEY `index_update_by` (`update_by`) USING BTREE,
   KEY `index_update_time` (`update_time`) USING BTREE,
   KEY `index_user_name` (`user_name`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='这是demo';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_bin COMMENT='这是demo';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +205,7 @@ CREATE TABLE `z_manage_user_role` (
   KEY `index_update_time` (`update_time`) USING BTREE,
   KEY `index_create_by` (`create_by`) USING BTREE,
   KEY `index_update_by` (`update_by`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='z_manage_user_role';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_bin COMMENT='z_manage_user_role';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

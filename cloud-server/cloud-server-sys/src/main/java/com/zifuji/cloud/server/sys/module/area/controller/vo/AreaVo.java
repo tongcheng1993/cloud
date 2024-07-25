@@ -1,6 +1,6 @@
 package com.zifuji.cloud.server.sys.module.area.controller.vo;
 
-import com.zifuji.cloud.server.base.db.BaseControllerVo;
+import com.zifuji.cloud.server.base.db.BaseVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class AreaVo extends BaseControllerVo {
+public class AreaVo extends BaseVo {
 
     private String type;
 

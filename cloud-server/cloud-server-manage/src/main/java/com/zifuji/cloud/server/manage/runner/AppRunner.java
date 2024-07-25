@@ -50,10 +50,7 @@ public class AppRunner implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		openArgs(args);
-		createRootUser();
-	}
-
-	private void createRootUser() {
 
 	}
+
 }

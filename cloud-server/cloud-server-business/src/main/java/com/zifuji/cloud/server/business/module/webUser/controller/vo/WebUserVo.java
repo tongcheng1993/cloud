@@ -1,13 +1,13 @@
 package com.zifuji.cloud.server.business.module.webUser.controller.vo;
 
-import com.zifuji.cloud.server.base.db.BaseControllerVo;
+import com.zifuji.cloud.server.base.db.BaseVo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class WebUserVo extends BaseControllerVo {
+public class WebUserVo extends BaseVo {
 
     @ApiModelProperty(value = "账户名")
     private String userName;

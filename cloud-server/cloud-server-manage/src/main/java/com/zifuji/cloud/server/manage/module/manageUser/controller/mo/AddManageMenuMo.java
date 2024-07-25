@@ -18,9 +18,9 @@ public class AddManageMenuMo {
 	@NotBlank(message = "路由url不能为空")
 	private String path;
 
-	private String component;
+	private String component="/layout/blank";
 
-	private Boolean showFlag;
+	private Boolean showFlag= true;
 
-	private String icon;
+	private String icon = "el-icon-eleme";
 }

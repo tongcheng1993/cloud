@@ -6,8 +6,8 @@ import com.zifuji.cloud.server.sys.db.dic.entity.DicEntity;
 import com.zifuji.cloud.server.sys.db.dic.entity.DicItemEntity;
 import com.zifuji.cloud.server.sys.module.dic.controller.mo.AddDicItemMo;
 import com.zifuji.cloud.server.sys.module.dic.controller.mo.AddDicMo;
-import com.zifuji.cloud.server.sys.module.dic.controller.mo.ResetDicItemMo;
-import com.zifuji.cloud.server.sys.module.dic.controller.mo.ResetDicMo;
+import com.zifuji.cloud.server.sys.module.dic.controller.mo.UpdateDicItemMo;
+import com.zifuji.cloud.server.sys.module.dic.controller.mo.UpdateDicMo;
 import com.zifuji.cloud.server.sys.module.dic.controller.qo.DicItemQo;
 import com.zifuji.cloud.server.sys.module.dic.controller.qo.DicQo;
 import com.zifuji.cloud.server.sys.module.dic.controller.vo.DicItemVo;
@@ -47,16 +47,16 @@ public class DicController {
 	@ApiOperation(value = "删除数据字典类目")
 	@PostMapping(value = "/delDic")
 	@PreAuthorize(value = "hasAnyAuthority('sys:dic:delDic')")
-	public Result<Boolean> delDic(@RequestParam(required = true) Long id) {
-		return Result.setObj(dicService.delDic(id));
+	public Result<Boolean> delDic(@RequestBody @Valid UpdateDicMo updateDicMo) {
+		return Result.setObj(dicService.delDic(updateDicMo.getTableId()));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
 	@ApiOperation(value = "修改数据字典类目")
-	@PostMapping(value = "/resetDic")
-	@PreAuthorize(value = "hasAnyAuthority('sys:dic:resetDic')")
-	public Result<DicVo> resetDic(@RequestBody @Valid ResetDicMo resetDicMo) {
-		return Result.setObj(dicService.resetDic(resetDicMo));
+	@PostMapping(value = "/updateDic")
+	@PreAuthorize(value = "hasAnyAuthority('sys:dic:updateDic')")
+	public Result<DicVo> resetDic(@RequestBody @Valid UpdateDicMo updateDicMo) {
+		return Result.setObj(dicService.updateDic(updateDicMo));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -79,8 +79,8 @@ public class DicController {
 	@ApiOperation(value = "通过id查询")
 	@PostMapping(value = "/getDicById")
 	@PreAuthorize(value = "hasAnyAuthority('sys:dic:getDicById')")
-	public Result<DicVo> getDicById(@RequestParam(required = true) Long id) {
-		return Result.setObj(dicService.getDicById(id));
+	public Result<DicVo> getDicById(@RequestBody @Valid UpdateDicMo updateDicMo) {
+		return Result.setObj(dicService.getDicById(updateDicMo.getTableId()));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -95,16 +95,16 @@ public class DicController {
 	@ApiOperation(value = "删除数据字典类别条目")
 	@PostMapping(value = "/delDicItem")
 	@PreAuthorize(value = "hasAnyAuthority('sys:dic:delDicItem')")
-	public Result<Boolean> delDicItem(@RequestParam Long id) {
-		return Result.setObj(dicService.delDicItem(id));
+	public Result<Boolean> delDicItem(@RequestBody @Valid UpdateDicItemMo updateDicItemMo) {
+		return Result.setObj(dicService.delDicItem(updateDicItemMo.getTableId()));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
 	@ApiOperation(value = "修改数据字典类别条目")
-	@PostMapping(value = "/resetDicItem")
-	@PreAuthorize(value = "hasAnyAuthority('sys:dic:resetDicItem')")
-	public Result<DicItemVo> resetDicItem(@RequestBody @Valid ResetDicItemMo resetDicItemMo) {
-		return Result.setObj(dicService.resetDicItem(resetDicItemMo));
+	@PostMapping(value = "/updateDicItem")
+	@PreAuthorize(value = "hasAnyAuthority('sys:dic:updateDicItem')")
+	public Result<DicItemVo> resetDicItem(@RequestBody @Valid UpdateDicItemMo updateDicItemMo) {
+		return Result.setObj(dicService.updateDicItem(updateDicItemMo));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -115,6 +115,11 @@ public class DicController {
 		return Result.setObj(dicService.queryListDicItem(dicItemQo));
 	}
 
+	
+	
+	
+	
+	
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = false, paramType = "header")
 	@ApiOperation(value = "获取全部字典")
 	@PostMapping(value = "/getAllDicDetail")

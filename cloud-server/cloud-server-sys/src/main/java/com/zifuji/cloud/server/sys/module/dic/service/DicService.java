@@ -5,8 +5,8 @@ import com.zifuji.cloud.server.sys.db.dic.entity.DicEntity;
 import com.zifuji.cloud.server.sys.db.dic.entity.DicItemEntity;
 import com.zifuji.cloud.server.sys.module.dic.controller.mo.AddDicItemMo;
 import com.zifuji.cloud.server.sys.module.dic.controller.mo.AddDicMo;
-import com.zifuji.cloud.server.sys.module.dic.controller.mo.ResetDicItemMo;
-import com.zifuji.cloud.server.sys.module.dic.controller.mo.ResetDicMo;
+import com.zifuji.cloud.server.sys.module.dic.controller.mo.UpdateDicItemMo;
+import com.zifuji.cloud.server.sys.module.dic.controller.mo.UpdateDicMo;
 import com.zifuji.cloud.server.sys.module.dic.controller.qo.DicItemQo;
 import com.zifuji.cloud.server.sys.module.dic.controller.qo.DicQo;
 import com.zifuji.cloud.server.sys.module.dic.controller.vo.DicItemVo;
@@ -20,7 +20,7 @@ public interface DicService {
 
 	Boolean delDic(Long id);
 
-	DicVo resetDic(ResetDicMo resetDicMo);
+	DicVo updateDic(UpdateDicMo updateDicMo);
 
 	List<DicVo> queryListDic(DicQo dicQo);
 
@@ -32,7 +32,7 @@ public interface DicService {
 
 	Boolean delDicItem(Long id);
 
-	DicItemVo resetDicItem(ResetDicItemMo resetDicItemMo);
+	DicItemVo updateDicItem(UpdateDicItemMo updateDicItemMo);
 
 	List<DicItemVo> queryListDicItem(DicItemQo dicItemQo);
 

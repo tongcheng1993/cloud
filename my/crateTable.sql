@@ -14,4 +14,4 @@ CREATE TABLE `t_demo` (
   KEY `index_update_by` (`update_by`) USING BTREE,
   KEY `index_update_time` (`update_time`) USING BTREE,
   KEY `index_sort_num` (`sort_num`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='这是demo';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_bin COMMENT='这是demo';

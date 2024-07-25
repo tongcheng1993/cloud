@@ -1,6 +1,6 @@
 package com.zifuji.cloud.server.manage.module.manageUser.controller.vo;
 
-import com.zifuji.cloud.server.base.db.BaseControllerVo;
+import com.zifuji.cloud.server.base.db.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class ManageRoleVo extends BaseControllerVo {
+public class ManageRoleVo extends BaseVo {
 
 
     @ApiModelProperty("角色名称")

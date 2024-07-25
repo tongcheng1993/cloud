@@ -9,6 +9,35 @@ import java.util.List;
 
 public interface ManageUserService {
 	/**
+	 * 
+	 * @param bindUserAndRoleDelBeforeMo
+	 * @return
+	 */
+
+	Boolean bindUserAndRoleDelBefore(BindUserAndRoleDelBeforeMo bindUserAndRoleDelBeforeMo);
+
+	/**
+	 * 
+	 * @param bindRoleAndPermissionDelBeforeMo
+	 * @return
+	 */
+	Boolean bindRoleAndPermissionDelBefore(BindRoleAndPermissionDelBeforeMo bindRoleAndPermissionDelBeforeMo);
+
+	/**
+	 * 
+	 * @param bindRoleAndMenuDelBeforeMo
+	 * @return
+	 */
+	Boolean bindRoleAndMenuDelBefore(BindRoleAndMenuDelBeforeMo bindRoleAndMenuDelBeforeMo);
+
+	/**
+	 * 
+	 * @param resetPassWordMo
+	 * @return
+	 */
+	Boolean resetPassWord(ResetPassWordMo resetPassWordMo);
+
+	/**
 	 * 获取验证码
 	 * 
 	 * @return
@@ -201,11 +230,5 @@ public interface ManageUserService {
 	 * @return
 	 */
 	ManageMenuVo getManageMenuById(Long id);
-
-	Boolean bindUserAndRoleDelBefore(BindUserAndRoleDelBeforeMo bindUserAndRoleDelBeforeMo);
-
-	Boolean bindRoleAndPermissionDelBefore(BindRoleAndPermissionDelBeforeMo bindRoleAndPermissionDelBeforeMo);
-
-	Boolean bindRoleAndMenuDelBefore(BindRoleAndMenuDelBeforeMo bindRoleAndMenuDelBeforeMo);
 
 }

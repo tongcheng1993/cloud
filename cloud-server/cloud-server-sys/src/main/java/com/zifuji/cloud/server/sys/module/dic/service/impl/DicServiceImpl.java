@@ -12,8 +12,8 @@ import com.zifuji.cloud.server.sys.db.dic.entity.DicItemEntity;
 import com.zifuji.cloud.server.sys.module.dic.cache.DicCache;
 import com.zifuji.cloud.server.sys.module.dic.controller.mo.AddDicItemMo;
 import com.zifuji.cloud.server.sys.module.dic.controller.mo.AddDicMo;
-import com.zifuji.cloud.server.sys.module.dic.controller.mo.ResetDicItemMo;
-import com.zifuji.cloud.server.sys.module.dic.controller.mo.ResetDicMo;
+import com.zifuji.cloud.server.sys.module.dic.controller.mo.UpdateDicItemMo;
+import com.zifuji.cloud.server.sys.module.dic.controller.mo.UpdateDicMo;
 import com.zifuji.cloud.server.sys.module.dic.controller.qo.DicItemQo;
 import com.zifuji.cloud.server.sys.module.dic.controller.qo.DicQo;
 import com.zifuji.cloud.server.sys.module.dic.controller.vo.DicItemVo;
@@ -71,7 +71,7 @@ public class DicServiceImpl implements DicService {
 	}
 
 	@Override
-	public DicVo resetDic(ResetDicMo resetDicMo) {
+	public DicVo updateDic(UpdateDicMo updateDicMo) {
 		flushGetAllDicDetailCache();
 		return null;
 	}
@@ -150,7 +150,7 @@ public class DicServiceImpl implements DicService {
 	}
 
 	@Override
-	public DicItemVo resetDicItem(ResetDicItemMo resetDicItemMo) {
+	public DicItemVo updateDicItem(UpdateDicItemMo updateDicItemMo) {
 		flushGetAllDicDetailCache();
 		return null;
 	}

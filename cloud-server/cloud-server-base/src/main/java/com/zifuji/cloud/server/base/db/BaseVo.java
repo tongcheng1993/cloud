@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class BaseControllerVo implements Serializable {
+public class BaseVo implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty("")
     @JsonSerialize(using = ToStringSerializer.class)

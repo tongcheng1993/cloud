@@ -6,12 +6,12 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 
-import com.zifuji.cloud.server.base.db.BaseControllerMo;
+import com.zifuji.cloud.server.base.db.BaseMo;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class AuditFriendApplyControllerMo extends BaseControllerMo {
+public class AuditFriendApplyControllerMo extends BaseMo {
 
 	/**
 	 * 

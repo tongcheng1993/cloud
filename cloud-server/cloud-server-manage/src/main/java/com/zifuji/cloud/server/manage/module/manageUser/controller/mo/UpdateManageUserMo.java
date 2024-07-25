@@ -6,11 +6,11 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.zifuji.cloud.server.base.db.BaseControllerMo;
+import com.zifuji.cloud.server.base.db.BaseMo;
 
 @Data
 @ApiModel(description = "")
-public class UpdateManageUserMo extends BaseControllerMo {
+public class UpdateManageUserMo extends BaseMo {
 
 	private String userName;
 
