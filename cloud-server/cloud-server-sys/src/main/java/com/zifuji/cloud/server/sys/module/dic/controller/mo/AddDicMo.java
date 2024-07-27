@@ -12,6 +12,7 @@ public class AddDicMo {
     private String dicCode;
     @NotBlank(message = "字典名称不能为空")
     private String dicName;
+    
     private String dicDescription;
 
 

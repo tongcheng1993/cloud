@@ -21,48 +21,48 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class WebsocketServiceImpl implements WebsocketService {
 
+	private SimpMessagingTemplate simpMessagingTemplate;
 
-    private SimpMessagingTemplate simpMessagingTemplate;
+	private WsMessageEntityService wsMessageEntityService;
 
-    private WsMessageEntityService wsMessageEntityService;
+	@Override
+	public Boolean sendWsAllMessage(SendWsMessageMo sendWsMessageMo) {
+		sendWsMessageMo.setBusinessType(BaseConstant.WS_TYPE_TOPIC);
+		sendWsMessageMo.setTypePath(BaseConstant.WS_TYPE_TOPIC_PATH_PUBLIC);
+		sendWsMessage(sendWsMessageMo);
+		return true;
+	}
 
+	@Override
+	public Boolean sendWsOneMessage(SendWsMessageMo sendWsMessageMo) {
+		sendWsMessageMo.setBusinessType(BaseConstant.WS_TYPE_PEOPLE);
+		sendWsMessageMo.setTypePath(BaseConstant.WS_TYPE_PEOPLE_PATH);
+		sendWsMessage(sendWsMessageMo);
+		return null;
+	}
 
-    @Override
-    public Boolean sendWsAllMessage(SendWsMessageMo sendWsMessageMo) {
-        sendWsMessageMo.setBusinessType(BaseConstant.WS_TYPE_TOPIC);
-        sendWsMessage(sendWsMessageMo);
-        return true;
-    }
+	@Override
+	public Boolean sendWsMessage(SendWsMessageMo sendWsMessageMo) {
+		UserInfo user = SecurityUtil.getUserDetails();
+		sendWsMessageMo.setFromUserId(user.getTableId());
+		sendWsMessageMo.setFromUserName(user.getShortName());
+		WsMessageEntity wsMessageEntity = new WsMessageEntity();
+		BeanUtil.copyProperties(sendWsMessageMo, wsMessageEntity);
+		wsMessageEntityService.save(wsMessageEntity);
+		if (StringUtils.equals(BaseConstant.WS_TYPE_TOPIC, sendWsMessageMo.getBusinessType())) {
+			simpMessagingTemplate.convertAndSend(wsMessageEntity.getTypePath(), wsMessageEntity);
+		} else if (StringUtils.equals(BaseConstant.WS_TYPE_PEOPLE, sendWsMessageMo.getBusinessType())) {
+			simpMessagingTemplate.convertAndSendToUser("" + wsMessageEntity.getToUserId(),
+					wsMessageEntity.getTypePath(), wsMessageEntity);
+		} else {
+			throw new Exception20000("没有找到对应的ws消息类型");
+		}
+		return true;
+	}
 
-    @Override
-    public Boolean sendWsOneMessage(SendWsMessageMo sendWsMessageMo) {
-        sendWsMessageMo.setBusinessType(BaseConstant.WS_TYPE_PEOPLE);
-        sendWsMessageMo.setTypePath(BaseConstant.WS_TYPE_PEOPLE_PATH);
-        sendWsMessage(sendWsMessageMo);
-        return null;
-    }
-
-    @Override
-    public Boolean sendWsMessage(SendWsMessageMo sendWsMessageMo) {
-    	UserInfo user = SecurityUtil.getUserDetails();
-    	sendWsMessageMo.setFromUserId(user.getTableId());
-    	sendWsMessageMo.setFromUserName(user.getShortName());
-    	 WsMessageEntity wsMessageEntity = new WsMessageEntity();
-         BeanUtil.copyProperties(sendWsMessageMo,wsMessageEntity);
-         wsMessageEntityService.save(wsMessageEntity);
-        if(StringUtils.equals(BaseConstant.WS_TYPE_TOPIC,sendWsMessageMo.getBusinessType())){
-            simpMessagingTemplate.convertAndSend(wsMessageEntity.getTypePath(), wsMessageEntity);
-        }else if(StringUtils.equals(BaseConstant.WS_TYPE_PEOPLE,sendWsMessageMo.getBusinessType())){
-            simpMessagingTemplate.convertAndSendToUser(""+wsMessageEntity.getToUserId(), wsMessageEntity.getTypePath(), wsMessageEntity);
-        }else{
-            throw new Exception20000("没有找到对应的ws消息类型");
-        }
-        return true;
-    }
-
-    @Override
-    public Integer info() {
-        return 0;
-    }
+	@Override
+	public Integer info() {
+		return 0;
+	}
 
 }

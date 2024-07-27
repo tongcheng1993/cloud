@@ -6,6 +6,8 @@ import cn.hutool.captcha.generator.RandomGenerator;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -13,7 +15,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zifuji.cloud.base.bean.BaseConstant;
 import com.zifuji.cloud.base.bean.Exception20000;
 import com.zifuji.cloud.base.bean.UserInfo;
-
+import com.zifuji.cloud.server.base.module.feign.client.websocket.websocket.WebsocketFeignClient;
+import com.zifuji.cloud.server.base.module.feign.client.websocket.websocket.mo.SendWsMessageMo;
 import com.zifuji.cloud.server.base.util.RedisUtil;
 import com.zifuji.cloud.server.manage.db.manageUser.entity.*;
 import com.zifuji.cloud.server.manage.db.manageUser.service.*;
@@ -51,6 +54,7 @@ public class ManageUserServiceImpl implements ManageUserService {
 	private ManageUserRoleEntityService manageUserRoleEntityService;
 	private ManageRoleMenuEntityService manageRoleMenuEntityService;
 	private ManageRolePermissionEntityService manageRolePermissionEntityService;
+	private WebsocketFeignClient websocketFeignClient;
 
 	@Override
 	public DrawCaptchaVo drawCaptcha() {
@@ -150,7 +154,7 @@ public class ManageUserServiceImpl implements ManageUserService {
 							.in(ManageMenuEntity::getTableId,
 									manageRoleMenuEntityList.stream().map(ManageRoleMenuEntity::getMenuId)
 											.collect(Collectors.toList()))
-							.orderByAsc(ManageMenuEntity::getSortNum).orderByDesc(ManageMenuEntity::getCreateTime);
+							.orderByAsc(ManageMenuEntity::getSortNum).orderByAsc(ManageMenuEntity::getCreateTime);
 					List<ManageMenuEntity> manageMenuEntityList = manageMenuEntityService
 							.list(manageMenuEntityQueryWrapper);
 					if (ObjectUtil.isNotEmpty(manageMenuEntityList)) {
@@ -598,5 +602,27 @@ public class ManageUserServiceImpl implements ManageUserService {
 		manageUserEntity.setPassWord(bCryptPasswordEncoder.encode(resetPassWordMo.getPassWord()));
 		manageUserEntityService.updateById(manageUserEntity);
 		return true;
+	}
+
+	@Override
+	public Boolean manageUserLogout(ManageUserLogoutMo manageUserLogoutMo) {
+		if (stringRedisTemplate.opsForHash().hasKey("user_hash", "" + manageUserLogoutMo.getUserId())) {
+			String userInfoStr = (String) stringRedisTemplate.opsForHash().get("user_hash",
+					"" + manageUserLogoutMo.getUserId());
+			UserInfo toUser = JSON.parseObject(userInfoStr, UserInfo.class);
+			UserInfo userInfo = SecurityUtil.getUserDetails();
+
+			SendWsMessageMo sendWsMessageMo = new SendWsMessageMo();
+			sendWsMessageMo.setBusinessType(BaseConstant.WS_TYPE_PEOPLE);
+			sendWsMessageMo.setTypePath(BaseConstant.WS_TYPE_PEOPLE_LOGOUT);
+			sendWsMessageMo.setFromUserId(userInfo.getTableId());
+			sendWsMessageMo.setToUserId(toUser.getTableId());
+			sendWsMessageMo.setObj("logout");
+			websocketFeignClient.sendWsOneMessage(sendWsMessageMo);
+			return true;
+
+		}
+
+		return false;
 	}
 }

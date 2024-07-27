@@ -10,6 +10,13 @@ import java.util.List;
 public interface ManageUserService {
 	/**
 	 * 
+	 * @param manageUserLogoutMo
+	 * @return
+	 */
+	Boolean manageUserLogout(ManageUserLogoutMo manageUserLogoutMo);
+
+	/**
+	 * 
 	 * @param bindUserAndRoleDelBeforeMo
 	 * @return
 	 */

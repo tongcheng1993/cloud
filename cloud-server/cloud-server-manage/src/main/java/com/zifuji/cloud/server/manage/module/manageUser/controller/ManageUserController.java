@@ -24,13 +24,13 @@ public class ManageUserController {
 	// 管理端用户服务控制接口
 	private ManageUserService manageUserService;
 
-	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-	@ApiOperation(value = "绑定角色和接口权限")
-	@PostMapping(value = "/bindRoleAndPermissionDelBefore")
-	@PreAuthorize(value = "hasAnyAuthority('sys:manageUser:bindRoleAndPermissionDelBefore')")
-	public Result<Boolean> bindRoleAndPermissionDelBefore(
-			@RequestBody @Valid BindRoleAndPermissionDelBeforeMo bindRoleAndPermissionDelBeforeMo) {
-		return Result.setObj(manageUserService.bindRoleAndPermissionDelBefore(bindRoleAndPermissionDelBeforeMo));
+	public Result<Boolean> addManageUserManageRoleRelationAndLogout(
+			@RequestBody @Valid AddManageUserManageRoleRelationAndLogoutMo addManageUserManageRoleRelationAndLogoutMo) {
+		return Result.setObj(true);
+	}
+
+	public Result<Boolean> manageUserLogout(@RequestBody @Valid ManageUserLogoutMo manageUserLogoutMo) {
+		return Result.setObj(manageUserService.manageUserLogout(manageUserLogoutMo));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -43,11 +43,12 @@ public class ManageUserController {
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-	@ApiOperation(value = "重置密码")
-	@PostMapping(value = "/resetPassWord")
-	@PreAuthorize(value = "hasAnyAuthority('sys:manageUser:resetPassWord')")
-	public Result<Boolean> resetPassWord(@RequestBody @Valid ResetPassWordMo resetPassWordMo) {
-		return Result.setObj(manageUserService.resetPassWord(resetPassWordMo));
+	@ApiOperation(value = "绑定角色和接口权限")
+	@PostMapping(value = "/bindRoleAndPermissionDelBefore")
+	@PreAuthorize(value = "hasAnyAuthority('sys:manageUser:bindRoleAndPermissionDelBefore')")
+	public Result<Boolean> bindRoleAndPermissionDelBefore(
+			@RequestBody @Valid BindRoleAndPermissionDelBeforeMo bindRoleAndPermissionDelBeforeMo) {
+		return Result.setObj(manageUserService.bindRoleAndPermissionDelBefore(bindRoleAndPermissionDelBeforeMo));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -57,6 +58,14 @@ public class ManageUserController {
 	public Result<Boolean> bindRoleAndMenuDelBefore(
 			@RequestBody @Valid BindRoleAndMenuDelBeforeMo bindRoleAndMenuDelBeforeMo) {
 		return Result.setObj(manageUserService.bindRoleAndMenuDelBefore(bindRoleAndMenuDelBeforeMo));
+	}
+
+	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
+	@ApiOperation(value = "重置密码")
+	@PostMapping(value = "/resetPassWord")
+	@PreAuthorize(value = "hasAnyAuthority('sys:manageUser:resetPassWord')")
+	public Result<Boolean> resetPassWord(@RequestBody @Valid ResetPassWordMo resetPassWordMo) {
+		return Result.setObj(manageUserService.resetPassWord(resetPassWordMo));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")

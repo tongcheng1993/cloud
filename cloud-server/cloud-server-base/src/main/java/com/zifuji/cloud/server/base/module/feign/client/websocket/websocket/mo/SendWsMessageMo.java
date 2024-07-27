@@ -1,13 +1,11 @@
-package com.zifuji.cloud.server.websocket.module.websocket.controller.mo;
+package com.zifuji.cloud.server.base.module.feign.client.websocket.websocket.mo;
+
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 @Data
 public class SendWsMessageMo {
-
 	@NotBlank(message = "businessType不能为空")
 	private String businessType = "";
 
@@ -23,5 +21,4 @@ public class SendWsMessageMo {
 
 	@NotBlank(message = "obj不能为空")
 	private String obj = "";
-
 }

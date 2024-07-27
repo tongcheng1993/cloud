@@ -30,7 +30,6 @@ public class WebsocketController {
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "获取服务器信息")
     @PostMapping(value = "/info")
-    @PreAuthorize("hasAnyAuthority('ROLE_register')")
     public Result<Integer> info() {
         Integer result = websocketService.info();
         return Result.setObj(result);
@@ -39,7 +38,6 @@ public class WebsocketController {
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "发送全网站通知")
     @PostMapping(value = "/sendWsAllMessage")
-    @PreAuthorize("hasAnyAuthority('ROLE_register')")
     public Result<Boolean> sendWsAllMessage(@RequestBody @Valid SendWsMessageMo sendWsMessageMo) {
         websocketService.sendWsAllMessage(sendWsMessageMo);
         return Result.setObj(true);
@@ -48,7 +46,6 @@ public class WebsocketController {
     @ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
     @ApiOperation(value = "发送个人消息")
     @PostMapping(value = "/sendWsOneMessage")
-    @PreAuthorize("hasAnyAuthority('ROLE_register')")
     public Result<Boolean> sendWsOneMessage(@RequestBody @Valid SendWsMessageMo sendWsMessageMo) {
         websocketService.sendWsOneMessage(sendWsMessageMo);
         return Result.setObj(true);

@@ -9,8 +9,8 @@ public class BaseConstant {
     public static final String WS_TYPE_TOPIC = "topic";
     public static final String WS_TYPE_TOPIC_PATH_PUBLIC = "/topic/public";
     public static final String WS_TYPE_PEOPLE = "people";
-    public static final String WS_TYPE_PEOPLE_PATH = "/chat";
-
+    public static final String WS_TYPE_PEOPLE_PATH = "/topic/chat";
+    public static final String WS_TYPE_PEOPLE_LOGOUT = "/topic/logout";
 
     //------------------------角色code
 

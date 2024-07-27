@@ -1,16 +1,11 @@
 package com.zifuji.cloud.server.manage.module.manageUser.controller.mo;
 
-import lombok.Data;
-
 import javax.validation.constraints.NotNull;
 
-import java.util.List;
+import lombok.Data;
 
 @Data
-public class BindRoleAndMenuDelBeforeMo {
-
+public class ManageUserLogoutMo {
 	@NotNull(message = "")
-	private Long roleId;
-
-	private List<Long> menuIdList;
+	private Long userId;
 }
