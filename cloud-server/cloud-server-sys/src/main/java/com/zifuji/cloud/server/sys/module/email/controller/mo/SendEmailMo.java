@@ -23,9 +23,9 @@ public class SendEmailMo {
 
     private String content;
 
-    private List<String> imgList;
+    private List<Long> imgList;
 
-    private List<String> fileList;
+    private List<Long> fileList;
 
 
 }

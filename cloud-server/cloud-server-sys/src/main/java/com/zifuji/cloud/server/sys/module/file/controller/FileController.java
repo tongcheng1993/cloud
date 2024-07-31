@@ -1,6 +1,5 @@
 package com.zifuji.cloud.server.sys.module.file.controller;
 
-
 import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
@@ -37,75 +36,75 @@ import java.net.URLEncoder;
 @AllArgsConstructor
 public class FileController {
 
-    private FileService fileService;
+	private FileService fileService;
 
-    @ApiOperation(value = "上传文件")
-    @PostMapping(value = "/uploadFile")
-    public Result<String> uploadFile(MultipartFile file) {
-        String result = fileService.uploadFile(file);
-        return Result.setObj(result);
-    }
+	@ApiOperation(value = "上传文件")
+	@PostMapping(value = "/uploadFile")
+	public Result<String> uploadFile(MultipartFile file) {
+		String result = fileService.uploadFile(file);
+		return Result.setObj(result);
+	}
 
-    @ApiOperation(value = "下载文件")
-    @GetMapping(value = "/downloadStreamFile")
-    public void downloadStreamFile(@RequestParam String id) throws IOException {
-        FileBo result = fileService.downloadFileStream(id);
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = servletRequestAttributes.getRequest();
-        HttpServletResponse response = servletRequestAttributes.getResponse();
-        String mimeType = request.getServletContext().getMimeType(result.getFileName());
-        // 清空response
-        response.reset();
-        // 设置response的Header
-        response.setCharacterEncoding("UTF-8");
-        // 设置ContentType，响应内容为二进制数据流，编码为utf-8，此处设定的编码是文件内容的编码
-        //  + ";charset=utf-8"
-        response.setContentType(mimeType);
-        // Content-Disposition的作用：告知浏览器以何种方式显示响应返回的文件，用浏览器打开还是以附件的形式下载到本地保存
-        // attachment表示以附件方式下载 inline表示在线打开 "Content-Disposition: inline; filename=文件名.mp3"
-        // filename表示文件的默认名称，因为网络传输只支持URL编码的相关支付，因此需要将文件名URL编码后进行传输,前端收到后需要反编码才能获取到真正的名称
-        response.addHeader("Content-Disposition", "inline;filename=" + URLEncoder.encode(result.getFileName(), "UTF-8"));
-        // 告知浏览器文件的大小
-        response.addHeader("Content-Length", "" + result.getFileSize());
-        try {
-            IoUtil.copy(result.getInputStream(), response.getOutputStream());
-            response.flushBuffer();
-            IoUtil.close(response.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        log.info("结束" + id);
-    }
+	@ApiOperation(value = "下载文件")
+	@GetMapping(value = "/downloadStreamFile")
+	public void downloadStreamFile(@RequestParam Long id) throws IOException {
+		FileBo result = fileService.downloadFileStream(id);
+		ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder
+				.getRequestAttributes();
+		HttpServletRequest request = servletRequestAttributes.getRequest();
+		HttpServletResponse response = servletRequestAttributes.getResponse();
+		String mimeType = request.getServletContext().getMimeType(result.getFileName());
+		// 清空response
+		response.reset();
+		// 设置response的Header
+		response.setCharacterEncoding("UTF-8");
+		// 设置ContentType，响应内容为二进制数据流，编码为utf-8，此处设定的编码是文件内容的编码
+		// + ";charset=utf-8"
+		response.setContentType(mimeType);
+		// Content-Disposition的作用：告知浏览器以何种方式显示响应返回的文件，用浏览器打开还是以附件的形式下载到本地保存
+		// attachment表示以附件方式下载 inline表示在线打开 "Content-Disposition: inline;
+		// filename=文件名.mp3"
+		// filename表示文件的默认名称，因为网络传输只支持URL编码的相关支付，因此需要将文件名URL编码后进行传输,前端收到后需要反编码才能获取到真正的名称
+		response.addHeader("Content-Disposition",
+				"inline;filename=" + URLEncoder.encode(result.getFileName(), "UTF-8"));
+		// 告知浏览器文件的大小
+		response.addHeader("Content-Length", "" + result.getFileSize());
+		try {
+			IoUtil.copy(result.getInputStream(), response.getOutputStream());
+			response.flushBuffer();
+			IoUtil.close(response.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		log.info("结束" + id);
+	}
 
-    @ApiOperation(value = "仿查看静态资源接口")
-    @GetMapping("/file/{id}/{objectName}")
-    public ResponseEntity<Resource> viewFile(@PathVariable String id, @PathVariable String objectName) {
-        return ResponseEntity.ok()
-                .headers(new HttpHeaders())
-                .body(new InputStreamResource(null));
-    }
+	@ApiOperation(value = "仿查看静态资源接口")
+	@GetMapping("/file/{id}/{objectName}")
+	public ResponseEntity<Resource> viewFile(@PathVariable Long id, @PathVariable String objectName) {
+		return ResponseEntity.ok().headers(new HttpHeaders()).body(new InputStreamResource(null));
+	}
 
+	@ApiOperation(value = "下载文件")
+	@PostMapping(value = "/downloadFile")
+	public Result<FileControllerVo> downloadFile(@RequestBody DownloadFileMo downloadFileMo) throws IOException {
+		FileControllerVo result = fileService.downloadFile(downloadFileMo.getTableId());
+		return Result.setObj(result);
+	}
 
-    @ApiOperation(value = "下载文件")
-    @PostMapping(value = "/downloadFile")
-    public Result<FileControllerVo> downloadFile(@RequestBody DownloadFileMo downloadFileMo) throws IOException {
-        FileControllerVo result = fileService.downloadFile(downloadFileMo.getId());
-        return Result.setObj(result);
-    }
+	@ApiOperation(value = "删除文件")
+	@GetMapping(value = "/delFile")
+	public Result<Boolean> delFile(String id) {
+		Boolean result = fileService.delFile(id);
+		return Result.setObj(result);
+	}
 
-    @ApiOperation(value = "删除文件")
-    @GetMapping(value = "/delFile")
-    public Result<Boolean> delFile(String id) {
-        Boolean result = fileService.delFile(id);
-        return Result.setObj(result);
-    }
-
-    @PreAuthorize("hasAnyRole('admin')")
-    @ApiOperation(value = "查询文件保存记录")
-    @PostMapping(value = "/queryPageFile")
-    public Result<IPage<FileControllerVo>> queryPageFile(@RequestBody @Valid FilePageQo filePageQo) {
-        IPage<FileControllerVo> result = fileService.queryPageFile(filePageQo);
-        return Result.setObj(result);
-    }
+	@PreAuthorize("hasAnyRole('admin')")
+	@ApiOperation(value = "查询文件保存记录")
+	@PostMapping(value = "/queryPageFile")
+	public Result<IPage<FileControllerVo>> queryPageFile(@RequestBody @Valid FilePageQo filePageQo) {
+		IPage<FileControllerVo> result = fileService.queryPageFile(filePageQo);
+		return Result.setObj(result);
+	}
 
 }

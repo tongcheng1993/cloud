@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class DicItemVo extends BaseVo {
+	
     @JsonSerialize(using = ToStringSerializer.class)
     private Long dicId;
     // 字典编码

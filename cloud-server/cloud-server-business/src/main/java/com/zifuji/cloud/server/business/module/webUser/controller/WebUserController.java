@@ -56,7 +56,6 @@ public class WebUserController {
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
 	@ApiOperation(value = "获取自身信息")
 	@PostMapping(value = "/getMyselfInfo")
-	@PreAuthorize(value = "hasAnyAuthority('ROLE_register')")
 	public Result<WebUserVo> getMyselfInfo() {
 		WebUserVo vo = webUserService.getMyselfInfo();
 		return Result.setObj(vo);
@@ -65,23 +64,14 @@ public class WebUserController {
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
 	@ApiOperation(value = "退出")
 	@PostMapping(value = "/logout")
-	@PreAuthorize(value = "hasAnyAuthority('ROLE_register')")
 	public Result<Boolean> logout() {
 		Boolean flag = webUserService.logout();
 		return Result.setObj(flag);
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
-	@ApiOperation(value = "获取页面")
-	@PostMapping(value = "/getVipMenu")
-	@PreAuthorize(value = "hasAnyAuthority('ROLE_register')")
-	public void getVipMenu() {
-	}
-
-	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
 	@ApiOperation(value = "分页申报端用户")
 	@PostMapping(value = "/queryPageWebUser")
-	@PreAuthorize(value = "hasAnyAuthority('business:webUser:queryPageWebUser')")
 	public Result<IPage<WebUserVo>> queryPageWebUser(@RequestBody @Valid QueryWebUserQo queryWebUserQo) {
 		return Result.setObj(webUserService.queryPageWebUser(queryWebUserQo));
 	}

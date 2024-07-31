@@ -48,7 +48,7 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public FileBo downloadFileStream(String id) {
+	public FileBo downloadFileStream(Long id) {
 		FileEntity fileEntity = fileEntityService.getById(id);
 		if (ObjectUtil.isNull(fileEntity)) {
 			throw new Exception20000("找不到对应的数据");
@@ -62,7 +62,7 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public FileControllerVo downloadFile(String id) throws IOException {
+	public FileControllerVo downloadFile(Long id) throws IOException {
 		FileControllerVo vo = new FileControllerVo();
 		FileBo bo = downloadFileStream(id);
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -79,17 +79,17 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public MultipartFile getFile(String id) {
+	public MultipartFile getFile(Long id) {
 		FileBo bo = downloadFileStream(id);
 		FileItem fileItem = ZfjFileUtil.createFileItem(bo.getInputStream(), bo.getFileName());
 		return new CommonsMultipartFile(fileItem);
 	}
 
 	@Override
-	public List<MultipartFile> getFileList(List<String> fileIdList) {
+	public List<MultipartFile> getFileList(List<Long> fileIdList) {
 		List<MultipartFile> fileList = new ArrayList<>();
 		if (ObjectUtil.isNotEmpty(fileIdList)) {
-			for (String fileId : fileIdList) {
+			for (Long fileId : fileIdList) {
 				fileList.add(getFile(fileId));
 			}
 		}

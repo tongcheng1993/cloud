@@ -14,13 +14,13 @@ public interface FileService {
 
     String uploadFile(MultipartFile file);
 
-    FileBo downloadFileStream(String id);
+    FileBo downloadFileStream(Long id);
 
-    FileControllerVo downloadFile(String id) throws IOException;
+    FileControllerVo downloadFile(Long id) throws IOException;
 
-    MultipartFile getFile(String id);
+    MultipartFile getFile(Long id);
 
-    List<MultipartFile> getFileList(List<String> fileIdList);
+    List<MultipartFile> getFileList(List<Long> fileIdList);
 
     String getFileName(String id);
 
