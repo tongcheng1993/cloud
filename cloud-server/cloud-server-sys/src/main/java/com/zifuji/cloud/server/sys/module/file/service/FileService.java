@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.server.sys.module.file.controller.qo.FilePageQo;
-import com.zifuji.cloud.server.sys.module.file.controller.vo.FileControllerVo;
+import com.zifuji.cloud.server.sys.module.file.controller.vo.FileVo;
 
 public interface FileService {
 
@@ -16,7 +16,7 @@ public interface FileService {
 
     FileBo downloadFileStream(Long id);
 
-    FileControllerVo downloadFile(Long id) throws IOException;
+    FileVo downloadFile(Long id) throws IOException;
 
     MultipartFile getFile(Long id);
 
@@ -26,5 +26,5 @@ public interface FileService {
 
     Boolean delFile(String id);
 
-    IPage<FileControllerVo> queryPageFile(FilePageQo filePageQo);
+    IPage<FileVo> queryPageFile(FilePageQo filePageQo);
 }

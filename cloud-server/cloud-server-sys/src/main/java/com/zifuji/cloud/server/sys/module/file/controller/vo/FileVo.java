@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
-public class FileControllerVo extends BaseVo {
+public class FileVo extends BaseVo {
     /**
      *
      */

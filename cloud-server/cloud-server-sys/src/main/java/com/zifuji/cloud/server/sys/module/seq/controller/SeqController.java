@@ -22,53 +22,44 @@ import java.util.List;
 @AllArgsConstructor
 public class SeqController {
 
+	private SeqService seqService;
 
-    private SeqService seqService;
+	@ApiOperation(value = "获取一个流水号的下一个号")
+	@GetMapping(value = "/getNextSeq")
+	public Result<String> getNextSeq(@RequestParam String code) {
+		return Result.setObj(seqService.getNextSeq(code));
+	}
 
-    @ApiOperation(value = "获取一个流水号的下一个号")
-    @GetMapping(value = "/getNextSeq")
-    public Result<String> getNextSeq(@RequestParam String code) {
+	@ApiOperation(value = "查询列表")
+	@PostMapping(value = "/queryListSeq")
+	public Result<List<SeqControllerVo>> queryListSeq(@RequestBody @Valid SeqPageQo seqPageQo) {
+		return Result.setObj(seqService.queryListSeq(seqPageQo));
+	}
 
-        String result = seqService.getNextSeq(code);
+	@ApiOperation(value = "分页查询列表")
+	@PostMapping(value = "/queryPageSeq")
+	public Result<IPage<SeqControllerVo>> queryPageSeq(@RequestBody @Valid SeqPageQo seqPageQo) {
 
-        return Result.setObj(result);
-    }
+		IPage<SeqControllerVo> result = seqService.queryPageSeq(seqPageQo);
 
-    @ApiOperation(value = "查询列表")
-    @PostMapping(value = "/queryListSeq")
-    public Result<List<SeqControllerVo>> queryListSeq(@RequestBody @Valid SeqPageQo seqPageQo) {
+		return Result.setObj(result);
+	}
 
-        List<SeqControllerVo> result = seqService.queryListSeq(seqPageQo);
+	@ApiOperation(value = "查询详情")
+	@PostMapping(value = "/getSeqById")
+	public Result<SeqControllerVo> getSeqById(@RequestParam Long id) {
 
-        return Result.setObj(result);
-    }
+		SeqControllerVo result = seqService.getSeqById(id);
 
+		return Result.setObj(result);
+	}
 
-    @ApiOperation(value = "分页查询列表")
-    @PostMapping(value = "/queryPageSeq")
-    public Result<IPage<SeqControllerVo>> queryPageSeq(@RequestBody @Valid SeqPageQo seqPageQo) {
+	@ApiOperation(value = "新建一个新的流水号")
+	@PostMapping(value = "/saveSeq")
+	public Result<SeqControllerVo> saveSeq(@RequestBody @Valid SaveSeqControllerMo saveSeqMo) {
 
-        IPage<SeqControllerVo> result = seqService.queryPageSeq(seqPageQo);
+		SeqControllerVo result = seqService.saveSeq(saveSeqMo);
 
-        return Result.setObj(result);
-    }
-
-    @ApiOperation(value = "查询详情")
-    @PostMapping(value = "/getSeqById")
-    public Result<SeqControllerVo> getSeqById(@RequestParam Long id) {
-
-        SeqControllerVo result = seqService.getSeqById(id);
-
-        return Result.setObj(result);
-    }
-
-
-    @ApiOperation(value = "新建一个新的流水号")
-    @PostMapping(value = "/saveSeq")
-    public Result<SeqControllerVo> saveSeq(@RequestBody @Valid SaveSeqControllerMo saveSeqMo) {
-
-        SeqControllerVo result = seqService.saveSeq(saveSeqMo);
-
-        return Result.setObj(result);
-    }
+		return Result.setObj(result);
+	}
 }

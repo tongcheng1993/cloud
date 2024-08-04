@@ -113,7 +113,8 @@ public class WebUserServiceImpl implements WebUserService {
 			WebUserEntity webUserEntity = webUserEntityService.getOne(webUserEntityQueryWrapper);
 			if (ObjectUtil.isNotNull(webUserEntity)) {
 				BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-				if (bCryptPasswordEncoder.matches(loginMo.getPassWord(), webUserEntity.getPassWord())) {
+				boolean flag = bCryptPasswordEncoder.matches(loginMo.getPassWord(), webUserEntity.getPassWord());
+				if (flag) {
 					return getLoginToken(webUserEntity);
 				} else {
 					throw new Exception20000("用户名密码错误");

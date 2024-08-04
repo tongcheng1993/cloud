@@ -13,7 +13,7 @@ cd /etc/nacos
 sh bin/startup.sh -m standalone
 
 systemctl start elasticsearch
-
+systemctl start kibana
 
 -Xms512m -Xmx512m -Xmn256m
 -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection

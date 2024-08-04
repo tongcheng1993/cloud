@@ -11,4 +11,10 @@ public class SearchVo {
 
 	private String name;
 	
+	private String title;
+	
+	private String note;
+	
+	private String path;
+	
 }

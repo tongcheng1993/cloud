@@ -115,11 +115,6 @@ public class DicController {
 		return Result.setObj(dicService.queryListDicItem(dicItemQo));
 	}
 
-	
-	
-	
-	
-	
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = false, paramType = "header")
 	@ApiOperation(value = "获取全部字典")
 	@PostMapping(value = "/getAllDicDetail")

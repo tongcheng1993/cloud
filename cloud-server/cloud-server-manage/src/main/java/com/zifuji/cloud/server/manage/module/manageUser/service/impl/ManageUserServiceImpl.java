@@ -372,7 +372,7 @@ public class ManageUserServiceImpl implements ManageUserService {
 			}
 		}
 		manageMenuEntityQueryWrapper.lambda().orderByAsc(ManageMenuEntity::getSortNum)
-				.orderByDesc(ManageMenuEntity::getTableId);
+				.orderByAsc(ManageMenuEntity::getCreateTime);
 		List<ManageMenuEntity> manageMenuEntityList = manageMenuEntityService.list(manageMenuEntityQueryWrapper);
 		return manageMenuEntityList.stream().map(manageMenuEntity -> {
 			ManageMenuVo vo = new ManageMenuVo();
@@ -477,8 +477,7 @@ public class ManageUserServiceImpl implements ManageUserService {
 
 	@Override
 	public Boolean delManageRole(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return manageRoleEntityService.removeById(id);
 	}
 
 	@Override
@@ -515,20 +514,31 @@ public class ManageUserServiceImpl implements ManageUserService {
 
 	@Override
 	public Boolean delManageMenu(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return manageMenuEntityService.removeById(id);
 	}
 
 	@Override
 	public ManageMenuVo updateManageMenu(UpdateManageMenuMo updateManageMenuMo) {
-		// TODO Auto-generated method stub
-		return null;
+		ManageMenuEntity manageMenuEntity = manageMenuEntityService.getById(updateManageMenuMo.getTableId());
+		if (ObjectUtil.isNotNull(manageMenuEntity)) {
+			BeanUtil.copyProperties(updateManageMenuMo, manageMenuEntity);
+			manageMenuEntityService.updateById(manageMenuEntity);
+			ManageMenuVo vo = new ManageMenuVo();
+			BeanUtil.copyProperties(manageMenuEntity, vo);
+			return vo;
+		} else {
+			throw new Exception20000("");
+		}
+
 	}
 
 	@Override
 	public ManageMenuVo getManageMenuById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		ManageMenuEntity manageMenuEntity = manageMenuEntityService.getById(id);
+		ManageMenuVo vo = new ManageMenuVo();
+		BeanUtil.copyProperties(manageMenuEntity, vo);
+		return vo;
 	}
 
 	@Override

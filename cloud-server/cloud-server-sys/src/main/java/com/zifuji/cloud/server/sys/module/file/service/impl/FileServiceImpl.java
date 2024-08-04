@@ -20,7 +20,7 @@ import com.zifuji.cloud.server.sys.db.file.entity.FileEntity;
 import com.zifuji.cloud.server.sys.db.file.service.FileEntityService;
 import com.zifuji.cloud.server.sys.module.file.controller.qo.FilePageQo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
-import com.zifuji.cloud.server.sys.module.file.controller.vo.FileControllerVo;
+import com.zifuji.cloud.server.sys.module.file.controller.vo.FileVo;
 
 import cn.hutool.core.bean.BeanUtil;
 import lombok.AllArgsConstructor;
@@ -62,8 +62,8 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public FileControllerVo downloadFile(Long id) throws IOException {
-		FileControllerVo vo = new FileControllerVo();
+	public FileVo downloadFile(Long id) throws IOException {
+		FileVo vo = new FileVo();
 		FileBo bo = downloadFileStream(id);
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
@@ -110,13 +110,13 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public IPage<FileControllerVo> queryPageFile(FilePageQo filePageQo) {
+	public IPage<FileVo> queryPageFile(FilePageQo filePageQo) {
 		Page<FileEntity> page = new Page<FileEntity>(filePageQo.getCurrent(), filePageQo.getSize());
 		QueryWrapper<FileEntity> queryWrapper = new QueryWrapper<FileEntity>();
 
 		IPage<FileEntity> fileEntityPage = fileEntityService.page(page, queryWrapper);
 		return fileEntityPage.convert(fileEntity -> {
-			FileControllerVo fileVo = new FileControllerVo();
+			FileVo fileVo = new FileVo();
 			BeanUtil.copyProperties(fileEntity, fileVo);
 			return fileVo;
 		});

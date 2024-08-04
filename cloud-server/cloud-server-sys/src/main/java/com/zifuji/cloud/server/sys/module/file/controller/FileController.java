@@ -6,7 +6,7 @@ import com.zifuji.cloud.base.bean.Result;
 import com.zifuji.cloud.server.sys.module.file.controller.mo.DownloadFileMo;
 import com.zifuji.cloud.server.sys.module.file.controller.qo.FilePageQo;
 import com.zifuji.cloud.server.sys.module.file.service.FileService;
-import com.zifuji.cloud.server.sys.module.file.controller.vo.FileControllerVo;
+import com.zifuji.cloud.server.sys.module.file.controller.vo.FileVo;
 
 import com.zifuji.cloud.server.sys.module.file.service.bo.FileBo;
 import io.swagger.annotations.Api;
@@ -87,24 +87,16 @@ public class FileController {
 
 	@ApiOperation(value = "下载文件")
 	@PostMapping(value = "/downloadFile")
-	public Result<FileControllerVo> downloadFile(@RequestBody DownloadFileMo downloadFileMo) throws IOException {
-		FileControllerVo result = fileService.downloadFile(downloadFileMo.getTableId());
+	public Result<FileVo> downloadFile(@RequestBody DownloadFileMo downloadFileMo) throws IOException {
+		FileVo result = fileService.downloadFile(downloadFileMo.getTableId());
 		return Result.setObj(result);
 	}
 
-	@ApiOperation(value = "删除文件")
-	@GetMapping(value = "/delFile")
-	public Result<Boolean> delFile(String id) {
-		Boolean result = fileService.delFile(id);
-		return Result.setObj(result);
-	}
-
-	@PreAuthorize("hasAnyRole('admin')")
 	@ApiOperation(value = "查询文件保存记录")
 	@PostMapping(value = "/queryPageFile")
-	public Result<IPage<FileControllerVo>> queryPageFile(@RequestBody @Valid FilePageQo filePageQo) {
-		IPage<FileControllerVo> result = fileService.queryPageFile(filePageQo);
-		return Result.setObj(result);
+	@PreAuthorize(value = "hasAnyAuthority('sys:file:queryPageFile')")
+	public Result<IPage<FileVo>> queryPageFile(@RequestBody @Valid FilePageQo filePageQo) {
+		return Result.setObj(fileService.queryPageFile(filePageQo));
 	}
 
 }

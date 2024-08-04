@@ -2,6 +2,7 @@ package com.zifuji.cloud.server.manage.module.manageUser.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
+import com.zifuji.cloud.server.base.module.feign.bean.Inner;
 import com.zifuji.cloud.server.manage.module.manageUser.controller.mo.*;
 import com.zifuji.cloud.server.manage.module.manageUser.controller.qo.*;
 import com.zifuji.cloud.server.manage.module.manageUser.controller.vo.*;
@@ -190,6 +191,13 @@ public class ManageUserController {
 	@PostMapping(value = "/addManagePermission")
 	@PreAuthorize(value = "hasAnyAuthority('manage:manageUser:addManagePermission')")
 	public Result<ManagePermissionVo> addManagePermission(
+			@RequestBody @Valid AddManagePermissionMo addManagePermissionMo) {
+		return Result.setObj(manageUserService.addManagePermission(addManagePermissionMo));
+	}
+
+	@PostMapping(value = "/addManagePermissionInner")
+	@Inner
+	public Result<ManagePermissionVo> addManagePermissionInner(
 			@RequestBody @Valid AddManagePermissionMo addManagePermissionMo) {
 		return Result.setObj(manageUserService.addManagePermission(addManagePermissionMo));
 	}
