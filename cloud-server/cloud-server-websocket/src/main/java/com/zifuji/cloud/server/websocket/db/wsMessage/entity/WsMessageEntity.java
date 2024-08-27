@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName(value = "z_sys_ws_message")
+@TableName(value = "z_ws_message")
 public class WsMessageEntity extends MyBaseEntity {
 
 	private String businessType = "";

@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName(value = "z_web_role_permission")
+@TableName(value = "z_bu_role_permission")
 @ApiModel(value = "外网角色权限中间表")
 public class WebRolePermissionEntity extends MyBaseEntity {
 

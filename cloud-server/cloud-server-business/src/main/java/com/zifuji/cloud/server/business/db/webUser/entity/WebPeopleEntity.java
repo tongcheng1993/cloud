@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName(value = "z_web_people")
+@TableName(value = "z_bu_people")
 @ApiModel(value = "外网个人实名信息表")
 public class WebPeopleEntity extends MyBaseEntity {
 

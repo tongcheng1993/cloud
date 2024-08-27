@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName(value = "z_web_menu")
+@TableName(value = "z_bu_menu")
 @ApiModel(value = "外网路由表")
 public class WebMenuEntity extends MyBaseEntity {
 	

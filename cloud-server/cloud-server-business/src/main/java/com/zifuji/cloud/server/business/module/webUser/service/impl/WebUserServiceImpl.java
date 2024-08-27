@@ -17,6 +17,7 @@ import com.zifuji.cloud.server.base.util.RedisUtil;
 import com.zifuji.cloud.server.base.util.SecurityUtil;
 import com.zifuji.cloud.server.business.db.webUser.entity.*;
 import com.zifuji.cloud.server.business.db.webUser.service.*;
+import com.zifuji.cloud.server.business.module.webUser.controller.mo.AddWebRoleMo;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.LoginMo;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.RegisterMo;
 import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebMenuQo;
@@ -25,6 +26,7 @@ import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebUse
 import com.zifuji.cloud.server.business.module.webUser.controller.vo.*;
 import com.zifuji.cloud.server.business.module.webUser.mapper.WebUserMapper;
 import com.zifuji.cloud.server.business.module.webUser.service.WebUserService;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -277,5 +279,23 @@ public class WebUserServiceImpl implements WebUserService {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public WebRoleVo addWebRole(AddWebRoleMo addWebRoleMo) {
+		QueryWrapper<WebRoleEntity> queryWrapper = new QueryWrapper<>();
+		queryWrapper.lambda().eq(WebRoleEntity::getCode, addWebRoleMo.getCode());
+		WebRoleEntity webRoleEntity = webRoleEntityService.getOne(queryWrapper);
+		if (ObjectUtil.isNotNull(webRoleEntity)) {
+			throw new Exception20000("角色编码不能重复");
+		}
+		webRoleEntity = new WebRoleEntity();
+		webRoleEntity.setName(addWebRoleMo.getName());
+		webRoleEntity.setCode(addWebRoleMo.getCode());
+		webRoleEntity.setDescription(addWebRoleMo.getDescription());
+		webRoleEntityService.save(webRoleEntity);
+		WebRoleVo vo = new WebRoleVo();
+		BeanUtil.copyProperties(webRoleEntity, vo);
+		return vo;
 	}
 }

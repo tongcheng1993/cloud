@@ -8,15 +8,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "")
 public class AddAreaMo {
-	
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
 	// 双亲节点
 	private Long parentId;
-	// 区域类型 国家country 省province 市city 区town
+	// 区域类型 国家
 	private String type;
 	// 简称
 	private String name;

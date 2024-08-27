@@ -1,6 +1,7 @@
 package com.zifuji.cloud.server.business.module.webUser.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zifuji.cloud.server.business.module.webUser.controller.mo.AddWebRoleMo;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.LoginMo;
 import com.zifuji.cloud.server.business.module.webUser.controller.mo.RegisterMo;
 import com.zifuji.cloud.server.business.module.webUser.controller.qo.QueryWebMenuQo;
@@ -12,21 +13,23 @@ import java.util.List;
 
 public interface WebUserService {
 
-    List<WebMenuVo> getMenu();
+	List<WebMenuVo> getMenu();
 
-    DrawCaptchaVo drawCaptcha();
+	WebUserVo getMyselfInfo();
 
-    String login(LoginMo loginMo);
+	Boolean logout();
 
-    String register(RegisterMo registerMo);
+	String register(RegisterMo registerMo);
 
-    WebUserVo getMyselfInfo();
+	String login(LoginMo loginMo);
 
-    Boolean logout();
+	DrawCaptchaVo drawCaptcha();
 
-    IPage<WebUserVo> queryPageWebUser(QueryWebUserQo queryWebUserQo);
+	IPage<WebUserVo> queryPageWebUser(QueryWebUserQo queryWebUserQo);
 
-    IPage<WebRoleVo> queryPageWebRole(QueryWebRoleQo queryWebRoleQo);
+	WebRoleVo addWebRole(AddWebRoleMo addWebRoleMo);
 
-    List<WebMenuVo> queryListWebMenu(QueryWebMenuQo queryWebMenuQo);
+	IPage<WebRoleVo> queryPageWebRole(QueryWebRoleQo queryWebRoleQo);
+
+	List<WebMenuVo> queryListWebMenu(QueryWebMenuQo queryWebMenuQo);
 }

@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName(value = "z_bu_edu_book")
+@TableName(value = "z_bu_book")
 public class BookEntity extends MyBaseEntity {
 
     private String bookName;

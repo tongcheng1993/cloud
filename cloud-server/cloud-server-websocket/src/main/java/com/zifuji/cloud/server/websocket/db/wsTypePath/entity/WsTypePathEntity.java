@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName(value = "z_sys_ws_type_path")
+@TableName(value = "z_ws_type_path")
 public class WsTypePathEntity extends MyBaseEntity {
 
 

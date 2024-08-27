@@ -1,4 +1,4 @@
-package com.zifuji.cloud.server.sys.module.email.controller;
+ package com.zifuji.cloud.server.sys.module.email.controller;
 
 
 import com.zifuji.cloud.base.bean.Result;

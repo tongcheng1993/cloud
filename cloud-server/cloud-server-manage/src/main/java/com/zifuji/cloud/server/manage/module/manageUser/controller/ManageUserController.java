@@ -107,8 +107,8 @@ public class ManageUserController {
 	@ApiOperation(value = "删除内网账号")
 	@PostMapping(value = "/delManageUser")
 	@PreAuthorize(value = "hasAnyAuthority('manage:manageUser:delManageUser')")
-	public Result<Boolean> delManageUser(@RequestBody @Valid UpdateManageUserMo updateManageUserMo) {
-		return Result.setObj(manageUserService.delManageUser(updateManageUserMo.getTableId()));
+	public Result<Boolean> delManageUser(@RequestParam(value = "tableId") Long tableId) {
+		return Result.setObj(manageUserService.delManageUser(tableId));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -132,8 +132,8 @@ public class ManageUserController {
 	@ApiOperation(value = "查询内网账号")
 	@PostMapping(value = "/getManageUserById")
 	@PreAuthorize(value = "hasAnyAuthority('manage:manageUser:getManageUserById')")
-	public Result<ManageUserVo> getManageUserById(@RequestBody @Valid UpdateManageUserMo updateManageUserMo) {
-		return Result.setObj(manageUserService.getManageUserById(updateManageUserMo.getTableId()));
+	public Result<ManageUserVo> getManageUserById(@RequestParam(value = "tableId") Long tableId) {
+		return Result.setObj(manageUserService.getManageUserById(tableId));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -148,8 +148,8 @@ public class ManageUserController {
 	@ApiOperation(value = "删除管理端角色")
 	@PostMapping(value = "/delManageRole")
 	@PreAuthorize(value = "hasAnyAuthority('manage:manageUser:delManageRole')")
-	public Result<Boolean> delManageRole(@RequestBody @Valid UpdateManageRoleMo updateManageRoleMo) {
-		return Result.setObj(manageUserService.delManageRole(updateManageRoleMo.getTableId()));
+	public Result<Boolean> delManageRole(@RequestParam(value = "tableId") Long tableId) {
+		return Result.setObj(manageUserService.delManageRole(tableId));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -182,8 +182,8 @@ public class ManageUserController {
 	@ApiOperation(value = "查询内网角色")
 	@PostMapping(value = "/getManageRoleById")
 	@PreAuthorize(value = "hasAnyAuthority('manage:manageUser:getManageRoleById')")
-	public Result<ManageRoleVo> getManageRoleById(@RequestBody @Valid UpdateManageRoleMo updateManageRoleMo) {
-		return Result.setObj(manageUserService.getManageRoleById(updateManageRoleMo.getTableId()));
+	public Result<ManageRoleVo> getManageRoleById(@RequestParam(value = "tableId") Long tableId) {
+		return Result.setObj(manageUserService.getManageRoleById(tableId));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -206,8 +206,8 @@ public class ManageUserController {
 	@ApiOperation(value = "删除管理端权限")
 	@PostMapping(value = "/delManagePermission")
 	@PreAuthorize(value = "hasAnyAuthority('manage:manageUser:delManagePermission')")
-	public Result<Boolean> delManagePermission(@RequestBody @Valid UpdateManagePermissionMo updateManagePermissionMo) {
-		return Result.setObj(manageUserService.delManagePermission(updateManagePermissionMo.getTableId()));
+	public Result<Boolean> delManagePermission(@RequestParam(value = "tableId") Long tableId) {
+		return Result.setObj(manageUserService.delManagePermission(tableId));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -241,9 +241,8 @@ public class ManageUserController {
 	@ApiOperation(value = "管理端")
 	@PostMapping(value = "/getManagePermissionById")
 	@PreAuthorize(value = "hasAnyAuthority('manage:manageUser:getManagePermissionById')")
-	public Result<ManagePermissionVo> getManagePermissionById(
-			@RequestBody @Valid UpdateManagePermissionMo updateManagePermissionMo) {
-		return Result.setObj(manageUserService.getManagePermissionById(updateManagePermissionMo.getTableId()));
+	public Result<ManagePermissionVo> getManagePermissionById(@RequestParam(value = "tableId") Long tableId) {
+		return Result.setObj(manageUserService.getManagePermissionById(tableId));
 	};
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -258,8 +257,8 @@ public class ManageUserController {
 	@ApiOperation(value = "管理端")
 	@PostMapping(value = "/delManageMenu")
 	@PreAuthorize(value = "hasAnyAuthority('manage:manageUser:delManageMenu')")
-	public Result<Boolean> delManageMenu(@RequestBody @Valid UpdateManageMenuMo updateManageMenuMo) {
-		return Result.setObj(manageUserService.delManageMenu(updateManageMenuMo.getTableId()));
+	public Result<Boolean> delManageMenu(@RequestParam(value = "tableId") Long tableId) {
+		return Result.setObj(manageUserService.delManageMenu(tableId));
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
@@ -292,8 +291,8 @@ public class ManageUserController {
 	@ApiOperation(value = "查询管理端页面路由")
 	@PostMapping(value = "/getManageMenuById")
 	@PreAuthorize(value = "hasAnyAuthority('manage:manageUser:getManageMenuById')")
-	public Result<ManageMenuVo> getManageMenuById(@RequestBody @Valid UpdateManageMenuMo updateManageMenuMo) {
-		return Result.setObj(manageUserService.getManageMenuById(updateManageMenuMo.getTableId()));
+	public Result<ManageMenuVo> getManageMenuById(@RequestParam(value = "tableId") Long tableId) {
+		return Result.setObj(manageUserService.getManageMenuById(tableId));
 	}
 
 }

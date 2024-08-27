@@ -29,30 +29,6 @@ public class WebUserController {
 
 	private WebUserService webUserService;
 
-	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = false, paramType = "header")
-	@ApiOperation(value = "根据验证码ID获取图片")
-	@PostMapping(value = "/drawCaptcha")
-	public Result<DrawCaptchaVo> drawCaptcha() {
-		DrawCaptchaVo vo = webUserService.drawCaptcha();
-		return Result.setObj(vo);
-	}
-
-	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = false, paramType = "header")
-	@ApiOperation(value = "登录")
-	@PostMapping(value = "/login")
-	public Result<String> login(@RequestBody @Valid LoginMo loginMo) {
-		String token = webUserService.login(loginMo);
-		return Result.setObj(token);
-	}
-
-	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = false, paramType = "header")
-	@ApiOperation(value = "账号密码注册")
-	@PostMapping(value = "/register")
-	public Result<String> register(@RequestBody @Valid RegisterMo registerMo) {
-		String token = webUserService.register(registerMo);
-		return Result.setObj(token);
-	}
-
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")
 	@ApiOperation(value = "获取自身信息")
 	@PostMapping(value = "/getMyselfInfo")
@@ -67,6 +43,30 @@ public class WebUserController {
 	public Result<Boolean> logout() {
 		Boolean flag = webUserService.logout();
 		return Result.setObj(flag);
+	}
+
+	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = false, paramType = "header")
+	@ApiOperation(value = "账号密码注册")
+	@PostMapping(value = "/register")
+	public Result<String> register(@RequestBody @Valid RegisterMo registerMo) {
+		String token = webUserService.register(registerMo);
+		return Result.setObj(token);
+	}
+
+	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = false, paramType = "header")
+	@ApiOperation(value = "登录")
+	@PostMapping(value = "/login")
+	public Result<String> login(@RequestBody @Valid LoginMo loginMo) {
+		String token = webUserService.login(loginMo);
+		return Result.setObj(token);
+	}
+
+	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = false, paramType = "header")
+	@ApiOperation(value = "根据验证码ID获取图片")
+	@PostMapping(value = "/drawCaptcha")
+	public Result<DrawCaptchaVo> drawCaptcha() {
+		DrawCaptchaVo vo = webUserService.drawCaptcha();
+		return Result.setObj(vo);
 	}
 
 	@ApiImplicitParam(name = "Tc-Token", dataType = "String", required = true, paramType = "header")

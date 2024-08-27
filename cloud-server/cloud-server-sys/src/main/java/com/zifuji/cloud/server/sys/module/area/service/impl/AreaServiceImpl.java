@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.server.sys.db.area.entity.AreaEntity;
 import com.zifuji.cloud.server.sys.module.area.controller.qo.AreaQo;
 import com.zifuji.cloud.server.sys.module.area.controller.vo.AreaVo;
@@ -30,9 +31,12 @@ public class AreaServiceImpl implements AreaService {
 
 	@Override
 	public List<AreaVo> queryListArea(AreaQo areaQo) {
-		QueryWrapper<AreaEntity> queryWrapper = changeAreaQuery(areaQo);
 
-		List<AreaEntity> list = areaEntityService.list(queryWrapper);
+		QueryWrapper<AreaEntity> areaEntityQueryWrapper = new QueryWrapper<>();
+		if (ObjectUtil.isNotNull(areaQo.getParentIdEq())) {
+			areaEntityQueryWrapper.lambda().eq(AreaEntity::getParentId, areaQo.getParentIdEq());
+		}
+		List<AreaEntity> list = areaEntityService.list(areaEntityQueryWrapper);
 
 		return list.stream().map(areaEntity -> {
 			AreaVo vo = new AreaVo();
@@ -42,14 +46,10 @@ public class AreaServiceImpl implements AreaService {
 		}).collect(Collectors.toList());
 	}
 
-	private QueryWrapper<AreaEntity> changeAreaQuery(AreaQo areaQo) {
-		QueryWrapper<AreaEntity> areaEntityQueryWrapper = new QueryWrapper<>();
-		if (ObjectUtil.isNotNull(areaQo.getParentIdEq())) {
-			areaEntityQueryWrapper.lambda().eq(AreaEntity::getParentId, areaQo.getParentIdEq());
-		}
-
-		return areaEntityQueryWrapper;
-
+	@Override
+	public IPage<AreaVo> queryPageArea(AreaQo areaQo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

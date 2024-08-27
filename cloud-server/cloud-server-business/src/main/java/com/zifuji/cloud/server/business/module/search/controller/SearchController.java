@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zifuji.cloud.base.bean.Result;
 import com.zifuji.cloud.server.business.module.book.controller.mo.AddBookMo;
 import com.zifuji.cloud.server.business.module.book.controller.vo.BookVo;
+import com.zifuji.cloud.server.business.module.search.controller.qo.SearchQo;
 import com.zifuji.cloud.server.business.module.search.controller.vo.SearchVo;
 import com.zifuji.cloud.server.business.module.search.service.SearchService;
 
@@ -32,9 +33,8 @@ public class SearchController {
 
 	@ApiOperation(value = "")
 	@PostMapping(value = "/search")
-	public Result<IPage<SearchVo>> search(@RequestBody @Valid String str) {
-
-		return Result.setObj(searchService.search(str));
+	public Result<IPage<SearchVo>> search(@RequestBody @Valid SearchQo searchQo) {
+		return Result.setObj(searchService.search(searchQo));
 	}
 
 }

@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName(value = "z_web_role")
+@TableName(value = "z_bu_role")
 @ApiModel(value = "外网角色表")
 public class WebRoleEntity extends MyBaseEntity {
 	// 角色名称

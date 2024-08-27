@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName(value = "z_web_company")
+@TableName(value = "z_bu_company")
 @ApiModel(value = "外网单位实名信息表")
 public class WebCompanyEntity extends MyBaseEntity {
 

@@ -7,5 +7,5 @@ import com.zifuji.cloud.server.business.db.blog.service.BlogEntityService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BlogEntityServiceImpl extends ServiceImpl<BlogEntityMapper, BlogEntity>implements BlogEntityService {
+public class BlogEntityServiceImpl extends ServiceImpl<BlogEntityMapper, BlogEntity> implements BlogEntityService {
 }
